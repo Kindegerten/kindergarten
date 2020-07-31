@@ -61,4 +61,26 @@ public class TeacherController {
         }
 
     }
+
+    @RequestMapping(value = "/UpdatePwd")
+    @ResponseBody
+    public String UpdatePwd(String oldpwd,String newpwd,HttpServletRequest request) throws ServletException, IOException {
+
+        TblTeachers tblTeachers = (TblTeachers) request.getSession().getAttribute("tblTeachers");
+
+        if (oldpwd.equals(tblTeachers.getTeacherPwd())){
+            int pwd = teacherMapper.updatePwd(tblTeachers.getTeacherTel(), newpwd);
+            if (pwd>0){
+                tblTeachers.setTeacherPwd(newpwd);
+                request.getSession().setAttribute("tblTeachers",tblTeachers);
+                return "success";
+            }else {
+                return "error";
+            }
+        }else {
+            return "error";
+        }
+
+    }
+
 }
