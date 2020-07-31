@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kindergarten.security.mapper.SecurityMapper">
+
+
+    <select id="login" parameterType="com.kindergarten.security.bean.Security" resultType="com.kindergarten.security.bean.Security">
+        select * from tbl_security where security_phone = #{securityPhone} and security_pwd= #{securityPwd}
+    </select>
+
+    <select id="securityList" parameterType="com.kindergarten.security.bean.PageBean" resultType="com.kindergarten.security.bean.Security">
+        select * from tbl_security
+
+    </select>
+
+    <delete id="deleteSecurity" parameterType="com.kindergarten.security.bean.Security">
+        delete from tbl_security where account =#{account}
+    </delete>
+
+    <select id="count" resultType="java.lang.Integer">
+        select count(*) from tbl_security
+    </select>
+
+    <select id="getInfo" parameterType="com.kindergarten.security.bean.Security" resultType="com.kindergarten.security.bean.Security">
+        select * from tbl_security where security_phone = #{securityPhone}
+    </select>
+
+    <update id="update" parameterType="com.kindergarten.security.bean.Security">
+        update tbl_security 
+        <set>
+            <if test="securityAge!=null and securityAge!='' and securityPwd!=null and securityPwd!='' and securityAdd!=null and securityAdd!='' and securityName !=null and securityName !=''">
+                securityAge=#{securityAge},securityPwd=#{securityPwd},securityAdd=#{securityAdd}
+            </if>
+        </set>
+    </update>
+</mapper>
