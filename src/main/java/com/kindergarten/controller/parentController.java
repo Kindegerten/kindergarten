@@ -141,6 +141,14 @@ public class parentController {
         return "OK";
     }
 
+    @RequestMapping(value = "/babyhealth")
+    @ResponseBody
+    public String babyhealth() throws ServletException, IOException {
+
+
+        return "OK";
+    }
+
 
 
 
