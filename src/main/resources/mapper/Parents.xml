@@ -17,17 +17,17 @@
         update tbl_parents set parents_pwd=#{pwd} where parents_tel=#{tel}
     </update>
 
-<!--    找对应孩子的学校-->
-    <select id="CampusInfo" resultType="com.kindergarten.bean.CampusInfo" parameterType="java.lang.String" >
-        select * from (select i.* from tbl_parents p,tbl_students s,tbl_campus_info i where
-            p.student_id=s.student_id and s.kinder_id=i.kid and  parents_tel=#{tel}  order by i.campus_info_time desc)a
+<!--    找对应孩子的学校资讯-->
+    <select id="CampusInfo" resultType="com.kindergarten.bean.CampusInfo" parameterType="java.lang.Integer" >
+        select * from (select i.* from tbl_students s,tbl_campus_info i where
+           i.kid=s.kinder_id and  s.student_id=#{kinderId}  order by i.campus_info_time desc)a
 
          limit ${(curPage-1)*pageSize},${curPage*pageSize}
     </select>
 
     <select id="CampusInfoCount" resultType="java.lang.Integer">
-        select count(*) from (select i.* from tbl_parents p,tbl_students s,tbl_campus_info i where
-            p.student_id=s.student_id and s.kinder_id=i.kid and  parents_tel=#{tel}  order by i.campus_info_time desc)a
+        select count(*) from (select i.* from tbl_students s, tbl_campus_info i where s.kinder_id=i.kid and
+            s.student_id=#{kinderId}  order by i.campus_info_time desc)a
     </select>
 
 <!--    平台发布的消息-->
@@ -36,6 +36,11 @@
     </select>
     <select id="PlatformInfoCount" resultType="java.lang.Integer">
         select count(*) from tbl_platform_info
+    </select>
+
+<!--    登陆成功后选择孩子Id-->
+    <select id="SerchStudent" resultType="com.kindergarten.bean.Students">
+        select t.* from tbl_students t,tbl_parents_students r,tbl_parents p where r.parents_id=p.parents_id and r.students_id=t.student_id and p.parents_id=#{pid}
     </select>
 
 </mapper>

@@ -76,7 +76,8 @@
                         success: function (msg) {
                             if (msg === "success") {
                                 layer.msg(msg);
-                                location.href='index.jsp';
+                                // location.href='index.jsp';
+                                location.href='chooseStudent.html';
 
                             } else {
                                 layer.msg(msg, {icon: 5});

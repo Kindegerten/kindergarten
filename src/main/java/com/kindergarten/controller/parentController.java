@@ -2,10 +2,7 @@ package com.kindergarten.controller;
 
 
 import com.alibaba.fastjson.JSON;
-import com.kindergarten.bean.CampusInfo;
-import com.kindergarten.bean.LayuiData;
-import com.kindergarten.bean.Parents;
-import com.kindergarten.bean.PlatformInfo;
+import com.kindergarten.bean.*;
 import com.kindergarten.mapper.ParentsMapper;
 import com.kindergarten.service.ParentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @RequestMapping("/pt")
 @Controller
@@ -46,6 +44,11 @@ public class parentController {
                 String roleName = parentsMapper.FindRole(parents.getRoleID());
                 parents.setRoleName(roleName);
                 request.getSession().setAttribute("parents",parents);
+
+            //查该家长的孩子list
+                List<Students> studentlist=parentService.studentsList(parents.getParentsId());
+                request.getSession().setAttribute("MyChild",studentlist);
+
                 return "success";
             }else {
 
@@ -93,8 +96,11 @@ public class parentController {
             curPage = 1;
         }
         int pageSize=Integer.parseInt(request.getParameter("pageSize"));
-        Parents parents= (Parents) request.getSession().getAttribute("parents");
-        LayuiData<CampusInfo> layuiData=parentService.CampusInfo(parents.getParentsTel(),curPage,pageSize);
+//        Students students= (Students) request.getSession().getAttribute("students");
+        String studentID= (String) request.getSession().getAttribute("studentID");
+//        int studentID= (int)
+
+        LayuiData<CampusInfo> layuiData=parentService.CampusInfo(Integer.parseInt(studentID),curPage,pageSize);
         System.out.println(JSON.toJSONString(layuiData.getData()));
         return JSON.toJSONString(layuiData);
     }
@@ -113,6 +119,26 @@ public class parentController {
         LayuiData<PlatformInfo> layuiData=parentService.PlatformInfo(curPage,pageSize);
         System.out.println(JSON.toJSONString(layuiData.getData()));
         return JSON.toJSONString(layuiData);
+    }
+
+
+    //下拉拥有的孩子列表
+    @RequestMapping(value = "/MyChild")
+    @ResponseBody
+    public String MyChild(HttpServletRequest request) throws ServletException, IOException {
+
+        System.out.println("进来了");
+       List<Students> students= (List<Students>) request.getSession().getAttribute("MyChild");
+        return JSON.toJSONString(students);
+    }
+
+    @RequestMapping(value = "/confirmKid")
+    @ResponseBody
+    public String confirmKid(String studentID,HttpServletRequest request) throws ServletException, IOException {
+        System.out.println("选中的孩子ID:"+studentID);
+        request.getSession().setAttribute("studentID",studentID);
+
+        return "OK";
     }
 
 
