@@ -1,0 +1,31 @@
+{
+  "code": 0,
+  "msg": "",
+  "count": 3,
+  "data": [
+    {
+      "id": "上午",
+      "username": "西红柿",
+      "sex": "西红柿",
+      "city": "西红柿",
+      "sign": "西红柿",
+      "experience": "西红柿"
+    },
+    {
+      "id": "下午",
+      "username": "",
+      "sex": "",
+      "city": "",
+      "sign": "",
+      "experience": ""
+    },
+    {
+      "id": "点心",
+      "username": "",
+      "sex": "",
+      "city": "",
+      "sign": "",
+      "experience": ""
+    }
+  ]
+}
