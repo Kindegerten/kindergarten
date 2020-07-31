@@ -12,7 +12,7 @@ import java.io.IOException;
 
 
 @Controller
-@RequestMapping("/securityController")
+@RequestMapping("/sc")
 public class SecurityController {
 
     @Autowired
@@ -27,7 +27,7 @@ public class SecurityController {
         Security security= new Security();
 
 
-        System.out.println("2222222   security="+phone+"+"+pwd+"+"+vCode);
+        System.out.println("security="+phone+"+"+pwd+"+"+vCode);
         security.setvCode(vCode);
         security.setSecurityPhone(phone);
         security.setSecurityPwd(pwd);

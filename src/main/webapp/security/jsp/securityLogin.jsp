@@ -72,7 +72,7 @@
                 // alert("Q");
                 $.ajax({
 
-                    url:"/securityController/login",
+                    url:"/sc/login",
                     // async:true,
                     type:"POST",
                     data:data.field,

@@ -99,7 +99,7 @@
             let path=$("#path").val();
 
             $.ajax({
-                url : path+"/securityController/getInfo",
+                url : path+"/sc/getInfo",
                 async : true,
                 type : "POST",
                 data : "phone=<%=account%>",
@@ -149,7 +149,7 @@
             console.log("2");
 
             $.ajax({
-                url : path+"/securityController/update",
+                url : path+"/sc/update",
                 async : true,
                 type : "POST",
                 data : "data=" + JSON.stringify(data.field),

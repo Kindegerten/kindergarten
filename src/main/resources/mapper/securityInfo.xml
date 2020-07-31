@@ -3,19 +3,19 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.kindergarten.security.mapper.SecurityMapper">
+<mapper namespace="com.kindergarten.mapper.SecurityMapper">
 
 
-    <select id="login" parameterType="com.kindergarten.security.bean.Security" resultType="com.kindergarten.security.bean.Security">
+    <select id="login" parameterType="com.kindergarten.bean.Security" resultType="com.kindergarten.bean.Security">
         select * from tbl_security where security_phone = #{securityPhone} and security_pwd= #{securityPwd}
     </select>
 
-    <select id="securityList" parameterType="com.kindergarten.security.bean.PageBean" resultType="com.kindergarten.security.bean.Security">
+    <select id="securityList" parameterType="com.kindergarten.bean.PageBean" resultType="com.kindergarten.bean.Security">
         select * from tbl_security
 
     </select>
 
-    <delete id="deleteSecurity" parameterType="com.kindergarten.security.bean.Security">
+    <delete id="deleteSecurity" parameterType="com.kindergarten.bean.Security">
         delete from tbl_security where account =#{account}
     </delete>
 
@@ -23,11 +23,11 @@
         select count(*) from tbl_security
     </select>
 
-    <select id="getInfo" parameterType="com.kindergarten.security.bean.Security" resultType="com.kindergarten.security.bean.Security">
+    <select id="getInfo" parameterType="com.kindergarten.bean.Security" resultType="com.kindergarten.bean.Security">
         select * from tbl_security where security_phone = #{securityPhone}
     </select>
 
-    <update id="update" parameterType="com.kindergarten.security.bean.Security">
+    <update id="update" parameterType="com.kindergarten.bean.Security">
         update tbl_security 
         <set>
             <if test="securityAge!=null and securityAge!='' and securityPwd!=null and securityPwd!='' and securityAdd!=null and securityAdd!='' and securityName !=null and securityName !=''">
