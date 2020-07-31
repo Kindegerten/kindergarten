@@ -63,9 +63,9 @@
                             <i class="iconfont nav_right">&#xe697;</i></a>
                         <ul class="sub-menu">
                             <li>
-                                <a onclick="xadmin.add_tab('统计页面','welcome1.html')">
+                                <a onclick="xadmin.add_tab('体检信息查看','babyhealth.jsp')">
                                     <i class="iconfont">&#xe6a7;</i>
-                                    <cite>统计页面</cite></a>
+                                    <cite>幼儿保健</cite></a>
                             </li>
                             <li>
                                 <a onclick="xadmin.add_tab('会员列表(静态表格)','member-list.html')">
@@ -114,6 +114,19 @@
                                 <a onclick="xadmin.add_tab('密码修改','updatePwd.jsp')">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>密码修改</cite></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <i class="iconfont left-nav-li" lay-tips="系统统计">&#xe6ce;</i>
+                            <cite>直播中心</cite>
+                            <i class="iconfont nav_right">&#xe697;</i></a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a onclick="xadmin.add_tab('校园直播','onlineVideo.jsp')">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>校园直播</cite></a>
                             </li>
                         </ul>
                     </li>
