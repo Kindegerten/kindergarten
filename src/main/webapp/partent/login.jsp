@@ -68,15 +68,15 @@
                 //
                     // alert(path);
                     $.ajax({
-                        url:path+"/parentController/Login",
+                        url:path+"/pt/login",
                         async: true,
                         type: "post",
-                        data:{"tel":tel,"password":password,"vcode":vcode},
+                        data:{"tel":tel,"password":password,"code":vcode},
                         dataType: "text",
                         success: function (msg) {
                             if (msg === "success") {
                                 layer.msg(msg);
-                                location.href=path+'/parent/index.jsp';
+                                location.href='index.jsp';
 
                             } else {
                                 layer.msg(msg, {icon: 5});
