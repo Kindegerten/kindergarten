@@ -1,3 +1,4 @@
+<%@ page import="com.kindergarten.bean.TblTeachers" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html class="x-admin-sm">
@@ -18,6 +19,7 @@
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <%TblTeachers tblTeachers= (TblTeachers) request.getSession().getAttribute("tblTeachers"); %>
 
 </head>
 <body class="index">
@@ -30,17 +32,6 @@
     <div class="left_open">
         <a><i title="展开左侧栏" class="iconfont">&#xe699;</i></a>
 
-<%--        <!--手机端头部菜单-->--%>
-<%--        <ul class="layui-nav layui-layout-left layuimini-header-menu layuimini-mobile-show">--%>
-<%--            <li class="layui-nav-item">--%>
-<%--                <a href="javascript:;"><i class="fa fa-list-ul"></i> 选择模块</a>--%>
-<%--                <dl class="layui-nav-child layuimini-menu-header-mobile">--%>
-<%--                </dl>--%>
-<%--            </li>--%>
-<%--        </ul>--%>
-<%--        <!--手机端遮罩层-->--%>
-<%--        <div class="layuimini-make"></div>--%>
-
     </div>
     <ul class="layui-nav left fast-add" lay-filter="">
         <li class="layui-nav-item">
@@ -52,7 +43,10 @@
             <dl class="layui-nav-child">
                 <!-- 二级菜单 -->
                 <dd>
-                    <a onclick="xadmin.open('个人信息','http://www.baidu.com')">个人信息</a></dd>
+                    <a onclick="xadmin.open('个人信息','/teacher/myinfo.jsp')">个人信息</a></dd>
+                <dd>
+                    <a onclick="xadmin.open('修改密码','/teacher/updatePwd.jsp')">修改密码</a>
+                </dd>
                 <dd>
                     <a onclick="xadmin.open('切换帐号','/teacher/logins.jsp')">切换帐号</a></dd>
                 <dd>

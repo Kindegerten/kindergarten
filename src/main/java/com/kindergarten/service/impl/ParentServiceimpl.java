@@ -1,9 +1,6 @@
 package com.kindergarten.service.impl;
 
-import com.kindergarten.bean.CampusInfo;
-import com.kindergarten.bean.LayuiData;
-import com.kindergarten.bean.Parents;
-import com.kindergarten.bean.PlatformInfo;
+import com.kindergarten.bean.*;
 import com.kindergarten.mapper.ParentsMapper;
 import com.kindergarten.service.ParentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +23,10 @@ public class ParentServiceimpl implements ParentService {
     }
 
     @Override
-    public LayuiData<CampusInfo> CampusInfo(String tel, int curPage, int pageSize) {
+    public LayuiData<CampusInfo> CampusInfo(int kinderId, int curPage, int pageSize) {
         LayuiData<CampusInfo> layuiData = null;
-        List<CampusInfo> list=parentsMapper.CampusInfo(tel, curPage, pageSize);
-        int totalRecord=parentsMapper.CampusInfoCount(tel);
+        List<CampusInfo> list=parentsMapper.CampusInfo(kinderId, curPage, pageSize);
+        int totalRecord=parentsMapper.CampusInfoCount(kinderId);
         layuiData = new LayuiData<>(0,"",totalRecord,list);
         return layuiData;
     }
@@ -41,5 +38,10 @@ public class ParentServiceimpl implements ParentService {
         int totalRecord=parentsMapper.PlatformInfoCount();
         layuiData = new LayuiData<>(0,"",totalRecord,list);
         return layuiData;
+    }
+
+    @Override
+    public List<Students> studentsList(int parentId) {
+        return parentsMapper.SerchStudent(parentId);
     }
 }

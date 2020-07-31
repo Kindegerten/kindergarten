@@ -7,17 +7,37 @@ public class TblTeachers
     private String teacherTel;
     private String teacherPwd;
     private String teacherName;
+    private String teacherSex;
+    private int teacherAge;
 
     public TblTeachers()
     {
 
     }
 
-    public TblTeachers(int teacherId, String teacherTel, String teacherPwd)
+    public TblTeachers(int teacherId, String teacherTel, String teacherPwd,String teacherSex,int teacherAge)
     {
         this.teacherId = teacherId;
         this.teacherTel = teacherTel;
         this.teacherPwd = teacherPwd;
+        this.teacherSex = teacherSex;
+        this.teacherAge = teacherAge;
+    }
+
+    public String getTeacherSex() {
+        return teacherSex;
+    }
+
+    public void setTeacherSex(String teacherSex) {
+        this.teacherSex = teacherSex;
+    }
+
+    public int getTeacherAge() {
+        return teacherAge;
+    }
+
+    public void setTeacherAge(int teacherAge) {
+        this.teacherAge = teacherAge;
     }
 
     public int getTeacherId() {
@@ -56,9 +76,11 @@ public class TblTeachers
     public String toString() {
         return "TblTeachers{" +
                 "teacherId=" + teacherId +
-                ", teacherTel=" + teacherTel +
+                ", teacherTel='" + teacherTel + '\'' +
                 ", teacherPwd='" + teacherPwd + '\'' +
                 ", teacherName='" + teacherName + '\'' +
+                ", teacherSex='" + teacherSex + '\'' +
+                ", teacherAge=" + teacherAge +
                 '}';
     }
 }

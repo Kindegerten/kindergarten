@@ -14,4 +14,9 @@
         select teacher_name from tbl_teachers where teacher_id=#{teacherId}
     </select>
 
+    <!--    修改密码-->
+    <update id="updatePwd" parameterType="java.lang.Object">
+        update tbl_teachers set teacher_pwd=#{pwd} where teacher_tel=#{tel}
+    </update>
+
 </mapper>

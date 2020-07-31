@@ -24,7 +24,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">原密码</label>
         <div class="layui-input-inline">
-            <input type="password" name="oldpwd" required lay-verify="password" placeholder="请输入原密码"  autocomplete="off" class="layui-input">
+            <input type="password" name="oldpwd" required lay-verify="password" placeholder="请输入原密码" autocomplete="off" class="layui-input">
         </div>
     </div>
 
@@ -61,7 +61,7 @@
             var userdata={"account":data.field.account,"tel":data.field.phone,"nickName":data.field.title,"password":data.field.password,"email":data.field.email,"sex":data.field.sex};
             $.ajax({
 
-                url : path+"/pt/UpdatePwd",
+                url : path+"/tc/UpdatePwd",
                 async : true,
                 type : "POST",
                 data :{"oldpwd":data.field.oldpwd,"newpwd":data.field.newpwd},
