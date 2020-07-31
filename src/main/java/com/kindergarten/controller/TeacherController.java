@@ -69,7 +69,9 @@ public class TeacherController {
         TblTeachers tblTeachers = (TblTeachers) request.getSession().getAttribute("tblTeachers");
 
         if (oldpwd.equals(tblTeachers.getTeacherPwd())){
+
             int pwd = teacherMapper.updatePwd(tblTeachers.getTeacherTel(), newpwd);
+
             if (pwd>0){
                 tblTeachers.setTeacherPwd(newpwd);
                 request.getSession().setAttribute("tblTeachers",tblTeachers);
