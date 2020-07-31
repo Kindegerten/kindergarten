@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kindergarten.mapper.AdminMapper">
+    <select id="login" parameterType="java.lang.String" resultType="com.kindergarten.bean.Admin">
+        /*parameterType输入参数，resultType是输出结果*/
+        select admin_id,admin_name,admin_pwd, admin_tel,createtime, role_id ,admin_email, admin_sex ,image_url from tbl_admin where admin_tel= #{adminTel} and admin_pwd= #{adminPwd}
+    </select>
+    <update id="updatePwd" parameterType="com.kindergarten.bean.Admin" >
+        update tbl_admin set admin_pwd= #{adminPwd} where admin_tel= #{adminTel};
+    </update>
+</mapper>
