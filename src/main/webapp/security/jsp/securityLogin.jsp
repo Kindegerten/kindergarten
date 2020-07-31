@@ -41,9 +41,9 @@
     <div id="darkbannerwrap"></div>
 
     <form method="post" class="layui-form" >
-        <input name="phone" placeholder="手机号码"  type="text" lay-verify="required" class="layui-input" >
+        <input name="phone" placeholder="手机号码" value="13579086421" type="text" lay-verify="required" class="layui-input" >
         <hr class="hr15">
-        <input name="pwd" id="pwd" lay-verify="required" placeholder="密码"  type="password" class="layui-input">
+        <input name="pwd" id="pwd" lay-verify="required" value="123456" placeholder="密码"  type="password" class="layui-input">
         <hr class="hr15">
 <%--        <input name="vCode" placeholder="验证码"  type="text" lay-verify="required" class="layui-input" >--%>
         <div class="layui-form-item">

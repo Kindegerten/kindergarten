@@ -22,6 +22,7 @@
 </head>
 <body>
 
+<input type="hidden" id="account" value="<%=account%>">
 
 <form id="personalForm" class="layui-form" action="" method="post" lay-filter="test1" style="width: 800px">
     <div class="layui-form-item">
@@ -57,7 +58,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">注册时间</label>
         <div class="layui-input-block">
-            <input disabled type="text" name="securityRegister" required  lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+            <input disabled type="text" name="securityRegtime" required  lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
@@ -97,37 +98,62 @@
         $(function () {
             //ajax
             let path=$("#path").val();
+            let account=$("#account").val();
+            console.log(account);
+            if (account==null||account==""){
+                layer.msg("请先登录！",{
+                    time: 2000 //2秒关闭
+                }, function(){
+                    //do something
+                    // location.href = "/security/jsp/login.jsp";
+                    parent.location.href="/security/jsp/securityLogin.jsp";
+                });
+            }else {
+                $.ajax({
+                    url : path+"/sc/getInfo",
+                    async : true,
+                    type : "POST",
+                    data : "account=<%=account%>",
+                    dataType : "text",
+                    success : function(msg) {
+                        // layer.msg("获取成功!");
+                        // console.log(msg);
 
-            $.ajax({
-                url : path+"/sc/getInfo",
-                async : true,
-                type : "POST",
-                data : "phone=<%=account%>",
-                dataType : "json",
-                success : function(msg) {
-                    // layer.msg("获取成功!");
-                    // console.log(msg);
+                        if (msg=="login"){
+                            layer.msg("请先登录！",{
+                                time: 2000 //2秒关闭
+                            }, function(){
+                                //do something
+                                location.href = "/security/jsp/login.jsp";
+                            });
+                        }else {
+                            msg=$.parseJSON(msg);
+                            console.log(msg);
 
-                    //渲染
-                    form.val("test1", { //formTest 即 class="layui-form" 所在元素属性 lay-filter="" 对应的值
-                        "securityId": msg.securityId// "name": "value"
-                        ,"securityPhone": msg.securityPhone
-                        ,"securityPwd":msg.securityPwd
-                        ,"securityName":msg.securityName
-                        ,"securityStateName":msg.securityStateName
-                        ,"securityRegister":msg.securityRegister
-                        ,"securityAdd":msg.securityAdd
-                        ,"securityAge":msg.securityAge
-                        ,"securitySex":msg.securitySex
+                            //渲染
+                            form.val("test1", { //formTest 即 class="layui-form" 所在元素属性 lay-filter="" 对应的值
+                                "securityId": msg.securityId// "name": "value"
+                                ,"securityPhone": msg.securityPhone
+                                ,"securityPwd":msg.securityPwd
+                                ,"securityName":msg.securityName
+                                ,"securityStateName":msg.securityStateName
+                                ,"securityRegtime":msg.securityRegtime
+                                ,"securityAdd":msg.securityAdd
+                                ,"securityAge":msg.securityAge
+                                ,"securitySex":msg.securitySex
 
-                    });
+                            });
+                        }
 
-                    // form.render();
-                },
-                error : function() {
-                    layer.msg("网络繁忙!");
-                }
-            });
+                        // form.render();
+                    },
+                    error : function() {
+                        layer.msg("网络繁忙!");
+                    }
+                });
+            }
+
+
 
         })
     });
