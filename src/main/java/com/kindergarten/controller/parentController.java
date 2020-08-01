@@ -167,6 +167,25 @@ public class parentController {
         return JSON.toJSONString(examinations);
     }
 
+    @RequestMapping(value = "/searchmeal")
+//    @ResponseBody
+    public String searchmeal(HttpServletRequest request) throws ServletException, IOException {
+        String studentid= (String) request.getSession().getAttribute("studentID");
 
+        int curPage;
+        if(request.getParameter("curPage")!=null){
+            curPage = Integer.parseInt(request.getParameter("curPage"));
+        }else{
+            curPage = 1;
+        }
+
+
+        PageBean<Meal> pageBean=parentService.meals(Integer.parseInt(studentid),curPage,3);
+
+//        return JSON.toJSONString(examinations);
+        request.setAttribute("meals",pageBean);
+        System.out.println(JSON.toJSONString(pageBean));
+        return "/partent/meal.jsp";
+    }
 
 }

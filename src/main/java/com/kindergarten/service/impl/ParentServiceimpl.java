@@ -65,4 +65,14 @@ public class ParentServiceimpl implements ParentService {
 
         return layuiData;
     }
+
+    @Override
+    public PageBean<Meal> meals(int studentId, int curPage, int pageSize) {
+        List<Meal> mealList=parentsMapper.SearchMeal(studentId,curPage,pageSize);
+        int totalrecord=parentsMapper.SearchMealCount(studentId);
+            PageBean<Meal> pageBean = new PageBean<>(curPage,totalrecord,pageSize);
+            pageBean.setList(mealList);
+
+        return pageBean;
+    }
 }

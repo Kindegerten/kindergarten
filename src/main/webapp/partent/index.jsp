@@ -25,15 +25,22 @@
         <!-- 顶部开始 -->
         <div class="container">
             <div class="logo">
-                <a href="./index.html">欢迎你:<%=parents.getParentsName()%>&emsp;<%=parents.getRoleName()%></a></div>
+                <a href="./index.html">欢迎你:<%=parents.getParentsName()%></a>
+                <a>宝宝姓名:<%=request.getSession().getAttribute("studentName")%></a>
+            </div>
+
             <div class="left_open">
                 <a><i title="展开左侧栏" class="iconfont">&#xe699;</i></a>
             </div>
+
             <ul class="layui-nav left fast-add" lay-filter="">
                 <li class="layui-nav-item">
                 </li>
+
+
             </ul>
             <ul class="layui-nav right" lay-filter="">
+
                 <li class="layui-nav-item">
                     <a href="javascript:;">个人中心</a>
                     <dl class="layui-nav-child">
@@ -68,9 +75,9 @@
                                     <cite>幼儿保健</cite></a>
                             </li>
                             <li>
-                                <a onclick="xadmin.add_tab('会员列表(静态表格)','member-list.html')">
+                                <a onclick="xadmin.add_tab('宝宝膳食','/pt/searchmeal')">
                                     <i class="iconfont">&#xe6a7;</i>
-                                    <cite>会员列表(静态表格)</cite></a>
+                                    <cite>宝宝膳食</cite></a>
                             </li>
                             <li>
                                 <a onclick="xadmin.add_tab('会员列表(动态表格)','member-list1.html',true)">

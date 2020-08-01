@@ -15,6 +15,7 @@ public interface ParentService {
     public List<Students> studentsList(int parentId);
     public  LayuiData<Examination> examination(int studentId);
     public  LayuiData<Monitor> monitors(int studentId);
+    public PageBean<Meal> meals(int studentId,int curPage, int pageSize);
 
 
 }

@@ -115,7 +115,8 @@
                 shade: 0.8,
                 closeBtn: 0,
                 shadeClose: true,
-                content: '//player.youku.com/embed/XMjY3MzgzODg0'
+                content: data.monitorMvUrl,
+                    // '//player.youku.com/embed/XMjY3MzgzODg0'
             });
         });
 

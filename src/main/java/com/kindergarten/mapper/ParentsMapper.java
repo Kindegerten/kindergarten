@@ -32,4 +32,7 @@ public interface ParentsMapper {
     public List<Monitor>SearchVideo(int studentId);
     public int SearchVideoCount(int studentId);
 
+    //查膳食表
+    public List<Meal> SearchMeal(@Param("studentid")int studentid, @Param("curPage") int curPage, @Param("pageSize") int pageSize);
+    public int SearchMealCount(int studentid);
 }
