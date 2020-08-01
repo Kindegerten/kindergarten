@@ -19,4 +19,10 @@
         update tbl_teachers set teacher_pwd=#{pwd} where teacher_tel=#{tel}
     </update>
 
+<!--    课程表-->
+    <select id="course" resultType="com.kindergarten.bean.TblTeachers"
+            parameterType="com.kindergarten.bean.TblCourse">
+        select * from tbl_course where teacher_id=#{teacherId}
+    </select>
+
 </mapper>
