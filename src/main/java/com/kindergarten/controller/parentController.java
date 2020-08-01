@@ -41,15 +41,20 @@ public class parentController {
         Parents parents=parentService.login(tel);
         if (parents!=null) {
             if (password.equals(parents.getParentsPwd())){
-                String roleName = parentsMapper.FindRole(parents.getRoleID());
-                parents.setRoleName(roleName);
-                request.getSession().setAttribute("parents",parents);
 
-            //查该家长的孩子list
-                List<Students> studentlist=parentService.studentsList(parents.getParentsId());
-                request.getSession().setAttribute("MyChild",studentlist);
+                if (parents.getParentsStatus()==2){
+                    return "登陆失败,账户被封禁！";
+                }else {
+                    String roleName = parentsMapper.FindRole(parents.getRoleID());
+                    parents.setRoleName(roleName);
+                    request.getSession().setAttribute("parents",parents);
 
-                return "success";
+                    //查该家长的孩子list
+                    List<Students> studentlist=parentService.studentsList(parents.getParentsId());
+                    request.getSession().setAttribute("MyChild",studentlist);
+                    return "success";
+                }
+
             }else {
 
                 return "账号或密码错误";
@@ -134,14 +139,53 @@ public class parentController {
 
     @RequestMapping(value = "/confirmKid")
     @ResponseBody
-    public String confirmKid(String studentID,HttpServletRequest request) throws ServletException, IOException {
+    public String confirmKid(String studentID,String studentName,HttpServletRequest request) throws ServletException, IOException {
         System.out.println("选中的孩子ID:"+studentID);
+        System.out.println("选中的孩子姓名:"+studentName);
         request.getSession().setAttribute("studentID",studentID);
+        request.getSession().setAttribute("studentName",studentName);
+
 
         return "OK";
     }
 
+    @RequestMapping(value = "/babyhealth")
+    @ResponseBody
+    public String babyhealth(HttpServletRequest request) throws ServletException, IOException {
+        String studentid= (String) request.getSession().getAttribute("studentID");
+        LayuiData<Examination> examinations=parentService.examination(Integer.parseInt(studentid));
+
+        return JSON.toJSONString(examinations);
+    }
+
+    @RequestMapping(value = "/schoolVideo")
+    @ResponseBody
+    public String schoolVideo(HttpServletRequest request) throws ServletException, IOException {
+        String studentid= (String) request.getSession().getAttribute("studentID");
+        LayuiData<Monitor> examinations=parentService.monitors(Integer.parseInt(studentid));
+
+        return JSON.toJSONString(examinations);
+    }
+
+    @RequestMapping(value = "/searchmeal")
+//    @ResponseBody
+    public String searchmeal(HttpServletRequest request) throws ServletException, IOException {
+        String studentid= (String) request.getSession().getAttribute("studentID");
+
+        int curPage;
+        if(request.getParameter("curPage")!=null){
+            curPage = Integer.parseInt(request.getParameter("curPage"));
+        }else{
+            curPage = 1;
+        }
 
 
+        PageBean<Meal> pageBean=parentService.meals(Integer.parseInt(studentid),curPage,3);
+
+//        return JSON.toJSONString(examinations);
+        request.setAttribute("meals",pageBean);
+        System.out.println(JSON.toJSONString(pageBean));
+        return "/partent/meal.jsp";
+    }
 
 }

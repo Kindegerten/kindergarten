@@ -43,4 +43,27 @@
         select t.* from tbl_students t,tbl_parents_students r,tbl_parents p where r.parents_id=p.parents_id and r.students_id=t.student_id and p.parents_id=#{pid}
     </select>
 
+<!--    查询孩子的体检信息，根据孩子ID-->
+    <select id="SearchBabyHeath" resultType="com.kindergarten.bean.Examination">
+        select *from tbl_examination where sid=#{studentId} order by examination_time desc
+    </select>
+    <select id="SearchBabyHeathCount" resultType="java.lang.Integer">
+        select count(*) from tbl_examination where sid=#{studentId}
+    </select>
+
+<!--    家长查看校园监控列表-->
+    <select id="SearchVideo" resultType="com.kindergarten.bean.Monitor">
+        select m.* from tbl_students s,tbl_monitor m where s.kinder_id=m.kid and student_id=#{studentid}
+    </select>
+    <select id="SearchVideoCount" resultType="java.lang.Integer">
+        select count(*) from tbl_students s,tbl_monitor m where s.kinder_id=m.kid and student_id=#{studentid}
+    </select>
+
+<!--    查看膳食表-->
+    <select id="SearchMeal" resultType="com.kindergarten.bean.Meal">
+        select m.* from tbl_meal m,tbl_students s  where s.kinder_id=m.kid and s.student_id=#{studentid} order by m.meal_datescope desc limit ${(curPage-1)*pageSize},3
+    </select>
+    <select id="SearchMealCount" resultType="java.lang.Integer">
+        select count(*) from tbl_meal m,tbl_students s  where s.kinder_id=m.kid and s.student_id=#{studentid}
+    </select>
 </mapper>

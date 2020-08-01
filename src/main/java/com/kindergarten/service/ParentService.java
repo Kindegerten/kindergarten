@@ -13,5 +13,9 @@ public interface ParentService {
     public LayuiData<CampusInfo> CampusInfo(int kinderId,int curPage, int pageSize);
     public LayuiData<PlatformInfo> PlatformInfo(int curPage, int pageSize);
     public List<Students> studentsList(int parentId);
+    public  LayuiData<Examination> examination(int studentId);
+    public  LayuiData<Monitor> monitors(int studentId);
+    public PageBean<Meal> meals(int studentId,int curPage, int pageSize);
+
 
 }

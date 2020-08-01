@@ -68,7 +68,7 @@
                     url : "/pt/confirmKid",
                     async : true,
                     type : "POST",
-                    data :{"studentID":refusename.val()},
+                    data :{"studentID":refusename.val(),"studentName":refusename.find("option:selected").text()},
                     dataType : "text",
                     success : function(msg) {
                         location.href='index.jsp';

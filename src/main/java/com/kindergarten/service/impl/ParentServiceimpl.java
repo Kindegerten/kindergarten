@@ -44,4 +44,35 @@ public class ParentServiceimpl implements ParentService {
     public List<Students> studentsList(int parentId) {
         return parentsMapper.SerchStudent(parentId);
     }
+
+    @Override
+    public LayuiData<Examination> examination(int studentId) {
+//        parentsMapper.SearchBabyHeath(studentId)
+        LayuiData<Examination> layuiData=null;
+        List<Examination> examinations=parentsMapper.SearchBabyHeath(studentId);
+        int totalRecord=parentsMapper.SearchBabyHeathCount(studentId);
+        layuiData=new LayuiData<>(0,"",totalRecord,examinations);
+
+        return layuiData;
+    }
+
+    @Override
+    public LayuiData<Monitor> monitors(int studentId) {
+        LayuiData<Monitor> layuiData=null;
+        List<Monitor> examinations=parentsMapper.SearchVideo(studentId);
+        int totalRecord=parentsMapper.SearchVideoCount(studentId);
+        layuiData=new LayuiData<>(0,"",totalRecord,examinations);
+
+        return layuiData;
+    }
+
+    @Override
+    public PageBean<Meal> meals(int studentId, int curPage, int pageSize) {
+        List<Meal> mealList=parentsMapper.SearchMeal(studentId,curPage,pageSize);
+        int totalrecord=parentsMapper.SearchMealCount(studentId);
+            PageBean<Meal> pageBean = new PageBean<>(curPage,totalrecord,pageSize);
+            pageBean.setList(mealList);
+
+        return pageBean;
+    }
 }
