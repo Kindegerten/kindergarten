@@ -9,19 +9,21 @@ public class TblTeachers
     private String teacherName;
     private String teacherSex;
     private int teacherAge;
+    private int classId;
 
     public TblTeachers()
     {
 
     }
 
-    public TblTeachers(int teacherId, String teacherTel, String teacherPwd,String teacherSex,int teacherAge)
-    {
+    public TblTeachers(int teacherId, String teacherTel, String teacherPwd, String teacherName, String teacherSex, int teacherAge, int classId) {
         this.teacherId = teacherId;
         this.teacherTel = teacherTel;
         this.teacherPwd = teacherPwd;
+        this.teacherName = teacherName;
         this.teacherSex = teacherSex;
         this.teacherAge = teacherAge;
+        this.classId = classId;
     }
 
     public String getTeacherSex() {
@@ -72,6 +74,14 @@ public class TblTeachers
         this.teacherName = teacherName;
     }
 
+    public int getClassId() {
+        return classId;
+    }
+
+    public void setClassId(int classId) {
+        this.classId = classId;
+    }
+
     @Override
     public String toString() {
         return "TblTeachers{" +
@@ -81,6 +91,7 @@ public class TblTeachers
                 ", teacherName='" + teacherName + '\'' +
                 ", teacherSex='" + teacherSex + '\'' +
                 ", teacherAge=" + teacherAge +
+                ", classId=" + classId +
                 '}';
     }
 }
