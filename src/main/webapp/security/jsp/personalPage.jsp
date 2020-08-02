@@ -111,7 +111,7 @@
             let account = $("#account").val();
             console.log(account);
 
-            if (account==null || account == "") {
+            if (account==null||account=="null" || account == "") {
                 layer.msg("请先登录！", {
                     time: 2000 //2秒关闭
                 }, function () {
@@ -164,43 +164,43 @@
     layui.use('form', function () {
         var form = layui.form;
         // let layer=layui.layer;
+        // let $=layui.jquery;
         let path = $("#path").val();
 
-        layer.msg(path);
+        // layer.msg(path);
 
 
         // 监听提交
         form.on('submit(formDemo)', function (data) {
             // layer.msg(JSON.stringify(data.field));
-            layer.msg("2");
-            console.log("2");
+            console.log(JSON.stringify(data.field));
 
             // layer.open({
             //     title: '确认密码'
             //     ,content: '可以填写任意的layer代码'
             // });
 
-            // $.ajax({
-            //     url: path + "/sc/update",
-            //     async: true,
-            //     type: "POST",
-            //     data: "data=" + JSON.stringify(data.field),
-            //     dataType: "text",
-            //     success: function (msg) {
-            //         layer.msg("获取成功!");
-            //         console.log(msg);
-            //
-            //         if (msg == "success") {
-            //             layer.msg("修改成功!");
-            //         } else {
-            //             layer.msg(msg);
-            //         }
-            //
-            //     },
-            //     error: function () {
-            //         layer.msg("网络繁忙!");
-            //     }
-            // });
+            $.ajax({
+                url: path + "/sc/update",
+                async: true,
+                type: "POST",
+                data: "data=" + JSON.stringify(data.field),
+                dataType: "text",
+                success: function (msg) {
+                    layer.msg("获取成功!");
+                    console.log(msg);
+
+                    if (msg == "success") {
+                        layer.msg("修改成功!");
+                    } else {
+                        layer.msg(msg);
+                    }
+
+                },
+                error: function () {
+                    layer.msg("网络繁忙!");
+                }
+            });
 
             return false;
         });

@@ -22,6 +22,8 @@ public class SecurityController {
     private SecurityService securityService;
 
 
+
+
     @RequestMapping(value = "/login")
     @ResponseBody
     public String login(String phone, String pwd, String vCode, HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -48,7 +50,9 @@ public class SecurityController {
     @ResponseBody
     public String update(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
+        System.out.println("data:"+request.getParameter("data"));
         Security security = new Security();
+        security=JSON.parseObject(String.valueOf(request.getParameter("data")),Security.class);
         return securityService.update(security) > 0 ? "success" : "error";
     }
 
@@ -66,5 +70,12 @@ public class SecurityController {
 
     }
 
+    @RequestMapping(value = "/face")
+    @ResponseBody
+    public String face(HttpServletRequest request, HttpServletResponse response) throws IOException {
+//TODO 调用人脸service
+
+        return null;
+    }
 
 }
