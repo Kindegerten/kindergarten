@@ -4,6 +4,7 @@ package com.kindergarten.controller;
 import com.alibaba.fastjson.JSON;
 import com.kindergarten.bean.Security;
 import com.kindergarten.service.SecurityService;
+import com.kindergarten.util.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -70,12 +71,12 @@ public class SecurityController {
 
     }
 
-    @RequestMapping(value = "/face")
+    @RequestMapping(value = "/getAuth")
     @ResponseBody
-    public String face(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public String getAuth(HttpServletRequest request, HttpServletResponse response) throws IOException {
 //TODO 调用人脸service
 
-        return null;
+        return AuthService.getAuth();
     }
 
 }
