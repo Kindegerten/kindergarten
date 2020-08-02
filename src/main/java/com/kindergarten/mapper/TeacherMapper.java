@@ -12,5 +12,7 @@ public interface TeacherMapper
    public String FindRole(int teacherid);
    //修改密码
    public int updatePwd(@Param("tel") String tel, @Param("pwd") String password);
+   //课程表
+   public String course(String teacherid);
 
 }

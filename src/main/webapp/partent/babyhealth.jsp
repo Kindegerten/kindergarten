@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html class="x-admin-sm">
     <head>
@@ -46,16 +47,15 @@
 <!--                                </div>-->
 <!--                            </form>-->
                         </div>
+                      <h2>  &emsp;宝宝姓名:<span id="babyname" style="color: red"><%=request.getSession().getAttribute("studentName")%></span></h2>
 
                         <div class="layui-card-body layui-table-body layui-table-main">
-                            <table class="layui-table layui-form" id="usertable" lay-filter="test">
-
-                            </table>
-                        </div>
-
+                            <table class="layui-table layui-form" id="usertable" lay-filter="test"> </table>
+                           </div>
                 </div>
             </div>
-        </div> 
+        </div>
+        </div>
     </body>
     <script>
         layui.use(['laydate', 'form', 'laypage', 'table', 'laytpl'], function () {
@@ -64,7 +64,7 @@
         var laypage = layui.laypage;
         var table = layui.table;
         var laytpl = layui.laytpl;
-
+        var babyname=$("#babyname");
             table.render({
                 limits: [5, 10, 20]
                 , limit: 5,
@@ -73,15 +73,18 @@
 
                 page: true
 
-                , url:'/pt/SchoolInfo'
+                , url:'/pt/babyhealth'
                 ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
 
                 , cols: [[
 
                     // {field: 'campusInfoId', title: 'ID',width: 50, sort: true}
-                     {field: 'campusInfoName', title: '标题'}
-                    , {field: 'campusInfoTime', title: '发布时间', sort: true}
-                    , {title: '操作', align: 'center', width: 250, toolbar: '#barDemo'}
+                    {field: 'examinationTime', title: '体检时间'}
+                    , {field: 'height', title: '身高', sort: true}
+                    , {field: 'weight', title: '体重', sort: true}
+                    , {field: 'vision', title: '视力', sort: true}
+                    , {field: 'temperature', title: '体温', sort: true}
+                    , {field: 'healthStatus', title: '健康状态', sort: true}
 
 
                 ]],
@@ -90,23 +93,9 @@
                     , limitName: 'pageSize' //每页数据量的参数名，默认：limit
                 }
 
-            });
-            //表格所有的操作。
-            table.on('tool(test)',function (obj) {  //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
-                var data = obj.data; //获得当前行数据
-                layer.tab({
-                    area: ['600px', '300px'],
-                    tab: [{
-                        title: data.campusInfoName,
-                        content: data.campusInfoDetail
-                    },  ]
-                });
 
-            })
+            });
 
       });
-    </script>
-    <script type="text/html" id="barDemo">
-        <a class="layui-btn layui-btn-xs"   lay-event="查看详情">查看详情</a>
     </script>
 </html>
