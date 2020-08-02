@@ -70,6 +70,7 @@
                 <ul class="sub-menu">
                     <li>
                         <a onclick="xadmin.add_tab('课程表','/teacher/course.jsp')">
+<%--                            <a onclick="xadmin.add_tab('课程表','/partent/babyhealth.jsp')">--%>
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>课程表</cite></a>
                     </li>

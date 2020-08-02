@@ -68,7 +68,8 @@
 
         table.render({
             elem: '#currentTableId',
-            url:'<%=path%>/publishTaskControl/selectList',
+            <%--url:'<%=path%>/publishTaskControl/selectList',--%>
+            url:'<%=path%>/tc/selectList',
             toolbar: '#toolbarDemo',
             defaultToolbar: ['filter', 'exports', 'print', {
                 title: '提示',
@@ -122,7 +123,7 @@
                             if (taskName!=""&&releaseTime!=null){
                                 $.ajax({
                                     type:"post",
-                                    url:"<%=path%>/publishTaskControl/publishTaskAdd",
+                                    url:"<%=path%>/tc/publishTaskAdd",
                                     async:true,
                                     data:{
                                         // type:"taskAdd",
@@ -198,7 +199,7 @@
         //上传文件
         upload.render({
             elem: '#test3'
-            ,url: '<%=path%>/publishTaskControl/upLoad' //改成您自己的上传接口
+            ,url: '<%=path%>/tc/upLoad' //改成您自己的上传接口
             ,accept: 'file' //普通文件
             ,done: function(res){
                 layer.msg('上传成功');
@@ -210,7 +211,7 @@
         //删除
         function shanchu(data){
             $.ajax({
-                url:"<%=path%>/publishTaskControl/delPublishTask",
+                url:"<%=path%>/tc/delPublishTask",
                 type:"post",
                 async:true,
                 data:{
