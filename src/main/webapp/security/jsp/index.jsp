@@ -14,6 +14,7 @@
 
     <%
         String path = request.getContextPath();
+        String account= (String) request.getSession().getAttribute("account");
     %>
 
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
@@ -36,6 +37,11 @@
     </script>
 </head>
 <body class="index">
+
+<%--隐藏--%>
+<input type="hidden" id="path" value="<%=path%>">
+<input type="hidden" id="account" value="<%=account%>">
+
 <!-- 顶部开始 -->
 <div class="container">
     <div class="logo">

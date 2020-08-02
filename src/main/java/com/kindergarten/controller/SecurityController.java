@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
@@ -21,35 +24,47 @@ public class SecurityController {
 
     @RequestMapping(value = "/login")
     @ResponseBody
-    public String login(String phone,String pwd,String vCode) throws IOException {
+    public String login(String phone, String pwd, String vCode, HttpServletRequest request, HttpServletResponse response) throws IOException {
         System.out.println("SecurityController login ing...");
 //        response.setContentType("text/html;charset=utf-8");
-        Security security= new Security();
+        Security security = new Security();
 
 
-        System.out.println("security="+phone+"+"+pwd+"+"+vCode);
+        System.out.println("security=" + phone + "+" + pwd + "+" + vCode);
         security.setvCode(vCode);
         security.setSecurityPhone(phone);
         security.setSecurityPwd(pwd);
 
-//        return null;
-        return securityService.login(security) != null ? "success" : "error";
+        security = securityService.login(security);
+
+        if (security != null) {
+            request.getSession().setAttribute("account", security.getSecurityPhone());
+        }
+
+        return security != null ? "success" : "error";
     }
 
     @RequestMapping(value = "/update")
     @ResponseBody
-    public String update(String phone,String pwd,String vCode) throws IOException {
+    public String update(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        Security security= new Security();
-        return securityService.update(security)>0?"success":"error";
+        Security security = new Security();
+        return securityService.update(security) > 0 ? "success" : "error";
     }
 
     @RequestMapping(value = "/getInfo")
     @ResponseBody
-    public String getInfo(String phone,String pwd,String vCode) throws IOException {
+    public String getInfo(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        System.out.println("SecurityController getInfo ing...");
+        Security security = new Security();
 
-        Security security= new Security();
-        return securityService.getInfo(security)!=null?JSON.toJSONString(security):"error";
+        security.setSecurityPhone(request.getParameter("account"));
+
+        security = securityService.getInfo(security);
+
+        return security != null ? JSON.toJSONString(security) : "error";
+
     }
+
 
 }

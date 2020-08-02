@@ -4,17 +4,16 @@ import java.math.BigDecimal;
 
 public class Security {
 
-    private int id,sex,age,rid,securityState;
+    private int securityId,securityAge,rid,securityState;
     private String securityName,securityPwd,securityAdd,securityRegtime,vCode;
-    private String securityPhone;
+    private String securityPhone,securitySex,securityStateName;
 
     public Security() {
     }
 
-    public Security(int id, int sex, int age, int rid, int securityState, String securityName, String securityPwd, String securityAdd, String securityRegtime, String vCode, String securityPhone) {
-        this.id = id;
-        this.sex = sex;
-        this.age = age;
+    public Security(int securityId, int securityAge, int rid, int securityState, String securityName, String securityPwd, String securityAdd, String securityRegtime, String vCode, String securityPhone, String securitySex, String securityStateName) {
+        this.securityId = securityId;
+        this.securityAge = securityAge;
         this.rid = rid;
         this.securityState = securityState;
         this.securityName = securityName;
@@ -23,14 +22,15 @@ public class Security {
         this.securityRegtime = securityRegtime;
         this.vCode = vCode;
         this.securityPhone = securityPhone;
+        this.securitySex = securitySex;
+        this.securityStateName = securityStateName;
     }
 
     @Override
     public String toString() {
         return "Security{" +
-                "id=" + id +
-                ", sex=" + sex +
-                ", age=" + age +
+                "securityId=" + securityId +
+                ", securityAge=" + securityAge +
                 ", rid=" + rid +
                 ", securityState=" + securityState +
                 ", securityName='" + securityName + '\'' +
@@ -39,31 +39,25 @@ public class Security {
                 ", securityRegtime='" + securityRegtime + '\'' +
                 ", vCode='" + vCode + '\'' +
                 ", securityPhone='" + securityPhone + '\'' +
+                ", securitySex='" + securitySex + '\'' +
+                ", securityStateName='" + securityStateName + '\'' +
                 '}';
     }
 
-    public int getId() {
-        return id;
+    public int getSecurityId() {
+        return securityId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setSecurityId(int securityId) {
+        this.securityId = securityId;
     }
 
-    public int getSex() {
-        return sex;
+    public int getSecurityAge() {
+        return securityAge;
     }
 
-    public void setSex(int sex) {
-        this.sex = sex;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
+    public void setSecurityAge(int securityAge) {
+        this.securityAge = securityAge;
     }
 
     public int getRid() {
@@ -128,5 +122,21 @@ public class Security {
 
     public void setSecurityPhone(String securityPhone) {
         this.securityPhone = securityPhone;
+    }
+
+    public String getSecuritySex() {
+        return securitySex;
+    }
+
+    public void setSecuritySex(String securitySex) {
+        this.securitySex = securitySex;
+    }
+
+    public String getSecurityStateName() {
+        return securityStateName;
+    }
+
+    public void setSecurityStateName(String securityStateName) {
+        this.securityStateName = securityStateName;
     }
 }
