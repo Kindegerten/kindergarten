@@ -6,12 +6,12 @@ public class Security {
 
     private int securityId,securityAge,rid,securityState;
     private String securityName,securityPwd,securityAdd,securityRegtime,vCode;
-    private String securityPhone,securitySex;
+    private String securityPhone,securitySex,securityStateName;
 
     public Security() {
     }
 
-    public Security(int securityId, int securityAge, int rid, int securityState, String securityName, String securityPwd, String securityAdd, String securityRegtime, String vCode, String securityPhone, String securitySex) {
+    public Security(int securityId, int securityAge, int rid, int securityState, String securityName, String securityPwd, String securityAdd, String securityRegtime, String vCode, String securityPhone, String securitySex, String securityStateName) {
         this.securityId = securityId;
         this.securityAge = securityAge;
         this.rid = rid;
@@ -23,6 +23,7 @@ public class Security {
         this.vCode = vCode;
         this.securityPhone = securityPhone;
         this.securitySex = securitySex;
+        this.securityStateName = securityStateName;
     }
 
     @Override
@@ -39,6 +40,7 @@ public class Security {
                 ", vCode='" + vCode + '\'' +
                 ", securityPhone='" + securityPhone + '\'' +
                 ", securitySex='" + securitySex + '\'' +
+                ", securityStateName='" + securityStateName + '\'' +
                 '}';
     }
 
@@ -128,5 +130,13 @@ public class Security {
 
     public void setSecuritySex(String securitySex) {
         this.securitySex = securitySex;
+    }
+
+    public String getSecurityStateName() {
+        return securityStateName;
+    }
+
+    public void setSecurityStateName(String securityStateName) {
+        this.securityStateName = securityStateName;
     }
 }
