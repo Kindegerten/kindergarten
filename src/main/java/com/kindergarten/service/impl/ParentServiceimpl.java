@@ -88,6 +88,7 @@ public class ParentServiceimpl implements ParentService {
             for (int j=0;j<workreleases.size();j++){
                 if (String.valueOf(map.get(i).get("work_releaseid")).equals(String.valueOf(workreleases.get(j).getWorkreleaseId()))){
                     workreleases.get(j).setWorkResult(map.get(i).get("work_result")+"");
+                    workreleases.get(j).setWorkEva(map.get(i).get("work_eva")+"");
                 }
             }
 
@@ -100,8 +101,8 @@ public class ParentServiceimpl implements ParentService {
 //
 //            }
 
-//        System.out.println(JSON.toJSONString(map));
-//        System.out.println(JSON.toJSONString(workreleases));
+        System.out.println(JSON.toJSONString(map));
+        System.out.println(JSON.toJSONString(workreleases));
 
         layuiData=new LayuiData<>(0,"",totalRecord,workreleases);
 
