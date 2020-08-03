@@ -24,7 +24,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">原密码</label>
         <div class="layui-input-inline">
-            <input type="password" name="oldpwd" required lay-verify="password" placeholder="请输入原密码" autocomplete="off" class="layui-input">
+            <input type="password" name="oldpwd" required lay-verify="password" placeholder="请输入原密码"  autocomplete="off" class="layui-input">
         </div>
     </div>
 
