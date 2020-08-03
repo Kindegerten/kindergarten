@@ -2,9 +2,13 @@ package com.kindergarten.controller;
 
 
 import com.alibaba.fastjson.JSON;
+import com.kindergarten.bean.FaceReturn;
 import com.kindergarten.bean.Security;
 import com.kindergarten.service.SecurityService;
 import com.kindergarten.util.AuthService;
+import com.kindergarten.util.FaceAdd;
+import com.kindergarten.util.FaceMatch;
+import com.kindergarten.util.FaceSearch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -76,7 +80,37 @@ public class SecurityController {
     public String getAuth(HttpServletRequest request, HttpServletResponse response) throws IOException {
 //TODO 调用人脸service
 
-        return AuthService.getAuth();
+        //获取base64
+        String base64=request.getParameter("base64");
+        System.out.println("base64:"+base64);
+
+        //获取at
+        String at=AuthService.getAuth();
+        System.out.println("Access token:"+at);
+
+        //转发base64，获取返回值
+        FaceReturn faceReturn=JSON.parseObject(FaceSearch.faceSearch(base64,at),FaceReturn.class);
+        System.out.println("faceReturn:"+faceReturn);
+
+        return faceReturn.toString();
+    }
+
+    @RequestMapping(value = "/addFace")
+    @ResponseBody
+    public String addFace(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        //获取base64
+//        String base64=request.getParameter("base64");
+//        System.out.println("base64 before:"+base64);
+        String base64=new String(request.getParameter("base64").getBytes("ISO8859-1"), "UTF-8");
+        System.out.println("base64 after:"+base64);
+
+        //获取at
+        String at=AuthService.getAuth();
+        System.out.println("Access token:"+at);
+
+        String result=FaceAdd.add(base64,at);
+        System.out.println("result:"+result);
+        return result;
     }
 
 }
