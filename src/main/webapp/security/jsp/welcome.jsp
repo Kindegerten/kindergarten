@@ -59,7 +59,7 @@
                         url: "/sc/getAuth",
                         async: true,
                         type: "POST",
-                        data: "base64=" + result,
+                        data: "base64=" + encodeURIComponent(result),
                         dataType: "text",
                         success: function (msg) {
                             layer.msg(msg)
@@ -70,6 +70,7 @@
                         }
                     });
 
+                    delete files[0]; //删除列表中对应的文件，一般在某个事件中使用
                 })}
             ,done: function(res){
                 //上传完毕回调
@@ -118,6 +119,7 @@
                         }
                     });
 
+                    delete files[0]; //删除列表中对应的文件，一般在某个事件中使用
                 })}
             ,done: function(res){
                 //上传完毕回调

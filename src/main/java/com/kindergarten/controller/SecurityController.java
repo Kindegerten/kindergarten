@@ -81,8 +81,11 @@ public class SecurityController {
 //TODO 调用人脸service
 
         //获取base64
-        String base64=request.getParameter("base64");
-        System.out.println("base64:"+base64);
+        String base64=new String(request.getParameter("base64").getBytes("ISO8859-1"), "UTF-8");
+        System.out.println("base64 after:"+base64);
+        //获取base64数据内容部分，去掉文件头和标识"data:image/jpeg;base64,"
+        base64=base64.split("base64,")[1];
+        System.out.println("base64 final:"+base64);
 
         //获取at
         String at=AuthService.getAuth();
@@ -103,6 +106,9 @@ public class SecurityController {
 //        System.out.println("base64 before:"+base64);
         String base64=new String(request.getParameter("base64").getBytes("ISO8859-1"), "UTF-8");
         System.out.println("base64 after:"+base64);
+        //获取base64数据内容部分，去掉文件头和标识"data:image/jpeg;base64,"
+        base64=base64.split("base64,")[1];
+        System.out.println("base64 final:"+base64);
 
         //获取at
         String at=AuthService.getAuth();
@@ -111,6 +117,7 @@ public class SecurityController {
         String result=FaceAdd.add(base64,at);
         System.out.println("result:"+result);
         return result;
+//        return null;
     }
 
 }
