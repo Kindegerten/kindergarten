@@ -3,11 +3,11 @@ package com.kindergarten.bean;
 import java.util.List;
 
 public class LayuiData<T> {
+    //变量名要与layui封装的名字一样
     private int code;
-    private String msg="";
+    private String msg = "";
     private int count;
     private List<T> data;
-
 
     public LayuiData() {
     }
@@ -49,15 +49,5 @@ public class LayuiData<T> {
 
     public void setData(List<T> data) {
         this.data = data;
-    }
-
-    @Override
-    public String toString() {
-        return "LayuiData{" +
-                "code=" + code +
-                ", msg='" + msg + '\'' +
-                ", count=" + count +
-                ", data=" + data +
-                '}';
     }
 }
