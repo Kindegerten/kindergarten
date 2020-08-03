@@ -45,7 +45,7 @@
 
 <!--    查询孩子的体检信息，根据孩子ID-->
     <select id="SearchBabyHeath" resultType="com.kindergarten.bean.Examination">
-        select *from tbl_examination where sid=#{studentId} order by examination_time desc
+        select * from (select *from tbl_examination where sid=#{studentid} order by examination_time desc ) a limit ${(curPage-1)*pageSize},${curPage*pageSize}
     </select>
     <select id="SearchBabyHeathCount" resultType="java.lang.Integer">
         select count(*) from tbl_examination where sid=#{studentId}
@@ -53,7 +53,7 @@
 
 <!--    家长查看校园监控列表-->
     <select id="SearchVideo" resultType="com.kindergarten.bean.Monitor">
-        select m.* from tbl_students s,tbl_monitor m where s.kinder_id=m.kid and student_id=#{studentid}
+     select * from ( select m.* from tbl_students s,tbl_monitor m where s.kinder_id=m.kid and student_id=#{studentid} ) a limit ${(curPage-1)*pageSize},${curPage*pageSize}
     </select>
     <select id="SearchVideoCount" resultType="java.lang.Integer">
         select count(*) from tbl_students s,tbl_monitor m where s.kinder_id=m.kid and student_id=#{studentid}
@@ -65,5 +65,41 @@
     </select>
     <select id="SearchMealCount" resultType="java.lang.Integer">
         select count(*) from tbl_meal m,tbl_students s  where s.kinder_id=m.kid and s.student_id=#{studentid}
+    </select>
+
+<!--    作业列表-->
+    <select id="StudentWork" resultType="com.kindergarten.bean.Workrelease">
+      select * from (select a.* from tbl_workrelease a,tbl_students c where a.class_id=c.class_id and c.student_id=#{studentid} and work_name is not null ) a order by a.workrelease_time desc limit ${(curPage-1)*pageSize},${curPage*pageSize}
+    </select>
+    <select id="StudentWorkCount" resultType="java.lang.Integer">
+        select count(*) from  tbl_workrelease a,tbl_students c where a.class_id=c.class_id and  c.student_id=#{studentid}
+    </select>
+<!--    查询是否有无完成情况-->
+    <select id="WorkResult" resultType="java.util.Map">
+        select w.work_releaseid,w.work_result from tbl_work w,tbl_workrelease l where w.work_releaseid=l.work_releaseid and student_id=#{studentid}
+    </select>
+
+<!--    查询班级的英文名，用于存放文件夹-->
+    <select id="SearchEnglishClassName" resultType="java.lang.String">
+        select a.kinder_englishname from tbl_classes a,tbl_students s where a.class_id=s.class_id and a.kinder_id=s.kinder_id and s.student_id=#{studentid}
+    </select>
+<!--    是否首次上传作业？-->
+    <select id="IsNewWork" resultType="java.lang.Integer">
+        select count(*) from tbl_work where work_releaseid=#{workid} and  student_id=#{studentid}
+    </select>
+<!--    重新提交作业，更新文件路径-->
+    <update id="UpdateWork" parameterType="java.lang.Object" >
+        update tbl_work set work_url=#{url}, parents_id=#{parentid}, parents_name=#{parentname} where work_releaseid=#{workid} and student_id=#{studentid}
+    </update>
+<!--    作业提交+数据库插入-->
+    <insert id="UploadWork" parameterType="java.lang.Object">
+     insert into  tbl_work(work_releaseid,work_url,cid,work_result,student_id,student_name,parents_id,parents_name) values (#{workid},#{url},#{cid},'完成',#{studentid},#{studentname},#{parentid},#{parentname});
+    </insert>
+    
+    <select id="SearchStudentClass" resultType="java.lang.Integer">
+        select class_id from tbl_students where student_id=#{studentid}
+    </select>
+    <select id="SearchTeacherWork" resultType="java.lang.String">
+        SELECT tbl_workrelease.work_url from tbl_workrelease where work_releaseid=#{workid};
     </select>
 </mapper>
