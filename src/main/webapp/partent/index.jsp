@@ -25,15 +25,22 @@
         <!-- 顶部开始 -->
         <div class="container">
             <div class="logo">
-                <a href="./index.html">欢迎你:<%=parents.getParentsName()%>&emsp;<%=parents.getRoleName()%></a></div>
+                <a href="./index.html">欢迎你:<%=parents.getParentsName()%></a>
+                <a>宝宝姓名:<%=request.getSession().getAttribute("studentName")%></a>
+            </div>
+
             <div class="left_open">
                 <a><i title="展开左侧栏" class="iconfont">&#xe699;</i></a>
             </div>
+
             <ul class="layui-nav left fast-add" lay-filter="">
                 <li class="layui-nav-item">
                 </li>
+
+
             </ul>
             <ul class="layui-nav right" lay-filter="">
+
                 <li class="layui-nav-item">
                     <a href="javascript:;">个人中心</a>
                     <dl class="layui-nav-child">
@@ -63,14 +70,14 @@
                             <i class="iconfont nav_right">&#xe697;</i></a>
                         <ul class="sub-menu">
                             <li>
-                                <a onclick="xadmin.add_tab('统计页面','welcome1.html')">
+                                <a onclick="xadmin.add_tab('体检信息查看','babyhealth.jsp')">
                                     <i class="iconfont">&#xe6a7;</i>
-                                    <cite>统计页面</cite></a>
+                                    <cite>幼儿保健</cite></a>
                             </li>
                             <li>
-                                <a onclick="xadmin.add_tab('会员列表(静态表格)','member-list.html')">
+                                <a onclick="xadmin.add_tab('宝宝膳食','/pt/searchmeal')">
                                     <i class="iconfont">&#xe6a7;</i>
-                                    <cite>会员列表(静态表格)</cite></a>
+                                    <cite>宝宝膳食</cite></a>
                             </li>
                             <li>
                                 <a onclick="xadmin.add_tab('会员列表(动态表格)','member-list1.html',true)">
@@ -114,6 +121,19 @@
                                 <a onclick="xadmin.add_tab('密码修改','updatePwd.jsp')">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>密码修改</cite></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <i class="iconfont left-nav-li" lay-tips="系统统计">&#xe6ce;</i>
+                            <cite>直播中心</cite>
+                            <i class="iconfont nav_right">&#xe697;</i></a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a onclick="xadmin.add_tab('校园直播','onlineVideo.jsp')">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>校园直播</cite></a>
                             </li>
                         </ul>
                     </li>

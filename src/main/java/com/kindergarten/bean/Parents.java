@@ -3,7 +3,6 @@ package com.kindergarten.bean;
 
 
 public class Parents {
-    private String parentsId;
    private String parentsTel;
    private String parentsName;
    private String parentsSex;
@@ -18,14 +17,6 @@ public class Parents {
 
 
     public Parents() {
-    }
-
-    public String getParentsId() {
-        return parentsId;
-    }
-
-    public void setParentsId(String parentsId) {
-        this.parentsId = parentsId;
     }
 
     public String getParentsTel() {
