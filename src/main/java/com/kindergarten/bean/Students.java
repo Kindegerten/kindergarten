@@ -8,12 +8,9 @@ public class Students {
     private String studentSex;
     private String studentBirth;
     private String studentAdd;
-
-
     private String className;
     private int  kinderId;
     private String kinderName;
-
     private String studentTime;
     private int classId;
 
