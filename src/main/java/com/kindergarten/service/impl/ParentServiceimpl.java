@@ -1,11 +1,13 @@
 package com.kindergarten.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.kindergarten.bean.*;
 import com.kindergarten.mapper.ParentsMapper;
 import com.kindergarten.service.ParentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -46,10 +48,10 @@ public class ParentServiceimpl implements ParentService {
     }
 
     @Override
-    public LayuiData<Examination> examination(int studentId) {
+    public LayuiData<Examination> examination(int studentId,int curPage, int pageSize) {
 //        parentsMapper.SearchBabyHeath(studentId)
         LayuiData<Examination> layuiData=null;
-        List<Examination> examinations=parentsMapper.SearchBabyHeath(studentId);
+        List<Examination> examinations=parentsMapper.SearchBabyHeath(studentId,curPage,pageSize);
         int totalRecord=parentsMapper.SearchBabyHeathCount(studentId);
         layuiData=new LayuiData<>(0,"",totalRecord,examinations);
 
@@ -57,9 +59,9 @@ public class ParentServiceimpl implements ParentService {
     }
 
     @Override
-    public LayuiData<Monitor> monitors(int studentId) {
+    public LayuiData<Monitor> monitors(int studentId,int curPage, int pageSize) {
         LayuiData<Monitor> layuiData=null;
-        List<Monitor> examinations=parentsMapper.SearchVideo(studentId);
+        List<Monitor> examinations=parentsMapper.SearchVideo(studentId,curPage,pageSize);
         int totalRecord=parentsMapper.SearchVideoCount(studentId);
         layuiData=new LayuiData<>(0,"",totalRecord,examinations);
 
@@ -74,5 +76,35 @@ public class ParentServiceimpl implements ParentService {
             pageBean.setList(mealList);
 
         return pageBean;
+    }
+
+    @Override
+    public LayuiData<Workrelease> studentWork(int studentId, int curPage, int pageSize) {
+        LayuiData<Workrelease> layuiData=null;
+        List<Workrelease> workreleases=parentsMapper.StudentWork(studentId,curPage,pageSize);
+        int totalRecord=parentsMapper.StudentWorkCount(studentId);
+        List<HashMap<String,Object>> map=parentsMapper.WorkResult(studentId);
+        for (int i=0;i<map.size();i++){
+            for (int j=0;j<workreleases.size();j++){
+                if (String.valueOf(map.get(i).get("work_releaseid")).equals(String.valueOf(workreleases.get(j).getWorkreleaseId()))){
+                    workreleases.get(j).setWorkResult(map.get(i).get("work_result")+"");
+                }
+            }
+
+        }
+//            for (int i=0;i<map.size();i++){
+//                System.out.println("============================================");
+//                System.out.println(map.get(i));
+//                System.out.println(map.get(i).get("work_result"));
+//                System.out.println(map.get(i).get("work_releaseid"));
+//
+//            }
+
+//        System.out.println(JSON.toJSONString(map));
+//        System.out.println(JSON.toJSONString(workreleases));
+
+        layuiData=new LayuiData<>(0,"",totalRecord,workreleases);
+
+        return layuiData;
     }
 }

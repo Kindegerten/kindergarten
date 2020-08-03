@@ -80,14 +80,14 @@
                                     <cite>宝宝膳食</cite></a>
                             </li>
                             <li>
-                                <a onclick="xadmin.add_tab('会员列表(动态表格)','member-list1.html',true)">
+                                <a onclick="xadmin.add_tab('宝宝作业','homework.html')">
                                     <i class="iconfont">&#xe6a7;</i>
-                                    <cite>会员列表(动态表格)</cite></a>
+                                    <cite>宝宝作业</cite></a>
                             </li>
                             <li>
-                                <a onclick="xadmin.add_tab('会员删除','member-del.html')">
+                                <a onclick="xadmin.add_tab('往期作业','member-del.html')">
                                     <i class="iconfont">&#xe6a7;</i>
-                                    <cite>会员删除</cite></a>
+                                    <cite>往期作业</cite></a>
                             </li>
                             <li>
                                 <a href="javascript:;">
