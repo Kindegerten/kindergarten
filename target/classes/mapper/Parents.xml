@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kindergarten.mapper.ParentsMapper">
+
+    <select id="login" resultType="com.kindergarten.bean.Parents" parameterType="java.lang.String" >
+        select * from tbl_parents where parents_tel=#{_parameter}
+    </select>
+
+    <select id="FindRole" resultType="String" parameterType="java.lang.Integer" >
+        select role_name from tbl_role  where role_id=#{_parameter}
+    </select>
+    
+    <update id="updatePwd" parameterType="java.lang.Object">
+        update tbl_parents set parents_pwd=#{pwd} where parents_tel=#{tel}
+    </update>
+
+<!--    找对应孩子的学校-->
+    <select id="CampusInfo" resultType="com.kindergarten.bean.CampusInfo" parameterType="java.lang.String" >
+        select * from (select i.* from tbl_parents p,tbl_students s,tbl_campus_info i where
+            p.student_id=s.student_id and s.kinder_id=i.kid and  parents_tel=#{tel}  order by i.campus_info_time desc)a
+
+         limit ${(curPage-1)*pageSize},${curPage*pageSize}
+    </select>
+
+    <select id="CampusInfoCount" resultType="java.lang.Integer">
+        select count(*) from (select i.* from tbl_parents p,tbl_students s,tbl_campus_info i where
+            p.student_id=s.student_id and s.kinder_id=i.kid and  parents_tel=#{tel}  order by i.campus_info_time desc)a
+    </select>
+
+<!--    平台发布的消息-->
+    <select id="PlatformInfo" resultType="com.kindergarten.bean.PlatformInfo">
+        select *from (select * from tbl_platform_info order by tbl_platform_info.platform_info_time desc )a limit ${(curPage-1)*pageSize},${curPage*pageSize}
+    </select>
+    <select id="PlatformInfoCount" resultType="java.lang.Integer">
+        select count(*) from tbl_platform_info
+    </select>
+
+</mapper>
