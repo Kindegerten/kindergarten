@@ -11,4 +11,227 @@
     <update id="updatePwd" parameterType="com.kindergarten.bean.Admin" >
         update tbl_admin set admin_pwd= #{adminPwd} where admin_tel= #{adminTel};
     </update>
+    <select id="selectParentCount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+        /*parameterType输入参数，resultType是输出结果*/
+        select count(*)from tbl_parents
+        <where>
+            <if test="condition.parentsName!=null and condition.parentsName !=''">
+                and parents_name like concat('%',#{condition.parentsName},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="selectParent" resultType="com.kindergarten.bean.Parents" parameterType="java.util.HashMap">
+        /*parameterType输入参数，resultType是输出结果*/
+        select parents_id, parents_tel, parents_pwd, parents_name, parents_sex, parents_status, role_id from tbl_parents
+        <where>
+            <if test="condition.parentsName!=null and condition.parentsName !=''">
+                and parents_name like concat('%',#{condition.parentsName},'%')
+            </if>
+        </where>
+        limit ${(curPage-1)*pageSize},${pageSize}
+    </select>
+    <update id="upByparents" parameterType="java.lang.Integer">
+       update tbl_parents set parents_status=1 where parents_id=#{id};
+    </update>
+    <update id="banByparents" parameterType="java.lang.Integer">
+       update tbl_parents set parents_status=2 where parents_id=#{id};
+    </update>
+    <insert id="insertParents" parameterType="com.kindergarten.bean.Parents">
+        insert into tbl_parents( parents_tel, parents_pwd, parents_name, parents_sex,role_id) VALUES (#{parentsTel},#{parentsPwd},#{parentsName},#{parentsSex},1);
+    </insert>
+    <select id="selectOneByparents" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*) from tbl_parents where parents_tel=#{parentsTel};
+    </select>
+
+    <select id="selectTeacherCount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+        /*parameterType输入参数，resultType是输出结果*/
+        select count(*)from tbl_teachers
+        <where>
+            <if test="condition.teacherName!=null and condition.teacherName !=''">
+                and teacher_name like concat('%',#{condition.teacherName},'%')
+            </if>
+        </where>
+    </select>
+    <select id="selectTeacher" resultType="com.kindergarten.bean.Teachers" parameterType="java.util.HashMap">
+        /*parameterType输入参数，resultType是输出结果*/
+        select teacher_id, teacher_tel, teacher_pwd, teacher_name, class_id, teacher_status, kinder_id, teacher_sex, teacher_age, teacher_regtime
+        from tbl_teachers
+        <where>
+            <if test="condition.teacherName!=null and condition.teacherName !=''">
+                and teacher_name like concat('%',#{condition.teacherName},'%')
+            </if>
+        </where>
+        limit ${(curPage-1)*pageSize},${pageSize}
+    </select>
+
+
+    <select id="selectOneByteacher" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*) from tbl_teachers where teacher_tel=#{teacherTel};
+    </select>
+    <insert id="insertTeacher" parameterType="com.kindergarten.bean.Teachers">
+        insert into tbl_teachers ( teacher_tel, teacher_pwd, teacher_name,  teacher_sex, teacher_age) VALUES (#{teacherTel},#{teacherPwd},#{teacherName},#{teacherSex},#{teacherAge});
+    </insert>
+    <update id="upByteachers" parameterType="java.lang.Integer">
+       update tbl_teachers set teacher_status =1 where teacher_id=#{id};
+    </update>
+    <update id="banByteachers" parameterType="java.lang.Integer">
+       update tbl_teachers set teacher_status =2 where teacher_id=#{id};
+    </update>
+
+    <select id="selectHealtherCount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+        /*parameterType输入参数，resultType是输出结果*/
+        select count(*)from tbl_healther
+        <where>
+            <if test="condition.healtherName!=null and condition.healtherName !=''">
+                and healther_name like concat('%',#{condition.healtherName},'%')
+            </if>
+        </where>
+    </select>
+    <select id="selectHealther" resultType="com.kindergarten.bean.Healther" parameterType="java.util.HashMap">
+        /*parameterType输入参数，resultType是输出结果*/
+        select healther_id, healther_name, healther_sex, healther_age, healther_add, healther_phone, healther_regtime, rid, healther_status,
+        healther_pwd, kid from tbl_healther
+        <where>
+            <if test="condition.healtherName!=null and condition.healtherName !=''">
+                and healther_name like concat('%',#{condition.healtherName},'%')
+            </if>
+        </where>
+        limit ${(curPage-1)*pageSize},${pageSize}
+    </select>
+
+    <update id="upByhealther" parameterType="java.lang.Integer">
+       update tbl_healther set healther_status=1 where healther_id=#{id};
+    </update>
+    <update id="banByhealther" parameterType="java.lang.Integer">
+      update tbl_healther set healther_status=2 where healther_id=#{id};
+    </update>
+    <select id="selectOneByhealther" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*) from tbl_healther where healther_phone=#{healtherPhone};
+    </select>
+    <insert id="insertHealther" parameterType="com.kindergarten.bean.Healther">
+       insert into tbl_healther(healther_name, healther_sex, healther_age, healther_add,
+       healther_phone, healther_pwd)
+       VALUES (#{healtherName},#{healtherSex},#{healtherAge},#{healtherAdd},#{healtherPhone},#{healtherPwd});
+    </insert>
+
+    <select id="selectSecurityCount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+        /*parameterType输入参数，resultType是输出结果*/
+        select count(*)from tbl_security
+        <where>
+            <if test="condition.securityName!=null and condition.securityName !=''">
+                and security_name like concat('%',#{condition.securityName},'%')
+            </if>
+        </where>
+    </select>
+    <select id="selectSecurity" resultType="com.kindergarten.bean.Security" parameterType="java.util.HashMap">
+        /*parameterType输入参数，resultType是输出结果*/
+        select security_id, security_name, security_sex, security_age, security_add, security_phone, security_regtime,
+        rid, security_status, security_pwd from tbl_security
+        <where>
+            <if test="condition.securityName!=null and condition.securityName !=''">
+                and security_name like concat('%',#{condition.securityName},'%')
+            </if>
+        </where>
+        limit ${(curPage-1)*pageSize},${pageSize}
+    </select>
+
+    <update id="upBysecurity" parameterType="java.lang.Integer">
+      update tbl_security set security_status=1 where security_id=#{id};
+    </update>
+    <update id="banBysecurity" parameterType="java.lang.Integer">
+           update tbl_security set security_status=2 where security_id=#{id};
+    </update>
+
+    <select id="selectOneBySecurity" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*) from tbl_security where security_phone=#{securityPhone};
+    </select>
+    <insert id="insertSecurity" parameterType="com.kindergarten.bean.Security">
+      insert into tbl_security( security_name, security_sex, security_age,
+      security_add, security_phone, security_pwd) VALUES (#{securityName},#{securitySex},
+      #{securityAge},#{securityAdd},#{securityPhone},#{securityPwd})
+    </insert>
+
+    <select id="selectRectorCount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+        /*parameterType输入参数，resultType是输出结果*/
+        select count(*)from tbl_rector
+        <where>
+            <if test="condition.rectorName!=null and condition.rectorName !=''">
+                and rector_name like concat('%',#{condition.rectorName},'%')
+            </if>
+        </where>
+    </select>
+    <select id="selectRector" resultType="com.kindergarten.bean.Rector" parameterType="java.util.HashMap">
+        /*parameterType输入参数，resultType是输出结果*/
+        select rector_id, rector_name, rector_tel, rector_pwd, rector_sex, rector_age, rector_add, rector_regtime,
+         rid, rector_status, kinder_id from tbl_rector
+        <where>
+            <if test="condition.rectorName!=null and condition.rectorName !=''">
+                and rector_name like concat('%',#{condition.rectorName},'%')
+            </if>
+        </where>
+        limit ${(curPage-1)*pageSize},${pageSize}
+    </select>
+
+    <update id="upByRector" parameterType="java.lang.Integer">
+      update tbl_rector set rector_status=1 where rector_id=#{id};
+    </update>
+    <update id="banByRector" parameterType="java.lang.Integer">
+         update tbl_rector set rector_status=2 where rector_id=#{id};
+    </update>
+
+    <select id="selectOneByRector" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*) from tbl_rector where rector_tel=#{rectorTel};
+    </select>
+    <insert id="insertRector" parameterType="com.kindergarten.bean.Rector">
+   insert into tbl_rector( rector_name, rector_tel, rector_pwd,
+   rector_sex, rector_age, rector_add)
+   VALUES (#{rectorName},#{rectorTel},#{rectorPwd},#{rectorSex},#{rectorAge},#{rectorAdd})
+    </insert>
+
+
+    <select id="selectStudent" resultType="com.kindergarten.bean.Students" parameterType="java.util.HashMap">
+        /*parameterType输入参数，resultType是输出结果*/
+        select t.student_id, t.student_name, t.student_sex, t.student_birth,t.student_add,
+         t.student_time, c.class_id ,c.class_name, c.kinder_id, c.kinder_name from tbl_students t,
+        tbl_classes c
+        <where>
+            t.class_id=c.class_id and t.kinder_id=c.kinder_id
+            <if test="condition.studentName!=null and condition.studentName !=''">
+                and t.student_name like concat('%',#{condition.studentName},'%')
+            </if>
+        </where>
+        limit ${(curPage-1)*pageSize},${pageSize}
+    </select>
+    <select id="selectStudentCount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+        /*parameterType输入参数，resultType是输出结果*/
+        select count(*)from tbl_students
+        <where>
+            <if test="condition.studentName!=null and condition.studentName !=''">
+                and student_name like concat('%',#{condition.studentName},'%')
+            </if>
+        </where>
+    </select>
+    <select id="selectClassName" resultType="com.kindergarten.bean.Students">
+        SELECT  DISTINCT class_name FROM tbl_classes;
+    </select>
+    <select id="findClassesList" resultMap="classesList" >
+        /*parameterType输入参数，resultType是输出结果*/
+        select kinder_id, kinder_name,class_id, class_name from tbl_classes
+    </select>
+    <resultMap id="classesList" type="com.kindergarten.bean.Classes">
+        <result property="kinderId" column="kinder_id"></result>
+        <result property="kinderName" column="kinder_name"></result>
+        <collection property="classes" ofType="com.kindergarten.bean.Classes">
+            <result property="classId" column="class_id"></result>
+            <result property="className" column="class_name"></result>
+        </collection>
+    </resultMap>
+    <select id="selectClasses" parameterType="java.lang.Integer" resultType="com.kindergarten.bean.Classes">
+        select class_id,class_name from tbl_classes where kinder_id=#{kinderId};
+    </select>
+    <insert id="insertStudent" parameterType="com.kindergarten.bean.Students">
+        insert into tbl_students (student_name, student_sex, student_birth, student_add, class_id, kinder_id)
+         VALUES (#{studentName},#{studentSex},#{studentBirth},#{studentAdd},#{classId},#{kinderId})
+    </insert>
 </mapper>
