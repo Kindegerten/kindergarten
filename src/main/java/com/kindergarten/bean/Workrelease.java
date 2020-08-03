@@ -93,4 +93,7 @@ public class Workrelease {
         this.teacherName = teacherName;
         this.workResult = workResult;
     }
+
+    public void setWorkEva(String work_eva) {
+    }
 }

@@ -1,7 +1,9 @@
 package com.kindergarten.mapper;
 
-import com.kindergarten.bean.TblTeachers;
+import com.kindergarten.bean.Photo;
+import com.kindergarten.bean.Teachers;
 import com.kindergarten.bean.TblWorkrelease;
+import com.kindergarten.bean.Work;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -11,7 +13,7 @@ import java.util.List;
 public interface TeacherMapper
 {
 
-   public TblTeachers tologin(String tel);
+   public Teachers tologin(String tel);
    public String FindRole(int teacherid);
    //修改密码
    public int updatePwd(@Param("tel") String tel, @Param("pwd") String password);
@@ -24,5 +26,16 @@ public interface TeacherMapper
    int publishTaskAdd(TblWorkrelease tblPublishTask);
    //删除
    int delPublishTask(TblWorkrelease tblPublishTask);
+
+   //查宝宝作业表格
+   List<Work> selectList(@Param("e") TblWorkrelease tblPublishTask, @Param("start") int start, @Param("pageSize") int pageSize);
+   int selectListCount(TblWorkrelease tblPublishTask);
+   //修改作业评级
+   int updateTask(@Param("e") Work tblTask);
+
+   //班级相册
+   List<Photo> photoSelectList(@Param("idNum") int idNum, @Param("start") int start, @Param("pageSize") int pageSize);
+   int photoSelectListCount();
+   int addClassPhoto(@Param("e") Photo classPhoto);
 
 }

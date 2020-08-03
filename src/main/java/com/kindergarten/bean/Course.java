@@ -1,6 +1,6 @@
 package com.kindergarten.bean;
 
-public class TblCourse
+public class Course
 {
 
     private int courseId;
@@ -10,11 +10,11 @@ public class TblCourse
     private String courseBanji;
     private int teacherId;
 
-    public TblCourse(){
+    public Course(){
 
     }
 
-    public TblCourse(int courseId, String courseName, int courseWeek, int courseJieci, String courseBanji, int teacherId) {
+    public Course(int courseId, String courseName, int courseWeek, int courseJieci, String courseBanji, int teacherId) {
         this.courseId = courseId;
         this.courseName = courseName;
         this.courseWeek = courseWeek;

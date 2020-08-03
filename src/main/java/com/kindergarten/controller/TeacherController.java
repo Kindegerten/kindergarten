@@ -1,9 +1,7 @@
 package com.kindergarten.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.kindergarten.bean.LayuiData;
-import com.kindergarten.bean.TblTeachers;
-import com.kindergarten.bean.TblWorkrelease;
+import com.kindergarten.bean.*;
 import com.kindergarten.mapper.TeacherMapper;
 import com.kindergarten.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +38,7 @@ public class TeacherController {
         System.out.println("tel:"+tel);
         String password = request.getParameter("password");
         System.out.println("password:"+password);
-        TblTeachers tblTeachers = teacherService.login(tel);
+        Teachers tblTeachers = teacherService.login(tel);
         System.out.println("tblTeachers.....:"+tblTeachers);
         String res = "";
         if (tblTeachers != null) {
@@ -76,7 +74,7 @@ public class TeacherController {
     @ResponseBody
     public String UpdatePwd(String oldpwd,String newpwd,HttpServletRequest request) throws ServletException, IOException {
 
-        TblTeachers tblTeachers = (TblTeachers) request.getSession().getAttribute("tblTeachers");
+        Teachers tblTeachers = (Teachers) request.getSession().getAttribute("tblTeachers");
 
         if (oldpwd.equals(tblTeachers.getTeacherPwd())){
 
@@ -111,7 +109,7 @@ public class TeacherController {
         System.out.println("开始时间"+arr1[0]);
         System.out.println("周日时间"+arr1[1]);
 
-        TblTeachers tblTeachers =(TblTeachers) request.getSession().getAttribute("tblTeachers");
+        Teachers tblTeachers =(Teachers) request.getSession().getAttribute("tblTeachers");
         tblWorkrelease.setTeacherId(tblTeachers.getTeacherId());
 
         LayuiData layuiData = teacherService.publishJobList(tblWorkrelease,Integer.parseInt(pageStr), Integer.parseInt(pageSizeStr));
@@ -170,7 +168,7 @@ public class TeacherController {
     @RequestMapping(value = "/publishTaskAdd")
     @ResponseBody
     public Object pblishTaskAdd(HttpServletRequest request, HttpServletResponse response, TblWorkrelease tblPublishTask){
-        TblTeachers staffRo=(TblTeachers) request.getSession().getAttribute("tblTeachers");
+        Teachers staffRo=(Teachers) request.getSession().getAttribute("tblTeachers");
         tblPublishTask.setTeacherId(staffRo.getTeacherId());
         tblPublishTask.setClassId(staffRo.getClassId());
 
@@ -216,7 +214,7 @@ public class TeacherController {
             System.out.println("projectPath:"+projectPath);
             LayuiData layuiData=new LayuiData();
             layuiData.setCode(0);
-            layuiData.setMsg("成功");
+            layuiData.setMsg("projectPath");
             return JSON.toJSONString(layuiData);
         }catch (IOException e) {
             e.printStackTrace();
@@ -235,6 +233,69 @@ public class TeacherController {
             System.out.println("删除成功");
         }else {
             System.out.println("删除失败");
+        }
+        return JSON.toJSONString(i);
+    }
+
+    /*查询宝宝作业*/
+    @RequestMapping(value = "/taskSelectList")
+    @ResponseBody
+    public String taskSelectList(HttpServletRequest request, HttpServletResponse response, TblWorkrelease tblPublishTask) {
+        String pageStr = request.getParameter("page");//页码
+        String pageSizeStr = request.getParameter("limit");//每页记录数
+
+        Teachers staffRo=(Teachers) request.getSession().getAttribute("tblTeachers");
+        tblPublishTask.setTeacherId(staffRo.getTeacherId());
+
+        LayuiData layuiData = teacherService.selectList(tblPublishTask,Integer.parseInt(pageStr), Integer.parseInt(pageSizeStr));
+        return JSON.toJSONString(layuiData);
+    }
+
+    /*修改作业评级*/
+    @RequestMapping(value = "/updateTaskLevel")
+    @ResponseBody
+    public Object updateTaskLevel(HttpServletRequest request, HttpServletResponse response, Work tblTask){
+        int i = teacherService.updateTask(tblTask);
+        if (i ==1){
+            System.out.println("修改成功");
+
+        }else {
+            System.out.println("修改失败");
+        }
+        return JSON.toJSONString(i);
+
+    }
+
+    /*班级相册查询*/
+    @RequestMapping(value = "/classSelectList")
+    @ResponseBody
+    public String selectList(HttpServletRequest request, HttpServletResponse response ) {
+        String pageStr = request.getParameter("page");//页码
+        String pageSizeStr = request.getParameter("limit");//每页记录数
+
+        Teachers staffRo=(Teachers) request.getSession().getAttribute("tblTeachers");
+        int idNum =staffRo.getTeacherId();
+        LayuiData layuiData = teacherService.phototSelectList(idNum,Integer.parseInt(pageStr), Integer.parseInt(pageSizeStr));
+        return JSON.toJSONString(layuiData);
+    }
+
+
+    /*添加班级图片*/
+    @RequestMapping(value = "/addClassPhoto")
+    @ResponseBody
+    public Object addClassPhoto(HttpServletRequest request, HttpServletResponse response,  Photo classPhoto){
+
+        Teachers staffRo=(Teachers) request.getSession().getAttribute("tblTeachers");
+        classPhoto.setClassId(staffRo.getClassId());
+
+
+        System.out.println(JSON.toJSONString(classPhoto));
+        int i = teacherService.addClassPhoto(classPhoto);
+
+        if (i ==1){
+            System.out.println("添加成功");
+        }else {
+            System.out.println("添加失败");
         }
         return JSON.toJSONString(i);
     }
