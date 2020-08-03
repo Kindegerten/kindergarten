@@ -101,8 +101,8 @@ public class ParentServiceimpl implements ParentService {
 //
 //            }
 
-        System.out.println(JSON.toJSONString(map));
-        System.out.println(JSON.toJSONString(workreleases));
+//        System.out.println(JSON.toJSONString(map));
+//        System.out.println(JSON.toJSONString(workreleases));
 
         layuiData=new LayuiData<>(0,"",totalRecord,workreleases);
 
