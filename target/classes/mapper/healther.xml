@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kindergarten.mapper.HealtherMapper">
+    <!--    namespace需要和mapper接口相对应-->
+    <!--    登录-->
+    <select id="login" resultType="com.kindergarten.bean.Healther">
+        select * from tbl_healther
+        <where>
+            <if test="healtherPhone!=null and healtherPhone!=''">
+                healther_phone = #{healtherPhone}
+            </if>
+            <if test="healtherPwd!=null and healtherPwd!=''">
+                and healther_pwd=#{healtherPwd}
+            </if>
+        </where>
+    </select>
+
+<!--    体检管理列表-->
+    <select id="bodyCheck" resultType="com.kindergarten.bean.Examination">
+        select * from tbl_examination e inner join
+        (select class_id from tbl_classes
+        <where>
+            <if test="condition.kinderName != null and condition.kinderName != ''">
+                and kinder_name like concat('%',#{condition.kinderName},'%')
+            </if>
+            <if test=" condition.className!= null and condition.className != ''">
+                and class_name like concat('%',#{condition.className},'%')
+            </if>
+        </where>
+        ) c on e.class_id=c.class_id
+        limit ${(curPage-1)*pageSize},${pageSize}
+    </select>
+<!--    体检列表总条数-->
+    <select id="bodyCheckcount" resultType="int">
+        select count(*) from tbl_examination e inner join
+        (select class_id from tbl_classes
+        <where>
+            <if test="kinderName != null and kinderName != ''">
+                and kinder_name like concat('%',#{kinderName},'%')
+            </if>
+            <if test=" className!= null and className != ''">
+                and class_name like concat('%',#{className},'%')
+            </if>
+        </where>
+        ) c on e.class_id=c.class_id
+    </select>
+<!--    增加体检信息-->
+    <insert id="addExamination" parameterType="com.kindergarten.bean.Examination" useGeneratedKeys="true" keyProperty="examinationId">
+        insert into tbl_examination(student_name,sid,class_id,height,weight,vision,temperature,health_status)
+        values (#{studentName},#{sid},#{classId},#{height},#{weight},#{vision},#{temperature},#{healthStatus})
+    </insert>
+<!--    更新体检信息-->
+    <update id="updateExamination" parameterType="com.kindergarten.bean.Examination">
+        update tbl_examination set student_name=#{studentName},height=#{height},weight=#{weight},vision=#{vision},temperature=#{temperature},health_status=#{healthStatus}
+         where sid=#{sid}
+    </update>
+    <!--    膳食管理列表-->
+    <select id="meallist" resultType="com.kindergarten.bean.Meal">
+        select * from tbl_meal order by meal_datescope desc limit ${(curPage-1)*pageSize},${pageSize}
+    </select>
+    <!--    膳食列表总条数-->
+    <select id="meallistcount" resultType="int">
+        select count(*) from tbl_meal
+    </select>
+    <!--    增加膳食-->
+    <insert id="addmeal" parameterType="com.kindergarten.bean.Meal" useGeneratedKeys="true" keyProperty="mealId">
+        insert into tbl_meal(meal_type,meal_datescope,monday,tuesday,wednesday,thursday,friday)
+        values (#{mealType},#{mealDatescope},#{monday},#{tuesday},#{wednesday},#{thursday},#{friday}),
+               (#{mealType},#{mealDatescope},#{monday},#{tuesday},#{wednesday},#{thursday},#{friday}),
+               (#{mealType},#{mealDatescope},#{monday},#{tuesday},#{wednesday},#{thursday},#{friday}),
+    </insert>
+    <!--    修改膳食信息-->
+    <update id="updatemeal" parameterType="com.kindergarten.bean.Meal">
+        update tbl_meal set meal_type=#{mealType},meal_datescope=#{mealDatescope},monday=#{monday},tuesday=#{tuesday},wednesday=#{wednesday},thursday=#{thursday},friday=#{friday}
+         where meal_id=#{mealId}
+    </update>
+</mapper>
