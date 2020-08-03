@@ -59,9 +59,9 @@
                 <div class="layui-card-header">
 <%--                    <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除--%>
 <%--                    </button>--%>
-                    <button class="layui-btn" onclick="xadmin.open('添加用户','/platform/student-add.jsp',600,400)"><i
-                            class="layui-icon"></i>添加
-                    </button>
+<%--                    <button class="layui-btn" onclick="xadmin.open('添加用户','/platform/student-add.jsp',600,400)"><i--%>
+<%--                            class="layui-icon"></i>添加--%>
+<%--                    </button>--%>
                     <%--                            <button class="layui-btn"><i class="layui-icon">&#xe642;</i>修改会员等级</button>--%>
                 </div>
                 <div class="layui-card-body layui-table-body layui-table-main">
@@ -94,18 +94,18 @@
             , url:"/platformController/selectStudent"//数据接口?roleID="+5
             // ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , cols: [[
-               ,{field: 'studentId', title: 'id', width: 80,fixed: 'left', hide: "true" }
-                , {field: 'studentName', title: '用户名', width: 80}
-                , {field: 'studentBirth', title: '生日', width: 80}
-                , {field: 'studentSex', title: '性别', width: 80, sort: true}
+               ,{field: 'studentId', title: 'id',fixed: 'left', hide: "true" }
+                , {field: 'studentName', title: '用户名'}
+                , {field: 'studentBirth', title: '生日'}
+                , {field: 'studentSex', title: '性别', sort: true}
                 // , {field: 'healtherAge', title: '年龄', width: 80, sort: true}
-                , {field: 'className', title: '班级', width: 100, sort: true}
-                , {field: 'kinderName', title: '所属园区', width: 100, sort: true}
-                , {field: 'studentAdd', title: '地址', width: 120, sort: true}
-                , {field: 'studentTime', title: '注册时间', width: 120, sort: true,
+                , {field: 'className', title: '班级', sort: true}
+                , {field: 'kinderName', title: '所属园区', sort: true}
+                , {field: 'studentAdd', title: '地址',width: 200, sort: true}
+                , {field: 'studentTime', title: '注册时间',width: 200, sort: true,
                     templet: function(d) {return util.toDateString(d.healtherRegtime)}
                 }
-                , {title: '操作', align: 'center', width: 250, toolbar:'#barDemo'}
+                // , {title: '操作', align: 'center',  toolbar:'#barDemo'}
 
 
             ]],

@@ -11,7 +11,7 @@
 <html class="x-admin-sm">
 <head>
     <meta charset="UTF-8">
-    <title>安防员列表</title>
+    <title>园所审批</title>
     <%
         String path = request.getContextPath();
     %>
@@ -21,13 +21,15 @@
           content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
     <link rel="stylesheet" href="<%=path%>/static/X-admin/css/font.css">
     <link rel="stylesheet" href="<%=path%>/static/X-admin/css/xadmin.css">
+    <link rel="stylesheet" href="<%=path%>/static/layui/css/layui.css">
     <!-- <link rel="stylesheet" href="./css/theme5.css"> -->
     <script src="<%=path%>/static/X-admin/lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="<%=path%>/static/X-admin/js/xadmin.js"></script>
-    <!--[if lt IE 9]>
-    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+
+<%--    <!--[if lt IE 9]>--%>
+<%--    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>--%>
+<%--    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>--%>
+<%--    <![endif]-->--%>
 </head>
 <body>
 <div class="x-nav">
@@ -41,25 +43,65 @@
        onclick="location.reload()" title="刷新">
         <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i></a>
 </div>
-<div class="layui-fluid">
-    <div class="layui-row layui-col-space15">
+
+
+<div class="layui-row layui-col-space15">
         <div class="layui-col-md12">
             <div class="layui-card">
-                <div class="layui-card-body demoTable">
-                    <div class="layui-inline layui-show-xs-block">
-                        <input type="text" name="securityName" lay-verify="required" id="securityName" placeholder="请输入用户名" autocomplete="off"
-                               class="layui-input">
+                <div class="layui-card-body demoTable layui-form"  >
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">申请时间</label>
+                            <div class="layui-inline layui-show-xs-block">
+                                <input class="layui-input " autocomplete="off" placeholder="开始日" name="start" id="start">
+                            </div>
+                            <div class="layui-inline layui-show-xs-block">
+                                <input class="layui-input" autocomplete="off" placeholder="截止日" name="end" id="end">
+                            </div>
+
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">园所名称</label>
+                            <div class="layui-inline layui-show-xs-block">
+                                <input type="text" name="healtherName" lay-verify="required" id="healtherName" placeholder="请输入用户名" autocomplete="off"
+                                       class="layui-input">
+                            </div>
+                        </div>
+
                     </div>
-                    <div class="layui-inline layui-show-xs-block">
-                        <button data-type="reload" class="layui-btn" id="search"><i class="layui-icon">&#xe615;</i>
-                        </button>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">类型</label>
+                        <div class="layui-input-inline ">
+                            <select name="city" lay-verify="">
+                                <option value="">请选择一个城市</option>
+                                <option value="010">北京</option>
+                                <option value="021">上海</option>
+                                <option value="0571">杭州</option>
+                            </select>
+                        <%--                            <select id="type_mid1" name="vt_id" lay-filter="type_mid">--%>
+<%--                                {foreach name='type' item='v'}--%>
+<%--                                <option {if condition="$subjectInfo['vt_id'] eq $v['vt_id']"} selected {if} value="{$v.vt_id}">{$v.vt_name}</option>--%>
+<%--                                {/foreach}--%>
+<%--                            </select>--%>
+                        </div>
+                        <div class="layui-input-inline ">
+                            <button data-type="reload"   class="layui-btn">查询</button>
+                        </div>
+
                     </div>
+
+
+
+<%--                    <div class="layui-inline layui-show-xs-block">--%>
+<%--                        <button data-type="reload" class="layui-btn" id="search"><i class="layui-icon">&#xe615;</i>--%>
+<%--                        </button>--%>
+<%--                    </div>--%>
                     <%--                            </form>--%>
                 </div>
                 <div class="layui-card-header">
 <%--                    <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除--%>
 <%--                    </button>--%>
-<%--                    <button class="layui-btn" onclick="xadmin.open('添加用户','/platform/security-add.jsp',600,400)"><i--%>
+<%--                    <button class="layui-btn" onclick="xadmin.open('添加用户','/platform/healther-add.jsp',600,400)"><i--%>
 <%--                            class="layui-icon"></i>添加--%>
 <%--                    </button>--%>
                     <%--                            <button class="layui-btn"><i class="layui-icon">&#xe642;</i>修改会员等级</button>--%>
@@ -80,6 +122,7 @@
         // var path = $("#path").val();
 
         var form = layui.form;
+        form.render();
         var laypage = layui.laypage;
         var table = layui.table;
         var laydate = layui.laydate;
@@ -91,34 +134,34 @@
             elem: '#usertable',
             id: 'listReload',
             page: true
-            , url:"/platformController/selectParents?roleID="+3//数据接口?roleID="+5
+            , url:"/platformController/selectParents?roleID="+4//数据接口?roleID="+5
             // ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , cols: [[
-               ,{field: 'securityId', title: 'id', fixed: 'left', hide: "true" }
-                , {field: 'securityName', title: '用户名'}
-                , {field: 'securityPwd', title: '密码'}
-                , {field: 'securitySex', title: '性别', sort: true}
-                , {field: 'securityAge', title: '年龄', sort: true}
-                , {field: 'securityPhone', title: '手机号', sort: true}
-                , {field: 'securityAdd', title: '地址',width: 200, sort: true}
-                , {field: 'securityRegtime', title: '注册时间',width: 200, sort: true,
-                    templet: function(d) {return util.toDateString(d.securityRegtime)}
+               ,{field: 'healtherId', title: 'id',fixed: 'left', hide: "true" }
+                , {field: 'healtherName', title: '用户名'}
+                , {field: 'healtherPwd', title: '密码'}
+                , {field: 'healtherSex', title: '性别', sort: true}
+                , {field: 'healtherAge', title: '年龄', sort: true}
+                , {field: 'healtherPhone', title: '手机号', sort: true}
+                , {field: 'healtherAdd', title: '地址', width: 200,sort: true}
+                , {field: 'healtherRegtime', title: '注册时间', sort: true,width: 200,
+                    templet: function(d) {return util.toDateString(d.healtherRegtime)}
                 }
                 , {
-                    field: 'securityStatus',
+                    field: 'healtherStatus',
                     title: '状态',
                     sort: true,
                     templet:    function (d) {
                         // console.log(d.parentsStatus);
                          // return d.parentsStatus == 1 ? "启用":"禁用";
-                        if (d.securityStatus == 1) {
+                        if (d.healtherStatus == 1) {
                             return "<span style='color:green'>启用</span>";
-                        } else if (d.securityStatus == 2) {
+                        } else if (d.healtherStatus == 2) {
                             return "<span style='color:red'>禁用</span>";
                         }
                     }
                 }
-                , {title: '操作', align: 'center',width: 150,  toolbar:'#barDemo'}
+                , {title: '操作', align: 'center', width: 150, toolbar:'#barDemo'}
 
 
             ]],
@@ -126,10 +169,11 @@
                 pageName: 'curPage' //页码的参数名称，默认：page
                 , limitName: 'pageSize' //每页数据量的参数名，默认：limit
             }
+
         });
         var active = {
             reload: function () {
-                var securityName = $('#securityName').val();
+                var healtherName = $('#healtherName').val();
                 // console.log(parentsName)
                 //执行重载
                 table.reload('listReload', {
@@ -137,7 +181,7 @@
                         curr: 1 //重新从第 1 页开始
                     }
                     , where: {
-                        securityName: securityName,
+                        healtherName: healtherName,
                         // roleID:5,//等级id，进行分类的分页查询要用
                         // start:start,
                         // end:end
@@ -150,7 +194,13 @@
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
-
+        /* 执行ladate实例*/
+        laydate.render({
+            elem: '#start'
+        })
+        laydate.render({
+            elem: '#end'
+        })
         table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data; //获得当前行数据
             // console.log(data.parentsId);
@@ -163,7 +213,7 @@
                     url: "/platformController/updateParents",
                     asnyc: true,
                     type: "Post",
-                    data: "id=" + data.securityId + "&type=" + 2+"&roleId="+3,
+                    data: "id=" + data.healtherId + "&type=" + 2+"&roleId="+4,
                     dataType: "text",
                     success: function (msg) {
                         layer.msg("修改成功"),
@@ -175,7 +225,7 @@
                     url:"/platformController/updateParents",
                     asnyc: true,
                     type: "Post",
-                    data: "id=" + data.securityId + "&type=" + 1+"&roleId="+3,
+                    data: "id=" + data.healtherId + "&type=" + 1+"&roleId="+4,
                     dataType: "text",
                     success: function (msg) {
                         layer.msg("修改成功"),

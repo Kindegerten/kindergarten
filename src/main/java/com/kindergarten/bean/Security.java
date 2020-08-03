@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class Security {
 
-    private int securityId,securityAge,rid,securityState;
+    private int securityId,securityAge,rid,securityState;//??
     private String securityName,securityPwd,securityAdd,securityRegtime,vCode;
     private String securityPhone,securitySex,securityStateName;
 

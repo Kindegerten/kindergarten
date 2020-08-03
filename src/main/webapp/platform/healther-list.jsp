@@ -59,9 +59,9 @@
                 <div class="layui-card-header">
 <%--                    <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除--%>
 <%--                    </button>--%>
-                    <button class="layui-btn" onclick="xadmin.open('添加用户','/platform/healther-add.jsp',600,400)"><i
-                            class="layui-icon"></i>添加
-                    </button>
+<%--                    <button class="layui-btn" onclick="xadmin.open('添加用户','/platform/healther-add.jsp',600,400)"><i--%>
+<%--                            class="layui-icon"></i>添加--%>
+<%--                    </button>--%>
                     <%--                            <button class="layui-btn"><i class="layui-icon">&#xe642;</i>修改会员等级</button>--%>
                 </div>
                 <div class="layui-card-body layui-table-body layui-table-main">
@@ -94,20 +94,19 @@
             , url:"/platformController/selectParents?roleID="+4//数据接口?roleID="+5
             // ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , cols: [[
-               ,{field: 'healtherId', title: 'id', width: 80,fixed: 'left', hide: "true" }
-                , {field: 'healtherName', title: '用户名', width: 80}
-                , {field: 'healtherPwd', title: '密码', width: 80}
-                , {field: 'healtherSex', title: '性别', width: 80, sort: true}
-                , {field: 'healtherAge', title: '年龄', width: 80, sort: true}
-                , {field: 'healtherPhone', title: '手机号', width: 120, sort: true}
-                , {field: 'healtherAdd', title: '地址', width: 120, sort: true}
-                , {field: 'healtherRegtime', title: '注册时间', width: 120, sort: true,
+               ,{field: 'healtherId', title: 'id',fixed: 'left', hide: "true" }
+                , {field: 'healtherName', title: '用户名'}
+                , {field: 'healtherPwd', title: '密码'}
+                , {field: 'healtherSex', title: '性别', sort: true}
+                , {field: 'healtherAge', title: '年龄', sort: true}
+                , {field: 'healtherPhone', title: '手机号', sort: true}
+                , {field: 'healtherAdd', title: '地址', width: 200,sort: true}
+                , {field: 'healtherRegtime', title: '注册时间', sort: true,width: 200,
                     templet: function(d) {return util.toDateString(d.healtherRegtime)}
                 }
                 , {
                     field: 'healtherStatus',
                     title: '状态',
-                    width: 80,
                     sort: true,
                     templet:    function (d) {
                         // console.log(d.parentsStatus);
@@ -119,7 +118,7 @@
                         }
                     }
                 }
-                , {title: '操作', align: 'center', width: 250, toolbar:'#barDemo'}
+                , {title: '操作', align: 'center', width: 150, toolbar:'#barDemo'}
 
 
             ]],
