@@ -1,46 +1,38 @@
 package com.kindergarten.bean;
 
-<<<<<<< HEAD
 import java.util.Date;
 
-=======
->>>>>>> origin/master
 public class Students {
     private int studentId;
     private String studentName;
     private String studentSex;
     private String studentBirth;
     private String studentAdd;
-<<<<<<< HEAD
-    private Date studentTime;
-    private int classId;
+
+
     private String className;
     private int  kinderId;
     private String kinderName;
-=======
+
     private String studentTime;
     private int classId;
-    private int kinderId;
 
->>>>>>> origin/master
+
 
     public Students() {
     }
 
-<<<<<<< HEAD
-=======
-    public Students(int studentId, String studentName, String studentSex, String studentBirth, String studentAdd, String studentTime, int classId, int kinderId) {
+    public Students(int studentId, String studentName, String studentSex, String studentBirth, String studentAdd, int kinderId, String studentTime, int classId) {
         this.studentId = studentId;
         this.studentName = studentName;
         this.studentSex = studentSex;
         this.studentBirth = studentBirth;
         this.studentAdd = studentAdd;
+        this.kinderId = kinderId;
         this.studentTime = studentTime;
         this.classId = classId;
-        this.kinderId = kinderId;
     }
 
->>>>>>> origin/master
     public int getStudentId() {
         return studentId;
     }
@@ -81,19 +73,35 @@ public class Students {
         this.studentAdd = studentAdd;
     }
 
-<<<<<<< HEAD
-    public Date getStudentTime() {
-        return studentTime;
+    public String getClassName() {
+        return className;
     }
 
-    public void setStudentTime(Date studentTime) {
-=======
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
+    public int getKinderId() {
+        return kinderId;
+    }
+
+    public void setKinderId(int kinderId) {
+        this.kinderId = kinderId;
+    }
+
+    public String getKinderName() {
+        return kinderName;
+    }
+
+    public void setKinderName(String kinderName) {
+        this.kinderName = kinderName;
+    }
+
     public String getStudentTime() {
         return studentTime;
     }
 
     public void setStudentTime(String studentTime) {
->>>>>>> origin/master
         this.studentTime = studentTime;
     }
 
@@ -104,34 +112,4 @@ public class Students {
     public void setClassId(int classId) {
         this.classId = classId;
     }
-
-<<<<<<< HEAD
-    public String getClassName() {
-        return className;
-    }
-
-    public void setClassName(String className) {
-        this.className = className;
-    }
-
-=======
->>>>>>> origin/master
-    public int getKinderId() {
-        return kinderId;
-    }
-
-    public void setKinderId(int kinderId) {
-        this.kinderId = kinderId;
-    }
-<<<<<<< HEAD
-
-    public String getKinderName() {
-        return kinderName;
-    }
-
-    public void setKinderName(String kinderName) {
-        this.kinderName = kinderName;
-    }
-=======
->>>>>>> origin/master
 }

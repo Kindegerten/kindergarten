@@ -1,34 +1,20 @@
 package com.kindergarten.bean;
 
-<<<<<<< HEAD
+
 import java.util.Date;
 
-public class Security {
-    private int securityId;
-    private String securityName;
-    private String securitySex;
-    private int securityAge;
-    private String securityAdd;
-    private String securityPhone;
-    private Date securityRegtime;
-    private int rid;
-    private int securityStatus;
-    private String securityPwd;
-=======
-import java.math.BigDecimal;
+
 
 public class Security {
 
     private int securityId,securityAge,rid,securityState;
     private String securityName,securityPwd,securityAdd,securityRegtime,vCode;
     private String securityPhone,securitySex,securityStateName;
->>>>>>> origin/master
+
 
     public Security() {
     }
 
-<<<<<<< HEAD
-=======
     public Security(int securityId, int securityAge, int rid, int securityState, String securityName, String securityPwd, String securityAdd, String securityRegtime, String vCode, String securityPhone, String securitySex, String securityStateName) {
         this.securityId = securityId;
         this.securityAge = securityAge;
@@ -62,7 +48,6 @@ public class Security {
                 '}';
     }
 
->>>>>>> origin/master
     public int getSecurityId() {
         return securityId;
     }
@@ -71,30 +56,6 @@ public class Security {
         this.securityId = securityId;
     }
 
-<<<<<<< HEAD
-    public String getSecurityName() {
-        return securityName;
-    }
-
-    public void setSecurityName(String securityName) {
-        this.securityName = securityName;
-    }
-
-    public String getSecuritySex() {
-        return securitySex;
-    }
-
-    public void setSecuritySex(String securitySex) {
-        this.securitySex = securitySex;
-    }
-
-    public int getSecurityAge() {
-        return securityAge;
-    }
-
-    public void setSecurityAge(int securityAge) {
-        this.securityAge = securityAge;
-=======
     public int getSecurityAge() {
         return securityAge;
     }
@@ -133,7 +94,6 @@ public class Security {
 
     public void setSecurityPwd(String securityPwd) {
         this.securityPwd = securityPwd;
->>>>>>> origin/master
     }
 
     public String getSecurityAdd() {
@@ -144,46 +104,6 @@ public class Security {
         this.securityAdd = securityAdd;
     }
 
-<<<<<<< HEAD
-    public String getSecurityPhone() {
-        return securityPhone;
-    }
-
-    public void setSecurityPhone(String securityPhone) {
-        this.securityPhone = securityPhone;
-    }
-
-    public Date getSecurityRegtime() {
-        return securityRegtime;
-    }
-
-    public void setSecurityRegtime(Date securityRegtime) {
-        this.securityRegtime = securityRegtime;
-    }
-
-    public int getRid() {
-        return rid;
-    }
-
-    public void setRid(int rid) {
-        this.rid = rid;
-    }
-
-    public int getSecurityStatus() {
-        return securityStatus;
-    }
-
-    public void setSecurityStatus(int securityStatus) {
-        this.securityStatus = securityStatus;
-    }
-
-    public String getSecurityPwd() {
-        return securityPwd;
-    }
-
-    public void setSecurityPwd(String securityPwd) {
-        this.securityPwd = securityPwd;
-=======
     public String getSecurityRegtime() {
         return securityRegtime;
     }
@@ -222,6 +142,5 @@ public class Security {
 
     public void setSecurityStateName(String securityStateName) {
         this.securityStateName = securityStateName;
->>>>>>> origin/master
     }
 }
