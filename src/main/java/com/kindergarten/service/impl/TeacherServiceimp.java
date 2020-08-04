@@ -2,8 +2,8 @@ package com.kindergarten.service.impl;
 
 
 import com.kindergarten.bean.LayuiData;
-import com.kindergarten.bean.TblTeachers;
-import com.kindergarten.bean.TblWorkrelease;
+import com.kindergarten.bean.Teachers;
+import com.kindergarten.bean.Workrelease;
 import com.kindergarten.mapper.TeacherMapper;
 import com.kindergarten.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,20 +18,20 @@ public class TeacherServiceimp implements TeacherService {
     private TeacherMapper teacherMapper;
 
     @Override
-    public TblTeachers login(String tel)
+    public Teachers login(String tel)
     {
-        TblTeachers tblTeachers = null;
+        Teachers tblTeachers = null;
         tblTeachers = teacherMapper.tologin(tel);
         return tblTeachers;
     }
 
     @Override
-    public LayuiData publishJobList(TblWorkrelease tblWorkrelease, int page, int pageSize) {
+    public LayuiData publishJobList(Workrelease workrelease, int page, int pageSize) {
         int start = (page - 1) * pageSize;//计算出起始查询位置
         if(start<0)
             start=0;
-        List<TblWorkrelease> list = teacherMapper.publishJobList(tblWorkrelease, start, pageSize);
-        int count = teacherMapper.publishJobListCount(tblWorkrelease);
+        List<Workrelease> list = teacherMapper.publishJobList(workrelease, start, pageSize);
+        int count = teacherMapper.publishJobListCount(workrelease);
 
         LayuiData layuiData = new LayuiData();
         if (list.size() > 0) {
@@ -48,14 +48,14 @@ public class TeacherServiceimp implements TeacherService {
     }
 
     @Override
-    public int publishTaskAdd(TblWorkrelease tblWorkrelease) {
-        int i=teacherMapper.publishTaskAdd(tblWorkrelease);
+    public int publishTaskAdd(Workrelease workrelease) {
+        int i=teacherMapper.publishTaskAdd(workrelease);
         return i;
     }
 
     @Override
-    public int delPublishTask(TblWorkrelease tblWorkrelease) {
-        int i=teacherMapper.delPublishTask(tblWorkrelease);
+    public int delPublishTask(Workrelease workrelease) {
+        int i=teacherMapper.delPublishTask(workrelease);
         return i;
     }
 }

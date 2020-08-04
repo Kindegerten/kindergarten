@@ -1,4 +1,4 @@
-<%@ page import="com.kindergarten.bean.TblTeachers" %>
+<%@ page import="com.kindergarten.bean.Teachers" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html class="x-admin-sm">
@@ -19,7 +19,7 @@
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <%TblTeachers tblTeachers= (TblTeachers) request.getSession().getAttribute("tblTeachers"); %>
+    <%Teachers tblTeachers= (Teachers) request.getSession().getAttribute("tblTeachers"); %>
 </head>
 <body class="index">
 <!-- 顶部开始 -->

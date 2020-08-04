@@ -15,8 +15,12 @@ public interface HealtherMapper {
     //登录
     Healther login(String healtherPhone, String healtherPwd);
 
+    //修改个人信息
+    int updateSelf(Healther healther);
+
     //体检列表
     List<Examination> bodyCheck(@Param("condition") HashMap<String, Object> condition, @Param("curPage") int curPage, @Param("pageSize") int pageSize);
+
     //体检列表数据总条数
     int bodyCheckcount(HashMap<String, Object> condition);
 
@@ -37,6 +41,7 @@ public interface HealtherMapper {
 
     //修改膳食信息
     int updatemeal(Meal meal);
+
 
 
 }

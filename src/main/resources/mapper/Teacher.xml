@@ -5,12 +5,12 @@
 
 <mapper namespace="com.kindergarten.mapper.TeacherMapper">
     
-    <select id="tologin" resultType="com.kindergarten.bean.TblTeachers"
+    <select id="tologin" resultType="com.kindergarten.bean.Teachers"
     parameterType="java.lang.String">
      select * from tbl_teachers where teacher_tel=#{teacherTel}
     </select>
 
-    <select id="FindRole" parameterType="java.lang.Integer" resultType="com.kindergarten.bean.TblTeachers">
+    <select id="FindRole" parameterType="java.lang.Integer" resultType="com.kindergarten.bean.Teachers">
         select teacher_name from tbl_teachers where teacher_id=#{teacherId}
     </select>
 
@@ -20,13 +20,13 @@
     </update>
 
 <!--    课程表-->
-    <select id="course" resultType="com.kindergarten.bean.TblTeachers"
-            parameterType="com.kindergarten.bean.TblCourse">
+    <select id="course" resultType="com.kindergarten.bean.Teachers"
+            parameterType="com.kindergarten.bean.Course">
         select * from tbl_course where teacher_id=#{teacherId}
     </select>
 
 <!--    查发布作业表格-->
-    <select id="publishJobList" resultType="com.kindergarten.bean.TblWorkrelease">
+    <select id="publishJobList" resultType="com.kindergarten.bean.Workrelease">
     select a.work_releaseid,b.class_id,c.class_name,a.work_name,a.workrelease_time
     From tbl_workrelease a
     LEFT JOIN tbl_teachers b on b.teacher_id=a.teacher_id
@@ -40,11 +40,11 @@
     select count(work_releaseid) from tbl_workrelease WHERE teacher_id=#{teacherId}
   </select>
 <!--    添加作业-->
-    <insert id="publishTaskAdd" parameterType="com.kindergarten.bean.TblWorkrelease"  >
+    <insert id="publishTaskAdd" parameterType="com.kindergarten.bean.Workrelease"  >
     insert into tbl_workrelease(work_name,work_url,workrelease_time,class_id,teacher_id)  values (#{workName},#{workUrl},#{workreleaseTime},#{classId},#{teacherId})
   </insert>
 <!--    删除作业-->
-    <delete id="delPublishTask" parameterType="com.kindergarten.bean.TblWorkrelease"  >
+    <delete id="delPublishTask" parameterType="com.kindergarten.bean.Workrelease"  >
      delete from tbl_workrelease where work_releaseid = (#{workReleaseid})
   </delete>
 

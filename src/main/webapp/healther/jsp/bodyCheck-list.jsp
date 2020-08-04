@@ -138,16 +138,13 @@
     <a class="layui-btn layui-btn-xs" lay-event="edit" >修改</a>
 </script>
 
-
 <script>
     // 体检列表展示及分页
     layui.use(['laydate', 'form', 'laypage', 'table', 'laytpl'], function () {
         var path = $("#path").val();
         var form = layui.form;
-        var laypage = layui.laypage;
         var table = layui.table;
         var laydate = layui.laydate;
-        var laytpl = layui.laytpl;
         table.render({
             limits: [5, 10, 20]
             , limit: 5,

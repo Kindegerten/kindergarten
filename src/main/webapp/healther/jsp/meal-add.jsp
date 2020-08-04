@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/X-admin/css/font.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/X-admin/css/xadmin.css">
     <script src="${pageContext.request.contextPath}/static/X-admin/lib/layui/layui.js" charset="utf-8"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/static/X-admin/js/xadmin.js"></script>
+<%--    <script type="text/javascript" src="${pageContext.request.contextPath}/static/X-admin/js/xadmin.js"></script>--%>
     <script src="${pageContext.request.contextPath}/static/jquery-3.5.1.js"></script>
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -21,97 +21,139 @@
     <![endif]-->
 </head>
 <body>
-<form>
-    <div>
-        <table class="layui-table" lay-filter="test3">
-            <thead>
-            <tr>
-                <th lay-data="{field:'mealType'}">餐别</th>
-                <th lay-data="{field:'monday' }">周一</th>
-                <th lay-data="{field:'tuesday'}">周二</th>
-                <th lay-data="{field:'tuesday'}">周三</th>
-                <th lay-data="{field:'tuesday'}">周四</th>
-                <th lay-data="{field:'friday'}">周五</th>
-            </tr>
-            <tr>
-                <th lay-data="{}">早餐</th>
-                <th contenteditable="true">示例：包子、牛奶</th>
-                <th contenteditable="true"></th>
-                <th contenteditable="true" ></th>
-                <th contenteditable="true" ></th>
-                <th contenteditable="true" ></th>
-            </tr>
-            <tr>
-                <th lay-data="{}">中餐</th>
-                <th contenteditable="true" ></th>
-                <th contenteditable="true" ></th>
-                <th contenteditable="true" ></th>
-                <th contenteditable="true" ></th>
-                <th contenteditable="true" ></th>
-            </tr>
-            <tr>
-                <th lay-data="{}">点心</th>
-                <th contenteditable="true" ></th>
-                <th contenteditable="true" ></th>
-                <th contenteditable="true" ></th>
-                <th contenteditable="true" ></th>
-                <th contenteditable="true" ></th>
-            </tr>
-            </thead>
-        </table>
-    </div>
-    <div class="layui-form-item">
-        <div class="layui-input-block">
-            <button class="layui-btn" lay-submit lay-filter="mealData">保存</button>
-            <button type="reset" class="layui-btn layui-btn-primary">取消</button>
+<input type="hidden" id="path" value=<%=path%>>
+<div id="mealadd">
+    <div class="layui-card-body ">
+        <div class="layui-card-body demoTable">
+            <label class="layui-form-label">选择时间段</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" id="mealDatescope" name="mealDatescope" placeholder=" - ">
+            </div>
         </div>
     </div>
-</form>
-<script>
-    layui.use('form', function () {
-        var form = layui.form;
-        var table=layui.table;
-        //监听单元格编辑
-        table.on('edit(test3)', function(obj){
-            var value = obj.value //得到修改后的值
-                ,data = obj.data //得到所在行所有键值
-                ,field = obj.field; //得到字段
-            layer.msg('[ID: '+ data.id +'] ' + field + ' 字段更改为：'+ value);
-        });
-        //监听提交
-        form.on('submit(mealData)', function (data) {
-            var path = $("#path").val();
-            var mealData = {
-                "mealType": data.field.mealType,
-                "monday": data.field.monday,
-                "tuesday": data.field.tuesday,
-                "wednesday": data.field.wednesday,
-                "thursday": data.field.thursday,
-                "friday": data.field.friday,
-            };
-            console.log(mealData);
-            $.ajax({
-                url: "/HealtherControl/addmeal",
-                async: true,
-                type: "POST",
-                data: {"value": JSON.stringify(mealData)},
-                dataType: "text",
-                success: function (msg) {
-                    if (msg === "success") {
-                        parent.location.reload();
-                        layer.msg('更新成功!刷新浏览器', {icon: 1, time: 8000})
+    <div class="layui-card-body layui-table-body layui-table-main">
+        <table id="test" class="layui-table layui-form" id="bodytable" lay-filter="test">
+            <thead>
+            <tr>
+                <th >餐别</th>
+                <th >周一</th>
+                <th >周二</th>
+                <th >周三</th>
+                <th >周四</th>
+                <th >周五</th>
+                <th >操作</th>
+            </tr>
+            </thead>
+            <tr class="a">
+                <th>早餐</th>
+                <th contenteditable="true"></th>
+                <th contenteditable="true"></th>
+                <th contenteditable="true"></th>
+                <th contenteditable="true"></th>
+                <th contenteditable="true"></th>
+                <th><a class="layui-btn layui-btn-xs" lay-event="edit" onclick="mealadd(this)">增加</a></th>
+            </tr>
+            <tr>
+                <th>中餐</th>
+                <th contenteditable="true"></th>
+                <th contenteditable="true"></th>
+                <th contenteditable="true"></th>
+                <th contenteditable="true"></th>
+                <th contenteditable="true"></th>
+                <th><a class="layui-btn layui-btn-xs" lay-event="edit" onclick="mealadd(this)">增加</a></th>
+            </tr>
+            <tr>
+                <th>点心</th>
+                <th contenteditable="true"></th>
+                <th contenteditable="true"></th>
+                <th contenteditable="true"></th>
+                <th contenteditable="true"></th>
+                <th contenteditable="true"></th>
+                <th><a class="layui-btn layui-btn-xs" lay-event="edit" onclick="mealadd(this)">增加</a></th>
+            </tr>
+        </table>
+    </div>
+</div>
 
-                    } else {
-                        layer.msg('更新失败!', {icon: 2, time: 6000});
-                    }
-                },
-                error: function () {
-                    layer.msg('网络错误!', {icon: 2, time: 1000});
-                }
-            });
-            return false;
+<script>
+    layui.use(['laydate', 'form', 'laypage', 'table', 'laytpl','layer'], function () {
+        var form = layui.form;
+        var laypage = layui.laypage;
+        var table = layui.table;
+        var laydate = layui.laydate;
+        var laytpl = layui.laytpl;
+        var layer =layui.layer;
+        // table.init('test3', {
+        //     height: 315 //设置高度
+        //     ,limit: 10 //注意：请务必确保 limit 参数（默认：10）是与你服务端限定的数据条数一致
+        //     //支持所有基础参数
+        // });
+        //日期范围
+        laydate.render({
+            elem: '#mealDatescope'
+            , range: true
+        });
+        //表格操作，进行编辑修改等
+        table.on('tool(test)', function(obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+           console.log(data,layEvent,tr)
         });
     });
+    function mealadd(node) {
+        var flag = confirm("确认" + $(node).val() + "？");
+        var trNode = $(node).parent().parent();
+        var tdNodes = trNode.children();
+        console.log(tdNodes);
+        var mealType = $(tdNodes[0]).text();
+        console.log(mealType);
+        var monday = $(tdNodes[1]).text();
+        console.log(monday);
+        var tuesday = $(tdNodes[2]).text();
+        console.log(tuesday);
+        var wednesday = $(tdNodes[3]).text();
+        console.log(wednesday);
+        var thursday = $(tdNodes[4]).text();
+        console.log(thursday);
+        var friday = $(tdNodes[5]).text();
+        console.log(friday);
+        var mealDatescope = $("#mealDatescope").val();
+        console.log(mealDatescope);
+        var data={
+            "mealDatescope":mealDatescope,
+            "mealType":mealType,
+            "monday":monday,
+            "tuesday":tuesday,
+            "wednesday":wednesday,
+            "thursday":thursday,
+            "friday":friday,
+        }
+        if (flag==true) {
+            if(mealDatescope!=null) {
+                $.ajax({
+                    url: "/HealtherControl/addmeal",
+                    async: true,
+                    type: "POST",
+                    data: {"value": JSON.stringify(data)},
+                    dataType: "text",
+                    success: function (msg) {
+                        if (msg === "success") {
+                            layer.msg('添加成功!继续添加', {icon: 1, time: 8000})
+
+                        } else {
+                            layer.msg('添加失败!', {icon: 2, time: 6000});
+                        }
+                    },
+                    error: function () {
+                        layer.msg('网络错误!', {icon: 2, time: 1000});
+                    }
+                });
+            }else{
+                layer.msg("请添加日期")
+            }
+        }
+    }
 </script>
 </body>
 </html>

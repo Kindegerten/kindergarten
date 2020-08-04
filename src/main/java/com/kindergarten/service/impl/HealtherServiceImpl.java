@@ -21,7 +21,10 @@ public class HealtherServiceImpl implements HealtherService {
     public Healther login(String healtherPhone, String healtherPwd) {
         return healtherMapper.login(healtherPhone, healtherPwd);
     }
-
+    @Override
+    public int updateSelf(Healther healther) {
+        return healtherMapper.updateSelf(healther);
+    }
     @Override
     public LayuiData<Examination> bodyCheck(HashMap<String, Object> condition, int curPage, int pageSize) {
         LayuiData<Examination> layuiData = null;
@@ -59,4 +62,6 @@ public class HealtherServiceImpl implements HealtherService {
     public int updatemeal(Meal meal) {
         return healtherMapper.updatemeal(meal);
     }
+
+
 }

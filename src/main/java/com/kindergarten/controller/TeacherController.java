@@ -2,8 +2,8 @@ package com.kindergarten.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.kindergarten.bean.LayuiData;
-import com.kindergarten.bean.TblTeachers;
-import com.kindergarten.bean.TblWorkrelease;
+import com.kindergarten.bean.Teachers;
+import com.kindergarten.bean.Workrelease;
 import com.kindergarten.mapper.TeacherMapper;
 import com.kindergarten.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ public class TeacherController {
         System.out.println("tel:"+tel);
         String password = request.getParameter("password");
         System.out.println("password:"+password);
-        TblTeachers tblTeachers = teacherService.login(tel);
+        Teachers tblTeachers = teacherService.login(tel);
         System.out.println("tblTeachers.....:"+tblTeachers);
         String res = "";
         if (tblTeachers != null) {
@@ -76,7 +76,7 @@ public class TeacherController {
     @ResponseBody
     public String UpdatePwd(String oldpwd,String newpwd,HttpServletRequest request) throws ServletException, IOException {
 
-        TblTeachers tblTeachers = (TblTeachers) request.getSession().getAttribute("tblTeachers");
+        Teachers tblTeachers = (Teachers) request.getSession().getAttribute("tblTeachers");
 
         if (oldpwd.equals(tblTeachers.getTeacherPwd())){
 
@@ -98,7 +98,7 @@ public class TeacherController {
     /*分页查询*/
     @RequestMapping(value = "/selectList")
     @ResponseBody
-    public String selectList(HttpServletRequest request, HttpServletResponse response, TblWorkrelease tblWorkrelease) {
+    public String selectList(HttpServletRequest request, HttpServletResponse response, Workrelease workrelease) {
         String pageStr = request.getParameter("page");//页码
         String pageSizeStr = request.getParameter("limit");//每页记录数
 
@@ -111,10 +111,10 @@ public class TeacherController {
         System.out.println("开始时间"+arr1[0]);
         System.out.println("周日时间"+arr1[1]);
 
-        TblTeachers tblTeachers =(TblTeachers) request.getSession().getAttribute("tblTeachers");
-        tblWorkrelease.setTeacherId(tblTeachers.getTeacherId());
+        Teachers tblTeachers =(Teachers) request.getSession().getAttribute("tblTeachers");
+        workrelease.setTeacherId(tblTeachers.getTeacherId());
 
-        LayuiData layuiData = teacherService.publishJobList(tblWorkrelease,Integer.parseInt(pageStr), Integer.parseInt(pageSizeStr));
+        LayuiData layuiData = teacherService.publishJobList(workrelease,Integer.parseInt(pageStr), Integer.parseInt(pageSizeStr));
         return JSON.toJSONString(layuiData);
     }
 
@@ -153,7 +153,6 @@ public class TeacherController {
 
         return arr;
     }
-
     public Date date1(String  aaa){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date;
@@ -169,8 +168,8 @@ public class TeacherController {
     /*添加发布作业*/
     @RequestMapping(value = "/publishTaskAdd")
     @ResponseBody
-    public Object pblishTaskAdd(HttpServletRequest request, HttpServletResponse response, TblWorkrelease tblPublishTask){
-        TblTeachers staffRo=(TblTeachers) request.getSession().getAttribute("tblTeachers");
+    public Object pblishTaskAdd(HttpServletRequest request, HttpServletResponse response, Workrelease tblPublishTask){
+        Teachers staffRo=(Teachers) request.getSession().getAttribute("tblTeachers");
         tblPublishTask.setTeacherId(staffRo.getTeacherId());
         tblPublishTask.setClassId(staffRo.getClassId());
 
@@ -227,7 +226,7 @@ public class TeacherController {
     /* 删除发布作业*/
     @RequestMapping(value = "/delPublishTask")
     @ResponseBody
-    public Object delPublishTask(HttpServletRequest request, HttpServletResponse response, TblWorkrelease tblPublishTask){
+    public Object delPublishTask(HttpServletRequest request, HttpServletResponse response, Workrelease tblPublishTask){
 
         int i = teacherService.delPublishTask(tblPublishTask);
         Map<String,Object> map=null;

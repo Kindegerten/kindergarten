@@ -16,6 +16,11 @@
             </if>
         </where>
     </select>
+    <!--    更新个人信息-->
+    <update id="updateSelf" parameterType="com.kindergarten.bean.Healther">
+        update tbl_healther set healther_add=#{healtherAdd},healther_phone=#{healtherPhone},healther_pwd=#{healtherPwd}
+         where healther_id=#{healtherId}
+    </update>
 
 <!--    体检管理列表-->
     <select id="bodyCheck" resultType="com.kindergarten.bean.Examination">
@@ -67,9 +72,7 @@
     <!--    增加膳食-->
     <insert id="addmeal" parameterType="com.kindergarten.bean.Meal" useGeneratedKeys="true" keyProperty="mealId">
         insert into tbl_meal(meal_type,meal_datescope,monday,tuesday,wednesday,thursday,friday)
-        values (#{mealType},#{mealDatescope},#{monday},#{tuesday},#{wednesday},#{thursday},#{friday}),
-               (#{mealType},#{mealDatescope},#{monday},#{tuesday},#{wednesday},#{thursday},#{friday}),
-               (#{mealType},#{mealDatescope},#{monday},#{tuesday},#{wednesday},#{thursday},#{friday}),
+        values (#{mealType},#{mealDatescope},#{monday},#{tuesday},#{wednesday},#{thursday},#{friday})
     </insert>
     <!--    修改膳食信息-->
     <update id="updatemeal" parameterType="com.kindergarten.bean.Meal">

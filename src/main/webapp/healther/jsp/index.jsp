@@ -66,15 +66,15 @@
     <ul class="layui-nav right" lay-filter="">
         <li class="layui-nav-item">
             <a href="javascript:;">欢迎：保健员<b style="color:skyblue">${healther.healtherName}</b></a>
-<%--            <dl class="layui-nav-child">--%>
-<%--                <!-- 二级菜单 -->--%>
-<%--                <dd>--%>
-<%--                    <a onclick="xadmin.open('个人信息','http://www.baidu.com')">个人信息</a></dd>--%>
-<%--                <dd>--%>
+            <dl class="layui-nav-child">
+                <!-- 二级菜单 -->
+                <dd>
+                    <a onclick="xadmin.open('个人信息','${pageContext.request.contextPath}/healther/jsp/myinfo.jsp',500,600)">个人信息</a></dd>
+                <dd>
 <%--                    <a onclick="xadmin.open('切换帐号','http://www.baidu.com')">切换帐号</a></dd>--%>
-<%--                <dd>--%>
-<%--                    <a href="login.jsp">退出</a></dd>--%>
-<%--            </dl>--%>
+                <dd>
+                    <a href="login.jsp">退出</a></dd>
+                </dl>
         </li>
         <li class="layui-nav-item to-index">
             <a href="${pageContext.request.contextPath}/healther/jsp/login.jsp">返回登录</a></li>
@@ -126,7 +126,7 @@
         </div>
         <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
-                <iframe src='${pageContext.request.contextPath}/healther/jsp/mainpage.jsp' frameborder="0"
+                <iframe src='${pageContext.request.contextPath}/healther/jsp/welcome.jsp' frameborder="0"
                         scrolling="yes" class="x-iframe"></iframe>
             </div>
         </div>

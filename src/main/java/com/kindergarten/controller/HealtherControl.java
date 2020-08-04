@@ -36,14 +36,37 @@ public class HealtherControl extends HttpServlet {
         if (vCode.equalsIgnoreCase(vCodeServer)) {
             Healther healther = healtherService.login(healtherPhone, healtherPwd);
             if (healther != null) {
-                HttpSession session = request.getSession();
-                session.setAttribute("healther", healther);
-                return "登陆成功";
+                if(healther.getHealtherStatus().equals(2)){
+                    return "登陆失败,账户被封禁！";
+                }else {
+                    HttpSession session = request.getSession();
+                    session.setAttribute("healther", healther);
+                    return "登陆成功";
+                }
             } else {
                 return "手机号或密码错误";
             }
         } else {
             return "验证码错误";
+        }
+    }
+    //个人信息修改
+    @RequestMapping(value = "/updateSelf")
+    @ResponseBody
+    public String updateSelf(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Gson gson=new Gson();
+        String value=request.getParameter("value");
+        String oldpwd=request.getParameter("oldhealtherPwd");
+        System.out.println(oldpwd);
+        System.out.println(value);
+        Healther newhealther=gson.fromJson(value, Healther.class);
+        System.out.println(gson.toJson(newhealther));
+        int flag=healtherService.updateSelf(newhealther);
+        if (flag>0){
+            request.getSession().setAttribute("healther",newhealther);
+            return "success";
+        }else{
+            return "error";
         }
     }
     //体检管理列表

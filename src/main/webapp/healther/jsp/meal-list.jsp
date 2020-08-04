@@ -38,7 +38,7 @@
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-header">
-                    <button class="layui-btn" onclick="xadmin.open('新增膳食','./meal-add.jsp',450,500)"><i
+                    <button class="layui-btn" onclick="xadmin.open('新增膳食','./meal-add.jsp',700,500)"><i
                             class="layui-icon"></i>新增膳食
                     </button>
                 </div>
@@ -290,7 +290,6 @@
             layer.msg('已删除!', {icon: 1, time: 1000});
         });
     }
-
 
     function delAll(argument) {
         var ids = [];

@@ -21,4 +21,5 @@ public interface HealtherService {
     int addmeal(Meal meal);
 //更新膳食信息
     int updatemeal(Meal meal);
+    int updateSelf(Healther healther);
 }
