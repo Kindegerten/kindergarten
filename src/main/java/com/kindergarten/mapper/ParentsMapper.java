@@ -55,4 +55,16 @@ public interface ParentsMapper {
     public int SearchStudentClass(int studentId);
     //通过文件ID找作业文件路径
     public String SearchTeacherWork(int workid);
+
+    //遍历所有的安全视频
+    public List<ParentShowSafeQue> AllSafeVideo(@Param("curPage") int curPage, @Param("pageSize") int pageSize);
+    public  int AllSafeVideoCount();
+    //遍历是否完成安全教育
+    public List<HashMap<String,Object>> SearchSafeVideoResult(int studentId);
+    //查看答案
+    public String SafeEduAns(int videoid);
+    //遍历试题
+    public List<SafetyVtq> SearchQuestion(int videoId);
+    //提交安全教育分数
+    public int UpdateQueScore(@Param("videoId")int videoId,@Param("studentId") int studentId,@Param("score")int score);
 }

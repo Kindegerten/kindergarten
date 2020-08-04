@@ -44,7 +44,7 @@
             ,done: function(res){
 
                 if (res.code===0){
-                    var index = parent.layer.getFrameIndex(window.name);
+                    // var index = parent.layer.getFrameIndex(window.name);
                     layer.msg('上传成功,请刷新当前页面');
                     console.log(res);
                     // parent.layer.close(index);//关闭当前页
