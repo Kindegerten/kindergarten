@@ -9,12 +9,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.io.*;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @RequestMapping("/pt")
 @Controller
@@ -152,8 +158,16 @@ public class parentController {
     @RequestMapping(value = "/babyhealth")
     @ResponseBody
     public String babyhealth(HttpServletRequest request) throws ServletException, IOException {
+        int curPage;
+        if(request.getParameter("curPage")!=null){
+            curPage = Integer.parseInt(request.getParameter("curPage"));
+        }else{
+            curPage = 1;
+        }
+        int pageSize=Integer.parseInt(request.getParameter("pageSize"));
+
         String studentid= (String) request.getSession().getAttribute("studentID");
-        LayuiData<Examination> examinations=parentService.examination(Integer.parseInt(studentid));
+        LayuiData<Examination> examinations=parentService.examination(Integer.parseInt(studentid),curPage,pageSize);
 
         return JSON.toJSONString(examinations);
     }
@@ -161,8 +175,16 @@ public class parentController {
     @RequestMapping(value = "/schoolVideo")
     @ResponseBody
     public String schoolVideo(HttpServletRequest request) throws ServletException, IOException {
+        int curPage;
+        if(request.getParameter("curPage")!=null){
+            curPage = Integer.parseInt(request.getParameter("curPage"));
+        }else{
+            curPage = 1;
+        }
+        int pageSize=Integer.parseInt(request.getParameter("pageSize"));
+
         String studentid= (String) request.getSession().getAttribute("studentID");
-        LayuiData<Monitor> examinations=parentService.monitors(Integer.parseInt(studentid));
+        LayuiData<Monitor> examinations=parentService.monitors(Integer.parseInt(studentid),curPage,pageSize);
 
         return JSON.toJSONString(examinations);
     }
@@ -186,6 +208,187 @@ public class parentController {
         request.setAttribute("meals",pageBean);
         System.out.println(JSON.toJSONString(pageBean));
         return "/partent/meal.jsp";
+    }
+
+    @RequestMapping(value = "/homework")
+    @ResponseBody
+    public String homework(HttpServletRequest request) throws ServletException, IOException {
+        int curPage;
+        if(request.getParameter("curPage")!=null){
+            curPage = Integer.parseInt(request.getParameter("curPage"));
+        }else{
+            curPage = 1;
+        }
+        int pageSize=Integer.parseInt(request.getParameter("pageSize"));
+
+        String studentid= (String) request.getSession().getAttribute("studentID");
+        LayuiData<Workrelease> workreleaseLayuiData=parentService.studentWork(Integer.parseInt(studentid),curPage,pageSize);
+
+        return JSON.toJSONString(workreleaseLayuiData);
+    }
+
+    @RequestMapping(value = "/uploadHomeWork")
+    @ResponseBody
+    public Object uploadHomeWork(HttpServletRequest request, HttpServletResponse response, MultipartFile file, String fileName,String releaseid) {
+        String studentid= (String) request.getSession().getAttribute("studentID");
+        String studentName= (String) request.getSession().getAttribute("studentName");
+        int cid=parentsMapper.SearchStudentClass(Integer.parseInt(studentid));
+
+        String EnglishClassName= parentsMapper.SearchEnglishClassName(Integer.parseInt(studentid));
+        Parents parents= (Parents) request.getSession().getAttribute("parents");
+
+        System.out.println("fileName=" + file.getOriginalFilename());
+        try {
+            //获取文件名
+            String originalName = file.getOriginalFilename();
+            //扩展名
+            String prefix = originalName.substring(originalName.lastIndexOf(".") + 1);
+            Date date = new Date();
+            //使用UUID+后缀名保存文件名，防止中文乱码问题,防止文件名重复
+            String uuid = UUID.randomUUID() + "";
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String dateStr = simpleDateFormat.format(date);
+            String savePath = request.getSession().getServletContext().getRealPath("/upload/");
+            //要保存的问题件路径和名称
+            String projectPath = savePath + EnglishClassName + File.separator + uuid + "." + prefix;
+
+//            String projectPath = savePath + dateStr + File.separator + uuid + "." + prefix;
+
+            System.out.println("projectPath==" + projectPath);
+            File files = new File(projectPath);
+            //打印查看上传路径
+            if (!files.getParentFile().exists()) {//判断目录是否存在
+                System.out.println("files11111=" + files.getPath());
+                files.getParentFile().mkdirs();
+            }
+            //判断是否首次上传文件？
+            int flag=parentsMapper.IsNewWork(releaseid,studentid);
+            if (flag>0){
+                //有数据，只需要更新文件路径+上传新的文件+上传时间
+                SimpleDateFormat NewTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                file.transferTo(files); // 将接收的文件保存到指定文件中
+                int IsSuccess=parentsMapper.UpdateWork(projectPath,parents.getParentsId(),parents.getParentsName(),releaseid,studentid);
+                System.out.println("flag>0更新状态:"+IsSuccess);
+            }else{
+                //上传完成后，插入新数据
+                file.transferTo(files); // 将接收的文件保存到指定文件中
+                int newwork=parentsMapper.UploadWork(projectPath,parents.getParentsId(),parents.getParentsName(),releaseid,studentid,studentName,cid);
+                System.out.println("newwork>0更新状态:"+newwork);
+            }
+
+
+            System.out.println(projectPath);
+            LayuiData layuiData = new LayuiData();
+            layuiData.setCode(0);
+            layuiData.setMsg("上传成功");
+            return JSON.toJSONString(layuiData);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @RequestMapping(value = "/download")
+    @ResponseBody
+    public String download(HttpServletRequest request, HttpServletResponse response,int id) throws ServletException, IOException {
+              System.out.println(id);
+              String Url=parentsMapper.SearchTeacherWork(id);
+
+
+            File file = new File(Url);
+            String fileName=file.getName();
+            // 浏览器以utf-8进行编码
+            fileName = URLEncoder.encode(fileName, "utf-8");
+
+            if (!file.exists()){
+
+                return "文件不存在";
+            }else {
+//                   进行下载
+                response.setContentType("text/html;charset=utf-8");
+                response.setContentType("application/octet-stream");
+                response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+
+                FileInputStream inputStream = new FileInputStream(file);
+                InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+                BufferedReader br = new BufferedReader(reader);
+                byte[] bytes = new byte[1024];
+                int len = 0;
+                while ((len = inputStream.read(bytes)) > 0) {
+                    response.getOutputStream().write(bytes, 0, len);
+                }
+                inputStream.close();
+                return "success";
+
+            }
+
+        }
+
+    @RequestMapping(value = "/historyhomework")
+    @ResponseBody
+    public String historyhomework(HttpServletRequest request) throws ServletException, IOException {
+        int curPage;
+        if(request.getParameter("curPage")!=null){
+            curPage = Integer.parseInt(request.getParameter("curPage"));
+        }else{
+            curPage = 1;
+        }
+        int pageSize=Integer.parseInt(request.getParameter("pageSize"));
+
+        String studentid= (String) request.getSession().getAttribute("studentID");
+        LayuiData<Workrelease> workreleaseLayuiData=parentService.studentWork(Integer.parseInt(studentid),curPage,pageSize);
+
+        return JSON.toJSONString(workreleaseLayuiData);
+    }
+
+
+    @RequestMapping(value = "/SafeEducation")
+    @ResponseBody
+    public String SafeEducation(HttpServletRequest request) throws ServletException, IOException {
+        String studentid= (String) request.getSession().getAttribute("studentID");
+        int curPage;
+        if(request.getParameter("curPage")!=null){
+            curPage = Integer.parseInt(request.getParameter("curPage"));
+        }else{
+            curPage = 1;
+        }
+        int pageSize=Integer.parseInt(request.getParameter("pageSize"));
+
+
+        LayuiData<ParentShowSafeQue> parentShowSafeQueLayuiData=parentService.AllSafeEducation(Integer.parseInt(studentid),curPage,pageSize);
+
+        return JSON.toJSONString(parentShowSafeQueLayuiData);
+    }
+
+
+
+    @RequestMapping(value = "/SafeEduAns")
+    @ResponseBody
+    public String SafeEduAns(int videoId) throws ServletException, IOException {
+        System.out.println(JSON.toJSONString(parentsMapper.SafeEduAns(videoId)));
+        return parentsMapper.SafeEduAns(videoId);
+    }
+
+    @RequestMapping(value = "/SafeQuestion")
+    @ResponseBody
+    public List<SafetyVtq> SafeQuestion(int videoId) throws ServletException, IOException {
+
+        List<SafetyVtq> list=parentsMapper.SearchQuestion(videoId);
+        System.out.println(JSON.toJSONString(list));
+        return list;
+    }
+
+    @RequestMapping(value = "/UpdateQueScore")
+    @ResponseBody
+    public String UpdateQueScore(HttpServletRequest request,int videoId,int score) throws ServletException, IOException {
+        String studentid= (String) request.getSession().getAttribute("studentID");
+        int flag=parentsMapper.UpdateQueScore(videoId,Integer.parseInt(studentid),score);
+            if (flag>0){
+
+                return "success";
+            }else {
+                return "error";
+            }
     }
 
 }

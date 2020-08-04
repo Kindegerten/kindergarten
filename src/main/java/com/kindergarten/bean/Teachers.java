@@ -1,6 +1,6 @@
 package com.kindergarten.bean;
 
-public class TblTeachers
+public class Teachers
 {
 
     private int teacherId;
@@ -11,12 +11,12 @@ public class TblTeachers
     private int teacherAge;
     private int classId;
 
-    public TblTeachers()
+    public Teachers()
     {
 
     }
 
-    public TblTeachers(int teacherId, String teacherTel, String teacherPwd, String teacherName, String teacherSex, int teacherAge, int classId) {
+    public Teachers(int teacherId, String teacherTel, String teacherPwd, String teacherName, String teacherSex, int teacherAge, int classId) {
         this.teacherId = teacherId;
         this.teacherTel = teacherTel;
         this.teacherPwd = teacherPwd;

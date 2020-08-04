@@ -4,18 +4,18 @@ import java.math.BigDecimal;
 
 public class Security {
 
-    private int securityId,securityAge,rid,securityStatus;
+    private int securityId,securityAge,rid,securityState;
     private String securityName,securityPwd,securityAdd,securityRegtime,vCode;
     private String securityPhone,securitySex,securityStateName;
 
     public Security() {
     }
 
-    public Security(int securityId, int securityAge, int rid, int securityStatus, String securityName, String securityPwd, String securityAdd, String securityRegtime, String vCode, String securityPhone, String securitySex, String securityStateName) {
+    public Security(int securityId, int securityAge, int rid, int securityState, String securityName, String securityPwd, String securityAdd, String securityRegtime, String vCode, String securityPhone, String securitySex, String securityStateName) {
         this.securityId = securityId;
         this.securityAge = securityAge;
         this.rid = rid;
-        this.securityStatus = securityStatus;
+        this.securityState = securityState;
         this.securityName = securityName;
         this.securityPwd = securityPwd;
         this.securityAdd = securityAdd;
@@ -32,7 +32,7 @@ public class Security {
                 "securityId=" + securityId +
                 ", securityAge=" + securityAge +
                 ", rid=" + rid +
-                ", securityStatus=" + securityStatus +
+                ", securityState=" + securityState +
                 ", securityName='" + securityName + '\'' +
                 ", securityPwd='" + securityPwd + '\'' +
                 ", securityAdd='" + securityAdd + '\'' +
@@ -68,12 +68,12 @@ public class Security {
         this.rid = rid;
     }
 
-    public int getSecurityStatus() {
-        return securityStatus;
+    public int getSecurityState() {
+        return securityState;
     }
 
-    public void setSecurityStatus(int securityStatus) {
-        this.securityStatus = securityStatus;
+    public void setSecurityState(int securityState) {
+        this.securityState = securityState;
     }
 
     public String getSecurityName() {

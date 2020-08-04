@@ -20,14 +20,6 @@ public class Parents {
     public Parents() {
     }
 
-    public int getParentsId() {
-        return parentsId;
-    }
-
-    public void setParentsId(int parentsId) {
-        this.parentsId = parentsId;
-    }
-
     public String getParentsTel() {
         return parentsTel;
     }
@@ -82,5 +74,13 @@ public class Parents {
 
     public void setRoleName(String roleName) {
         this.roleName = roleName;
+    }
+
+    public int getParentsId() {
+        return parentsId;
+    }
+
+    public void setParentsId(int parentsId) {
+        this.parentsId = parentsId;
     }
 }
