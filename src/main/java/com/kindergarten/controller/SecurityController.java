@@ -111,13 +111,13 @@ public class SecurityController {
         System.out.println("base64 final:"+base64);
 
         //获取at
-        String at=AuthService.getAuth();
-        System.out.println("Access token:"+at);
-
-        String result=FaceAdd.add(base64,at);
-        System.out.println("result:"+result);
-        return result;
-//        return null;
+//        String at=AuthService.getAuth();
+//        System.out.println("Access token:"+at);
+//
+//        String result=FaceAdd.add(base64,at);
+//        System.out.println("result:"+result);
+//        return result;
+        return base64;
     }
 
 }
