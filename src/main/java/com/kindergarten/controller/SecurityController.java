@@ -8,7 +8,6 @@ import com.kindergarten.bean.Security;
 import com.kindergarten.service.SecurityService;
 import com.kindergarten.util.AuthService;
 import com.kindergarten.util.FaceAdd;
-import com.kindergarten.util.FaceMatch;
 import com.kindergarten.util.FaceSearch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -88,15 +87,15 @@ public class SecurityController {
         System.out.println("base64 final:"+base64);
 
         //获取at
-//        String at=AuthService.getAuth();
-//        System.out.println("Access token:"+at);
-//
-//        //转发base64，获取返回值
-//        FaceReturn faceReturn=JSON.parseObject(FaceSearch.faceSearch(base64,at),FaceReturn.class);
-//        System.out.println("faceReturn:"+faceReturn);
+        String at=AuthService.getAuth();
+        System.out.println("Access token:"+at);
 
-//        return faceReturn.toString();
-        return base64;
+        //转发base64，获取返回值
+        FaceReturn faceReturn=JSON.parseObject(FaceSearch.faceSearch(base64,at),FaceReturn.class);
+        System.out.println("faceReturn:"+faceReturn);
+
+        return faceReturn.toString();
+//        return base64;
     }
 
     @RequestMapping(value = "/addFace")
@@ -112,7 +111,7 @@ public class SecurityController {
         System.out.println("base64 final:"+base64);
 
         //获取at
-        String at=AuthService.getAuth();
+        String at= AuthService.getAuth();
         System.out.println("Access token:"+at);
 
         //TODO 加入用户组信息 FaceUserList类
