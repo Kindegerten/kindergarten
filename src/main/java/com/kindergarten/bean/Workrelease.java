@@ -1,43 +1,35 @@
 package com.kindergarten.bean;
 
-public class Workrelease
-{
-    private int workReleaseid;
-    private String workreleaseTime;
+public class Workrelease {
+    private int workreleaseId;
     private String workName;
-    private  String workUrl;
+    private String workUrl;
+    private String workreleaseTime;
     private int classId;
     private int teacherId;
-    private String className;
+    private String teacherName;
 
-    public Workrelease(){
+    private String workResult="未完成";
 
+    public Workrelease() {
     }
 
-    public Workrelease(int workReleaseid, String workreleaseTime, String workName, String workUrl, int classId, int teacherId, String className) {
-        this.workReleaseid = workReleaseid;
-        this.workreleaseTime = workreleaseTime;
-        this.workName = workName;
-        this.workUrl = workUrl;
-        this.classId = classId;
-        this.teacherId = teacherId;
-        this.className = className;
+
+
+    public String getWorkResult() {
+        return workResult;
     }
 
-    public int getWorkReleaseid() {
-        return workReleaseid;
+    public void setWorkResult(String workResult) {
+        this.workResult = workResult;
     }
 
-    public void setWorkReleaseid(int workReleaseid) {
-        this.workReleaseid = workReleaseid;
+    public int getWorkreleaseId() {
+        return workreleaseId;
     }
 
-    public String getWorkreleaseTime() {
-        return workreleaseTime;
-    }
-
-    public void setWorkreleaseTime(String workreleaseTime) {
-        this.workreleaseTime = workreleaseTime;
+    public void setWorkreleaseId(int workreleaseId) {
+        this.workreleaseId = workreleaseId;
     }
 
     public String getWorkName() {
@@ -56,13 +48,14 @@ public class Workrelease
         this.workUrl = workUrl;
     }
 
-    public int getClassId() {
-        return classId;
+    public String getWorkreleaseTime() {
+        return workreleaseTime;
     }
 
-    public void setClassId(int classId) {
-        this.classId = classId;
+    public void setWorkreleaseTime(String workreleaseTime) {
+        this.workreleaseTime = workreleaseTime;
     }
+
 
     public int getTeacherId() {
         return teacherId;
@@ -72,28 +65,35 @@ public class Workrelease
         this.teacherId = teacherId;
     }
 
-    public String getClassName() {
-        return className;
+    public String getTeacherName() {
+        return teacherName;
     }
 
-    public void setClassName(String className) {
-        this.className = className;
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
     }
 
-    @Override
-    public String toString() {
-        return "TblWorkrelease{" +
-                "workReleaseid=" + workReleaseid +
-                ", workreleaseTime='" + workreleaseTime + '\'' +
-                ", workName='" + workName + '\'' +
-                ", workUrl='" + workUrl + '\'' +
-                ", classId=" + classId +
-                ", teacherId=" + teacherId +
-                ", className='" + className + '\'' +
-                '}';
+    public int getClassId() {
+        return classId;
     }
 
-    public void setWorkResult(String work_result) {
+    public void setClassId(int classId) {
+        this.classId = classId;
     }
 
+
+
+    public Workrelease(int workreleaseId, String workName, String workUrl, String workreleaseTime, int classId, int teacherId, String teacherName, String workResult) {
+        this.workreleaseId = workreleaseId;
+        this.workName = workName;
+        this.workUrl = workUrl;
+        this.workreleaseTime = workreleaseTime;
+        this.classId = classId;
+        this.teacherId = teacherId;
+        this.teacherName = teacherName;
+        this.workResult = workResult;
+    }
+
+    public void setWorkEva(String work_eva) {
+    }
 }

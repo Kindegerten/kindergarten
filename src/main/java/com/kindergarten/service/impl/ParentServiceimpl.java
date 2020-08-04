@@ -88,6 +88,7 @@ public class ParentServiceimpl implements ParentService {
             for (int j=0;j<workreleases.size();j++){
                 if (String.valueOf(map.get(i).get("work_releaseid")).equals(String.valueOf(workreleases.get(j).getWorkReleaseid()))){
                     workreleases.get(j).setWorkResult(map.get(i).get("work_result")+"");
+                    workreleases.get(j).setWorkEva(map.get(i).get("work_eva")+"");
                 }
             }
 

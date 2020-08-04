@@ -1,28 +1,33 @@
 package com.kindergarten.bean;
 
+import java.util.Date;
+
 public class Students {
     private int studentId;
     private String studentName;
     private String studentSex;
     private String studentBirth;
     private String studentAdd;
+    private String className;
+    private int  kinderId;
+    private String kinderName;
     private String studentTime;
     private int classId;
-    private int kinderId;
+
 
 
     public Students() {
     }
 
-    public Students(int studentId, String studentName, String studentSex, String studentBirth, String studentAdd, String studentTime, int classId, int kinderId) {
+    public Students(int studentId, String studentName, String studentSex, String studentBirth, String studentAdd, int kinderId, String studentTime, int classId) {
         this.studentId = studentId;
         this.studentName = studentName;
         this.studentSex = studentSex;
         this.studentBirth = studentBirth;
         this.studentAdd = studentAdd;
+        this.kinderId = kinderId;
         this.studentTime = studentTime;
         this.classId = classId;
-        this.kinderId = kinderId;
     }
 
     public int getStudentId() {
@@ -65,6 +70,30 @@ public class Students {
         this.studentAdd = studentAdd;
     }
 
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
+    public int getKinderId() {
+        return kinderId;
+    }
+
+    public void setKinderId(int kinderId) {
+        this.kinderId = kinderId;
+    }
+
+    public String getKinderName() {
+        return kinderName;
+    }
+
+    public void setKinderName(String kinderName) {
+        this.kinderName = kinderName;
+    }
+
     public String getStudentTime() {
         return studentTime;
     }
@@ -79,13 +108,5 @@ public class Students {
 
     public void setClassId(int classId) {
         this.classId = classId;
-    }
-
-    public int getKinderId() {
-        return kinderId;
-    }
-
-    public void setKinderId(int kinderId) {
-        this.kinderId = kinderId;
     }
 }

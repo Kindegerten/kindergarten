@@ -1,35 +1,19 @@
 package com.kindergarten.bean;
 
 public class Kinder {
-    private int kinderId;
-    private String kinderName;
-    private String kinderLp;
-    private String kinderLpid;
-    private String kinderLpadd;
-    private String kinderLptel;
-    private String schoolpermit;
-    private String healthpermit;
-    private String firepermit;
-    private String grouppermit;
-    private String registrationpermit;
-    private String kinderState;
+    private int kinderId,kinderStatus;
+    private String kinderName;//院所名称
+    private String kinderLp;//法人
+    private String kinderLpid;//法人身份证
+    private String kinderLpadd;//法人地址
+    private String kinderLptel;//联系电话
+    private String schoolPermit;//办学许可证
+    private String healthPermit;//卫生许可证
+    private String firePermit;//消防许可证
+    private String groupPermit;//组织代码证
+    private String registrationPermit;//税务登记证
 
     public Kinder() {
-    }
-
-    public Kinder(int kinderId, String kinderName, String kinderLp, String kinderLpid, String kinderLpadd, String kinderLptel, String schoolpermit, String healthpermit, String firepermit, String grouppermit, String registrationpermit, String kinderState) {
-        this.kinderId = kinderId;
-        this.kinderName = kinderName;
-        this.kinderLp = kinderLp;
-        this.kinderLpid = kinderLpid;
-        this.kinderLpadd = kinderLpadd;
-        this.kinderLptel = kinderLptel;
-        this.schoolpermit = schoolpermit;
-        this.healthpermit = healthpermit;
-        this.firepermit = firepermit;
-        this.grouppermit = grouppermit;
-        this.registrationpermit = registrationpermit;
-        this.kinderState = kinderState;
     }
 
     public int getKinderId() {
@@ -38,6 +22,14 @@ public class Kinder {
 
     public void setKinderId(int kinderId) {
         this.kinderId = kinderId;
+    }
+
+    public int getKinderStatus() {
+        return kinderStatus;
+    }
+
+    public void setKinderStatus(int kinderStatus) {
+        this.kinderStatus = kinderStatus;
     }
 
     public String getKinderName() {
@@ -80,51 +72,43 @@ public class Kinder {
         this.kinderLptel = kinderLptel;
     }
 
-    public String getSchoolpermit() {
-        return schoolpermit;
+    public String getSchoolPermit() {
+        return schoolPermit;
     }
 
-    public void setSchoolpermit(String schoolpermit) {
-        this.schoolpermit = schoolpermit;
+    public void setSchoolPermit(String schoolPermit) {
+        this.schoolPermit = schoolPermit;
     }
 
-    public String getHealthpermit() {
-        return healthpermit;
+    public String getHealthPermit() {
+        return healthPermit;
     }
 
-    public void setHealthpermit(String healthpermit) {
-        this.healthpermit = healthpermit;
+    public void setHealthPermit(String healthPermit) {
+        this.healthPermit = healthPermit;
     }
 
-    public String getFirepermit() {
-        return firepermit;
+    public String getFirePermit() {
+        return firePermit;
     }
 
-    public void setFirepermit(String firepermit) {
-        this.firepermit = firepermit;
+    public void setFirePermit(String firePermit) {
+        this.firePermit = firePermit;
     }
 
-    public String getGrouppermit() {
-        return grouppermit;
+    public String getGroupPermit() {
+        return groupPermit;
     }
 
-    public void setGrouppermit(String grouppermit) {
-        this.grouppermit = grouppermit;
+    public void setGroupPermit(String groupPermit) {
+        this.groupPermit = groupPermit;
     }
 
-    public String getRegistrationpermit() {
-        return registrationpermit;
+    public String getRegistrationPermit() {
+        return registrationPermit;
     }
 
-    public void setRegistrationpermit(String registrationpermit) {
-        this.registrationpermit = registrationpermit;
-    }
-
-    public String getKinderState() {
-        return kinderState;
-    }
-
-    public void setKinderState(String kinderState) {
-        this.kinderState = kinderState;
+    public void setRegistrationPermit(String registrationPermit) {
+        this.registrationPermit = registrationPermit;
     }
 }

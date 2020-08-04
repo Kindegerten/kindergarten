@@ -1,31 +1,22 @@
 package com.kindergarten.bean;
 
+import java.util.Date;
+
 public class Healther {
     private int healtherId;
     private String healtherName;
     private String healtherSex;
     private int healtherAge;
-    private String healtherAdd;
+    private String healtherAdd;//地址
     private String healtherPhone;
-    private String healtherRegtime;
+    private Date healtherRegtime;
     private int rid;
-    private String healtherStatus;
+    private int healtherStatus;
     private String healtherPwd;
+    private int kid;
 
     public Healther() {
-    }
 
-    public Healther(int healtherId, String healtherName, String healtherSex, int healtherAge, String healtherAdd, String healtherPhone, String healtherRegtime, int rid, String healtherStatus, String healtherPwd) {
-        this.healtherId = healtherId;
-        this.healtherName = healtherName;
-        this.healtherSex = healtherSex;
-        this.healtherAge = healtherAge;
-        this.healtherAdd = healtherAdd;
-        this.healtherPhone = healtherPhone;
-        this.healtherRegtime = healtherRegtime;
-        this.rid = rid;
-        this.healtherStatus = healtherStatus;
-        this.healtherPwd = healtherPwd;
     }
 
     public int getHealtherId() {
@@ -76,11 +67,11 @@ public class Healther {
         this.healtherPhone = healtherPhone;
     }
 
-    public String getHealtherRegtime() {
+    public Date getHealtherRegtime() {
         return healtherRegtime;
     }
 
-    public void setHealtherRegtime(String healtherRegtime) {
+    public void setHealtherRegtime(Date healtherRegtime) {
         this.healtherRegtime = healtherRegtime;
     }
 
@@ -92,11 +83,11 @@ public class Healther {
         this.rid = rid;
     }
 
-    public String getHealtherStatus() {
+    public int getHealtherStatus() {
         return healtherStatus;
     }
 
-    public void setHealtherStatus(String healtherStatus) {
+    public void setHealtherStatus(int healtherStatus) {
         this.healtherStatus = healtherStatus;
     }
 
@@ -106,5 +97,13 @@ public class Healther {
 
     public void setHealtherPwd(String healtherPwd) {
         this.healtherPwd = healtherPwd;
+    }
+
+    public int getKid() {
+        return kid;
+    }
+
+    public void setKid(int kid) {
+        this.kid = kid;
     }
 }

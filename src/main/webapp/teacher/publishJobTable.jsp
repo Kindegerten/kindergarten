@@ -78,11 +78,11 @@
             }],
             cols: [[
                 {type: "checkbox", width: 50},
-                {field: 'id', width: 140, title: 'ID', sort: true},
+                {field: 'workReleaseid', width: 140, title: 'ID', sort: true},
                 {field: 'classId', width: 140, title: '班号'},
                 {field: 'className', width: 140, title: '班名', sort: true},
-                {field: 'name', width: 140, title: '作业'},
-                {field: 'releaseTime', title: '发布时间', width: 150},
+                {field: 'workName', width: 140, title: '作业'},
+                {field: 'workreleaseTime', title: '发布时间', width: 150},
                 {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center"}
             ]],
             limits: [5,10, 15, 20, 25, 50, 100],
@@ -127,9 +127,9 @@
                                     async:true,
                                     data:{
                                         // type:"taskAdd",
-                                        name:taskName,
-                                        releaseTime:releaseTime,
-                                        route:route
+                                        workName:taskName,
+                                        workreleaseTime:releaseTime,
+                                        workUrl:route
                                     },
                                     dataType:"text",
                                     success:function(data){

@@ -48,5 +48,51 @@
      delete from tbl_workrelease where work_releaseid = (#{workReleaseid})
   </delete>
 
+    <!--  //查询表格-->
+    <select id="selectList" resultType="com.kindergarten.bean.Work">
+
+    SELECT a.work_id,a.student_id,a.student_name,a.parents_name ,a.cid, b.workrelease_time, a.work_finishtime,a.work_url,a.work_eva
+    from tbl_work a
+    LEFT join tbl_workrelease b on  a.work_releaseid=b.work_releaseid
+    WHERE b.teacher_id=#{e.teacherId}
+    limit #{start},#{pageSize}
+  </select>
+
+    <!--  chy:获取表格数据总条数-->
+    <select id="selectListCount" resultType="int">
+    SELECT count(a.work_id)
+    from tbl_work a
+    LEFT join tbl_workrelease b on  a.work_releaseid=b.work_releaseid
+    WHERE b.teacher_id=#{teacherId}
+  </select>
+
+<!--    修改作业评级-->
+    <update id="updateTask" parameterType="com.kindergarten.bean.Work">
+        update tbl_work
+        <set>
+            work_eva=#{e.workEva}
+        </set>
+        where work_id=#{e.workID}
+    </update>
+
+<!--    班级相册-->
+    <!--  //查询表格-->
+    <select id="photoSelectList" resultType="com.kindergarten.bean.Photo"  >
+    SELECT
+    a.*,b.teacher_id
+    from tbl_photo a
+    LEFT JOIN tbl_teachers b on b.class_id=a.class_id
+    WHERE b.teacher_id=#{idNum}
+    limit #{start},#{pageSize}
+  </select>
+
+    <!--  chy:获取表格数据总条数-->
+    <select id="photoSelectListCount" resultType="int">
+    select count(photo_id) from tbl_photo
+  </select>
+
+    <insert id="addClassPhoto" parameterType="com.kindergarten.bean.Photo" >
+    insert into tbl_photo(photo_name,photo_detail,photo_url,photo_time,class_id) values (#{e.photoName},#{e.photoDetail},#{e.photoUrl},#{e.photoTime},#{e.classId})
+  </insert>
 
 </mapper>
