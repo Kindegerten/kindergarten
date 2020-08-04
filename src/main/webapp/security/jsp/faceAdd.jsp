@@ -26,68 +26,7 @@
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-<%--</head>--%>
-<%--<body>--%>
-<%--<!--video用于显示媒体设备的视频流，自动播放-->--%>
-<%--<video id="video" autoplay style="width: 480px;height: 320px"></video>--%>
-<%--<!--拍照按钮-->--%>
-<%--<div>--%>
-<%--    <button id="capture">拍照</button>--%>
-<%--</div>--%>
-<%--<!--描绘video截图-->--%>
-<%--<canvas id="canvas" width="480" height="320"></canvas>--%>
-<%--</body>--%>
-<%--</html>--%>
-<%--<script>--%>
-<%--    var video = document.getElementById('video');--%>
-<%--    var canvas = document.getElementById('canvas');--%>
-<%--    var capture = document.getElementById('capture');--%>
-<%--    var context = canvas.getContext('2d');--%>
-<%--    function getUserMediaToPhoto(constraints,success,error) {--%>
-<%--        if(navigator.mediaDevices.getUserMedia){--%>
-<%--            //最新标准API--%>
-<%--            navigator.mediaDevices.getUserMedia(constraints).then(success).catch(error);--%>
-<%--        }else if (navigator.webkitGetUserMedia) {--%>
-<%--            //webkit核心浏览器--%>
-<%--            navigator.webkitGetUserMedia(constraints,success,error);--%>
-<%--        }else if(navigator.mozGetUserMedia){--%>
-<%--            //firefox浏览器--%>
-<%--            navigator.mozGetUserMedia(constraints,success,error);--%>
-<%--        }else if(navigator.getUserMedia){--%>
-<%--            //旧版API--%>
-<%--            navigator.getUserMedia(constraints,success,error);--%>
-<%--        }--%>
-<%--    }--%>
-<%--    //成功回调函数--%>
-<%--    function success(stream){--%>
-<%--        //兼容webkit核心浏览器--%>
-<%--        var CompatibleURL = window.URL || window.webkitURL;--%>
-<%--        //将视频流转化为video的源--%>
-<%--        video.src = CompatibleURL.createObjectURL(stream);--%>
-<%--        video.play();//播放视频--%>
-<%--    }--%>
-<%--    function error(error) {--%>
-<%--        console.log('访问用户媒体失败：',error.name,error.message);--%>
-<%--    }--%>
-<%--    if(navigator.mediaDevices.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.getUserMedia){--%>
-<%--        getUserMediaToPhoto({video:{width:480,height:320}},success,error);--%>
-<%--    }else{--%>
-<%--        alert('你的浏览器不支持访问用户媒体设备');--%>
-<%--    }--%>
-<%--    capture.addEventListener('click',function() {--%>
-<%--        // 将video画面描绘在canvas画布上--%>
-<%--        context.drawImage(video,0,0,480,320);--%>
-<%--    })--%>
-<%--</script>--%>
-
-
-
-<%--<!doctype html>--%>
-<%--<html lang="en">--%>
-
-<%--<head>--%>
-<%--    <meta charset="UTF-8">--%>
-    <title>人脸识别</title>
+    <title>添加人脸</title>
 </head>
 
 <body>
@@ -96,7 +35,9 @@
 <img src="http://placehold.it/640&text=Your%20image%20here%20..." id="photo" alt="photo" style="width: 640px;height: 480px; float: right;">
 <br/>
 
-    <button id="take" class="layui-btn" style="margin-left: 45px">拍照</button>
+<button id="take" class="layui-btn" style="margin-left: 45px">拍照</button>
+<button id="add" class="layui-btn" style="margin-left: 45px">添加</button>
+<input type="hidden" value="" id="pic"/>
 
 
 
@@ -154,8 +95,36 @@
                 document.getElementById('photo').setAttribute('src', data);
                 // alert(data);
 
+                $("#pic").val(data);
+                // $.ajax({
+                //     url: "/sc/addFace",
+                //     async: true,
+                //     type: "POST",
+                //     data: "base64=" + encodeURIComponent(data),
+                //     dataType: "text",
+                //     success: function (msg) {
+                //         layer.msg(msg)
+                //         console.log(msg);
+                //     },
+                //     error: function () {
+                //         layer.msg("网络繁忙!");
+                //     }
+                // });
+
+            }
+        }, false);
+
+        document.getElementById('add').addEventListener('click', function () {
+
+            let data=$("#pic").val();
+            console.log(data);
+            $("#pic").val("");
+
+            if (data==""||data==null||data=="null"){
+                layer.msg("请先拍照！")
+            }else {
                 $.ajax({
-                    url: "/sc/getAuth",
+                    url: "/sc/addFace",
                     async: true,
                     type: "POST",
                     data: "base64=" + encodeURIComponent(data),
@@ -168,9 +137,10 @@
                         layer.msg("网络繁忙!");
                     }
                 });
-
+                document.getElementById('photo').setAttribute('src', "http://placehold.it/640&text=Your%20image%20here%20...");
             }
-        }, false);
+
+        },false);
     })();
 </script>
 </body>
