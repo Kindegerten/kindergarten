@@ -127,7 +127,7 @@
     <select id="selectSecurity" resultType="com.kindergarten.bean.Security" parameterType="java.util.HashMap">
         /*parameterType输入参数，resultType是输出结果*/
         select security_id, security_name, security_sex, security_age, security_add, security_phone, security_regtime,
-        rid, security_status, security_pwd from tbl_security
+        rid, security_status , security_pwd from tbl_security
         <where>
             <if test="condition.securityName!=null and condition.securityName !=''">
                 and security_name like concat('%',#{condition.securityName},'%')

@@ -124,7 +124,7 @@
                             <cite>考勤管理</cite></a>
                     </li>
                     <li>
-                        <a onclick="xadmin.add_tab('班级信息','/teacher/checkWork.jsp',true)">
+                        <a onclick="xadmin.add_tab('班级信息','/teacher/classInfoTable.jsp',true)">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>班级信息</cite></a>
                     </li>
