@@ -1,6 +1,7 @@
 package com.kindergarten.bean;
 
 import java.util.List;
+import java.util.Map;
 
 public class FaceReturn {
 
@@ -10,6 +11,9 @@ public class FaceReturn {
     private List<FaceLocation> location;    //人脸在图片中的位置
     private int error_code;
     private String error_msg;
+    private String timestamp;
+    private int cached;
+    private Map<String,Object> result;
 
     public FaceReturn() {
     }

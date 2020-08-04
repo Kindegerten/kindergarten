@@ -17,7 +17,7 @@ public class FaceSearch {
 //            map.put("liveness_control", "NORMAL");
             map.put("group_id_list", "security,teacher");
             map.put("image_type", "BASE64");
-//            map.put("quality_control", "LOW");
+            map.put("quality_control", "LOW");
 
             String param = GsonUtils.toJson(map);
 
