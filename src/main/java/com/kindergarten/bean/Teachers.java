@@ -1,24 +1,45 @@
 package com.kindergarten.bean;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+public class Teachers
+{
 
-import java.util.Date;
-
-public class Teachers {
     private int teacherId;
     private String teacherTel;
     private String teacherPwd;
     private String teacherName;
-    private int classId; //班级id
-    private int  teacherStatus;
-    private int  kinderId;//所属园所id
-    private String  teacherSex;
-    private int  teacherAge;
+    private String teacherSex;
+    private int teacherAge;
+    private int classId;
 
-//    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
-    private Date teacherRegtime;
+    public Teachers()
+    {
 
-    public Teachers() {
+    }
+
+    public Teachers(int teacherId, String teacherTel, String teacherPwd, String teacherName, String teacherSex, int teacherAge, int classId) {
+        this.teacherId = teacherId;
+        this.teacherTel = teacherTel;
+        this.teacherPwd = teacherPwd;
+        this.teacherName = teacherName;
+        this.teacherSex = teacherSex;
+        this.teacherAge = teacherAge;
+        this.classId = classId;
+    }
+
+    public String getTeacherSex() {
+        return teacherSex;
+    }
+
+    public void setTeacherSex(String teacherSex) {
+        this.teacherSex = teacherSex;
+    }
+
+    public int getTeacherAge() {
+        return teacherAge;
+    }
+
+    public void setTeacherAge(int teacherAge) {
+        this.teacherAge = teacherAge;
     }
 
     public int getTeacherId() {
@@ -61,43 +82,16 @@ public class Teachers {
         this.classId = classId;
     }
 
-    public int getTeacherStatus() {
-        return teacherStatus;
-    }
-
-    public void setTeacherStatus(int teacherStatus) {
-        this.teacherStatus = teacherStatus;
-    }
-
-    public int getKinderId() {
-        return kinderId;
-    }
-
-    public void setKinderId(int kinderId) {
-        this.kinderId = kinderId;
-    }
-
-    public String getTeacherSex() {
-        return teacherSex;
-    }
-
-    public void setTeacherSex(String teacherSex) {
-        this.teacherSex = teacherSex;
-    }
-
-    public int getTeacherAge() {
-        return teacherAge;
-    }
-
-    public void setTeacherAge(int teacherAge) {
-        this.teacherAge = teacherAge;
-    }
-
-    public Date getTeacherRegtime() {
-        return teacherRegtime;
-    }
-
-    public void setTeacherRegtime(Date teacherRegtime) {
-        this.teacherRegtime = teacherRegtime;
+    @Override
+    public String toString() {
+        return "TblTeachers{" +
+                "teacherId=" + teacherId +
+                ", teacherTel='" + teacherTel + '\'' +
+                ", teacherPwd='" + teacherPwd + '\'' +
+                ", teacherName='" + teacherName + '\'' +
+                ", teacherSex='" + teacherSex + '\'' +
+                ", teacherAge=" + teacherAge +
+                ", classId=" + classId +
+                '}';
     }
 }

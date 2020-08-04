@@ -10,19 +10,12 @@ public class Workrelease {
     private String teacherName;
 
     private String workResult="未完成";
+    private String workEva="暂未评价";
+
 
     public Workrelease() {
     }
 
-
-
-    public String getWorkResult() {
-        return workResult;
-    }
-
-    public void setWorkResult(String workResult) {
-        this.workResult = workResult;
-    }
 
     public int getWorkreleaseId() {
         return workreleaseId;
@@ -56,6 +49,13 @@ public class Workrelease {
         this.workreleaseTime = workreleaseTime;
     }
 
+    public int getClassId() {
+        return classId;
+    }
+
+    public void setClassId(int classId) {
+        this.classId = classId;
+    }
 
     public int getTeacherId() {
         return teacherId;
@@ -73,24 +73,19 @@ public class Workrelease {
         this.teacherName = teacherName;
     }
 
-    public int getClassId() {
-        return classId;
+    public String getWorkResult() {
+        return workResult;
     }
 
-    public void setClassId(int classId) {
-        this.classId = classId;
-    }
-
-
-
-    public Workrelease(int workreleaseId, String workName, String workUrl, String workreleaseTime, int classId, int teacherId, String teacherName, String workResult) {
-        this.workreleaseId = workreleaseId;
-        this.workName = workName;
-        this.workUrl = workUrl;
-        this.workreleaseTime = workreleaseTime;
-        this.classId = classId;
-        this.teacherId = teacherId;
-        this.teacherName = teacherName;
+    public void setWorkResult(String workResult) {
         this.workResult = workResult;
+    }
+
+    public String getWorkEva() {
+        return workEva;
+    }
+
+    public void setWorkEva(String workEva) {
+        this.workEva = workEva;
     }
 }
