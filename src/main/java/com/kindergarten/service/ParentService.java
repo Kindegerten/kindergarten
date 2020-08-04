@@ -18,7 +18,5 @@ public interface ParentService {
     public PageBean<Meal> meals(int studentId,int curPage, int pageSize);
     public LayuiData<Workrelease> studentWork(int studentId,int curPage, int pageSize);
 
-    public LayuiData<ParentShowSafeQue> AllSafeEducation(int studentId,int curPage, int pageSize);
-
 
 }

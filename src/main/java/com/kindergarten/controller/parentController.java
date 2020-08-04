@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.kindergarten.bean.*;
 import com.kindergarten.mapper.ParentsMapper;
 import com.kindergarten.service.ParentService;
+import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,11 +15,13 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -324,71 +327,5 @@ public class parentController {
 
         }
 
-    @RequestMapping(value = "/historyhomework")
-    @ResponseBody
-    public String historyhomework(HttpServletRequest request) throws ServletException, IOException {
-        int curPage;
-        if(request.getParameter("curPage")!=null){
-            curPage = Integer.parseInt(request.getParameter("curPage"));
-        }else{
-            curPage = 1;
-        }
-        int pageSize=Integer.parseInt(request.getParameter("pageSize"));
-
-        String studentid= (String) request.getSession().getAttribute("studentID");
-        LayuiData<Workrelease> workreleaseLayuiData=parentService.studentWork(Integer.parseInt(studentid),curPage,pageSize);
-
-        return JSON.toJSONString(workreleaseLayuiData);
-    }
-
-
-    @RequestMapping(value = "/SafeEducation")
-    @ResponseBody
-    public String SafeEducation(HttpServletRequest request) throws ServletException, IOException {
-        String studentid= (String) request.getSession().getAttribute("studentID");
-        int curPage;
-        if(request.getParameter("curPage")!=null){
-            curPage = Integer.parseInt(request.getParameter("curPage"));
-        }else{
-            curPage = 1;
-        }
-        int pageSize=Integer.parseInt(request.getParameter("pageSize"));
-
-
-        LayuiData<ParentShowSafeQue> parentShowSafeQueLayuiData=parentService.AllSafeEducation(Integer.parseInt(studentid),curPage,pageSize);
-
-        return JSON.toJSONString(parentShowSafeQueLayuiData);
-    }
-
-
-
-    @RequestMapping(value = "/SafeEduAns")
-    @ResponseBody
-    public String SafeEduAns(int videoId) throws ServletException, IOException {
-        System.out.println(JSON.toJSONString(parentsMapper.SafeEduAns(videoId)));
-        return parentsMapper.SafeEduAns(videoId);
-    }
-
-    @RequestMapping(value = "/SafeQuestion")
-    @ResponseBody
-    public List<SafetyVtq> SafeQuestion(int videoId) throws ServletException, IOException {
-
-        List<SafetyVtq> list=parentsMapper.SearchQuestion(videoId);
-        System.out.println(JSON.toJSONString(list));
-        return list;
-    }
-
-    @RequestMapping(value = "/UpdateQueScore")
-    @ResponseBody
-    public String UpdateQueScore(HttpServletRequest request,int videoId,int score) throws ServletException, IOException {
-        String studentid= (String) request.getSession().getAttribute("studentID");
-        int flag=parentsMapper.UpdateQueScore(videoId,Integer.parseInt(studentid),score);
-            if (flag>0){
-
-                return "success";
-            }else {
-                return "error";
-            }
-    }
 
 }

@@ -1,7 +1,10 @@
 package com.kindergarten.bean;
 
+import java.util.Date;
+
 public class Kinder {
     private int kinderId,kinderStatus;
+    private String parameterText;//状态名
     private String kinderName;//院所名称
     private String kinderLp;//法人
     private String kinderLpid;//法人身份证
@@ -12,8 +15,80 @@ public class Kinder {
     private String firePermit;//消防许可证
     private String groupPermit;//组织代码证
     private String registrationPermit;//税务登记证
-
+    private String kinderRegtime; //申请时间
+    private Date approveTime;//审批时间
+    private String kinderAccount;
+    private String kinderStateText;
+    private String kinderPwd;
+    private int kinderState;
     public Kinder() {
+    }
+
+    public String getKinderPwd() {
+        return kinderPwd;
+    }
+
+    public void setKinderPwd(String kinderPwd) {
+        this.kinderPwd = kinderPwd;
+    }
+
+    public int getKinderState() {
+        return kinderState;
+    }
+
+    public void setKinderState(int kinderState) {
+        this.kinderState = kinderState;
+    }
+
+    public String getKinderStateText() {
+
+        return kinderStateText;
+    }
+
+    public void setKinderStateText(String kinderStateText) {
+        this.kinderStateText = kinderStateText;
+    }
+
+    public String getKinderAccount() {
+        return kinderAccount;
+    }
+
+    public void setKinderAccount(String kinderAccount) {
+        this.kinderAccount = kinderAccount;
+    }
+
+    public String getParameterText() {
+        return parameterText;
+    }
+
+    public void setParameterText(String parameterText) {
+        this.parameterText = parameterText;
+    }
+
+    public String getKinderRegtime() {
+        return kinderRegtime;
+    }
+
+    public void setKinderRegtime(String kinderRegtime) {
+        this.kinderRegtime = kinderRegtime;
+    }
+
+
+
+    //    public Date getKinderRegtime() {
+//        return kinderRegtime;
+//    }
+//
+//    public void setKinderRegtime(Date kinderRegtime) {
+//        this.kinderRegtime = kinderRegtime;
+//    }
+//
+    public Date getApproveTime() {
+        return approveTime;
+    }
+
+    public void setApproveTime(Date approveTime) {
+        this.approveTime = approveTime;
     }
 
     public int getKinderId() {
