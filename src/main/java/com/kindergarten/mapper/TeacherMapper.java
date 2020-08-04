@@ -1,9 +1,6 @@
 package com.kindergarten.mapper;
 
-import com.kindergarten.bean.Photo;
-import com.kindergarten.bean.Teachers;
-import com.kindergarten.bean.TblWorkrelease;
-import com.kindergarten.bean.Work;
+import com.kindergarten.bean.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -37,5 +34,11 @@ public interface TeacherMapper
    List<Photo> photoSelectList(@Param("idNum") int idNum, @Param("start") int start, @Param("pageSize") int pageSize);
    int photoSelectListCount();
    int addClassPhoto(@Param("e") Photo classPhoto);
+   //班级信息
+   //查表格
+   List<ClassInfo> classInfoSelectList(@Param("e") ClassInfo classInf, String endTime, @Param("start") int start, @Param("pageSize") int pageSize);
+   int classInfoSelectListCount();
+   //查询班级总数
+   int classInfoSelClassCount();
 
 }

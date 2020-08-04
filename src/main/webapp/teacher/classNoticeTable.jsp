@@ -13,14 +13,14 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="<%=path%>/static/X-admin/lib/layuimini/lib/layui-v2.5.5/css/layui.css" media="all">
-    <link rel="stylesheet" href="<%=path%>/static/X-admin/lib/layuimini/css/public.css" media="all">
+    <link rel="stylesheet" href="<%=path%>/back/layuimini/lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="<%=path%>/back/layuimini/css/public.css" media="all">
 </head>
 <body>
 <div class="layuimini-container">
     <div class="layuimini-main">
 
-        <div style="margin-left:45%;"><h2>班级信息</h2></div>
+        <div style="margin-left:45%;"><h2>班级通知</h2></div>
         <%--        搜索框--%>
         <fieldset class="table-search-fieldset">
             <legend>搜索信息</legend>
@@ -28,7 +28,7 @@
                 <form class="layui-form layui-form-pane" action="">
                     <div class="layui-form-item">
                         <div class="layui-inline">
-                            <label class="layui-form-label">入学时间</label>
+                            <label class="layui-form-label">创建时间</label>
                             <div class="layui-input-inline">
                                 <input type="text" name="startTime" id="startTime" lay-verify="date"
                                        placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
@@ -66,71 +66,38 @@
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
         <%--        行标签--%>
         <script type="text/html" id="currentTableBar">
-            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">宝宝信息</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">修改</a>
+            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
+
         </script>
     </div>
 </div>
 
-<%--宝宝信息弹出框--%>
-<div id="babyInf" style="display:none;">
-    <form class="layui-form" lay-filter="formDetail" action="" id="add">
-<%--宝宝图片--%>
+<div id="classNotice" style="display:none;">
+    <form class="layui-form" action="" id="add">
         <div class="layui-inline">
+            <label class="layui-form-label">标题：</label>
             <div class="layui-input-block">
-                <img src="../static/img/c3.bmp" id="faceUrl" class="layui-nav-img" style="height: 150px;width: 150px">
+                <input type="text" name="taskName" id="taskName" placeholder="" class="layui-input">
             </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">时间</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="noticeTime" id="noticeTime" lay-verify="date"
+                           placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input" disabled="disabled">
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">内容：</label>
+                <div class="layui-input-block">
+                    <textarea placeholder="请输入内容" id="noticeInf" class="layui-textarea"></textarea>
+                </div>
+            </div>
+
         </div>
-<%--宝宝信息--%>
-        <div class="layui-inline">
-            <label class="layui-form-label">宝宝姓名：</label>
-            <div class="layui-input-block">
-                <input type="text" name="studentName" id="studentName" placeholder="" class="layui-input" disabled="disabled">
-            </div>
-            <label class="layui-form-label">宝宝性别：</label>
-            <div class="layui-input-block">
-                <input type="text" name="studentSex" id="studentSex" placeholder="" class="layui-input" disabled="disabled">
-            </div>
-            <label class="layui-form-label">出生地址：</label>
-            <div class="layui-input-block">
-                <input type="text" name="studentAdd" id="studentAdd" placeholder="" class="layui-input" disabled="disabled">
-            </div>
-            <label class="layui-form-label">出生时间：</label>
-            <div class="layui-input-block">
-                <input type="text" name="studentBirth" id="studentBirth" placeholder="" class="layui-input"
-                       disabled="disabled" style="width: 180px">
-            </div>
-        </div>
-<%--家长图片--%>
-    <div>
-        <div class="layui-inline">
-            <div class="layui-input-block">
-                <img src="../static/img/c2.bmp" id="photoUrl" class="layui-nav-img" style="height: 150px;width: 150px">
-            </div>
-        </div>
-<%--家长信息--%>
-        <div class="layui-inline">
-            <label class="layui-form-label">家长姓名：</label>
-            <div class="layui-input-block">
-                <input type="text" name="parentsName" id="parentsName" placeholder="" class="layui-input" disabled="disabled">
-            </div>
-            <label class="layui-form-label">家长电话：</label>
-            <div class="layui-input-block">
-                <input type="text" name="parentsTel" id="parentsTel" placeholder="" class="layui-input" disabled="disabled">
-            </div>
-            <label class="layui-form-label">家庭地址：</label>
-            <div class="layui-input-block">
-                <input type="text" name="studentAdd" placeholder="" class="layui-input" disabled="disabled">
-            </div>
-<%--            <label class="layui-form-label">家长职业：</label>--%>
-<%--            <div class="layui-input-block">--%>
-<%--                <input type="text" name="parentsJob" id="parentsJob" placeholder="" class="layui-input"--%>
-<%--                       disabled="disabled" style="width: 180px">--%>
-<%--            </div>--%>
-        </div>
-    </div>
     </form>
 </div>
-<script src="<%=path%>/static/X-admin/lib/layuimini/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<script src="<%=path%>/back/layuimini/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
 <script>
     layui.use(['form', 'table', 'jquery', 'layedit', 'laydate', 'upload'], function () {
         var $ = layui.jquery,
@@ -142,8 +109,8 @@
             laydate = layui.laydate;
         table.render({
             elem: '#currentTableId',
-            url: '<%=path%>/tc/classInfoSelectList',
-            // toolbar: '#toolbarDemo',
+            url: '<%=path%>/classNoticeControl/selectList',
+            toolbar: '#toolbarDemo',
             defaultToolbar: ['filter', 'exports', 'print', {
                 title: '提示',
                 layEvent: 'LAYTABLE_TIPS',
@@ -151,20 +118,11 @@
             }],
             cols: [[
                 {type: "checkbox", width: 50},
-                {field: 'studentId', width: 100, title: '编号', sort: true},
-                {field: 'studentId', width: 100, title: '宝宝编号'},
-                {field: 'studentName', width: 100, title: '宝宝名称'},
-                {field: 'parentsName', width: 100, title: '家长名称'},
-                {field: 'studentTime', width: 180, title: '入学时间', sort: true},
-                {field: 'studentSex', width: 120, title: '性别', sort: true},
-                {title: '宝宝信息', minWidth: 150, toolbar: '#currentTableBar', align: "center"},
-                {field: 'faceUrl', width: 100, title: '宝宝图片', hide: true},
-
-                {field: 'parentsTel', width: 100, title: '家长电话', hide: true},
-                // {field: 'parentsAge', width: 100, title: '家长年龄', hide: true},
-                // {field: 'parentsJob', width: 100, title: '家长职业', hide: true},
-
-
+                {field: 'id', width: 100, title: '通知编号', sort: true},
+                {field: 'name', width: 100, title: '通知名称'},
+                {field: 'content', width: 180, title: '通知内容'},
+                {field: 'foundTime', width: 180, title: '发布时间', sort: true},
+                {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center"},
             ]],
             limits: [2, 5, 10, 15, 20, 25, 50, 100],
             limit: 5,
@@ -179,40 +137,44 @@
         table.on('toolbar(currentTableFilter)', function (obj) {
             if (obj.event === 'add') {  // 监听添加操作
                 $('#taskName').val(null);
-                $('#date').val(null);
+                $('#noticeInf').val(null);
+
                 var index = layer.open({
-                    title: '发布作业',
+                    title: '添加信息',
                     type: 1,
                     shade: 0.2,
                     maxmin: true,
                     shadeClose: true,
-                    area: ['100%', '100%'],
+                    offset: ['50px','35%'],
+                    area: ['500px', '600px'],
                     closeBtn: false,
                     id: 'LAY_layuipro',
-                    btn: ['发布', '返回'],
+                    btn: ['确定', '返回'],
                     btnAlign: 'c',
                     moveType: 1,
-                    content: $('#insert_div'), //内容
+                    content: $('#classNotice'), //内容
                     success: function (layero, index) {
                         var btn = layero.find('.layui-layer-btn');
                         btn.find('.layui-layer-btn0').click(function () {
                             // var body = layer.getChildFrame('body', index);
                             var taskName = $('#taskName').val();
-                            var releaseTime = $('#date').val();
-                            var route = $('#route').val();
+                            var noticeInf = $('#noticeInf').val();
+                            var noticTime = $('#noticTime').val();
+
                             $.ajax({
                                 type: "post",
-                                url: "<%=path%>/publishTaskControl/publishTaskAdd",
+                                url: "<%=path%>/classNoticeControl/classNoticeAdd",
                                 async: true,
                                 data: {
                                     // type:"taskAdd",
                                     name: taskName,
-                                    releaseTime: releaseTime,
-                                    route: route
+                                    content: noticeInf,
+                                    foundTime: noticTime,
                                 },
                                 dataType: "text",
                                 success: function (data) {
                                     if (data.trim() == "ok") {
+
                                     }
                                     alert("添加成功");
                                     window.location.reload();
@@ -239,11 +201,8 @@
         table.on('tool(currentTableFilter)', function (obj) {
             var data = obj.data;
 
-            $("#faceUrl").attr("src",  data.faceUrl);
-            $("#photoUrl").attr("src",  data.photoUrl);
-
-            // $("#babyName").val("ghjghj");
-
+             $('#taskName').val(data.name);
+             $('#noticeInf').val(data.content);
             if (obj.event === 'edit') {
                 layer.open({
                     title: '信息显示',
@@ -251,19 +210,51 @@
                     shade: 0.2,
                     maxmin: true,
                     shadeClose: true,
-                    offset: ['10px'],
-                    area: ['500px', '750px'],
+                    offset: ['50px','35%'],
+                    area: ['500px', '600px'],
                     closeBtn: false,
                     id: 'LAY_layuipro',
-                    btn: ['确认'],
+                    btn: ['发布', '返回'],
                     btnAlign: 'c',
                     moveType: 1,
-                    content: $('#babyInf'), //内容
+                    content: $('#classNotice'), //内容
                     success: function (layero, index) {
-                        form.val('formDetail', data);
+                        var btn = layero.find('.layui-layer-btn');
+                        btn.find('.layui-layer-btn0').click(function () {
+                            // var body = layer.getChildFrame('body', index);
+                            var taskName = $('#taskName').val();
+                            var noticeInf = $('#noticeInf').val();
+                            var noticTime = $('#noticTime').val();
+                            $.ajax({
+                                type: "post",
+                                url: "<%=path%>/classNoticeControl/updateClassNotice",
+                                async: true,
+                                data: {
+                                    // type:"taskAdd",
+                                    name: taskName,
+                                    content: noticeInf,
+                                    foundTime: noticTime,
+                                    id:data.id
+                                },
+                                dataType: "text",
+                                success: function (data) {
+                                    if (data.trim() == "ok") {
+
+                                    }
+                                    alert("修改成功");
+                                    window.location.reload();
+                                }
+                            });
+                        });
                     }
                 });
                 return false;
+            }else if (obj.event === 'delete') {
+                layer.confirm('真的删除行么', function (index) {
+                    shanchu(data.id);//alert(data.id);
+                    obj.del();
+                    layer.close(index);
+                });
             }
         });
 
@@ -276,10 +267,16 @@
         laydate.render({
             elem: '#endTime'
         });
+        //时间选取:noticeTime
+        laydate.render({
+            elem: '#noticeTime'
+            ,value: new Date()
+            ,type:'datetime'
+        });
         //上传文件
         upload.render({
             elem: '#test3'
-            , url: '<%=path%>/tc/upLoad' //改成您自己的上传接口
+            , url: '<%=path%>/publishTaskControl/upLoad' //改成您自己的上传接口
             , accept: 'file' //普通文件
             , done: function (res) {
                 layer.msg('上传成功');
@@ -291,14 +288,12 @@
         // 监听搜索操作
         form.on('submit(data-search-btn)', function (data) {
             var result = JSON.stringify(data.field);
-            // layer.alert(result, {
-            //     title: '最终的搜索信息'
-            // });
+
             var startTime = $("#startTime").val();//选取的起始时间
             var endTime = $("#endTime").val();//选取的结束时间
             //执行搜索重载
             table.reload('currentTableId', {
-                url: '<%=path%>/tc/classInfoSelectList',
+                url: '<%=path%>/classNoticeControl/selectList',
                 page: {
                     curr: 1 //重新从第 1 页开始
                 },
@@ -309,7 +304,23 @@
 
             return false;
         });
-
+        //删除
+        function shanchu(data){
+            $.ajax({
+                url:"<%=path%>/classNoticeControl/delClassNotice",
+                type:"post",
+                async:true,
+                data:{
+                    type:"shanchu",
+                    id:data
+                },
+                dataType:"text",
+                success:function(data){
+                    // alert(data);
+                    location.reload();
+                }
+            });
+        }
     });
 </script>
 

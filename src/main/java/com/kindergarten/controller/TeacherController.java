@@ -300,5 +300,24 @@ public class TeacherController {
         return JSON.toJSONString(i);
     }
 
+    /*查询*/
+    @RequestMapping(value = "/classInfoSelectList")
+    @ResponseBody
+    public String selectList(HttpServletRequest request, HttpServletResponse response, ClassInfo classInf ) {
+        String pageStr = request.getParameter("page");//页码
+        String pageSizeStr = request.getParameter("limit");//每页记录数
+
+        String startTime = request.getParameter("startFinishTime");
+        String endTime = request.getParameter("endFinishTime");
+
+        Teachers staffRo=(Teachers) request.getSession().getAttribute("tblTeachers");
+
+        classInf.setTeacherId(staffRo.getTeacherId());
+        classInf.setStudentTime(startTime);
+
+        LayuiData layuiData = teacherService.classInfoSelectList(classInf,endTime,Integer.parseInt(pageStr), Integer.parseInt(pageSizeStr) );
+        return JSON.toJSONString(layuiData);
+    }
+
 
 }

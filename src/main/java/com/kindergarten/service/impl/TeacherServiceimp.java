@@ -114,4 +114,27 @@ public class TeacherServiceimp implements TeacherService {
         int i=teacherMapper.addClassPhoto(classPhoto);
         return i;
     }
+
+    @Override
+    public LayuiData classInfoSelectList(ClassInfo classInf, String endTime, int page, int pageSize)
+    {
+        int start = (page - 1) * pageSize;//计算出起始查询位置
+        if(start<0)
+            start=0;
+        List<ClassInfo> list = teacherMapper.classInfoSelectList( classInf,endTime,start,pageSize);
+        int count = teacherMapper.classInfoSelectListCount();
+
+        LayuiData layuiData = new LayuiData();
+        if (list.size() > 0) {
+            layuiData.setCode(0);
+            layuiData.setMsg("");
+            layuiData.setCount(count);
+            layuiData.setData(list);
+            layuiData.setMsg("查询成功");
+        } else {
+            layuiData.setCode(1);
+            layuiData.setMsg("查询失败");
+        }
+        return layuiData;
+    }
 }
