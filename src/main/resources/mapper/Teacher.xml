@@ -95,4 +95,35 @@
     insert into tbl_photo(photo_name,photo_detail,photo_url,photo_time,class_id) values (#{e.photoName},#{e.photoDetail},#{e.photoUrl},#{e.photoTime},#{e.classId})
   </insert>
 
+<!--    班级信息-->
+    <!--  查询表格-->
+    <select id="classInfoSelectList" resultType="com.kindergarten.bean.ClassInfo"   >
+        SELECT b.*,a.*,c.teacher_id,d.*,f.*
+        FROM tbl_parents a
+        LEFT JOIN tbl_students b on  b.class_id = b.class_id
+        LEFT JOIN tbl_teachers c on c.class_id=b.class_id
+        LEFT JOIN tbl_parents_students d on d.parents_id = a.parents_id
+        LEFT JOIN tbl_stutime f on f.student_id = b.student_id
+        WHERE c.teacher_id=#{e.teacherId}
+        <if test="e.studentTime!=null and e.studentTime!=''">
+            <![CDATA[ and student_time >=#{e.studentTime}]]>
+        </if>
+        <if test="e.studentTime!=null and e.studentTime!=''">
+            <![CDATA[ and student_time <= #{endTime}]]>
+        </if>
+        limit #{start},#{pageSize}
+    </select>
+
+    <select id="classInfoSelectListCount" resultType="int">
+        select count(class_id) from tbl_students
+   </select>
+
+    <!--查询老师总数-->
+    <select id="classInfoSelClassCount" resultType="int">
+        select COUNT(a.id)
+        FROM
+        tbl_class a
+    </select>
+
+
 </mapper>

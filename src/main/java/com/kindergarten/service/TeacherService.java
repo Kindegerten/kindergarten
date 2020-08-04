@@ -14,6 +14,8 @@ public interface TeacherService
    int updateTask(Work tblTask);//修改作业评级
    LayuiData phototSelectList(int idNum, int page, int pageSize) ;//班级相册
    int addClassPhoto(Photo classPhoto);
+   //班级信息
+   LayuiData classInfoSelectList(ClassInfo classInf, String endTime,int page, int pageSize) ;
 
 
 }
