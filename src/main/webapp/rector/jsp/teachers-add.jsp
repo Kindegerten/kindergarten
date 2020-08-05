@@ -27,28 +27,38 @@
 <div hidden class="layui-fluid" id="updateDiv">
     <div class="layui-row">
         <form class="layui-form" action="" method="post">
+            <%--            <div class="layui-form-item">--%>
+            <%--                <label class="layui-form-label">教职工ID</label>--%>
+            <%--                <div  hidden class="layui-input-inline">--%>
+            <%--                    <input hidden readonly type="text" id="teacherId" name="teacherId" required lay-verify="required" autocomplete="off"--%>
+            <%--                           placeholder="" class="layui-input">--%>
+            <%--                </div>--%>
+            <%--            </div>--%>
+            <%--            <input hidden value="teacher">--%>
             <div class="layui-form-item">
-                <label class="layui-form-label">教职工ID</label>
-                <div  hidden class="layui-input-inline">
-                    <input hidden readonly type="text" id="teacherId" name="teacherId" required lay-verify="required" autocomplete="off"
+                <label class="layui-form-label">教职工姓名</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="teacherName" name="teacherName" required lay-verify="required"
+                           autocomplete="off"
                            placeholder="" class="layui-input">
                 </div>
             </div>
-            <div class="layui-form-item">
-            <label class="layui-form-label">教职工姓名</label>
-            <div class="layui-input-inline">
-                <input type="text" id="teacherName1" name="teacherName" required lay-verify="required" autocomplete="off"
-                       placeholder="" class="layui-input">
-            </div>
-            </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">教职工电话</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="telphone" name="telphone" required lay-verify="required"
+                               autocomplete="off"
+                               placeholder="" class="layui-input">
+                    </div>
+                </div>
 
             <div class="layui-form-item">
                 <label class="layui-form-label">角色</label>
                 <div class="layui-input-inline">
-                    <select lay-filter="mySelect">
-                        <option value="roleName">班主任</option>
-                        <option value="roleName">保健员</option>
-                        <option value="roleName">消防员</option>
+                    <select lay-filter="mySelect" name="select">
+                        <option value="5">班主任</option>
+                        <option value="4">保健员</option>
+                        <option value="3">消防员</option>
                     </select>
                 </div>
             </div>
@@ -56,7 +66,8 @@
                 <div class="layui-input-block">
                     <button class="layui-btn" lay-submit lay-filter="newData">保存</button>
                     <button type="reset" class="layui-btn layui-btn-primary">取消</button>
-                    <a class="layui-btn layui-btn-primary" onclick="xadmin.open('开始添加人脸','<%=path%>/security/jsp/faceAdd.jsp')">开始添加人脸</a>
+                    <a class="layui-btn layui-btn-primary"
+                       onclick="xadmin.open('开始添加人脸','<%=path%>/security/jsp/faceAdd.jsp')">开始添加人脸</a>
                 </div>
             </div>
         </form>
@@ -66,31 +77,28 @@
     layui.use('form', function () {
         var form = layui.form;
         //监听提交
-        form.on('submit(examinationData)', function (data) {
-            var path = $("#path").val();
-            var examinationData = {
-                "studentName": data.field.studentName,
-                "sid": data.field.sid,
-                "classId": data.field.classId,
-                "height": data.field.height,
-                "weight": data.field.weight,
-                "vision": data.field.vision,
-                "temperature": data.field.temperature,
-                "healthStatus": data.field.healthStatus
-            };
+        form.on('submit(newData)', function (data) {
+            // var path = $("#path").val();
+            // var newData = {
+            //     "teacherName": data.field.teacherName,
+            //     "roleId":data.field.select,
+            // };
             $.ajax({
-                url: "/HealtherControl/addExamination",
+                url: "/HealtherControl/addStaffs",
                 async: true,
                 type: "POST",
-                data: {"value": JSON.stringify(examinationData)},
+                data: {
+                    "teacherName": data.field.teacherName,
+                    "telphone": data.field.telphone,
+                    "roleId": data.field.select,
+                },
                 dataType: "text",
                 success: function (msg) {
                     if (msg === "success") {
-                        // parent.location.reload();
-                        // layer.msg('更新成功!刷新浏览器', {icon: 1, time: 8000})
-
+                        layer.msg('添加成功!刷新浏览器', {icon: 1, time: 5000})
+                        parent.location.reload();
                     } else {
-                        layer.msg('更新失败!', {icon: 2, time: 6000});
+                        layer.msg('添加失败!', {icon: 2, time: 6000});
                     }
                 },
                 error: function () {

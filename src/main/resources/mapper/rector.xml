@@ -71,11 +71,15 @@
     <delete id="deleteStaff">
     delete from ${tableName} where ${tableId} = #{teacherid}
     </delete>
-    <!--&lt;!&ndash; 增加体检信息&ndash;&gt;-->
-    <!--    <insert id="addExamination" parameterType="com.kindergarten.bean.Examination" useGeneratedKeys="true" keyProperty="examinationId">-->
-    <!--        insert into tbl_examination(student_name,sid,class_id,height,weight,vision,temperature,health_status)-->
-    <!--        values (#{studentName},#{sid},#{classId},#{height},#{weight},#{vision},#{temperature},#{healthStatus})-->
-    <!--    </insert>-->
+    <!-- 增加教职工-->
+        <insert id="addStaffs">
+            insert into ${tableName}(${column1},${column2},${column3})
+            values (#{teacherName},#{roleid},#{telphone})
+        </insert>
+<!--    查询新增教职工-->
+       <select id="checkNewStaff">
+           select * from ${tableName} where ${column3}=#{telphone}
+       </select>
     <!--    &lt;!&ndash;    膳食管理列表&ndash;&gt;-->
     <!--    <select id="meallist" resultType="com.kindergarten.bean.Meal">-->
     <!--        select * from tbl_meal order by meal_datescope desc limit ${(curPage-1)*pageSize},${pageSize}-->

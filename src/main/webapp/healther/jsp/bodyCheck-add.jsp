@@ -116,7 +116,6 @@
                     if (msg === "success") {
                         parent.location.reload();
                         layer.msg('更新成功!刷新浏览器', {icon: 1, time: 8000})
-
                     } else {
                         layer.msg('更新失败!', {icon: 2, time: 6000});
                     }

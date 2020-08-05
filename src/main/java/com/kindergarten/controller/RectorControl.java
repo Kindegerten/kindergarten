@@ -131,25 +131,51 @@ public class RectorControl extends HttpServlet {
         int teacherid=Integer.valueOf(teacherId);
         int flag=rectorService.deleteStaff(tableName,tableId,teacherid);
         if (flag>0){
+
+
             return "success";
         }else{
             return "error";
         }
     }
 
-    //    @RequestMapping(value = "/addExamination")
-//    @ResponseBody
-//    public String addExamination(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        Gson gson=new Gson();
-//        String value=request.getParameter("value");
-//        Examination examination=gson.fromJson(value, Examination.class);
-//        int flag=healtherService.addExamination(examination);
-//        if (flag>0){
-//            return "success";
-//        }else{
-//            return "error";
-//        }
-//    }
+        @RequestMapping(value = "/addStaffs")
+    @ResponseBody
+    public String addStaffs(HttpServletRequest request, HttpServletResponse response,String teacherName,String roleId,String telphone) throws ServletException, IOException {
+        System.out.println(teacherName+roleId+telphone);
+        String tableName=null;
+        String column1=null;
+        String column2=null;
+        String column3=null;
+            if(roleId.equals("5")){
+                tableName="tbl_teachers";
+                column1="teacherName";
+                column2="rid";
+                column3="teacher_tel";
+            }else if(roleId.equals("4")){
+                tableName="tbl_healther";
+                column1="healtherName";
+                column2="rid";
+                column3="healther_phone";
+            }else if(roleId.equals("3")){
+                tableName="tbl_security";
+                column1="securityName";
+                column2="rid";
+                column3="security_phone";
+            }
+            int roleid=Integer.valueOf(roleId);
+        int flag=rectorService.addStaffs(tableName,column1,column2,column3,teacherName,roleid,telphone);
+        if (flag>0){
+            //TODO
+            Staffs staffs=rectorService.checkNewStaff(tableName,column3,telphone);
+            request.getSession().setAttribute("group_id","teacher");
+            request.getSession().setAttribute("user_id",staffs.getTeacherId());
+            request.getSession().setAttribute("user_info",teacherName);
+            return "success";
+        }else{
+            return "error";
+        }
+    }
 //    @RequestMapping(value = "meallist")
 //    @ResponseBody
 //    public Object meallist(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

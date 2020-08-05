@@ -29,4 +29,8 @@ public interface RectorMapper {
 
     //删除教职工
     int deleteStaff(@Param("tableName")String tableName,@Param("tableId")String tableId,@Param("teacherid")int teacherid);
+    //添加教职工
+    int addStaffs(String tableName,String column1,String column2,String column3,String teacherName,int roleid,String telphone);
+    //查询新增教职工
+    Staffs checkNewStaff(String tableName,String column3,String telphone);
 }

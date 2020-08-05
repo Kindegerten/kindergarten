@@ -43,6 +43,15 @@ public class RectorServiceImpl implements RectorService {
         return rectorMapper.deleteStaff(tableName,tableId,teacherid);
     }
 
+    @Override
+    public int addStaffs(String tableName,String column1,String column2,String column3,String teacherName,int roleid,String telphone) {
+        return rectorMapper.addStaffs(tableName,column1,column2,column2,teacherName,roleid,telphone);
+    }
+    //查询新增教职工
+    @Override
+    public Staffs checkNewStaff(String tableName,String column3,String telphone){
+        return rectorMapper.checkNewStaff(tableName,column3,telphone);
+    }
 //
 //    @Override
 //    public int addExamination(Examination examination) {
