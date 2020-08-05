@@ -319,5 +319,72 @@ public class TeacherController {
         return JSON.toJSONString(layuiData);
     }
 
+    //班级通知
+    /*查询*/
+    @RequestMapping(value ="/clamsgSelectList")
+    @ResponseBody
+    public String selectList(HttpServletRequest request, HttpServletResponse response, Clamsg tblClassNotice ) {
+        String pageStr = request.getParameter("page");//页码
+        String pageSizeStr = request.getParameter("limit");//每页记录数
+
+        String startTime = request.getParameter("startFinishTime");
+        String endTime = request.getParameter("endFinishTime");
+
+        Teachers staffRo=(Teachers) request.getSession().getAttribute("tblTeachers");
+
+        tblClassNotice.setTeacherId(staffRo.getTeacherId());
+        tblClassNotice.setSendmsgTime(startTime);
+
+        LayuiData layuiData = teacherService.clamsgSelectList(tblClassNotice,endTime,Integer.parseInt(pageStr), Integer.parseInt(pageSizeStr) );
+        return JSON.toJSONString(layuiData);
+    }
+
+
+    /*添加*/
+    @RequestMapping(value = "/clamsgAdd")
+    @ResponseBody
+    public Object classNoticeAdd(HttpServletRequest request, HttpServletResponse response, Clamsg tblClassNotice){
+        Teachers staffRo=(Teachers) request.getSession().getAttribute("tblTeachers");
+        tblClassNotice.setTeacherId(staffRo.getTeacherId());
+        tblClassNotice.setClassId(staffRo.getClassId());
+        int i = teacherService.clamsgAdd(tblClassNotice);
+
+        if (i ==1){
+            System.out.println("添加成功");
+        }else {
+            System.out.println("添加失败");
+        }
+        return JSON.toJSONString(0);
+    }
+
+    /* 删除*/
+    @RequestMapping(value = "/delClamsg")
+    @ResponseBody
+    public Object delClassNotice(HttpServletRequest request, HttpServletResponse response, Clamsg tblClassNotice){
+
+        int i = teacherService.delClamsg(tblClassNotice);
+        Map<String,Object> map=null;
+        if (i ==1){
+            System.out.println("删除成功");
+        }else {
+            System.out.println("删除失败");
+        }
+        return JSON.toJSONString(i);
+    }
+
+    /*修改*/
+    @RequestMapping(value = "/updateClamsg")
+    @ResponseBody
+    public Object updateTaskLevel(HttpServletRequest request, HttpServletResponse response, Clamsg tblClassNotice){
+        int i = teacherService.updateClamsg(tblClassNotice);
+        if (i >=1){
+            System.out.println("修改成功");
+
+        }else {
+            System.out.println("修改失败");
+        }
+        return JSON.toJSONString(i);
+
+    }
 
 }

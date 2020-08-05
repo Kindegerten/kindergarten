@@ -41,4 +41,16 @@ public interface TeacherMapper
    //查询班级总数
    int classInfoSelClassCount();
 
+   //班级通知
+   //查表格
+   List<Clamsg> clamsgSelectList(@Param("e") Clamsg tblClassNotice, String endTime, @Param("start") int start, @Param("pageSize") int pageSize);
+   int clamsgSelectListCount();
+
+   //添加发布
+   int clamsgAdd(Clamsg tblClassNotice);
+   //删除
+   int delClamsg(Clamsg tblClassNotice);
+   //修改
+   int updateClamsg(Clamsg tblClassNotice);
+
 }

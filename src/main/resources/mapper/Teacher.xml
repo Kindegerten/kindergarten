@@ -125,5 +125,39 @@
         tbl_class a
     </select>
 
+<!--    班级通知-->
+    <!--  查询表格-->
+    <select id="clamsgSelectList" resultType="com.kindergarten.bean.Clamsg"   >
+        select *
+        from  tbl_clamsg
+        WHERE teacher_id=#{e.teacherId}
+        <if test="e.sendmsgTime!=null and e.sendmsgTime!=''">
+            <![CDATA[ and sendmsg_time >=#{e.sendmsgTime}]]>
+        </if>
+        <if test="e.sendmsgTime!=null and e.sendmsgTime!=''">
+            <![CDATA[ and sendmsg_time <= #{endTime}]]>
+        </if>
+        limit #{start},#{pageSize}
+    </select>
+    <select id="clamsgSelectListCount" resultType="int">
+        select count(clamsg_id) from tbl_clamsg
+   </select>
+
+    <!--插入-->
+    <insert id="clamsgAdd" parameterType="com.kindergarten.bean.Clamsg"  >
+    insert into tbl_clamsg(clamsg_detail,class_id,teacher_id,sendmsg_time,clamsg_name)  values (#{clamsgDetail},#{classId},#{teacherId},#{sendmsgTime},#{clamsgName})
+  </insert>
+
+    <!--删除-->
+    <delete id="delClamsg" parameterType="com.kindergarten.bean.Clamsg"  >
+     delete from tbl_clamsg where clamsg_id = (#{clamsgId})
+  </delete>
+
+    <!--更新-->
+    <update id="updateClamsg" parameterType="com.kindergarten.bean.Clamsg">
+    update tbl_clamsg
+    set clamsg_name = #{clamsgName}, clamsg_detail = #{clamsgDetail}, sendmsg_time = #{sendmsgTime}
+    where clamsg_id=#{clamsgId}
+  </update>
 
 </mapper>
