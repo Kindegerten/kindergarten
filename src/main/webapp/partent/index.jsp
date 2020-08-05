@@ -79,6 +79,16 @@
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>宝宝膳食</cite></a>
                             </li>
+                            <li>
+                                <a onclick="xadmin.add_tab('亲子阅读','/pt/parentRead')">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>亲子阅读</cite></a>
+                            </li>
+                            <li>
+                                <a onclick="xadmin.add_tab('家校联系','/pt/Cheat')">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>家校联系</cite></a>
+                            </li>
 
                             <li>
                                 <a href="javascript:;">

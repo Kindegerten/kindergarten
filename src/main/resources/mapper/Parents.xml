@@ -129,4 +129,23 @@
     <insert id="UpdateQueScore" parameterType="java.lang.Object">
         insert into tbl_safety_test_complete(safety_video_id,student_id,safety_test_score,safety_test_result) values (#{videoId},#{studentId},#{score},'已完成')
     </insert>
+
+<!--        亲子阅读-->
+    <select id="ParentRead" resultType="com.kindergarten.bean.Readmag">
+        select * from tbl_readmag limit ${(curPage-1)*pageSize},6
+    </select>
+    <select id="ParentReadCount" resultType="java.lang.Integer">
+        select COUNT(*) from tbl_readmag
+    </select>
+
+
+<!--    点击阅读时候看图片-->
+    <select id="SearchReadmagPhoto" resultType="com.kindergarten.bean.ReadmagPhoto">
+        select readmag_photo_detail as alt, readmag_photo_page as pid,readmag_photo_url as src from tbl_readmag_photo where readmag_id=#{readmagId}
+    </select>
+<!--    通过学生id找到它的班级，通过班级找到对应的老师-->
+    <select id="SearchTeacher" resultType="com.kindergarten.bean.Teachers">
+        select a.teacher_name,a.teacher_tel from tbl_teachers a,tbl_students b where b.class_id=a.class_id and b.student_id=#{studentId}
+    </select>
+
 </mapper>
