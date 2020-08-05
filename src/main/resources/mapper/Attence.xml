@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kindergarten.mapper.AttenceMapper">
+
+    <insert id="insertAttendance" parameterType="com.kindergarten.bean.FaceUserList">
+        insert into
+        <if test="group_id=='teacher'">tbl_tertime (tid) values (#{user_id})</if>
+        <if test="group_id=='student'">tbl_stutime (student_id,photo_url) values (#{user_id},#{photo_url})</if>
+
+    </insert>
+
+    <select id="getTeacherAttendance" parameterType="com.kindergarten.bean.TeacherAttendance"
+            resultType="com.kindergarten.bean.TeacherAttendance">
+        select DATE_FORMAT(printtime,'%Y-%m-%d') printtime,tertime_id,tertime_date,tertime_period,tid from tbl_tertime
+        <if test="tid!='0'">
+            where tid=#{tid}
+        </if>
+    </select>
+
+    <select id="getStuAttendance" parameterType="com.kindergarten.bean.StuAttendance"
+            resultType="com.kindergarten.bean.StuAttendance">
+        select DATE_FORMAT(stutime_date,'%Y-%m-%d') stutime_date,stutime_id,stutime_type,photo_url,stutime_isdelay,student_id from tbl_stutime
+        <if test="tid!='0'">
+            where student_id=#{student_id}
+        </if>
+    </select>
+
+
+</mapper>
