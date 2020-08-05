@@ -105,8 +105,27 @@ public class SecurityController {
         base64=base64.split("base64,")[1];
         System.out.println("base64 final:"+base64);
 
-        //TODO 加入用户组信息 FaceUserList类
+        //TODO 加入用户组信息 FaceUserList类 以实现，未对接
         FaceUserList faceUserList=new FaceUserList();
+
+        //获取session域新增教师数据
+        if (request.getSession().getAttribute("user_id")!=""&&request.getSession().getAttribute("user_id")!=null){
+            faceUserList.setUser_id((String) request.getSession().getAttribute("user_id"));
+        }else {
+            return "未获取到新增教师的id！";
+        }
+
+        if (request.getSession().getAttribute("user_info")!=""&&request.getSession().getAttribute("user_info")!=null){
+            faceUserList.setUser_info((String) request.getSession().getAttribute("user_info"));
+        }else {
+            return "未获取到新增教师的名字！";
+        }
+
+        if (request.getSession().getAttribute("group_id")!=""&&request.getSession().getAttribute("group_id")!=null){
+            faceUserList.setGroup_id((String) request.getSession().getAttribute("group_id"));
+        }else {
+            return "未获取到新增教师的分组信息！";
+        }
 
 
         return faceService.faceAdd(base64,faceUserList);

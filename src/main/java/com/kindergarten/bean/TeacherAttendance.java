@@ -1,5 +1,11 @@
 package com.kindergarten.bean;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 public class TeacherAttendance {
 
     private int tertimeId,tid;
@@ -52,7 +58,17 @@ public class TeacherAttendance {
     }
 
     public String getTertimeDate() {
-        return tertimeDate;
+
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");    // HH:mm:ss
+        Date sd = null;      // 时间戳转换成时间
+        try {
+            sd = sdf.parse(this.getPrinttime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        System.out.println("格式化结果：" + sd);
+
+        return sd+"";
     }
 
     public void setTertimeDate(String tertimeDate) {
@@ -60,10 +76,27 @@ public class TeacherAttendance {
     }
 
     public String getTertimePeriod() {
-        return tertimePeriod;
+
+        SimpleDateFormat sdf2 = new SimpleDateFormat("HH");
+        Date sd2 = null;
+        try {
+            sd2 = sdf2.parse(this.printtime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        System.out.println("格式化结果：" + sd2);
+
+        return sd2+"";
     }
 
     public void setTertimePeriod(String tertimePeriod) {
         this.tertimePeriod = tertimePeriod;
     }
+
+//    public static void main(String[] args) {
+//        TeacherAttendance teacherAttendance=new TeacherAttendance();
+//        teacherAttendance.setPrinttime("2020-08-05 11:32:12");
+//        System.out.println(teacherAttendance.getTertimeDate()+" "+teacherAttendance.getTertimePeriod());
+//    }
 }
+
