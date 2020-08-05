@@ -1,4 +1,4 @@
-<%@ page import="com.kindergarten.bean.TblTeachers" %>
+<%@ page import="com.kindergarten.bean.Teachers" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html class="x-admin-sm">
@@ -19,7 +19,7 @@
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <%TblTeachers tblTeachers= (TblTeachers) request.getSession().getAttribute("tblTeachers"); %>
+    <%Teachers tblTeachers= (Teachers) request.getSession().getAttribute("tblTeachers"); %>
 </head>
 <body class="index">
 <!-- 顶部开始 -->
@@ -62,6 +62,7 @@
 <div class="left-nav">
     <div id="side-nav">
         <ul id="nav">
+            <%--作业中心--%>
             <li>
                 <a href="javascript:;">
                     <i class="iconfont left-nav-li" lay-tips="会员管理">&#xe6b8;</i>
@@ -70,7 +71,7 @@
                 <ul class="sub-menu">
                     <li>
                         <a onclick="xadmin.add_tab('课程表','/teacher/course.jsp')">
-<%--                            <a onclick="xadmin.add_tab('课程表','/partent/babyhealth.jsp')">--%>
+                            <%--                            <a onclick="xadmin.add_tab('课程表','/partent/babyhealth.jsp')">--%>
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>课程表</cite></a>
                     </li>
@@ -80,43 +81,67 @@
                             <cite>发布作业</cite></a>
                     </li>
                     <li>
-                        <a onclick="xadmin.add_tab('查看作业','member-list1.html',true)">
+                        <a onclick="xadmin.add_tab('查看作业','/teacher/checkWork.jsp',true)">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>查看作业</cite></a>
                     </li>
+                </ul>
+            </li>
+            <%--安全教育--%>
+            <li>
+                <a href="javascript:;">
+                    <i class="iconfont left-nav-li" lay-tips="会员管理">&#xe6b8;</i>
+                    <cite>安全教育</cite>
+                    <i class="iconfont nav_right">&#xe697;</i></a>
+                <ul class="sub-menu">
                     <li>
-                        <a onclick="xadmin.add_tab('会员删除','member-del.html')">
+                        <a onclick="xadmin.add_tab('配置试题','/teacher/satetyEduTable.jsp')">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>会员删除</cite></a>
+                            <cite>配置试题</cite></a>
                     </li>
                     <li>
-                        <a href="javascript:;">
-                            <i class="iconfont">&#xe70b;</i>
-                            <cite>会员管理</cite>
-                            <i class="iconfont nav_right">&#xe697;</i></a>
-                        <ul class="sub-menu">
-                            <li>
-                                <a onclick="xadmin.add_tab('会员删除','member-del.html')">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>会员删除</cite></a>
-                            </li>
-                            <li>
-                                <a onclick="xadmin.add_tab('等级管理','member-list1.html')">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>等级管理</cite></a>
-                            </li>
-                        </ul>
+                        <a onclick="xadmin.add_tab('完成情况','/teacher/publishJobTable.jsp')">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>查看完成情况</cite></a>
                     </li>
                 </ul>
             </li>
-
-
+            <%--班级中心--%>
+            <li>
+                <a href="javascript:;">
+                    <i class="iconfont left-nav-li" lay-tips="会员管理">&#xe6b8;</i>
+                    <cite>班级中心</cite>
+                    <i class="iconfont nav_right">&#xe697;</i></a>
+                <ul class="sub-menu">
+                    <li>
+                        <a onclick="xadmin.add_tab('班级相册','/teacher/classPhoto.jsp')">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>班级相册</cite></a>
+                    </li>
+                    <li>
+                        <a onclick="xadmin.add_tab('考勤管理','/teacher/classCheckTable.jsp')">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>考勤管理</cite></a>
+                    </li>
+                    <li>
+                        <a onclick="xadmin.add_tab('班级信息','/teacher/classInfoTable.jsp',true)">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>班级信息</cite></a>
+                    </li>
+                </ul>
+            </li>
+            <%--个人中心--%>
             <li>
                 <a href="javascript:;">
                     <i class="iconfont left-nav-li" lay-tips="系统统计">&#xe6ce;</i>
                     <cite>个人中心</cite>
                     <i class="iconfont nav_right">&#xe697;</i></a>
                 <ul class="sub-menu">
+                    <li>
+                        <a onclick="xadmin.add_tab('个人信息','/teacher/myinfo.jsp')">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>个人信息</cite></a>
+                    </li>
                     <li>
                         <a onclick="xadmin.add_tab('密码修改','/teacher/updatePwd.jsp')">
                             <i class="iconfont">&#xe6a7;</i>
@@ -125,6 +150,27 @@
                 </ul>
             </li>
 
+            <%--资源中心--%>
+            <li>
+                <a href="javascript:;">
+                    <i class="iconfont left-nav-li" lay-tips="系统统计">&#xe6ce;</i>
+                    <cite>资源中心</cite>
+                    <i class="iconfont nav_right">&#xe697;</i></a>
+                <ul class="sub-menu">
+                    <li>
+                        <a onclick="xadmin.add_tab('班级通知','/teacher/classNoticeTable.jsp')">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>班级通知</cite></a>
+                    </li>
+                    <li>
+                        <a onclick="xadmin.add_tab('家长对话','/teacher/updatePwd.jsp')">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>家长对话</cite></a>
+                    </li>
+                </ul>
+            </li>
+
+
             <li>
                 <a href="javascript:;">
                     <i class="iconfont left-nav-li" lay-tips="公告面板">&#xe6ce;</i>
@@ -132,14 +178,14 @@
                     <i class="iconfont nav_right">&#xe697;</i></a>
                 <ul class="sub-menu">
                     <li>
-                        <a onclick="xadmin.add_tab('校园公告','schoolinfo-list.html')">
+                        <a onclick="xadmin.add_tab('校园公告','/partent/schoolinfo-list.html')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>校园公告</cite></a>
                     </li>
                 </ul>
                 <ul class="sub-menu">
                     <li>
-                        <a onclick="xadmin.add_tab('平台资讯','platforminfo-list.html')">
+                        <a onclick="xadmin.add_tab('平台资讯','/partent/platforminfo-list.html')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>平台资讯</cite></a>
                     </li>

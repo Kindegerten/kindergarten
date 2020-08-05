@@ -40,13 +40,13 @@
         <div class="layui-inline" style=" margin-top: 20px">
             <label class="layui-form-label">作业名称:</label>
             <div class="layui-input-block">
-            <input type="text" name="taskName" id="taskName" placeholder="" class="layui-input">
+                <input type="text" name="taskName" id="taskName" placeholder="" class="layui-input">
             </div>
         </div>
         <div class="layui-inline" style=" margin-top: 20px">
             <label class="layui-form-label">发布日期:</label>
             <div class="layui-input-block">
-            <input type="text" name="date1" id="date1" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input" disabled="disabled">
+                <input type="text" name="date1" id="date1" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input" disabled="disabled">
             </div>
         </div>
         <div class="layui-upload" style="margin-left: 120px;margin-top: 20px">
@@ -78,11 +78,11 @@
             }],
             cols: [[
                 {type: "checkbox", width: 50},
-                {field: 'id', width: 140, title: 'ID', sort: true},
+                {field: 'workReleaseid', width: 140, title: 'ID', sort: true},
                 {field: 'classId', width: 140, title: '班号'},
                 {field: 'className', width: 140, title: '班名', sort: true},
-                {field: 'name', width: 140, title: '作业'},
-                {field: 'releaseTime', title: '发布时间', width: 150},
+                {field: 'workName', width: 140, title: '作业'},
+                {field: 'workreleaseTime', title: '发布时间', width: 150},
                 {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center"}
             ]],
             limits: [5,10, 15, 20, 25, 50, 100],
@@ -127,9 +127,9 @@
                                     async:true,
                                     data:{
                                         // type:"taskAdd",
-                                        name:taskName,
-                                        releaseTime:releaseTime,
-                                        route:route
+                                        workName:taskName,
+                                        workreleaseTime:releaseTime,
+                                        workUrl:route
                                     },
                                     dataType:"text",
                                     success:function(data){
@@ -181,7 +181,7 @@
                 return false;
             } else if (obj.event === 'delete') {
                 layer.confirm('真的删除行么', function (index) {
-                    shanchu(data.id);//alert(data.id);
+                    shanchu(data.workReleaseid);//alert(data.id);
                     obj.del();
                     layer.close(index);
                 });
@@ -216,7 +216,7 @@
                 async:true,
                 data:{
                     type:"shanchu",
-                    id:data
+                    workReleaseid:data
                 },
                 dataType:"text",
                 success:function(data){
