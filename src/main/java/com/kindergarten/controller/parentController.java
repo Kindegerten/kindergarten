@@ -328,4 +328,47 @@ public class parentController {
         }
 
 
+    //点击查看绘图
+    @RequestMapping(value = "/ParentPhoto")
+    @ResponseBody
+    public String ParentPhoto(String titleName,int readMagId) throws ServletException, IOException {
+        ReadmagData<ReadmagPhoto> readmagData=parentService.AllPitcures(titleName, readMagId);
+        System.out.println("===============绘本信息================");
+        System.out.println(JSON.toJSONString(readmagData));
+        return JSON.toJSONString(readmagData);
+    }
+
+    //家长阅读
+
+    @RequestMapping(value = "/parentRead")
+    public String parentRead(HttpServletRequest request) throws ServletException, IOException {
+
+        int curPage;
+        if(request.getParameter("curPage")!=null){
+            curPage = Integer.parseInt(request.getParameter("curPage"));
+        }else{
+            curPage = 1;
+        }
+
+//
+        PageBean<Readmag> pageBean=parentService.ParentRead(curPage,6);
+//
+        request.setAttribute("read",pageBean);
+        return "/partent/parentRead.jsp";
+
+    }
+    @RequestMapping(value = "/Cheat")
+    public String Cheat(HttpServletRequest request) throws ServletException, IOException {
+       //通过学生班级拿到对应老师
+        String studentid= (String) request.getSession().getAttribute("studentID");
+        List<Teachers> teachers=parentsMapper.SearchTeacher(Integer.parseInt(studentid));
+        request.setAttribute("teachers",teachers);
+
+        return "/partent/Cheat.jsp";
+    }
+
+
+
+
+
 }

@@ -108,4 +108,49 @@ public class ParentServiceimpl implements ParentService {
 
         return layuiData;
     }
+
+    @Override
+    public LayuiData<ParentShowSafeQue> AllSafeEducation(int parentId,int curPage, int pageSize) {
+        LayuiData<ParentShowSafeQue> layuiData=null;
+        List<ParentShowSafeQue> list=parentsMapper.AllSafeVideo(curPage, pageSize);
+        int totalRecord=parentsMapper.AllSafeVideoCount();
+        List<HashMap<String,Object>> map=parentsMapper.SearchSafeVideoResult(parentId);
+       for (int i=0;i<list.size();i++){
+           for (int j=0;j<map.size();j++){
+               if (String.valueOf(map.get(j).get("safety_video_id")).equals(String.valueOf(list.get(i).getSafetyVideoId()))){
+                   list.get(i).setSafetyTestScore(map.get(j).get("safety_test_score")+"");
+                   list.get(i).setSafetyTestResult(map.get(j).get("safety_test_result")+"");
+               }
+
+           }
+       }
+
+//        System.out.println(JSON.toJSONString(map));
+
+
+        layuiData=new LayuiData<>(0,"",totalRecord,list);
+
+
+
+        return layuiData;
+    }
+
+    @Override
+    public ReadmagData<ReadmagPhoto> AllPitcures(String photoTitle, int readMagId) {
+        ReadmagData<ReadmagPhoto> readmagData=null;
+        List<ReadmagPhoto> readmagPhotos=parentsMapper.SearchReadmagPhoto(readMagId);
+        readmagData=new ReadmagData<>(photoTitle,readMagId,0,readmagPhotos);
+
+        return readmagData;
+    }
+
+    @Override
+    public PageBean<Readmag> ParentRead(int curPage, int pageSize) {
+        List<Readmag> list=parentsMapper.ParentRead(curPage,pageSize);
+        int totalrecord=parentsMapper.ParentReadCount();
+        PageBean<Readmag> pageBean = new PageBean<>(curPage,totalrecord,pageSize);
+        pageBean.setList(list);
+
+        return pageBean;
+    }
 }

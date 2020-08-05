@@ -72,7 +72,7 @@
             ,laydate = layui.laydate;
         table.render({
             elem: '#currentTableId',
-            url:'<%=path%>/safetyEduControl/selectList',
+            url:'<%=path%>/tc/safetyEduSelectList',
             toolbar: '#toolbarDemo',
             defaultToolbar: ['filter', 'exports', 'print', {
                 title: '提示',
@@ -136,7 +136,7 @@
                             }else{
                                 $.ajax({
                                     type:"post",
-                                    url:"<%=path%>/safetyEduControl/add",
+                                    url:"<%=path%>/tc/addSafetyEdu",
                                     async:true,
                                     data:{
                                         // type:"taskAdd",
@@ -201,7 +201,7 @@
                             if (route!=""&&route!=null){
                                 $.ajax({
                                     type:"post",
-                                    url:"<%=path%>/safetyEduControl/update",
+                                    url:"<%=path%>/tc/updateSafetyEdu",
                                     async:true,
                                     data:{
                                         id:data.id,
@@ -249,7 +249,7 @@
         //上传文件
         upload.render({
             elem: '#test3'
-            ,url: '<%=path%>/utilControl/upLoad' //改成您自己的上传接口
+            ,url: '<%=path%>/tc/upLoad' //改成您自己的上传接口
             ,accept: 'file' //普通文件
             ,done: function(res){
                 layer.msg('上传成功');
@@ -258,11 +258,10 @@
             }
         });
         //获取视频名称
-
         $(function () {
             $.ajax({
                 type:"post",
-                url:'<%=path%>/safeVideoControl/selectList',
+                url:'<%=path%>/tc/safetyVideoSelectList',
                 dataType:"json",
                 success:function (data1) {
                     console.log(data1);
@@ -271,7 +270,7 @@
                     $.each(data1.data,function (index,item) {
                         debugger
                         console.log(item);
-                        $('#videoName').append(new Option(item.vName,item.id));
+                        $('#videoName').append(new Option(item.safetyVideoName,item.safetyVideoId));
                     });
                     layui.form.render("select");
                 },error:function () {

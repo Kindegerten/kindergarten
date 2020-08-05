@@ -27,7 +27,7 @@
         <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
         <script type="text/html" id="currentTableBar">
             <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">作业打分</a>
-<%--            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>--%>
+            <%--            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>--%>
         </script>
         <script type="text/html" id="downTask">
             <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit"  href="/"+data.route>查看作业</a>
@@ -113,32 +113,32 @@
                     moveType: 1,
                     content: $('#insert_div'), //内容
                     success: function(layero,index){
-                    var btn = layero.find('.layui-layer-btn');
-                    btn.find('.layui-layer-btn0').click(function(){
-                        // var body = layer.getChildFrame('body', index);
-                        var taskName = $('#taskName').val();
-                        var releaseTime = $('#date').val();
-                        var route = $('#route').val();
-                        $.ajax({
-                            type:"post",
-                            url:"<%=path%>/tc/publishTaskAdd",
-                            async:true,
-                            data:{
-                                // type:"taskAdd",
-                                workName:taskName,
-                                workreleaseTime:releaseTime,
-                                workUrl:route
-                            },
-                            dataType:"text",
-                            success:function(data){
-                                if(data.trim()=="ok"){
-                                    alert("添加成功");
-                                    window.location.reload();
+                        var btn = layero.find('.layui-layer-btn');
+                        btn.find('.layui-layer-btn0').click(function(){
+                            // var body = layer.getChildFrame('body', index);
+                            var taskName = $('#taskName').val();
+                            var releaseTime = $('#date').val();
+                            var route = $('#route').val();
+                            $.ajax({
+                                type:"post",
+                                url:"<%=path%>/tc/publishTaskAdd",
+                                async:true,
+                                data:{
+                                    // type:"taskAdd",
+                                    workName:taskName,
+                                    workreleaseTime:releaseTime,
+                                    workUrl:route
+                                },
+                                dataType:"text",
+                                success:function(data){
+                                    if(data.trim()=="ok"){
+                                        alert("添加成功");
+                                        window.location.reload();
+                                    }
                                 }
-                            }
+                            });
                         });
-                    });
-                }
+                    }
                 });
                 $(window).on("resize", function () {
                     layer.full(index);

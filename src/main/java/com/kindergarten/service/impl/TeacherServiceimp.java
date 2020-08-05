@@ -137,4 +137,97 @@ public class TeacherServiceimp implements TeacherService {
         }
         return layuiData;
     }
+
+//    班级通知
+    @Override
+    public LayuiData clamsgSelectList(Clamsg tblClassNotice, String endTime, int page, int pageSize) {
+        int start = (page - 1) * pageSize;//计算出起始查询位置
+        if(start<0)
+            start=0;
+        List<Clamsg> list = teacherMapper.clamsgSelectList( tblClassNotice,endTime,start,pageSize);
+        int count = teacherMapper.clamsgSelectListCount();
+
+        LayuiData layuiData = new LayuiData();
+        if (list.size() > 0) {
+            layuiData.setCode(0);
+            layuiData.setMsg("");
+            layuiData.setCount(count);
+            layuiData.setData(list);
+            layuiData.setMsg("查询成功");
+        } else {
+            layuiData.setCode(1);
+            layuiData.setMsg("查询失败");
+        }
+        return layuiData;
+    }
+
+    @Override
+    public int clamsgAdd(Clamsg tblClassNotice) {
+        int i=teacherMapper.clamsgAdd(tblClassNotice);
+        return i;
+    }
+
+    @Override
+    public int delClamsg(Clamsg tblClassNotice) {
+        int i=teacherMapper.delClamsg(tblClassNotice);
+        return i;
+    }
+
+    @Override
+    public int updateClamsg(Clamsg tblClassNotice) {
+        int i=teacherMapper.updateClamsg(tblClassNotice);
+        return i;
+    }
+
+    //安全试题配置
+    @Override
+    public LayuiData safetyEduSelectList(int idNum, int page, int pageSize) {
+        int start = (page - 1) * pageSize;//计算出起始查询位置
+        if(start<0)
+            start=0;
+        List<SafetyEdu> list = teacherMapper.safetyEduSelectList(idNum,start, pageSize);
+        int count = teacherMapper.safetyEduSelectListCount();
+
+        LayuiData layuiData = new LayuiData();
+        if (list.size() > 0) {
+            layuiData.setCode(0);
+            layuiData.setMsg("");
+            layuiData.setCount(count);
+            layuiData.setData(list);
+            layuiData.setMsg("查询成功");
+        } else {
+            layuiData.setCode(1);
+            layuiData.setMsg("查询失败");
+        }
+        return layuiData;
+    }
+
+    @Override
+    public int addSafetyEdu(SafetyEdu tblSafetyEdu) {
+        int i=teacherMapper.addSafetyEdu(tblSafetyEdu);
+        return i;
+    }
+
+    @Override
+    public int updateSafetyEdu(SafetyEdu tblSafetyEdu) {
+        int i=teacherMapper.updateSafetyEdu(tblSafetyEdu);
+        return i;
+    }
+
+    @Override
+    public LayuiData safetyVideoSelectList() {
+        List<SafetyVideo> list = teacherMapper.safetyVideoSelectList();
+        LayuiData layuiData = new LayuiData();
+        if (list.size() > 0) {
+            layuiData.setCode(0);
+            layuiData.setMsg("");
+            layuiData.setCount(0);
+            layuiData.setData(list);
+            layuiData.setMsg("查询成功");
+        } else {
+            layuiData.setCode(1);
+            layuiData.setMsg("查询失败");
+        }
+        return layuiData;
+    }
 }

@@ -41,4 +41,27 @@ public interface TeacherMapper
    //查询班级总数
    int classInfoSelClassCount();
 
+   //班级通知
+   //查表格
+   List<Clamsg> clamsgSelectList(@Param("e") Clamsg tblClassNotice, String endTime, @Param("start") int start, @Param("pageSize") int pageSize);
+   int clamsgSelectListCount();
+   //添加发布
+   int clamsgAdd(Clamsg tblClassNotice);
+   //删除
+   int delClamsg(Clamsg tblClassNotice);
+   //修改
+   int updateClamsg(Clamsg tblClassNotice);
+
+   //安全试题配置
+   //查安全教育表格
+   List<SafetyEdu> safetyEduSelectList(@Param("idNum") int idNum, @Param("start") int start, @Param("pageSize") int pageSize);
+   int safetyEduSelectListCount();
+   //添加答题
+   int addSafetyEdu( SafetyEdu tblSafetyEdu);
+   //修改信息
+   int updateSafetyEdu(SafetyEdu tblSafetyEdu);
+
+   List<SafetyVideo> safetyVideoSelectList();
+   int safetyVideoSelectListCount();
+
 }
