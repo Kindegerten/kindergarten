@@ -160,4 +160,41 @@
     where clamsg_id=#{clamsgId}
   </update>
 
+<!--    安全试题配置-->
+    <!--  //查询表格-->
+    <select id="safetyEduSelectList" resultType="com.kindergarten.bean.SafetyEdu">
+    SELECT *
+    from tbl_safety_edu
+    WHERE teacher_id=#{idNum}
+    limit #{start},#{pageSize}
+  </select>
+
+    <!--  chy:获取表格数据总条数-->
+    <select id="safetyEduSelectListCount" resultType="int">
+    select count(id) from tbl_safety_edu
+  </select>
+
+    <!--插入-->
+    <insert id="addSafetyEdu" parameterType="com.kindergarten.bean.SafetyEdu"  >
+    insert into tbl_safety_edu(name,start_time,end_time,teacher_id)  values (#{name},#{startTime},#{endTime},#{teacherId})
+  </insert>
+
+    <!--修改-->
+    <update id="updateSafetyEdu" parameterType="com.kindergarten.bean.SafetyEdu"  >
+    UPDATE tbl_safety_edu  SET route=#{route}   WHERE id=#{id}
+  </update>
+
+
+    <!--  //查询表格-->
+    <select id="safetyVideoSelectList" resultType="com.kindergarten.bean.SafetyVideo">
+    SELECT safety_video_id,safety_video_name
+    from  tbl_safety_video
+  </select>
+
+    <!--  chy:获取表格数据总条数-->
+    <select id="safetyVideoSelectListCount" resultType="int">
+    select count(safety_video_id) from tbl_safety_video
+  </select>
+
+
 </mapper>

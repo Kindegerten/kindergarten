@@ -24,6 +24,15 @@ public interface TeacherService
    int delClamsg(Clamsg tblClassNotice);
    //修改
    int updateClamsg(Clamsg tblClassNotice);
+   //安全试题配置
+   //查询列表
+   LayuiData safetyEduSelectList( int idNum  , int page, int pageSize) ;
+   //添加
+   int addSafetyEdu(SafetyEdu tblSafetyEdu);
+   //修改
+   int updateSafetyEdu(SafetyEdu tblSafetyEdu);
+   //视频名字
+   LayuiData safetyVideoSelectList();
 
 
 }

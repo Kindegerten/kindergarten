@@ -387,4 +387,59 @@ public class TeacherController {
 
     }
 
+    //安全试题配置
+    /*查询*/
+    @RequestMapping(value = "/safetyEduSelectList")
+    @ResponseBody
+    public String safetyEduSelectList(HttpServletRequest request, HttpServletResponse response ) {
+        String pageStr = request.getParameter("page");//页码
+        String pageSizeStr = request.getParameter("limit");//每页记录数
+
+        Teachers staffRo=(Teachers) request.getSession().getAttribute("tblTeachers");
+        int idNum =staffRo.getTeacherId();
+        LayuiData layuiData = teacherService.safetyEduSelectList(idNum,Integer.parseInt(pageStr), Integer.parseInt(pageSizeStr));
+        return JSON.toJSONString(layuiData);
+    }
+    /*添加发布作业*/
+    @RequestMapping(value = "/addSafetyEdu")
+    @ResponseBody
+    public Object addSafetyEdu(HttpServletRequest request, HttpServletResponse response ,SafetyEdu tblSafetyEdu){
+        Teachers staffRo=(Teachers) request.getSession().getAttribute("tblTeachers");
+
+        tblSafetyEdu.setTeacherId(staffRo.getTeacherId());
+        int i = teacherService.addSafetyEdu(tblSafetyEdu);
+
+        if (i ==1){
+            System.out.println("添加成功");
+        }else {
+            System.out.println("添加失败");
+        }
+        return JSON.toJSONString(i);
+    }
+
+    /*替换配置文件*/
+    @RequestMapping(value = "/updateSafetyEdu")
+    @ResponseBody
+    public Object updateSafetyEdu(HttpServletRequest request, HttpServletResponse response, SafetyEdu tblSafetyEdu){
+
+        int i = teacherService.updateSafetyEdu(tblSafetyEdu);
+
+        if (i ==1){
+            System.out.println("添加成功");
+        }else {
+            System.out.println("添加失败");
+        }
+        return JSON.toJSONString(i);
+    }
+
+    /*查询*/
+    @RequestMapping(value = "/safetyVideoSelectList")
+    @ResponseBody
+    public Object safetyVideoSelectList(HttpServletRequest request, HttpServletResponse response ) {
+
+        LayuiData layuiData = teacherService.safetyVideoSelectList();
+        System.out.println(JSON.toJSONString(layuiData));
+        return layuiData;
+    }
+
 }
