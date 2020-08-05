@@ -64,4 +64,7 @@ public interface TeacherMapper
    List<SafetyVideo> safetyVideoSelectList();
    int safetyVideoSelectListCount();
 
+   //查看对应班级孩子的家长列表，用于显示聊天列表
+   public List<Parents> SearchParents(int teacherId);
+
 }

@@ -196,5 +196,11 @@
     select count(safety_video_id) from tbl_safety_video
   </select>
 
+<!--    获取班级孩子的所有家长-->
+    <select id="SearchParents" resultType="com.kindergarten.bean.Parents">
+        select distinct a.parents_name,a.parents_tel from tbl_parents a,tbl_students b,tbl_teachers c,tbl_parents_students d
+        where a.parents_id=d.parents_id and b.student_id=d.students_id
+          and c.kinder_id=b.kinder_id and c.class_id=b.class_id and c.teacher_id=#{teacherId}
+    </select>
 
 </mapper>

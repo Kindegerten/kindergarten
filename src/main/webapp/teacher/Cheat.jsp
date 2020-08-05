@@ -107,44 +107,44 @@
     <% Parents parents= (Parents) request.getSession().getAttribute("parents"); %>
 </head>
 <body>
-    <div id="cheatFrame">
-        <div id="myinfo">
-            <img src="../static/img/c1.bmp" style="width: 70px;height: 100%;" alt="">
-            <span class="ownname"><%=parents.getParentsName()%></span>(<span class="owntel"><%=parents.getParentsTel()%></span>)
-        </div>
-        <img src="../static/img/cheat.bmp" style="width:100%;  height:10%;">
-        <div id="friendlist">
-            <c:if test="${not empty teachers}">
-                <C:forEach items="${teachers}" var="i">
-                    <div class="friend" onclick="openCheat(this)">
-                        <img src="../static/img/c1.bmp" style="width: 70px;  border-radius:50%;" alt="" >
-                        <span class="t-name">${i.teacherName}</span>(<span class="t-tel">${i.teacherTel}</span>)
-                    </div>
-
-                </C:forEach>
-            </c:if>
-
-        </div>
-
-        <div id="cheating" style="display: none">
-            <div id="userInfo">
-                <h2><span class="name"></span>(<span class="tel"></span>)</h2>
-            </div>
-            <div id="MessageFrame" src=>
-                <div class="msg-left"></div>
-                <div class="msg-right"></div>
-
-            </div>
-            <hr>
-            <div id="SendMsgFrame">
-                <textarea class="msg"></textarea>
-                <button class="layui-btn layui-btn-normal" id="SendMsg" onclick="SendData()">发送</button>
-                <button class="layui-btn layui-btn-normal" id="closeMsg">关闭</button>
-
-            </div>
-
-        </div>
+<div id="cheatFrame">
+    <div id="myinfo">
+        <img src="../static/img/c1.bmp" style="width: 70px;height: 100%;" alt="">
+        <span class="ownname"><%=parents.getParentsName()%></span>(<span class="owntel"><%=parents.getParentsTel()%></span>)
     </div>
+    <img src="../static/img/cheat.bmp" style="width:100%;  height:10%;">
+    <div id="friendlist">
+        <c:if test="${not empty teachers}">
+            <C:forEach items="${teachers}" var="i">
+                <div class="friend" onclick="openCheat(this)">
+                    <img src="../static/img/c1.bmp" style="width: 70px;  border-radius:50%;" alt="" >
+                    <span class="t-name">${i.teacherName}</span>(<span class="t-tel">${i.teacherTel}</span>)
+                </div>
+
+            </C:forEach>
+        </c:if>
+
+    </div>
+
+    <div id="cheating" style="display: none">
+        <div id="userInfo">
+            <h2><span class="name"></span>(<span class="tel"></span>)</h2>
+        </div>
+        <div id="MessageFrame" src=>
+            <div class="msg-left"></div>
+            <div class="msg-right"></div>
+
+        </div>
+        <hr>
+        <div id="SendMsgFrame">
+            <textarea class="msg"></textarea>
+            <button class="layui-btn layui-btn-normal" id="SendMsg" onclick="SendData()">发送</button>
+            <button class="layui-btn layui-btn-normal" id="closeMsg">关闭</button>
+
+        </div>
+
+    </div>
+</div>
 
 
 
@@ -181,7 +181,7 @@
         $(".name").text(tname);
         $(".tel").text(ttel);
         var ownname=$(".ownname").text(); //自己的名字
-            $(".msg-left").text("");
+        $(".msg-left").text("");
         $(".msg-right").text("");
 
         if (!ws) {
@@ -191,7 +191,7 @@
 
 
             try {
-                        //服务器地址+自己手机号+对方手机号
+                //服务器地址+自己手机号+对方手机号
                 ws = new WebSocket("ws://127.0.0.1:8080/websocket/" + owntel+"/"+ttel+"/"+ownname);//连接服务器
                 ws.onopen = function (event) {
                     console.log("已经与服务器建立了连接...");
