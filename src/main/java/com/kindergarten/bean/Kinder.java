@@ -1,7 +1,12 @@
 package com.kindergarten.bean;
 
 public class Kinder {
-    private int kinderId,kinderStatus;
+    private int kinderId;
+    private int kinderStatus;
+    private int kinderState;
+    private String Account;
+    private String kinderPwd;
+    private String approveTime;
     private String kinderName;//院所名称
     private String kinderLp;//法人
     private String kinderLpid;//法人身份证
@@ -14,6 +19,38 @@ public class Kinder {
     private String registrationPermit;//税务登记证
 
     public Kinder() {
+    }
+
+    public int getKinderState() {
+        return kinderState;
+    }
+
+    public void setKinderState(int kinderState) {
+        this.kinderState = kinderState;
+    }
+
+    public String getAccount() {
+        return Account;
+    }
+
+    public void setAccount(String account) {
+        Account = account;
+    }
+
+    public String getKinderPwd() {
+        return kinderPwd;
+    }
+
+    public void setKinderPwd(String kinderPwd) {
+        this.kinderPwd = kinderPwd;
+    }
+
+    public String getApproveTime() {
+        return approveTime;
+    }
+
+    public void setApproveTime(String approveTime) {
+        this.approveTime = approveTime;
     }
 
     public int getKinderId() {

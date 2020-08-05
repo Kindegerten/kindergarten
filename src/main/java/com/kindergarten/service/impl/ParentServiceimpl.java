@@ -86,7 +86,7 @@ public class ParentServiceimpl implements ParentService {
         List<HashMap<String,Object>> map=parentsMapper.WorkResult(studentId);
         for (int i=0;i<map.size();i++){
             for (int j=0;j<workreleases.size();j++){
-                if (String.valueOf(map.get(i).get("work_releaseid")).equals(String.valueOf(workreleases.get(j).getWorkReleaseid()))){
+                if (String.valueOf(map.get(i).get("work_releaseid")).equals(String.valueOf(workreleases.get(j).getWorkreleaseId()))){
                     workreleases.get(j).setWorkResult(map.get(i).get("work_result")+"");
                     workreleases.get(j).setWorkEva(map.get(i).get("work_eva")+"");
                 }

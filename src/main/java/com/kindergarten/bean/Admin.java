@@ -1,5 +1,9 @@
 package com.kindergarten.bean;
 
+;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.Date;
 
 public class Admin {

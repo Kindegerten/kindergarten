@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -29,42 +30,49 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">ID</label>
                 <div hidden class="layui-input-inline">
-                    <input hidden readonly type="text" id="healtherId" name="healtherId" required lay-verify="required"
-                           value="${healther.healtherId}" autocomplete="off" placeholder="" class="layui-input">
+                    <input hidden readonly type="text" id="rectorId" name="rectorId" required lay-verify="required"
+                           value="${rector.rectorId}" autocomplete="off" placeholder="" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">名字</label>
                 <div class="layui-input-inline">
-                    <input type="text" readonly id="healtherName" name="healtherName" required lay-verify="required"
-                           value="${healther.healtherName}" autocomplete="off" placeholder="" class="layui-input">
+                    <input type="text" readonly id="rectorName" name="rectorName" required lay-verify="required"
+                           value="${rector.rectorName}" autocomplete="off" placeholder="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">入职时间</label>
+                <div class="layui-input-inline">
+                    <input readonly type="text" id="rectorRegtime" name="rectorRegtime" required lay-verify="required"
+                           value="${rector.rectorRegtime}" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">地址</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="healtherAdd" name="healtherAdd" required lay-verify="required"
-                           value="${healther.healtherAdd}" autocomplete="off" class="layui-input">
+                    <input type="text" id="rectorAdd" name="rectorAdd" required lay-verify="required"
+                           value="${rector.rectorAdd}" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">电话</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="healtherPhone" name="healtherPhone" required lay-verify="required"
-                           value="${healther.healtherPhone}" autocomplete="off" class="layui-input">
+                    <input type="text" id="rectorTel" name="rectorTel" required lay-verify="required"
+                           value="${rector.rectorTel}" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">原密码</label>
                 <div class="layui-input-inline">
-                    <input type="password" id="oldhealtherPwd" name="oldhealtherPwd" lay-verify="required"
+                    <input type="password" id="oldPwd" name="oldPwd" lay-verify="required"
                            autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">新密码</label>
                 <div class="layui-input-inline">
-                    <input type="password" id="newhealtherPwd" name="newhealtherPwd" lay-verify="required"
+                    <input type="password" id="newPwd" name="newPwd" lay-verify="required"
                            autocomplete="off"
                            class="layui-input">
                 </div>
@@ -72,7 +80,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">确认密码</label>
                 <div class="layui-input-inline">
-                    <input type="password" id="healtherPwd" name="healtherPwd" lay-verify="required" autocomplete="off"
+                    <input type="password" id="rectorPwd" name="rectorPwd" lay-verify="required" autocomplete="off"
                            class="layui-input">
                 </div>
             </div>
@@ -91,14 +99,12 @@
         var form = layui.form;
         //弹出层表单操作，主要是提交
         form.on('submit(updateData)', function (data) {
-            if (data.field.healtherPwd === data.field.newhealtherPwd) {
+            if (data.field.rectorPwd === data.field.newPwd) {
                 var newData = {
-                    "healtherId": data.field.healtherId,
-                    "healtherName": data.field.healtherName,
-                    "healtherAdd": data.field.healtherAdd,
-                    "healtherPhone": data.field.healtherPhone,
-                    "oldhealtherPwd": data.field.oldhealtherPwd,
-                    "healtherPwd": data.field.healtherPwd,
+                    "rectorId": data.field.rectorId,
+                    "rectorTel": data.field.rectorTel,
+                    "rectorAdd":data.field.rectorAdd,
+                    "rectorPwd": data.field.rectorPwd,
                 };
             }else{
                 alert("两次密码输入不一致");
@@ -106,7 +112,7 @@
             console.log(newData);
 
                 $.ajax({
-                    url: "/HealtherControl/updateSelf",
+                    url: "/RectorControl/updateSelf",
                     async: true,
                     type: "POST",
                     data: {"value": JSON.stringify(newData)},
@@ -114,7 +120,7 @@
                     success: function (msg) {
                         if (msg === "success") {
                             parent.location.reload();
-                            layer.msg('更新成功!刷新浏览器', {icon: 1, time: 8000})
+                            layer.msg('更新成功!刷新浏览器', {icon: 1, time: 5000})
 
                         } else {
                             layer.msg('更新失败!', {icon: 2, time: 6000});

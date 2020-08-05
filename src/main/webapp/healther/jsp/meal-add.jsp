@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/X-admin/css/font.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/X-admin/css/xadmin.css">
     <script src="${pageContext.request.contextPath}/static/X-admin/lib/layui/layui.js" charset="utf-8"></script>
-<%--    <script type="text/javascript" src="${pageContext.request.contextPath}/static/X-admin/js/xadmin.js"></script>--%>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/static/X-admin/js/xadmin.js"></script>
     <script src="${pageContext.request.contextPath}/static/jquery-3.5.1.js"></script>
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -27,21 +27,21 @@
         <div class="layui-card-body demoTable">
             <label class="layui-form-label">选择时间段</label>
             <div class="layui-input-inline">
-                <input type="text" class="layui-input" id="mealDatescope" name="mealDatescope" placeholder=" - ">
+                <input type="text" class="layui-input" id="mealDatescope" name="mealDatescope" placeholder="">
             </div>
         </div>
     </div>
     <div class="layui-card-body layui-table-body layui-table-main">
-        <table id="test" class="layui-table layui-form" id="bodytable" lay-filter="test">
+        <table id="test" class="layui-table layui-form" id="table" lay-filter="test">
             <thead>
             <tr>
-                <th >餐别</th>
-                <th >周一</th>
-                <th >周二</th>
-                <th >周三</th>
-                <th >周四</th>
-                <th >周五</th>
-                <th >操作</th>
+                <th>餐别</th>
+                <th>周一</th>
+                <th>周二</th>
+                <th>周三</th>
+                <th>周四</th>
+                <th>周五</th>
+                <th>操作</th>
             </tr>
             </thead>
             <tr class="a">
@@ -72,17 +72,18 @@
                 <th><a class="layui-btn layui-btn-xs" lay-event="edit" onclick="mealadd(this)">增加</a></th>
             </tr>
         </table>
+        <a style="margin: 0 auto;width: 200px;" class="layui-btn layui-btn-xs" lay-event="edit" href="${pageContext.request.contextPath}/healther/jsp/meal-list.jsp">添加完成，查看列表</a>
     </div>
 </div>
 
 <script>
-    layui.use(['laydate', 'form', 'laypage', 'table', 'laytpl','layer'], function () {
+    layui.use(['laydate', 'form', 'laypage', 'table', 'laytpl', 'layer'], function () {
         var form = layui.form;
         var laypage = layui.laypage;
         var table = layui.table;
         var laydate = layui.laydate;
         var laytpl = layui.laytpl;
-        var layer =layui.layer;
+        var layer = layui.layer;
         // table.init('test3', {
         //     height: 315 //设置高度
         //     ,limit: 10 //注意：请务必确保 limit 参数（默认：10）是与你服务端限定的数据条数一致
@@ -94,13 +95,14 @@
             , range: true
         });
         //表格操作，进行编辑修改等
-        table.on('tool(test)', function(obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+        table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
-           console.log(data,layEvent,tr)
+            console.log(data, layEvent, tr)
         });
     });
+
     function mealadd(node) {
         var flag = confirm("确认" + $(node).val() + "？");
         var trNode = $(node).parent().parent();
@@ -120,17 +122,19 @@
         console.log(friday);
         var mealDatescope = $("#mealDatescope").val();
         console.log(mealDatescope);
-        var data={
-            "mealDatescope":mealDatescope,
-            "mealType":mealType,
-            "monday":monday,
-            "tuesday":tuesday,
-            "wednesday":wednesday,
-            "thursday":thursday,
-            "friday":friday,
-        }
-        if (flag==true) {
-            if(mealDatescope!=null) {
+        if (mealDatescope === "") {
+            layer.alert('日期不能为空')
+        }else{
+        var data = {
+            "mealDatescope": mealDatescope,
+            "mealType": mealType,
+            "monday": monday,
+            "tuesday": tuesday,
+            "wednesday": wednesday,
+            "thursday": thursday,
+            "friday": friday,
+        };
+        if (flag === true) {
                 $.ajax({
                     url: "/HealtherControl/addmeal",
                     async: true,
@@ -139,7 +143,7 @@
                     dataType: "text",
                     success: function (msg) {
                         if (msg === "success") {
-                            layer.msg('添加成功!继续添加', {icon: 1, time: 8000})
+                            layer.msg('添加'+mealType+'成功!', {icon: 1, time: 8000})
 
                         } else {
                             layer.msg('添加失败!', {icon: 2, time: 6000});
@@ -149,10 +153,8 @@
                         layer.msg('网络错误!', {icon: 2, time: 1000});
                     }
                 });
-            }else{
-                layer.msg("请添加日期")
             }
-        }
+            }
     }
 </script>
 </body>

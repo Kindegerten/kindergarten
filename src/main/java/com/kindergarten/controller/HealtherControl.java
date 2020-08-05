@@ -36,7 +36,7 @@ public class HealtherControl extends HttpServlet {
         if (vCode.equalsIgnoreCase(vCodeServer)) {
             Healther healther = healtherService.login(healtherPhone, healtherPwd);
             if (healther != null) {
-                if(healther.getHealtherStatus().equals(2)){
+                if(healther.getHealtherStatus()==(2)){
                     return "登陆失败,账户被封禁！";
                 }else {
                     HttpSession session = request.getSession();
