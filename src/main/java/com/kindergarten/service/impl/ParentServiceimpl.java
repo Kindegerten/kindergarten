@@ -108,30 +108,4 @@ public class ParentServiceimpl implements ParentService {
 
         return layuiData;
     }
-
-    @Override
-    public LayuiData<ParentShowSafeQue> AllSafeEducation(int parentId,int curPage, int pageSize) {
-        LayuiData<ParentShowSafeQue> layuiData=null;
-        List<ParentShowSafeQue> list=parentsMapper.AllSafeVideo(curPage, pageSize);
-        int totalRecord=parentsMapper.AllSafeVideoCount();
-        List<HashMap<String,Object>> map=parentsMapper.SearchSafeVideoResult(parentId);
-       for (int i=0;i<list.size();i++){
-           for (int j=0;j<map.size();j++){
-               if (String.valueOf(map.get(j).get("safety_video_id")).equals(String.valueOf(list.get(i).getSafetyVideoId()))){
-                   list.get(i).setSafetyTestScore(map.get(j).get("safety_test_score")+"");
-                   list.get(i).setSafetyTestResult(map.get(j).get("safety_test_result")+"");
-               }
-
-           }
-       }
-
-//        System.out.println(JSON.toJSONString(map));
-
-
-        layuiData=new LayuiData<>(0,"",totalRecord,list);
-
-
-
-        return layuiData;
-    }
 }
