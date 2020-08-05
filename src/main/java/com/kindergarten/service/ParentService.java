@@ -18,5 +18,11 @@ public interface ParentService {
     public PageBean<Meal> meals(int studentId,int curPage, int pageSize);
     public LayuiData<Workrelease> studentWork(int studentId,int curPage, int pageSize);
 
+    public LayuiData<ParentShowSafeQue> AllSafeEducation(int studentId,int curPage, int pageSize);
+
+    public ReadmagData<ReadmagPhoto> AllPitcures(String photoTitle,int readMagId);
+
+    public PageBean<Readmag> ParentRead(int curPage, int pageSize);
+
 
 }

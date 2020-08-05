@@ -40,13 +40,13 @@
         <div class="layui-inline" style=" margin-top: 20px">
             <label class="layui-form-label">作业名称:</label>
             <div class="layui-input-block">
-            <input type="text" name="taskName" id="taskName" placeholder="" class="layui-input">
+                <input type="text" name="taskName" id="taskName" placeholder="" class="layui-input">
             </div>
         </div>
         <div class="layui-inline" style=" margin-top: 20px">
             <label class="layui-form-label">发布日期:</label>
             <div class="layui-input-block">
-            <input type="text" name="date1" id="date1" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input" disabled="disabled">
+                <input type="text" name="date1" id="date1" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input" disabled="disabled">
             </div>
         </div>
         <div class="layui-upload" style="margin-left: 120px;margin-top: 20px">
@@ -181,7 +181,7 @@
                 return false;
             } else if (obj.event === 'delete') {
                 layer.confirm('真的删除行么', function (index) {
-                    shanchu(data.id);//alert(data.id);
+                    shanchu(data.workReleaseid);//alert(data.id);
                     obj.del();
                     layer.close(index);
                 });
@@ -216,7 +216,7 @@
                 async:true,
                 data:{
                     type:"shanchu",
-                    id:data
+                    workReleaseid:data
                 },
                 dataType:"text",
                 success:function(data){

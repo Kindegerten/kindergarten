@@ -103,7 +103,10 @@
                 , {field: 'kinderName', title: '所属园区', sort: true}
                 , {field: 'studentAdd', title: '地址',width: 200, sort: true}
                 , {field: 'studentTime', title: '注册时间',width: 200, sort: true,
-                    templet: function(d) {return util.toDateString(d.healtherRegtime)}
+                    templet: function(d) {
+                    // if(d.)
+                    return util.toDateString(d.studentTime)
+                }
                 }
                 // , {title: '操作', align: 'center',  toolbar:'#barDemo'}
 

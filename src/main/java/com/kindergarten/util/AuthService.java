@@ -1,7 +1,6 @@
 package com.kindergarten.util;
 
-import com.alibaba.fastjson.JSONObject;
-
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -74,9 +73,8 @@ public class AuthService {
              * 返回结果示例
              */
             System.err.println("result:" + result);
-//            JSONObject jsonObject = new JSONObject(result);
-//            String access_token = jsonObject.getString("access_token");
-            String access_token = null;
+            JSONObject jsonObject = new JSONObject(result);
+            String access_token = jsonObject.getString("access_token");
             return access_token;
         } catch (Exception e) {
             System.err.printf("获取token失败！");

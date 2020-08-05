@@ -71,7 +71,7 @@
                 <ul class="sub-menu">
                     <li>
                         <a onclick="xadmin.add_tab('课程表','/teacher/course.jsp')">
-<%--                            <a onclick="xadmin.add_tab('课程表','/partent/babyhealth.jsp')">--%>
+                            <%--                            <a onclick="xadmin.add_tab('课程表','/partent/babyhealth.jsp')">--%>
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>课程表</cite></a>
                     </li>
@@ -119,12 +119,12 @@
                             <cite>班级相册</cite></a>
                     </li>
                     <li>
-                        <a onclick="xadmin.add_tab('考勤管理','/teacher/publishJobTable.jsp')">
+                        <a onclick="xadmin.add_tab('考勤管理','/teacher/classCheckTable.jsp')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>考勤管理</cite></a>
                     </li>
                     <li>
-                        <a onclick="xadmin.add_tab('班级信息','/teacher/checkWork.jsp',true)">
+                        <a onclick="xadmin.add_tab('班级信息','/teacher/classInfoTable.jsp',true)">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>班级信息</cite></a>
                     </li>
@@ -149,6 +149,27 @@
                     </li>
                 </ul>
             </li>
+
+            <%--资源中心--%>
+            <li>
+                <a href="javascript:;">
+                    <i class="iconfont left-nav-li" lay-tips="系统统计">&#xe6ce;</i>
+                    <cite>资源中心</cite>
+                    <i class="iconfont nav_right">&#xe697;</i></a>
+                <ul class="sub-menu">
+                    <li>
+                        <a onclick="xadmin.add_tab('班级通知','/teacher/classNoticeTable.jsp')">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>班级通知</cite></a>
+                    </li>
+                    <li>
+                        <a onclick="xadmin.add_tab('家长对话','/teacher/updatePwd.jsp')">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>家长对话</cite></a>
+                    </li>
+                </ul>
+            </li>
+
 
             <li>
                 <a href="javascript:;">

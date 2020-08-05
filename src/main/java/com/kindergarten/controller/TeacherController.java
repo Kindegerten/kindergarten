@@ -300,5 +300,146 @@ public class TeacherController {
         return JSON.toJSONString(i);
     }
 
+    /*查询*/
+    @RequestMapping(value = "/classInfoSelectList")
+    @ResponseBody
+    public String selectList(HttpServletRequest request, HttpServletResponse response, ClassInfo classInf ) {
+        String pageStr = request.getParameter("page");//页码
+        String pageSizeStr = request.getParameter("limit");//每页记录数
+
+        String startTime = request.getParameter("startFinishTime");
+        String endTime = request.getParameter("endFinishTime");
+
+        Teachers staffRo=(Teachers) request.getSession().getAttribute("tblTeachers");
+
+        classInf.setTeacherId(staffRo.getTeacherId());
+        classInf.setStudentTime(startTime);
+
+        LayuiData layuiData = teacherService.classInfoSelectList(classInf,endTime,Integer.parseInt(pageStr), Integer.parseInt(pageSizeStr) );
+        return JSON.toJSONString(layuiData);
+    }
+
+    //班级通知
+    /*查询*/
+    @RequestMapping(value ="/clamsgSelectList")
+    @ResponseBody
+    public String selectList(HttpServletRequest request, HttpServletResponse response, Clamsg tblClassNotice ) {
+        String pageStr = request.getParameter("page");//页码
+        String pageSizeStr = request.getParameter("limit");//每页记录数
+
+        String startTime = request.getParameter("startFinishTime");
+        String endTime = request.getParameter("endFinishTime");
+
+        Teachers staffRo=(Teachers) request.getSession().getAttribute("tblTeachers");
+
+        tblClassNotice.setTeacherId(staffRo.getTeacherId());
+        tblClassNotice.setSendmsgTime(startTime);
+
+        LayuiData layuiData = teacherService.clamsgSelectList(tblClassNotice,endTime,Integer.parseInt(pageStr), Integer.parseInt(pageSizeStr) );
+        return JSON.toJSONString(layuiData);
+    }
+
+
+    /*添加*/
+    @RequestMapping(value = "/clamsgAdd")
+    @ResponseBody
+    public Object classNoticeAdd(HttpServletRequest request, HttpServletResponse response, Clamsg tblClassNotice){
+        Teachers staffRo=(Teachers) request.getSession().getAttribute("tblTeachers");
+        tblClassNotice.setTeacherId(staffRo.getTeacherId());
+        tblClassNotice.setClassId(staffRo.getClassId());
+        int i = teacherService.clamsgAdd(tblClassNotice);
+
+        if (i ==1){
+            System.out.println("添加成功");
+        }else {
+            System.out.println("添加失败");
+        }
+        return JSON.toJSONString(0);
+    }
+
+    /* 删除*/
+    @RequestMapping(value = "/delClamsg")
+    @ResponseBody
+    public Object delClassNotice(HttpServletRequest request, HttpServletResponse response, Clamsg tblClassNotice){
+
+        int i = teacherService.delClamsg(tblClassNotice);
+        Map<String,Object> map=null;
+        if (i ==1){
+            System.out.println("删除成功");
+        }else {
+            System.out.println("删除失败");
+        }
+        return JSON.toJSONString(i);
+    }
+
+    /*修改*/
+    @RequestMapping(value = "/updateClamsg")
+    @ResponseBody
+    public Object updateTaskLevel(HttpServletRequest request, HttpServletResponse response, Clamsg tblClassNotice){
+        int i = teacherService.updateClamsg(tblClassNotice);
+        if (i >=1){
+            System.out.println("修改成功");
+
+        }else {
+            System.out.println("修改失败");
+        }
+        return JSON.toJSONString(i);
+
+    }
+
+    //安全试题配置
+    /*查询*/
+    @RequestMapping(value = "/safetyEduSelectList")
+    @ResponseBody
+    public String safetyEduSelectList(HttpServletRequest request, HttpServletResponse response ) {
+        String pageStr = request.getParameter("page");//页码
+        String pageSizeStr = request.getParameter("limit");//每页记录数
+
+        Teachers staffRo=(Teachers) request.getSession().getAttribute("tblTeachers");
+        int idNum =staffRo.getTeacherId();
+        LayuiData layuiData = teacherService.safetyEduSelectList(idNum,Integer.parseInt(pageStr), Integer.parseInt(pageSizeStr));
+        return JSON.toJSONString(layuiData);
+    }
+    /*添加发布作业*/
+    @RequestMapping(value = "/addSafetyEdu")
+    @ResponseBody
+    public Object addSafetyEdu(HttpServletRequest request, HttpServletResponse response ,SafetyEdu tblSafetyEdu){
+        Teachers staffRo=(Teachers) request.getSession().getAttribute("tblTeachers");
+
+        tblSafetyEdu.setTeacherId(staffRo.getTeacherId());
+        int i = teacherService.addSafetyEdu(tblSafetyEdu);
+
+        if (i ==1){
+            System.out.println("添加成功");
+        }else {
+            System.out.println("添加失败");
+        }
+        return JSON.toJSONString(i);
+    }
+
+    /*替换配置文件*/
+    @RequestMapping(value = "/updateSafetyEdu")
+    @ResponseBody
+    public Object updateSafetyEdu(HttpServletRequest request, HttpServletResponse response, SafetyEdu tblSafetyEdu){
+
+        int i = teacherService.updateSafetyEdu(tblSafetyEdu);
+
+        if (i ==1){
+            System.out.println("添加成功");
+        }else {
+            System.out.println("添加失败");
+        }
+        return JSON.toJSONString(i);
+    }
+
+    /*查询*/
+    @RequestMapping(value = "/safetyVideoSelectList")
+    @ResponseBody
+    public Object safetyVideoSelectList(HttpServletRequest request, HttpServletResponse response ) {
+
+        LayuiData layuiData = teacherService.safetyVideoSelectList();
+        System.out.println(JSON.toJSONString(layuiData));
+        return layuiData;
+    }
 
 }

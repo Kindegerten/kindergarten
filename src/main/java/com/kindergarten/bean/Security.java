@@ -1,16 +1,12 @@
 package com.kindergarten.bean;
 
-
-import java.util.Date;
-
-
+import java.math.BigDecimal;
 
 public class Security {
 
-    private int securityId,securityAge,rid,securityState;//??
+    private int securityId,securityAge,rid,securityState;
     private String securityName,securityPwd,securityAdd,securityRegtime,vCode;
     private String securityPhone,securitySex,securityStateName;
-
 
     public Security() {
     }

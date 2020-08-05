@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kindergarten.mapper.KinderMapper">
+    <select id="selectKinderCount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+        /*parameterType输入参数，resultType是输出结果*/
+        select count(*) from tbl_kinder
+        <where>
+            <if test="condition.kinderName!=null and condition.kinderName !=''">
+                and kinder_name like concat('%',#{condition.kinderName},'%')
+            </if>
+            <if test="condition.kinderStatus!=null and condition.kinderStatus !=''">
+                and kinder_status =#{condition.kinderStatus}
+            </if>
+            <if test="condition.kinderState!=null and condition.kinderState !=''">
+                and kinder_state =#{condition.kinderState}
+            </if>
+
+            <if test="condition.start!=null and condition.start!= '' and condition.end!=null and condition.end!='' ">
+                and date_format(kinder_regtime,'%Y-%m-%d') between #{condition.start} and #{condition.end}
+                /*$是直接插入进去,可以进行计算，#相当于占位符*/
+            </if>
+        </where>
+    </select>
+
+    <select id="selectKinder" resultType="com.kindergarten.bean.Kinder" parameterType="java.util.HashMap">
+        /*parameterType输入参数，resultType是输出结果*/
+        select kinder_id, kinder_name, kinder_lp, kinder_lpid, kinder_lpadd, kinder_lptel, school_permit, health_permit,
+        fire_permit, group_permit, registration_permit,
+        kinder_status, kinder_regtime, approve_time,kinder_account,kinder_state from tbl_kinder
+        <where>
+            <if test="condition.kinderName!=null and condition.kinderName !=''">
+                and kinder_name like concat('%',#{condition.kinderName},'%')
+            </if>
+            <if test="condition.kinderStatus!=null and condition.kinderStatus !=''">
+                and kinder_status =#{condition.kinderStatus}
+            </if>
+            <if test="condition.kinderState!=null and condition.kinderState !=''">
+                and kinder_state =#{condition.kinderState}
+            </if>
+            <if test="condition.start!=null and condition.start!= '' and condition.end!=null and condition.end!='' ">
+                and date_format(kinder_regtime,'%Y-%m-%d') between #{condition.start} and #{condition.end}
+                /*$是直接插入进去,可以进行计算，#相当于占位符*/
+            </if>
+        </where>
+        order by kinder_regtime desc limit ${(curPage-1)*pageSize},${pageSize}
+    </select>
+    <select id="selectKinderStatus" resultType="com.kindergarten.bean.Kinder">
+        select parameter_value as kinderStatus,parameter_text as parameterText from tbl_parameter where parameter_type ='kinder_status';
+    </select>
+    <select id="selectKinderState" resultType="com.kindergarten.bean.Kinder">
+        select parameter_value as kinderState,parameter_text as kinderStateText from tbl_parameter where parameter_type ='account_state';
+    </select>
+    <select id="selectApproveKinder" resultType="com.kindergarten.bean.Kinder" parameterType="java.lang.Integer">
+        select kinder_id, kinder_name, kinder_lp, kinder_lpid, kinder_lpadd, kinder_lptel, school_permit, health_permit, fire_permit, group_permit, registration_permit, kinder_status, kinder_regtime, approve_time from tbl_kinder where kinder_id=#{kinderId};
+    </select>
+    <update id="upKinderSatus" parameterType="com.kindergarten.bean.Kinder">
+        update tbl_kinder set kinder_status=2,approve_time=#{approveTime} where kinder_id=#{kinderId};
+    </update>
+    <update id="banKinderSatus" parameterType="com.kindergarten.bean.Kinder">
+        update tbl_kinder set kinder_status=3,approve_time=#{approveTime} where kinder_id=#{kinderId};
+    </update>
+    <delete id="deleteKinder" parameterType="java.lang.Integer">
+        delete from tbl_kinder where kinder_id=#{kinderId};
+    </delete>
+    <update id="restPwd" parameterType="com.kindergarten.bean.Kinder">
+        update tbl_kinder set kinder_pwd=#{kinderPwd} where kinder_id=#{kinderId};
+    </update>
+    <update id="upKinderState" parameterType="java.lang.Integer">
+     update tbl_kinder set kinder_state=1 where kinder_id=#{kinderId};
+    </update>
+    <update id="banKinderState" parameterType="java.lang.Integer">
+       update tbl_kinder set kinder_state=2 where kinder_id=#{kinderId};
+    </update>
+    <select id="selectKinderByone" parameterType="com.kindergarten.bean.Kinder" resultType="java.lang.Integer">
+            select count(*) from tbl_kinder where kinder_account=#{kinderAccount};
+    </select>
+    <insert id="insertKinder" parameterType="com.kindergarten.bean.Kinder">
+            insert into tbl_kinder(kinder_name,kinder_account) VALUES (#{kinderName},#{kinderAccount})
+    </insert>
+    <update id="updateKinder" parameterType="com.kindergarten.bean.Kinder">
+            update tbl_kinder set kinder_account=#{kinderAccount},kinder_name=#{kinderName} where kinder_id=#{kinderId}
+    </update>
+
+</mapper>
