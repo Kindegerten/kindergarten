@@ -144,6 +144,7 @@ public class ParentServiceimpl implements ParentService {
         return readmagData;
     }
 
+    //分页
     @Override
     public PageBean<Readmag> ParentRead(int curPage, int pageSize) {
         List<Readmag> list=parentsMapper.ParentRead(curPage,pageSize);

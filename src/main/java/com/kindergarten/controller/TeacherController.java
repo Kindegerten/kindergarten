@@ -17,10 +17,7 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @RequestMapping("/tc")
 @Controller
@@ -440,6 +437,19 @@ public class TeacherController {
         LayuiData layuiData = teacherService.safetyVideoSelectList();
         System.out.println(JSON.toJSONString(layuiData));
         return layuiData;
+    }
+
+    /*聊天:家长联系点击后到此区域，查询老师班级，而后查孩子*/
+    @RequestMapping(value = "/Cheat")
+    public String Cheat(HttpServletRequest request) throws ServletException, IOException {
+//        String studentid= (String) request.getSession().getAttribute("studentID");
+//        List<Teachers> teachers=parentsMapper.SearchTeacher(Integer.parseInt(studentid));
+//        request.setAttribute("teachers",teachers);
+        Teachers teachers= (Teachers) request.getSession().getAttribute("tblTeachers");
+        List<Parents> list=teacherMapper.SearchParents(teachers.getTeacherId());
+        request.setAttribute("parents",list);
+
+        return "/teacher/Cheat.jsp";
     }
 
 }

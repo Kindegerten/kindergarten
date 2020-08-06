@@ -145,7 +145,7 @@
     </select>
 <!--    通过学生id找到它的班级，通过班级找到对应的老师-->
     <select id="SearchTeacher" resultType="com.kindergarten.bean.Teachers">
-        select a.teacher_name,a.teacher_tel from tbl_teachers a,tbl_students b where b.class_id=a.class_id and b.student_id=#{studentId}
+        select a.teacher_name,a.teacher_tel from tbl_teachers a,tbl_students b where b.class_id=a.class_id and b.kinder_id=a.kinder_id and b.student_id=#{studentId}
     </select>
 
 </mapper>
