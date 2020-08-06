@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kindergarten.mapper.ParameterMapper">
+
+    <select id="selectParameterList" parameterType="java.util.HashMap" resultType="com.kindergarten.bean.Parameter">
+        select parameter_id, parameter_name, parameter_type, parameter_value, parameter_text from tbl_parameter
+        <where>
+            <if test="condition.parameterText!=null and condition.parameterText !=''">
+                 parameter_text like concat('%',#{condition.parameterText},'%')
+            </if>
+            <if test="condition.parameterType!=null and condition.parameterType !=''">
+                and parameter_type =#{condition.parameterType}
+            </if>
+        </where>
+        order by parameter_type limit ${(curPage-1)*pageSize},${pageSize}
+    </select>
+    <select id="selectParameterCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        select count(*) from tbl_parameter
+        <where>
+            <if test="condition.parameterText!=null and condition.parameterText !=''">
+                parameter_text like concat('%',#{condition.parameterText},'%')
+            </if>
+            <if test="condition.parameterType!=null and condition.parameterType !=''">
+                and parameter_type =#{condition.parameterType}
+            </if>
+        </where>
+    </select>
+    <select id="selectParameterType" resultType="com.kindergarten.bean.Parameter">
+        select min(parameter_name) as parameterName,parameter_type as parameterType from tbl_parameter group by parameter_name,parameter_type;
+    </select>
+    <delete id="deleteParameter" parameterType="java.lang.Integer">
+       delete from tbl_parameter where parameter_id=#{parameterId}
+    </delete>
+    <update id="updateParameter" parameterType="java.util.HashMap">
+
+        update tbl_parameter  set
+        <if test="condition.parameterName!=null and condition.parameterName !=''">
+            parameter_name=#{condition.parameterName},
+        </if>
+        <if test="condition.parameterType!=null and condition.parameterType !=''">
+            parameter_type=#{condition.parameterType},
+        </if>
+        <if test="condition.parameterText!=null and condition.parameterText !=''">
+            parameter_text=#{condition.parameterText},
+        </if>
+        <if test="condition.parameterValue!=null and condition.parameterValue !=''">
+            parameter_value=#{condition.parameterValue}
+        </if>
+        where parameter_id=#{condition.parameterId}
+    </update>
+    <insert id="insertParameter" parameterType="com.kindergarten.bean.Parameter">
+        insert into tbl_parameter ( parameter_name, parameter_type, parameter_value, parameter_text) VALUES (#{parameterName},#{parameterType},#{parameterValue},#{parameterText})
+    </insert>
+</mapper>

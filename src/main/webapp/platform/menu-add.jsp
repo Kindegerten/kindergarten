@@ -22,36 +22,43 @@
         <div class="layui-fluid">
             <div class="layui-row">
                 <form class="layui-form">
+
                     <div class="layui-form-item">
-                        <label for="parentsTel" class="layui-form-label">
-                            <span class="x-red">*</span>手机号</label>
+                        <label for="menuName" class="layui-form-label">
+                        <span class="x-red">*</span>菜单名称</label>
                         <div class="layui-input-inline">
-                            <input type="text" id="parentsTel" name="parentsTel" required="" lay-verify="required|phone" autocomplete="off" class="layui-input"></div>
-                        <div class="layui-form-mid layui-word-aux">
-                            <span class="x-red">*</span>将会成为您唯一的登入名</div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label for="parentsName" class="layui-form-label">
-                            <span class="x-red">*</span>昵称</label>
-                        <div class="layui-input-inline">
-                            <input type="text" id="parentsName" name="parentsName" required="" lay-verify="nikename" autocomplete="off" class="layui-input"></div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label for="parentsPwd" class="layui-form-label">
-                            <span class="x-red">*</span>密码</label>
-                        <div class="layui-input-inline">
-                            <input type="password" id="parentsPwd" name="parentsPwd" required="" lay-verify="pass" autocomplete="off" class="layui-input"></div>
-                        <div class="layui-form-mid layui-word-aux">3到16个字符</div></div>
-                    <div class="layui-form-item">
-                        <label for="male" class="layui-form-label">
-                            <span class="x-red">*</span>性别</label>
-                        <div class="layui-input-inline">
-                            <input type="radio" id="male" checked="checked" name="parentsSex" value="男">男
-                            <input type="radio" id="female" name="parentsSex" value="女">女
+                            <input type="text" name="menuName" lay-verify="title"  id="menuName" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-form-item">
-                        <label for="male" class="layui-form-label"></label>
+                        <label for="parentId" class="layui-form-label">
+                        <span class="x-red">*</span>一级菜单</label>
+                        <div class="layui-input-inline">
+                            <select name="parentId" id="parentId"  >
+                                <option value="">菜单</option>
+                                <%--                <option value="1" selected="">系统管理</option>--%>
+                            </select>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">
+                            <span class="x-red">*</span>如果不选择默认添加为一级菜单
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="menuUrl" class="layui-form-label">
+                        <span class="x-red">*</span>URL</label>
+                        <div class= "layui-input-block">
+                            <input type="text" name="menuUrl" id="menuUrl" lay-verify="pass"  autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="orderId" class="layui-form-label">
+                        <span class="x-red">*</span>排序号</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="orderId" id="orderId" lay-verify="orderId"  autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="parentId" class="layui-form-label"></label>
                         <button class="layui-btn" lay-filter="add" lay-submit="">增加</button></div>
                 </form>
             </div>
@@ -65,20 +72,47 @@
 
                 //自定义验证规则
                 form.verify({
-                    nikename: function(value) {
-                        if (value.length < 3) {
-                            return '昵称至少得3个字符啊';
+                    title: function(value){
+                        if(value.length < 2){
+                            return '标题至少得2个字符啊';
                         }
-                    },
-                    pass: [/(.+){3,12}$/, '密码必须3到12位'],
+                    }
+                    ,orderId: [
+                        /^\+?[1-9][0-9]*$/
+                        ,'输入不合法'
+                    ]
+                    ,content: function(value){
+                        layedit.sync(editIndex);
+                    }
                 });
-
+                //查询一级菜单
+                $.ajax({
+                    url: "/platformController/selectOneMenu",
+                    type: "post",
+                    dataType: "json",
+                    success: function (datas) {
+                        // datas=datas.menu;
+                        // console.log("datas.menu"+datas.menu)
+                        if (datas.length > 0) {
+                            $("#parentId").empty();
+                            $("#parentId").append("<option value= 0 >菜单</option>");
+                            for (var i = 0; i < datas.length; i++) {
+                                var menu = datas[i];
+                                $("#parentId").append("<option value=" + menu.menuId + ">" + menu.menuName + "</option>");
+                            }
+                        } else {
+                            $("#parentId").empty();
+                            $("#parentId").append("<option value=''>菜单</option>");
+                        }
+                        form.render("select");
+                    }
+                });
                 //监听提交
                 form.on('submit(add)',function(data) {
                     console.log(data.field);
                     //发异步，把数据提交给php
                     $.ajax({
-                        url:"/platformController/insertParents",
+                        url:"/platformController/insertMenu",
                         type:"post",
                         asnyc:true,//异步
                         dataType:"text",//json,后端返回给前端的数据格式

@@ -7,9 +7,18 @@ public class Menu {
     private String menuName;
     private String menuUrl;
     private int  parentId;
-    private int  order;
+    private int  orderId;
+    private  String parentName;
     private List<Menu> menus;
     public Menu() {
+    }
+
+    public String getParentName() {
+        return parentName;
+    }
+
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
     }
 
     public int getMenuId() {
@@ -44,12 +53,12 @@ public class Menu {
         this.parentId = parentId;
     }
 
-    public int getOrder() {
-        return order;
+    public int getOrderId() {
+        return orderId;
     }
 
-    public void setOrder(int order) {
-        this.order = order;
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
     }
 
     public List<Menu> getMenus() {

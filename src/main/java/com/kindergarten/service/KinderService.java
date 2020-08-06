@@ -20,4 +20,5 @@ public interface KinderService<T> {
     String updateKinderState(int kinderId,String msg);
     String insertKinder(Kinder kinder);
     String  updateKinder(Kinder kinder);
+
 }

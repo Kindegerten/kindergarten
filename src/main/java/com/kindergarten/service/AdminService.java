@@ -24,5 +24,10 @@ public interface AdminService<T> {
     List<Classes>findClassesList();
     List<Classes>selectClasses(int kinderId);
     String insertStudent(Students students);
-
+    LayuiData<T>selectPlatformInfo(@Param("condition") HashMap<String, Object> hashMap, @Param("curPage") int curPage, @Param("pageSize") int pageSize);
+    String deletePlatformInfo(int platformInfoId);
+    String releaseOrCancel(int platformInfoId,String title);
+    String updatePlatformInfo(PlatformInfo platformInfo);
+    String insertPlatformInfo(PlatformInfo platformInfo);
+    LayuiData<T>selectSyslog(@Param("condition") HashMap<String, Object> hashMap, @Param("curPage") int curPage, @Param("pageSize") int pageSize);
 }

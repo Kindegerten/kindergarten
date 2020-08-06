@@ -5,6 +5,8 @@ public class PlatformInfo {
     private String platformInfoName;
     private String platformInfoTime;
     private String platformInfoDetail;
+    private int platformInfoStatus;
+    private String imageUrl;
 
 
     public PlatformInfo() {
@@ -15,6 +17,22 @@ public class PlatformInfo {
         this.platformInfoName = platformInfoName;
         this.platformInfoTime = platformInfoTime;
         this.platformInfoDetail = platformInfoDetail;
+    }
+
+    public int getPlatformInfoStatus() {
+        return platformInfoStatus;
+    }
+
+    public void setPlatformInfoStatus(int platformInfoStatus) {
+        this.platformInfoStatus = platformInfoStatus;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public int getPlatformInfoId() {
