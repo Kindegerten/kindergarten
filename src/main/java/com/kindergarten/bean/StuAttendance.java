@@ -1,32 +1,24 @@
 package com.kindergarten.bean;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class StuAttendance {
 
-    private int stutimeId,studentId,stutimeIsdelay;
-    private String stutimeDate,stutimeType,photoUrl;
-
-    public StuAttendance(int stutimeId, int studentId, int stutimeIsdelay, String stutimeDate, String stutimeType, String photoUrl) {
-        this.stutimeId = stutimeId;
-        this.studentId = studentId;
-        this.stutimeIsdelay = stutimeIsdelay;
-        this.stutimeDate = stutimeDate;
-        this.stutimeType = stutimeType;
-        this.photoUrl = photoUrl;
-    }
+    private int stutimeId;
+    private String stutimeDate;
+    private int studentId;
+    private String studentType;
 
     public StuAttendance() {
     }
 
-    @Override
-    public String toString() {
-        return "StuAttendance{" +
-                "stutimeId=" + stutimeId +
-                ", studentId=" + studentId +
-                ", stutimeIsdelay=" + stutimeIsdelay +
-                ", stutimeDate='" + stutimeDate + '\'' +
-                ", stutimeType='" + stutimeType + '\'' +
-                ", photoUrl='" + photoUrl + '\'' +
-                '}';
+    public StuAttendance(int stutimeId, String stutimeDate, int studentId, String studentType) {
+        this.stutimeId = stutimeId;
+        this.stutimeDate = stutimeDate;
+        this.studentId = studentId;
+        this.studentType = studentType;
     }
 
     public int getStutimeId() {
@@ -37,22 +29,6 @@ public class StuAttendance {
         this.stutimeId = stutimeId;
     }
 
-    public int getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(int studentId) {
-        this.studentId = studentId;
-    }
-
-    public int getStutimeIsdelay() {
-        return stutimeIsdelay;
-    }
-
-    public void setStutimeIsdelay(int stutimeIsdelay) {
-        this.stutimeIsdelay = stutimeIsdelay;
-    }
-
     public String getStutimeDate() {
         return stutimeDate;
     }
@@ -61,19 +37,19 @@ public class StuAttendance {
         this.stutimeDate = stutimeDate;
     }
 
-    public String getStutimeType() {
-        return stutimeType;
+    public int getStudentId() {
+        return studentId;
     }
 
-    public void setStutimeType(String stutimeType) {
-        this.stutimeType = stutimeType;
+    public void setStudentId(int studentId) {
+        this.studentId = studentId;
     }
 
-    public String getPhotoUrl() {
-        return photoUrl;
+    public String getStudentType() {
+        return studentType;
     }
 
-    public void setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
+    public void setStudentType(String studentType) {
+        this.studentType = studentType;
     }
 }

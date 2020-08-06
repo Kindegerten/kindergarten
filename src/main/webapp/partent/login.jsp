@@ -4,7 +4,7 @@
 <html  class="x-admin-sm">
 <head>
 	<meta charset="UTF-8">
-	<title>后台登录</title>
+	<title>智慧幼儿园家长端</title>
 	<meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
@@ -18,14 +18,23 @@
       <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
       <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style>
+        body{
+            background-image: url("../static/img/chidren5.bmp");
+            background-size:100% 100%;
+            overflow: hidden;
+            background-repeat: no-repeat;
+        }
+    </style>
 </head>
-<body class="login-bg">
+
+<body>
 
 <%String path=request.getContextPath();%>
 <input id="path" type="hidden" value=<%=path%> >
 
     <div class="login layui-anim layui-anim-up">
-        <div class="message">智慧幼儿园家长登陆</div>
+        <div class="message">家长登陆</div>
         <div id="darkbannerwrap"></div>
         
         <form method="post" class="layui-form" >
