@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kindergarten.mapper.RectorMapper">
+    <!--    namespace需要和mapper接口相对应-->
+    <!--    登录-->
+    <select id="login" resultType="com.kindergarten.bean.Rector">
+        select * from tbl_rector where rector_tel = #{rectorTel} and rector_pwd=#{rectorPwd}
+
+    </select>
+    <!--    更新个人信息-->
+    <update id="updateSelf" parameterType="com.kindergarten.bean.Rector">
+        update tbl_rector set rector_add=#{rectorAdd},rector_tel=#{rectorTel},rector_pwd=#{rectorPwd}
+         where rector_id=#{rectorId}
+    </update>
+    <!--    增加园所-->
+    <insert id="addKinder" parameterType="com.kindergarten.bean.Kinder" useGeneratedKeys="true" keyProperty="kinderId">
+            insert into tbl_kinder(kinder_name,kinder_lp,kinder_lpid,kinder_lpadd,kinder_lptel,school_permit,health_permit,fire_permit,group_permit,registration_permit)
+            values (#{kinderName},#{kinderLp},#{kinderLpid},#{kinderLpadd},#{kinderLptel},#{schoolPermit},#{healthPermit},#{firePermit},#{groupPermit},#{registrationPermit})
+        </insert>
+    <!--    教职工列表-->
+    <select id="stafflist" resultType="com.kindergarten.bean.Staffs">
+        select * from (select t.teacher_id,t.kinder_id,t.teacher_name,t.teacher_regtime, r.role_name
+        from tbl_teachers t
+        inner join tbl_role r on r.role_id = t.rid
+        union all
+        select h.healther_id,h.kid,h.healther_name,h.healther_regtime, r.role_name
+        from tbl_healther h
+        inner join tbl_role r on r.role_id = h.rid
+        union all
+        select s.security_id,s.kid,s.security_name,s.security_regtime, r.role_name
+        from tbl_security s
+        inner join tbl_role r on r.role_id = s.rid) as allt
+        <where>
+            <if test="condition.kinderId!=null and condition.kinderId!=''">
+                allt.kinder_id = #{condition.kinderId}
+            </if>
+            <if test="condition.teacherName!=null and condition.teacherName!=''">
+                and allt.teacher_name=#{condition.teacherName}
+            </if>
+        </where>
+        order by role_name desc
+        limit ${(curPage-1)*pageSize},${pageSize}
+    </select>
+
+    <!--    教师列表总条数-->
+    <select id="staffcount" resultType="int">
+        select count(*)
+        from (select t.teacher_id,t.kinder_id,t.teacher_name,t.teacher_regtime, r.role_name
+        from tbl_teachers t
+        inner join tbl_role r on r.role_id = t.rid
+        union all
+        select h.healther_id,h.kid,h.healther_name,h.healther_regtime, r.role_name
+        from tbl_healther h
+        inner join tbl_role r on r.role_id = h.rid
+        union all
+        select s.security_id,s.kid,s.security_name,s.security_regtime, r.role_name
+        from tbl_security s
+        inner join tbl_role r on r.role_id = s.rid) as allt
+        <where>
+            <if test="kinderId!=null and kinderId!=''">
+                and allt.kinder_id = #{kinderId}
+            </if>
+            <if test="teacherName!=null and teacherName!=''">
+                and allt.teacher_name=#{teacherName}
+            </if>
+        </where>
+    </select>
+<!--        删除教职工-->
+    <delete id="deleteStaff">
+    delete from ${tableName} where ${tableId} = #{teacherid}
+    </delete>
+    <!-- 增加教职工-->
+        <insert id="addStaffs">
+            insert into ${tableName}(${column1},${column2},${column3})
+            values (#{teacherName},#{roleid},#{telphone})
+        </insert>
+<!--    查询新增教职工-->
+       <select id="checkNewStaff">
+           select * from ${tableName} where ${column3}=#{telphone}
+       </select>
+    <!--    &lt;!&ndash;    膳食管理列表&ndash;&gt;-->
+    <!--    <select id="meallist" resultType="com.kindergarten.bean.Meal">-->
+    <!--        select * from tbl_meal order by meal_datescope desc limit ${(curPage-1)*pageSize},${pageSize}-->
+    <!--    </select>-->
+    <!--    &lt;!&ndash;    膳食列表总条数&ndash;&gt;-->
+    <!--    <select id="meallistcount" resultType="int">-->
+    <!--        select count(*) from tbl_meal-->
+    <!--    </select>-->
+    <!--    &lt;!&ndash;    增加膳食&ndash;&gt;-->
+    <!--    <insert id="addmeal" parameterType="com.kindergarten.bean.Meal" useGeneratedKeys="true" keyProperty="mealId">-->
+    <!--        insert into tbl_meal(meal_type,meal_datescope,monday,tuesday,wednesday,thursday,friday)-->
+    <!--        values (#{mealType},#{mealDatescope},#{monday},#{tuesday},#{wednesday},#{thursday},#{friday})-->
+    <!--    </insert>-->
+    <!--    &lt;!&ndash;    修改膳食信息&ndash;&gt;-->
+    <!--    <update id="updatemeal" parameterType="com.kindergarten.bean.Meal">-->
+    <!--        update tbl_meal set meal_type=#{mealType},meal_datescope=#{mealDatescope},monday=#{monday},tuesday=#{tuesday},wednesday=#{wednesday},thursday=#{thursday},friday=#{friday}-->
+    <!--         where meal_id=#{mealId}-->
+    <!--    </update>-->
+</mapper>

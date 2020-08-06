@@ -26,7 +26,7 @@
     </select>
 
 <!--    查发布作业表格-->
-    <select id="publishJobList" resultType="com.kindergarten.bean.TblWorkrelease">
+    <select id="publishJobList" resultType="com.kindergarten.bean.Workrelease">
     select a.work_releaseid,b.class_id,c.class_name,a.work_name,a.workrelease_time
     From tbl_workrelease a
     LEFT JOIN tbl_teachers b on b.teacher_id=a.teacher_id
@@ -40,11 +40,11 @@
     select count(work_releaseid) from tbl_workrelease WHERE teacher_id=#{teacherId}
   </select>
 <!--    添加作业-->
-    <insert id="publishTaskAdd" parameterType="com.kindergarten.bean.TblWorkrelease"  >
+    <insert id="publishTaskAdd" parameterType="com.kindergarten.bean.Workrelease"  >
     insert into tbl_workrelease(work_name,work_url,workrelease_time,class_id,teacher_id)  values (#{workName},#{workUrl},#{workreleaseTime},#{classId},#{teacherId})
   </insert>
 <!--    删除作业-->
-    <delete id="delPublishTask" parameterType="com.kindergarten.bean.TblWorkrelease"  >
+    <delete id="delPublishTask" parameterType="com.kindergarten.bean.Workrelease"  >
      delete from tbl_workrelease where work_releaseid = (#{workReleaseid})
   </delete>
 
@@ -124,6 +124,109 @@
         FROM
         tbl_class a
     </select>
+
+<!--    班级通知-->
+    <!--  查询表格-->
+    <select id="clamsgSelectList" resultType="com.kindergarten.bean.Clamsg"   >
+        select *
+        from  tbl_clamsg
+        WHERE teacher_id=#{e.teacherId}
+        <if test="e.sendmsgTime!=null and e.sendmsgTime!=''">
+            <![CDATA[ and sendmsg_time >=#{e.sendmsgTime}]]>
+        </if>
+        <if test="e.sendmsgTime!=null and e.sendmsgTime!=''">
+            <![CDATA[ and sendmsg_time <= #{endTime}]]>
+        </if>
+        limit #{start},#{pageSize}
+    </select>
+    <select id="clamsgSelectListCount" resultType="int">
+        select count(clamsg_id) from tbl_clamsg
+   </select>
+
+    <!--插入-->
+    <insert id="clamsgAdd" parameterType="com.kindergarten.bean.Clamsg"  >
+    insert into tbl_clamsg(clamsg_detail,class_id,teacher_id,sendmsg_time,clamsg_name)  values (#{clamsgDetail},#{classId},#{teacherId},#{sendmsgTime},#{clamsgName})
+  </insert>
+
+    <!--删除-->
+    <delete id="delClamsg" parameterType="com.kindergarten.bean.Clamsg"  >
+     delete from tbl_clamsg where clamsg_id = (#{clamsgId})
+  </delete>
+
+    <!--更新-->
+    <update id="updateClamsg" parameterType="com.kindergarten.bean.Clamsg">
+    update tbl_clamsg
+    set clamsg_name = #{clamsgName}, clamsg_detail = #{clamsgDetail}, sendmsg_time = #{sendmsgTime}
+    where clamsg_id=#{clamsgId}
+  </update>
+
+<!--    安全试题配置-->
+    <!--  //查询表格-->
+    <select id="safetyEduSelectList" resultType="com.kindergarten.bean.SafetyEdu">
+    SELECT *
+    from tbl_safety_edu
+    WHERE teacher_id=#{idNum}
+    limit #{start},#{pageSize}
+  </select>
+
+    <!--  chy:获取表格数据总条数-->
+    <select id="safetyEduSelectListCount" resultType="int">
+    select count(id) from tbl_safety_edu
+  </select>
+
+    <!--插入-->
+    <insert id="addSafetyEdu" parameterType="com.kindergarten.bean.SafetyEdu"  >
+    insert into tbl_safety_edu(name,start_time,end_time,teacher_id)  values (#{name},#{startTime},#{endTime},#{teacherId})
+  </insert>
+
+    <!--修改-->
+    <update id="updateSafetyEdu" parameterType="com.kindergarten.bean.SafetyEdu"  >
+    UPDATE tbl_safety_edu  SET route=#{route}   WHERE id=#{id}
+  </update>
+
+
+    <!--  //查询表格-->
+    <select id="safetyVideoSelectList" resultType="com.kindergarten.bean.SafetyVideo">
+    SELECT safety_video_id,safety_video_name
+    from  tbl_safety_video
+  </select>
+
+    <!--  chy:获取表格数据总条数-->
+    <select id="safetyVideoSelectListCount" resultType="int">
+    select count(safety_video_id) from tbl_safety_video
+  </select>
+
+<!--    获取班级孩子的所有家长-->
+    <select id="SearchParents" resultType="com.kindergarten.bean.Parents">
+        select distinct a.parents_name,a.parents_tel from tbl_parents a,tbl_students b,tbl_teachers c,tbl_parents_students d
+        where a.parents_id=d.parents_id and b.student_id=d.students_id
+          and c.kinder_id=b.kinder_id and c.class_id=b.class_id and c.teacher_id=#{teacherId}
+    </select>
+
+<!--    试题完成情况-->
+    <!--  //查询表格-->
+    <select id="safetyTestCompleteSelectList" resultType="com.kindergarten.bean.SafetyTestComplete"   >
+        SELECT a.*,b.safety_video_name,b.safety_video_time, c.student_id,c.student_name,d.parents_name,f.*
+        From tbl_safety_test_complete a
+        LEFT JOIN tbl_safety_video b on  a.safety_video_id =b.safety_video_id
+        LEFT JOIN tbl_students c on  a.student_id=c.student_id
+        LEFT JOIN tbl_parents d on d.parents_status=c.student_id
+        LEFT JOIN tbl_parents_students f on f.students_id=d.parents_status
+        WHERE  teacher_id=#{e.teacherId}
+<!--        <if test="e.finishTime!=null and e.finishTime!=''">-->
+<!--            <![CDATA[   and finish_time >= #{e.finishTime} ]]>-->
+<!--        </if>-->
+<!--        <if test="endTime!=null and endTime!=''">-->
+<!--            <![CDATA[   and finish_time <= #{endTime}  ]]>-->
+<!--        </if>-->
+        <if test="e.safetyTestResult!=null and e.safetyTestResult!=''">
+            and safety_test_result=#{e.safetyTestResult}
+        </if>
+        limit #{start},#{pageSize}
+    </select>
+    <select id="safetyTestCompleteSelectListCount" resultType="int">
+        select count(safety_test_id) from tbl_safety_test_complete
+   </select>
 
 
 </mapper>

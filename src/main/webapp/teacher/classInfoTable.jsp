@@ -74,13 +74,13 @@
 <%--宝宝信息弹出框--%>
 <div id="babyInf" style="display:none;">
     <form class="layui-form" lay-filter="formDetail" action="" id="add">
-<%--宝宝图片--%>
+        <%--宝宝图片--%>
         <div class="layui-inline">
             <div class="layui-input-block">
                 <img src="../static/img/c3.bmp" id="faceUrl" class="layui-nav-img" style="height: 150px;width: 150px">
             </div>
         </div>
-<%--宝宝信息--%>
+        <%--宝宝信息--%>
         <div class="layui-inline">
             <label class="layui-form-label">宝宝姓名：</label>
             <div class="layui-input-block">
@@ -100,34 +100,34 @@
                        disabled="disabled" style="width: 180px">
             </div>
         </div>
-<%--家长图片--%>
-    <div>
-        <div class="layui-inline">
-            <div class="layui-input-block">
-                <img src="../static/img/c2.bmp" id="photoUrl" class="layui-nav-img" style="height: 150px;width: 150px">
+        <%--家长图片--%>
+        <div>
+            <div class="layui-inline">
+                <div class="layui-input-block">
+                    <img src="../static/img/c2.bmp" id="photoUrl" class="layui-nav-img" style="height: 150px;width: 150px">
+                </div>
+            </div>
+            <%--家长信息--%>
+            <div class="layui-inline">
+                <label class="layui-form-label">家长姓名：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="parentsName" id="parentsName" placeholder="" class="layui-input" disabled="disabled">
+                </div>
+                <label class="layui-form-label">家长电话：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="parentsTel" id="parentsTel" placeholder="" class="layui-input" disabled="disabled">
+                </div>
+                <label class="layui-form-label">家庭地址：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="studentAdd" placeholder="" class="layui-input" disabled="disabled">
+                </div>
+                <%--            <label class="layui-form-label">家长职业：</label>--%>
+                <%--            <div class="layui-input-block">--%>
+                <%--                <input type="text" name="parentsJob" id="parentsJob" placeholder="" class="layui-input"--%>
+                <%--                       disabled="disabled" style="width: 180px">--%>
+                <%--            </div>--%>
             </div>
         </div>
-<%--家长信息--%>
-        <div class="layui-inline">
-            <label class="layui-form-label">家长姓名：</label>
-            <div class="layui-input-block">
-                <input type="text" name="parentsName" id="parentsName" placeholder="" class="layui-input" disabled="disabled">
-            </div>
-            <label class="layui-form-label">家长电话：</label>
-            <div class="layui-input-block">
-                <input type="text" name="parentsTel" id="parentsTel" placeholder="" class="layui-input" disabled="disabled">
-            </div>
-            <label class="layui-form-label">家庭地址：</label>
-            <div class="layui-input-block">
-                <input type="text" name="studentAdd" placeholder="" class="layui-input" disabled="disabled">
-            </div>
-<%--            <label class="layui-form-label">家长职业：</label>--%>
-<%--            <div class="layui-input-block">--%>
-<%--                <input type="text" name="parentsJob" id="parentsJob" placeholder="" class="layui-input"--%>
-<%--                       disabled="disabled" style="width: 180px">--%>
-<%--            </div>--%>
-        </div>
-    </div>
     </form>
 </div>
 <script src="<%=path%>/static/X-admin/lib/layuimini/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>

@@ -22,6 +22,7 @@ public class Meal {
         this.wednesday = wednesday;
         this.thursday = thursday;
         this.friday = friday;
+
     }
 
     public int getMealId() {
@@ -87,9 +88,9 @@ public class Meal {
     public void setFriday(String friday) {
         this.friday = friday;
     }
-
     @Override
     public String toString() {
         return mealDatescope;
     }
+
 }

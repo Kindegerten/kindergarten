@@ -13,8 +13,8 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="<%=path%>/back/layuimini/lib/layui-v2.5.5/css/layui.css" media="all">
-    <link rel="stylesheet" href="<%=path%>/back/layuimini/css/public.css" media="all">
+    <link rel="stylesheet" href="<%=path%>/static/X-admin/lib/layuimini/lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="<%=path%>/static/X-admin/lib/layuimini/css/public.css" media="all">
 </head>
 <body>
 <div class="layuimini-container">
@@ -83,7 +83,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">时间</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="noticeTime" id="noticeTime" lay-verify="date"
+                    <input type="text" name="sendmsgTime" id="sendmsgTime" lay-verify="date"
                            placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input" disabled="disabled">
                 </div>
             </div>
@@ -97,7 +97,7 @@
         </div>
     </form>
 </div>
-<script src="<%=path%>/back/layuimini/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<script src="<%=path%>/static/X-admin/lib/layuimini/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
 <script>
     layui.use(['form', 'table', 'jquery', 'layedit', 'laydate', 'upload'], function () {
         var $ = layui.jquery,
@@ -109,7 +109,7 @@
             laydate = layui.laydate;
         table.render({
             elem: '#currentTableId',
-            url: '<%=path%>/classNoticeControl/selectList',
+            url: '<%=path%>/tc/clamsgSelectList',
             toolbar: '#toolbarDemo',
             defaultToolbar: ['filter', 'exports', 'print', {
                 title: '提示',
@@ -118,10 +118,10 @@
             }],
             cols: [[
                 {type: "checkbox", width: 50},
-                {field: 'id', width: 100, title: '通知编号', sort: true},
-                {field: 'name', width: 100, title: '通知名称'},
-                {field: 'content', width: 180, title: '通知内容'},
-                {field: 'foundTime', width: 180, title: '发布时间', sort: true},
+                {field: 'clamsgId', width: 100, title: '通知编号', sort: true},
+                {field: 'clamsgName', width: 100, title: '通知名称'},
+                {field: 'clamsgDetail', width: 180, title: '通知内容'},
+                {field: 'sendmsgTime', width: 180, title: '发布时间', sort: true},
                 {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center"},
             ]],
             limits: [2, 5, 10, 15, 20, 25, 50, 100],
@@ -159,17 +159,17 @@
                             // var body = layer.getChildFrame('body', index);
                             var taskName = $('#taskName').val();
                             var noticeInf = $('#noticeInf').val();
-                            var noticTime = $('#noticTime').val();
+                            var sendmsgTime = $('#sendmsgTime').val();
 
                             $.ajax({
                                 type: "post",
-                                url: "<%=path%>/classNoticeControl/classNoticeAdd",
+                                url: "<%=path%>/tc/clamsgAdd",
                                 async: true,
                                 data: {
                                     // type:"taskAdd",
-                                    name: taskName,
-                                    content: noticeInf,
-                                    foundTime: noticTime,
+                                    clamsgName: taskName,
+                                    clamsgDetail: noticeInf,
+                                    sendmsgTime: sendmsgTime,
                                 },
                                 dataType: "text",
                                 success: function (data) {
@@ -224,17 +224,17 @@
                             // var body = layer.getChildFrame('body', index);
                             var taskName = $('#taskName').val();
                             var noticeInf = $('#noticeInf').val();
-                            var noticTime = $('#noticTime').val();
+                            var sendmsgTime = $('#sendmsgTime').val();
                             $.ajax({
                                 type: "post",
-                                url: "<%=path%>/classNoticeControl/updateClassNotice",
+                                url: "<%=path%>/tc/updateClamsg",
                                 async: true,
                                 data: {
                                     // type:"taskAdd",
-                                    name: taskName,
-                                    content: noticeInf,
-                                    foundTime: noticTime,
-                                    id:data.id
+                                    clamsgName: taskName,
+                                    clamsgDetail: noticeInf,
+                                    sendmsgTime: sendmsgTime,
+                                    clamsgId:data.clamsgId
                                 },
                                 dataType: "text",
                                 success: function (data) {
@@ -251,7 +251,7 @@
                 return false;
             }else if (obj.event === 'delete') {
                 layer.confirm('真的删除行么', function (index) {
-                    shanchu(data.id);//alert(data.id);
+                    shanchu(data.clamsgId);//alert(data.id);
                     obj.del();
                     layer.close(index);
                 });
@@ -269,14 +269,14 @@
         });
         //时间选取:noticeTime
         laydate.render({
-            elem: '#noticeTime'
+            elem: '#sendmsgTime'
             ,value: new Date()
             ,type:'datetime'
         });
         //上传文件
         upload.render({
             elem: '#test3'
-            , url: '<%=path%>/publishTaskControl/upLoad' //改成您自己的上传接口
+            , url: '<%=path%>/tc/upLoad' //改成您自己的上传接口
             , accept: 'file' //普通文件
             , done: function (res) {
                 layer.msg('上传成功');
@@ -293,7 +293,7 @@
             var endTime = $("#endTime").val();//选取的结束时间
             //执行搜索重载
             table.reload('currentTableId', {
-                url: '<%=path%>/classNoticeControl/selectList',
+                url: '<%=path%>/tc/clamsgSelectList',
                 page: {
                     curr: 1 //重新从第 1 页开始
                 },
@@ -307,12 +307,12 @@
         //删除
         function shanchu(data){
             $.ajax({
-                url:"<%=path%>/classNoticeControl/delClassNotice",
+                url:"<%=path%>/tc/delClamsg",
                 type:"post",
                 async:true,
                 data:{
                     type:"shanchu",
-                    id:data
+                    clamsgId:data
                 },
                 dataType:"text",
                 success:function(data){

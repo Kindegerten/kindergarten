@@ -155,7 +155,7 @@
                 // alert(data);
 
                 $.ajax({
-                    url: "/sc/getAuth",
+                    url: "/sc/faceSearch",
                     async: true,
                     type: "POST",
                     data: "base64=" + encodeURIComponent(data),

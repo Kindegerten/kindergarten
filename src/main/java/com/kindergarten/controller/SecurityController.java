@@ -5,11 +5,13 @@ import com.alibaba.fastjson.JSON;
 import com.kindergarten.bean.FaceReturn;
 import com.kindergarten.bean.FaceUserList;
 import com.kindergarten.bean.Security;
+import com.kindergarten.service.FaceService;
 import com.kindergarten.service.SecurityService;
 import com.kindergarten.util.AuthService;
 import com.kindergarten.util.FaceAdd;
-import com.kindergarten.util.FaceMatch;
 import com.kindergarten.util.FaceSearch;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 
 @Controller
@@ -27,6 +30,8 @@ public class SecurityController {
     @Autowired
     private SecurityService securityService;
 
+    @Autowired
+    private FaceService faceService;
 
 
 
@@ -76,9 +81,9 @@ public class SecurityController {
 
     }
 
-    @RequestMapping(value = "/getAuth")
+    @RequestMapping(value = "/faceSearch")
     @ResponseBody
-    public String getAuth(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public String faceSearch(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         //获取base64
         String base64=new String(request.getParameter("base64").getBytes("ISO8859-1"), "UTF-8");
@@ -87,41 +92,43 @@ public class SecurityController {
         base64=base64.split("base64,")[1];
         System.out.println("base64 final:"+base64);
 
-        //获取at
-//        String at=AuthService.getAuth();
-//        System.out.println("Access token:"+at);
-//
-//        //转发base64，获取返回值
-//        FaceReturn faceReturn=JSON.parseObject(FaceSearch.faceSearch(base64,at),FaceReturn.class);
-//        System.out.println("faceReturn:"+faceReturn);
-
-//        return faceReturn.toString();
-        return base64;
+        return faceService.faceSearch(base64);
     }
 
     @RequestMapping(value = "/addFace")
     @ResponseBody
     public String addFace(HttpServletRequest request, HttpServletResponse response) throws IOException {
         //获取base64
-//        String base64=request.getParameter("base64");
-//        System.out.println("base64 before:"+base64);
         String base64=new String(request.getParameter("base64").getBytes("ISO8859-1"), "UTF-8");
         System.out.println("base64 after:"+base64);
         //获取base64数据内容部分，去掉文件头和标识"data:image/jpeg;base64,"
         base64=base64.split("base64,")[1];
         System.out.println("base64 final:"+base64);
 
-        //获取at
-        String at=AuthService.getAuth();
-        System.out.println("Access token:"+at);
-
-        //TODO 加入用户组信息 FaceUserList类
+        //TODO 加入用户组信息 FaceUserList类 以实现，未对接
         FaceUserList faceUserList=new FaceUserList();
 
-        String result=FaceAdd.add(base64,at,faceUserList);
-        System.out.println("result:"+result);
-//        return result;
-        return base64;
+        //获取session域新增教师数据
+        if (request.getSession().getAttribute("user_id")!=""&&request.getSession().getAttribute("user_id")!=null){
+            faceUserList.setUser_id((String) request.getSession().getAttribute("user_id"));
+        }else {
+            return "未获取到新增教师的id！";
+        }
+
+        if (request.getSession().getAttribute("user_info")!=""&&request.getSession().getAttribute("user_info")!=null){
+            faceUserList.setUser_info((String) request.getSession().getAttribute("user_info"));
+        }else {
+            return "未获取到新增教师的名字！";
+        }
+
+        if (request.getSession().getAttribute("group_id")!=""&&request.getSession().getAttribute("group_id")!=null){
+            faceUserList.setGroup_id((String) request.getSession().getAttribute("group_id"));
+        }else {
+            return "未获取到新增教师的分组信息！";
+        }
+
+
+        return faceService.faceAdd(base64,faceUserList);
     }
 
 }
