@@ -203,4 +203,30 @@
           and c.kinder_id=b.kinder_id and c.class_id=b.class_id and c.teacher_id=#{teacherId}
     </select>
 
+<!--    试题完成情况-->
+    <!--  //查询表格-->
+    <select id="safetyTestCompleteSelectList" resultType="com.kindergarten.bean.SafetyTestComplete"   >
+        SELECT a.*,b.safety_video_name,b.safety_video_time, c.student_id,c.student_name,d.parents_name,f.*
+        From tbl_safety_test_complete a
+        LEFT JOIN tbl_safety_video b on  a.safety_video_id =b.safety_video_id
+        LEFT JOIN tbl_students c on  a.student_id=c.student_id
+        LEFT JOIN tbl_parents d on d.parents_status=c.student_id
+        LEFT JOIN tbl_parents_students f on f.students_id=d.parents_status
+        WHERE  teacher_id=#{e.teacherId}
+<!--        <if test="e.finishTime!=null and e.finishTime!=''">-->
+<!--            <![CDATA[   and finish_time >= #{e.finishTime} ]]>-->
+<!--        </if>-->
+<!--        <if test="endTime!=null and endTime!=''">-->
+<!--            <![CDATA[   and finish_time <= #{endTime}  ]]>-->
+<!--        </if>-->
+        <if test="e.safetyTestResult!=null and e.safetyTestResult!=''">
+            and safety_test_result=#{e.safetyTestResult}
+        </if>
+        limit #{start},#{pageSize}
+    </select>
+    <select id="safetyTestCompleteSelectListCount" resultType="int">
+        select count(safety_test_id) from tbl_safety_test_complete
+   </select>
+
+
 </mapper>

@@ -452,4 +452,29 @@ public class TeacherController {
         return "/teacher/Cheat.jsp";
     }
 
+    //安全试题完成情况
+    /*查询*/
+    @RequestMapping(value = "/safetyTestCompleteSelectList")
+    @ResponseBody
+    public String safetyTestCompleteSelectList(HttpServletRequest request, HttpServletResponse response, SafetyTestComplete safetyTestOut ) {
+        String pageStr = request.getParameter("page");//页码
+        String pageSizeStr = request.getParameter("limit");//每页记录数
+
+        String startTime = request.getParameter("startFinishTime");
+        String endTime = request.getParameter("endFinishTime");
+        String state = request.getParameter("safetyTestResult");
+
+        Teachers staffRo=(Teachers) request.getSession().getAttribute("tblTeachers");
+
+        if(state!=null&&!state.isEmpty()){
+            Integer state1 = Integer.valueOf(state);
+            safetyTestOut.setSafetyTestResult(state1);//设置完成状态
+        }
+        safetyTestOut.setTeacherId(staffRo.getTeacherId());//设置staffID
+//        safetyTestOut.setFinishTime(startTime);//设置开始完成时间
+
+        LayuiData layuiData = teacherService.safetyTestCompleteSelectList( safetyTestOut, endTime,Integer.parseInt(pageStr), Integer.parseInt(pageSizeStr));
+        return JSON.toJSONString(layuiData);
+    }
+
 }

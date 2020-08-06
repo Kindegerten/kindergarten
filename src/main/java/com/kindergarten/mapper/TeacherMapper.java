@@ -67,4 +67,8 @@ public interface TeacherMapper
    //查看对应班级孩子的家长列表，用于显示聊天列表
    public List<Parents> SearchParents(int teacherId);
 
+   //试题完成情况
+      List<SafetyTestComplete> safetyTestCompleteSelectList(@Param("e") SafetyTestComplete safetyTestOut, String endTime,@Param("start") int start, @Param("pageSize") int pageSize);
+   int safetyTestCompleteSelectListCount();
+
 }

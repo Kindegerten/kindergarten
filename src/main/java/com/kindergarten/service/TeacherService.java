@@ -33,6 +33,8 @@ public interface TeacherService
    int updateSafetyEdu(SafetyEdu tblSafetyEdu);
    //视频名字
    LayuiData safetyVideoSelectList();
+   //安全试题完成情况
+   LayuiData safetyTestCompleteSelectList(SafetyTestComplete safetyTestOut, String endTime,int page, int pageSize);
 
 
 }
