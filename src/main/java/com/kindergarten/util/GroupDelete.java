@@ -3,21 +3,16 @@ package com.kindergarten.util;
 import java.util.*;
 
 /**
- * 人脸搜索
+ * 删除用户组
  */
-public class FaceSearch {
+public class GroupDelete {
 
-
-    public static String faceSearch(String base64,String at) {
+    public static String groupDelete(String at,String groupId) {
         // 请求url
-        String url = "https://aip.baidubce.com/rest/2.0/face/v3/search";
+        String url = "https://aip.baidubce.com/rest/2.0/face/v3/faceset/group/delete";
         try {
             Map<String, Object> map = new HashMap<>();
-            map.put("image", base64);
-//            map.put("liveness_control", "NORMAL");
-            map.put("group_id_list", "security,teacher,student");
-            map.put("image_type", "BASE64");
-            map.put("quality_control", "LOW");
+            map.put("group_id", groupId);
 
             String param = GsonUtils.toJson(map);
 
@@ -34,6 +29,7 @@ public class FaceSearch {
     }
 
 //    public static void main(String[] args) {
-//        FaceSearch.faceSearch();
+//
+//        GroupDelete.groupDelete(AuthService.getAuth(),"security");
 //    }
 }

@@ -2,7 +2,7 @@ package com.kindergarten.bean;
 
 public class FaceUserList {
 
-    private String group_id,user_id,user_info;
+    private String group_id,user_id,user_info,photo_url;
     private Double score;
 
     public FaceUserList() {
@@ -12,6 +12,14 @@ public class FaceUserList {
         this.group_id = group_id;
         this.user_id = user_id;
         this.user_info = user_info;
+        this.score = score;
+    }
+
+    public FaceUserList(String group_id, String user_id, String user_info, String photo_url, Double score) {
+        this.group_id = group_id;
+        this.user_id = user_id;
+        this.user_info = user_info;
+        this.photo_url = photo_url;
         this.score = score;
     }
 
@@ -55,5 +63,13 @@ public class FaceUserList {
 
     public void setScore(Double score) {
         this.score = score;
+    }
+
+    public String getPhoto_url() {
+        return photo_url;
+    }
+
+    public void setPhoto_url(String photo_url) {
+        this.photo_url = photo_url;
     }
 }
