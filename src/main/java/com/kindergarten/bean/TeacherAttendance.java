@@ -86,10 +86,10 @@ public class TeacherAttendance {
         this.tertimePeriod = tertimePeriod;
     }
 
-    public static void main(String[] args) throws ParseException {
-        TeacherAttendance teacherAttendance=new TeacherAttendance();
-        teacherAttendance.setPrinttime("2020-08-05 11:32:12");
-        System.out.println(teacherAttendance.getTertimePeriod());
-    }
+//    public static void main(String[] args) throws ParseException {
+//        TeacherAttendance teacherAttendance=new TeacherAttendance();
+//        teacherAttendance.setPrinttime("2020-08-05 11:32:12");
+//        System.out.println(teacherAttendance.getTertimePeriod());
+//    }
 }
 
