@@ -7,7 +7,7 @@ public class SafetyTestComplete
     private int safetyVideoId;
     private int studentId;
     private int safetyTestScore;
-    private int safetyTestResult;
+    private String safetyTestResult;
     private int parentsId;
     private int teacherId;
     private String safetyVideoName;
@@ -18,7 +18,7 @@ public class SafetyTestComplete
 
     }
 
-    public SafetyTestComplete(int safetyTestTd, int safetyVideoId, int studentId, int safetyTestScore, int safetyTestResult, int parentsId, int teacherId, String safetyVideoName, String parentsName, String studentName) {
+    public SafetyTestComplete(int safetyTestTd, int safetyVideoId, int studentId, int safetyTestScore, String safetyTestResult, int parentsId, int teacherId, String safetyVideoName, String parentsName, String studentName) {
         this.safetyTestTd = safetyTestTd;
         this.safetyVideoId = safetyVideoId;
         this.studentId = studentId;
@@ -87,11 +87,11 @@ public class SafetyTestComplete
         this.safetyTestScore = safetyTestScore;
     }
 
-    public int getSafetyTestResult() {
+    public String getSafetyTestResult() {
         return safetyTestResult;
     }
 
-    public void setSafetyTestResult(int safetyTestResult) {
+    public void setSafetyTestResult(String safetyTestResult) {
         this.safetyTestResult = safetyTestResult;
     }
 

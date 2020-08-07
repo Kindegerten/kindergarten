@@ -196,11 +196,19 @@ public class TeacherController {
             String dateStr = simpleDateFormat.format(date);
 //            String savePath = ResourceUtils.getURL("classpath:").getPath()+"static/";
             String savePath =request.getSession().getServletContext().getRealPath("/upload/");
+//            String savePath = request.getRequestURL("/upload/");
             //保存的文件路径和名称
-//            String filepath="upLoad/"+dateStr+ File.separator + uuid + "." + prefix;
-            String projectPath = savePath + dateStr + File.separator + uuid + "." + prefix;
+            //相对路径
+            String filepath=File.separator + "upload" + File.separator + dateStr + File.separator + uuid + "." + prefix;
 
-            System.out.println("projectPath:"+projectPath);
+            String projectPath = savePath + dateStr + File.separator + uuid + "." + prefix;
+//            System.out.println("savePath:"+savePath);
+//            System.out.println("dateStr:"+dateStr);
+//            System.out.println("filepath:"+filepath);
+//            System.out.println("File.separator:"+File.separator);
+//            System.out.println("uuid:"+uuid);
+//            System.out.println("prefix:"+prefix);
+//            System.out.println("projectPath:"+projectPath);
             File files=new File(projectPath);
             //打印查看上传路径
             if (!files.getParentFile().exists()){//判断目录是否存在
@@ -211,7 +219,7 @@ public class TeacherController {
             System.out.println("projectPath:"+projectPath);
             LayuiData layuiData=new LayuiData();
             layuiData.setCode(0);
-            layuiData.setMsg("projectPath");
+            layuiData.setMsg(filepath);
             return JSON.toJSONString(layuiData);
         }catch (IOException e) {
             e.printStackTrace();
@@ -283,8 +291,8 @@ public class TeacherController {
     public Object addClassPhoto(HttpServletRequest request, HttpServletResponse response,  Photo classPhoto){
 
         Teachers staffRo=(Teachers) request.getSession().getAttribute("tblTeachers");
-        classPhoto.setClassId(staffRo.getClassId());
 
+        classPhoto.setClassId(staffRo.getClassId());
 
         System.out.println(JSON.toJSONString(classPhoto));
         int i = teacherService.addClassPhoto(classPhoto);
@@ -466,9 +474,12 @@ public class TeacherController {
 
         Teachers staffRo=(Teachers) request.getSession().getAttribute("tblTeachers");
 
-        if(state!=null&&!state.isEmpty()){
-            Integer state1 = Integer.valueOf(state);
+        if(state!=""){
+            String state1 = state;
             safetyTestOut.setSafetyTestResult(state1);//设置完成状态
+        }else if (state==""){
+            LayuiData layuiDatas = teacherService.safetyTestCompleteSelectList( safetyTestOut, endTime,Integer.parseInt(pageStr), Integer.parseInt(pageSizeStr));
+            return JSON.toJSONString(layuiDatas);
         }
         safetyTestOut.setTeacherId(staffRo.getTeacherId());//设置staffID
 //        safetyTestOut.setFinishTime(startTime);//设置开始完成时间

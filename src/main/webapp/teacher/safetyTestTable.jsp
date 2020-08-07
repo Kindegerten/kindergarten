@@ -24,25 +24,25 @@
             <div style="margin: 10px 10px 10px 10px">
                 <form class="layui-form layui-form-pane" action="">
                     <div class="layui-form-item">
-                        <div class="layui-inline">
-                            <label class="layui-form-label">完成时间</label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="startTime" id="startTime" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">至</label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="endTime" id="endTime" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
-                            </div>
-                        </div>
+<%--                        <div class="layui-inline">--%>
+<%--                            <label class="layui-form-label">完成时间</label>--%>
+<%--                            <div class="layui-input-inline">--%>
+<%--                                <input type="text" name="startTime" id="startTime" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                        <div class="layui-inline">--%>
+<%--                            <label class="layui-form-label">至</label>--%>
+<%--                            <div class="layui-input-inline">--%>
+<%--                                <input type="text" name="endTime" id="endTime" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
                         <div class="layui-inline">
                             <label class="layui-form-label">完成状态：</label>
                             <div class="layui-input-inline">
                                 <select name="safetyTestResult" id="safetyTestResult" lay-verify="required">
                                     <option value=""></option>
-                                    <option value="1">完成</option>
-                                    <option value="2">未完成</option>
+                                    <option value="已完成">已完成</option>
+                                    <option value="未完成">未完成</option>
                                 </select>
                             </div>
                         </div>
@@ -96,7 +96,7 @@
                 // {field: 'endTime', width: 130, title: '结束时间', sort: true},
                 // {field: 'finishTime', width: 130, title: '完成时间', sort: true},
                 {field: 'safetyTestScore', width: 130, title: '得分', sort: true},
-                {field: 'safetyTestResult', minWidth: 120, title: '完成情况', align: "center", toolbar: '#status'},
+                {field: 'safetyTestResult', minWidth: 120, title: '完成情况', align: "center"},
             ]],
             limits: [2,5,10, 15, 20, 25, 50, 100],
             limit: 5,
@@ -243,13 +243,13 @@
 
     });
 </script>
-<script type="text/html" id="status">
-    {{#if (d.finishState == 1) { }}
-    <span>完成</span>
-    {{# }else if(d.finishState == 2){ }}
-    <span>未完成</span>
-    {{# } }}
-</script>
+<%--<script type="text/html" id="status">--%>
+<%--    {{#if (d.safetyTestResult == 1) { }}--%>
+<%--    <span>完成</span>--%>
+<%--    {{# }else if(d.safetyTestResult == 2){ }}--%>
+<%--    <span>未完成</span>--%>
+<%--    {{# } }}--%>
+<%--</script>--%>
 
 </body>
 </html>

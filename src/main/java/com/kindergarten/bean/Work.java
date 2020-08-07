@@ -11,13 +11,13 @@ public class Work {
     private int studentId;
     private String studentName;
     private int parentId;
-    private String parentName;
+    private String parentsName;
     private int kid;
 
     public Work() {
     }
 
-    public Work(int workID, int workReleaseid, String workUrl, String workFinishtime, int cid, String workResult, String workEva, int studentId, String studentName, int parentId, String parentName, int kid) {
+    public Work(int workID, int workReleaseid, String workUrl, String workFinishtime, int cid, String workResult, String workEva, int studentId, String studentName, int parentId, String parentsName, int kid) {
         this.workID = workID;
         this.workReleaseid = workReleaseid;
         this.workUrl = workUrl;
@@ -28,7 +28,7 @@ public class Work {
         this.studentId = studentId;
         this.studentName = studentName;
         this.parentId = parentId;
-        this.parentName = parentName;
+        this.parentsName = parentsName;
         this.kid = kid;
     }
 
@@ -114,12 +114,12 @@ public class Work {
         this.parentId = parentId;
     }
 
-    public String getParentName() {
-        return parentName;
+    public String getParentsName() {
+        return parentsName;
     }
 
-    public void setParentName(String parentName) {
-        this.parentName = parentName;
+    public void setParentsName(String parentsName) {
+        this.parentsName = parentsName;
     }
 
     public int getKid() {
