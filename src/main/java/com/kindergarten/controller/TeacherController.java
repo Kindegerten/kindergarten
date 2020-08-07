@@ -488,4 +488,19 @@ public class TeacherController {
         return JSON.toJSONString(layuiData);
     }
 
+    /*查询*/
+    @RequestMapping(value = "/courseSelectList")
+    @ResponseBody
+    public Object courseSelectList(HttpServletRequest request, HttpServletResponse response ,Course course) {
+
+        String pageStr = request.getParameter("page");//页码
+        String pageSizeStr = request.getParameter("limit");//每页记录数
+        Teachers staffRo=(Teachers) request.getSession().getAttribute("tblTeachers");
+        course.setTeacherId(staffRo.getTeacherId());
+
+        LayuiData layuiData = teacherService.courseTeacher(course,Integer.parseInt(pageStr), Integer.parseInt(pageSizeStr));
+        System.out.println(JSON.toJSONString(layuiData));
+        return layuiData;
+    }
+
 }

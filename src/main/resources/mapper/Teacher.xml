@@ -20,9 +20,15 @@
     </update>
 
 <!--    课程表-->
-    <select id="course" resultType="com.kindergarten.bean.Teachers"
-            parameterType="com.kindergarten.bean.Course">
-        select * from tbl_course where teacher_id=#{teacherId}
+    <select id="courseTeacher" resultType="com.kindergarten.bean.Course">
+        select m.*,s.teacher_id
+        from tbl_course m,tbl_teachers s
+        where s.teacher_id=#{e.teacherId}
+        limit #{start},#{pageSize}
+    </select>
+    <select id="courseTeacherCount" resultType="java.lang.Integer">
+        select count(course_id) from tbl_course
+        where teacher_id=#{teacherId}
     </select>
 
 <!--    查发布作业表格-->

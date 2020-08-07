@@ -252,4 +252,26 @@ public class TeacherServiceimp implements TeacherService {
         }
         return layuiData;
     }
+
+    @Override
+    public LayuiData courseTeacher(Course course, int page, int pageSize) {
+        int start = (page - 1) * pageSize;//计算出起始查询位置
+        if(start<0)
+            start=0;
+        List<Course> list = teacherMapper.courseTeacher(course,start, pageSize);
+        int count = teacherMapper.courseTeacherCount();
+
+        LayuiData layuiData = new LayuiData();
+        if (list.size() > 0) {
+            layuiData.setCode(0);
+            layuiData.setMsg("");
+            layuiData.setCount(count);
+            layuiData.setData(list);
+            layuiData.setMsg("查询成功");
+        } else {
+            layuiData.setCode(1);
+            layuiData.setMsg("查询失败");
+        }
+        return layuiData;
+    }
 }

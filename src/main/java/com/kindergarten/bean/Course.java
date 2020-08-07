@@ -4,22 +4,26 @@ public class Course
 {
 
     private int courseId;
-    private String courseName;
-    private int courseWeek;
-    private int courseJieci;
-    private String courseBanji;
+    private String courseZhouyi;
+    private String courseZhouer;
+    private String courseZhousan;
+    private String courseZhousi;
+    private String courseZhouwu;
+    private String courseJieci;
     private int teacherId;
 
     public Course(){
 
     }
 
-    public Course(int courseId, String courseName, int courseWeek, int courseJieci, String courseBanji, int teacherId) {
+    public Course(int courseId, String courseZhouyi, String courseZhouer, String courseZhousan, String courseZhousi, String courseZhouwu, String courseJieci, int teacherId) {
         this.courseId = courseId;
-        this.courseName = courseName;
-        this.courseWeek = courseWeek;
+        this.courseZhouyi = courseZhouyi;
+        this.courseZhouer = courseZhouer;
+        this.courseZhousan = courseZhousan;
+        this.courseZhousi = courseZhousi;
+        this.courseZhouwu = courseZhouwu;
         this.courseJieci = courseJieci;
-        this.courseBanji = courseBanji;
         this.teacherId = teacherId;
     }
 
@@ -31,36 +35,52 @@ public class Course
         this.courseId = courseId;
     }
 
-    public String getCourseName() {
-        return courseName;
+    public String getCourseZhouyi() {
+        return courseZhouyi;
     }
 
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
+    public void setCourseZhouyi(String courseZhouyi) {
+        this.courseZhouyi = courseZhouyi;
     }
 
-    public int getCourseWeek() {
-        return courseWeek;
+    public String getCourseZhouer() {
+        return courseZhouer;
     }
 
-    public void setCourseWeek(int courseWeek) {
-        this.courseWeek = courseWeek;
+    public void setCourseZhouer(String courseZhouer) {
+        this.courseZhouer = courseZhouer;
     }
 
-    public int getCourseJieci() {
+    public String getCourseZhousan() {
+        return courseZhousan;
+    }
+
+    public void setCourseZhousan(String courseZhousan) {
+        this.courseZhousan = courseZhousan;
+    }
+
+    public String getCourseZhousi() {
+        return courseZhousi;
+    }
+
+    public void setCourseZhousi(String courseZhousi) {
+        this.courseZhousi = courseZhousi;
+    }
+
+    public String getCourseZhouwu() {
+        return courseZhouwu;
+    }
+
+    public void setCourseZhouwu(String courseZhouwu) {
+        this.courseZhouwu = courseZhouwu;
+    }
+
+    public String getCourseJieci() {
         return courseJieci;
     }
 
-    public void setCourseJieci(int courseJieci) {
+    public void setCourseJieci(String courseJieci) {
         this.courseJieci = courseJieci;
-    }
-
-    public String getCourseBanji() {
-        return courseBanji;
-    }
-
-    public void setCourseBanji(String courseBanji) {
-        this.courseBanji = courseBanji;
     }
 
     public int getTeacherId() {
@@ -73,12 +93,14 @@ public class Course
 
     @Override
     public String toString() {
-        return "TblCourse{" +
+        return "Course{" +
                 "courseId=" + courseId +
-                ", courseName='" + courseName + '\'' +
-                ", courseWeek=" + courseWeek +
-                ", courseJieci=" + courseJieci +
-                ", courseBanji='" + courseBanji + '\'' +
+                ", courseZhouyi='" + courseZhouyi + '\'' +
+                ", courseZhouer='" + courseZhouer + '\'' +
+                ", courseZhousan='" + courseZhousan + '\'' +
+                ", courseZhousi='" + courseZhousi + '\'' +
+                ", courseZhouwu='" + courseZhouwu + '\'' +
+                ", courseJieci='" + courseJieci + '\'' +
                 ", teacherId=" + teacherId +
                 '}';
     }
