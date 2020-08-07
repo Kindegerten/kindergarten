@@ -6,17 +6,23 @@ import com.kindergarten.bean.*;
 import com.kindergarten.service.AdminService;
 import com.kindergarten.service.MenuService;
 import com.kindergarten.service.ParameterService;
+import org.apache.tomcat.jni.FileInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("platformController")
@@ -500,6 +506,115 @@ public class PlatformControler {
         }
         int pageSize = Integer.parseInt(request.getParameter("pageSize"));
         layuiData = adminService.selectSyslog(condition, curPage, pageSize);
+        return JSON.toJSONString(layuiData);
+    }
+
+    @RequestMapping(value = "/videoUpload")
+    @ResponseBody
+    public Object videoUpload(HttpServletRequest request, HttpServletResponse response, MultipartFile file, SafetyVideo safetyVideo,String safetyVideoStar) {
+        LayuiData layuiData=null;
+        try {
+
+            System.out.println("safetyVideo"+safetyVideo);
+            System.out.println("safetyVideoStar"+safetyVideoStar);
+            //获取文件名
+            String originalName = file.getOriginalFilename();
+            System.out.println("文件名：" + originalName);
+            //扩展名
+            String prefix = originalName.substring(originalName.lastIndexOf(".") + 1);
+            Date date = new Date();
+            //使用UUID+后缀名保存文件名，防止中文乱码问题
+            String uuid = UUID.randomUUID() + "";
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String dateStr = simpleDateFormat.format(date);
+            String savePath = request.getSession().getServletContext().getRealPath("/upload");//在文件下载的根目录下加上/upload
+/*            String savePath2 = request.getSession().getServletContext().getRealPath("/");
+            String savePath3 = request.getSession().getServletContext().getRealPath("/download");
+            System.out.println("savePath:"+savePath+" savePath2:"+savePath2);
+            System.out.println("savePath3:"+savePath3);*/
+            //要保存的问题件路径和名称
+            String projectPath = savePath + File.separator + dateStr + File.separator + uuid + "." + prefix;
+            System.out.println("文件完整路径："+projectPath);
+           int a=adminService.selectOneFile(safetyVideo);
+
+            System.out.println("a"+a);
+
+         if (a==0){
+
+             String filePath = "\\upload" + File.separator + dateStr + File.separator + uuid + "." + prefix;
+                System.out.println("存到数据库的文件路径："+filePath);
+             safetyVideo.setVideoAdd(filePath);
+
+             File files = new File(projectPath);
+            String msg="success";
+//            msg=adminService.insertVideo(safetyVideo);
+             //将文件插入大到数据库中
+                if (msg.equals("success")){
+                    layuiData=new LayuiData(0,"上传成功",0,null);
+                }else {
+                    layuiData=new LayuiData(1,"上传失败",0,null);
+                }
+             //打印查看上传路径
+             if (!files.getParentFile().exists()) {//判断父目录是否存在
+
+                 files.getParentFile().mkdirs(); //创建文件夹的父目录
+             }
+                 file.transferTo(files); // 将接收的文件保存到指定文件中
+                 System.out.println("父目录=" + files.getParentFile());
+
+
+         }else {
+             layuiData=new LayuiData(1,"该文件已存在",0,null);
+         }
+         } catch (IOException e) {
+            e.printStackTrace();
+        }
+//        LayuiData layuiData=new LayuiData(0,"cc",0,null);
+        return layuiData;
+    }
+
+    @RequestMapping(value = "/deleteSafetyVideo")
+    @ResponseBody //直接返回数据而不是跳转拼接的页面
+    public String deleteSafetyVideo(int safetyVideoId) throws IOException {
+
+        String msg=null;
+        msg=adminService.deleteSafetyVideo(safetyVideoId);
+        return msg;
+    }
+
+    @RequestMapping(value = "/selectSafetyVideo")
+    @ResponseBody //直接返回数据而不是跳转拼接的页面
+    public String selectSafetyVideo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        response.setCharacterEncoding("utf-8");//前端数据转发的格式
+        response.setContentType("text/html;charset=utf-8");
+
+        LayuiData<SafetyVideo> layuiData=null;
+        HashMap<String, Object> condition = new HashMap<>();
+        String start = request.getParameter("start");
+
+        if (start != null && start.trim() != "") {
+            condition.put("start", start);
+        }
+        String end = request.getParameter("end");
+
+        if (end != null && end.trim() != "") {
+            condition.put("end", end);
+        }
+        System.out.println("start"+start+"end"+end);
+        int curPage;
+        if (request.getParameter("curPage") != null) {
+            curPage = Integer.parseInt(request.getParameter("curPage"));
+        } else {
+            curPage = 1;
+        }
+        String safetyVideoName = request.getParameter("safetyVideoName");
+
+        if (safetyVideoName != null && safetyVideoName.trim() != "") {
+            condition.put("safetyVideoName", safetyVideoName);
+        }
+
+        int pageSize = Integer.parseInt(request.getParameter("pageSize"));
+        layuiData = adminService.selectSafetyVideo(condition, curPage, pageSize);
         return JSON.toJSONString(layuiData);
     }
 }

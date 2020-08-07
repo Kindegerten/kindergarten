@@ -335,6 +335,55 @@ public class AdminServiceImp implements AdminService {
     }
 
     @Override
+    public int selectOneFile(SafetyVideo safetyVideo) {
+
+        int a=0;
+        a=adminMapper.selectOneFile(safetyVideo);
+
+        return a;
+    }
+
+    @Override
+    public String insertVideo(SafetyVideo safetyVideo) {
+        String msg=null;
+        int a=0;
+        a=adminMapper.insertVideo(safetyVideo);
+        if (a>0){
+            msg="success";
+        }
+        return msg;
+    }
+
+    @Override
+    public String deleteSafetyVideo(int safetyVideoId) {
+        String msg=null;
+        int a=0;
+        a=adminMapper.deleteSafetyVideo(safetyVideoId);
+        if (a>0){
+            msg="success";
+        }
+        return msg;
+    }
+
+    @Override
+    public LayuiData selectSafetyVideo(HashMap hashMap, int curPage, int pageSize) {
+        LayuiData<SafetyVideo> layuiData = null;
+        List<SafetyVideo> list =null;
+        int a =0;
+        list= adminMapper.selectSafetyVideo(hashMap, curPage, pageSize);
+//        System.out.println("selectSyslog:"+ JSON.toJSONString(list));
+        a= adminMapper.selectSafetyVideoCount(hashMap, curPage, pageSize);
+
+
+        if (list.size() > 0) {
+            layuiData = new LayuiData<>(0, "", a, list);
+        } else {
+            layuiData = new LayuiData<>(1, "查询失败", 0, null);
+        }
+        return layuiData;
+    }
+
+    @Override
     public LayuiData selectSyslog(HashMap hashMap, int curPage, int pageSize) {
         LayuiData<Syslog> layuiData = null;
         List<Syslog> list =null;

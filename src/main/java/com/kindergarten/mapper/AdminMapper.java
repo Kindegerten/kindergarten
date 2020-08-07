@@ -69,4 +69,9 @@ public interface AdminMapper {
     int insertPlatformInfo(PlatformInfo platformInfo);
     int selectSyslogCount(@Param("condition") HashMap<String, Object> hashMap, @Param("curPage") int curPage, @Param("pageSize") int pageSize);
     List<Syslog> selectSyslog(@Param("condition") HashMap<String, Object> hashMap, @Param("curPage") int curPage, @Param("pageSize") int pageSize);
+    int selectOneFile(SafetyVideo safetyVideo);
+    int insertVideo(SafetyVideo safetyVideo);
+    int selectSafetyVideoCount(@Param("condition") HashMap<String, Object> hashMap, @Param("curPage") int curPage, @Param("pageSize") int pageSize);
+    List<SafetyVideo> selectSafetyVideo(@Param("condition") HashMap<String, Object> hashMap, @Param("curPage") int curPage, @Param("pageSize") int pageSize);
+    int deleteSafetyVideo(int safetyVideoId);
 }
