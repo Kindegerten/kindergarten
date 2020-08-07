@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="C" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.kindergarten.bean.Parents" %>
+<%@ page import="com.kindergarten.bean.Teachers" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -99,26 +100,27 @@
             color: black;
         }
         .msg-right{
-            margin-left: 5%;
+            margin-right: 5%;
             font-size: 17px;
             color: black;
+            text-align: right;
         }
     </style>
-    <% Parents parents= (Parents) request.getSession().getAttribute("parents"); %>
+    <% Teachers teachers= (Teachers) request.getSession().getAttribute("tblTeachers"); %>
 </head>
 <body>
 <div id="cheatFrame">
     <div id="myinfo">
         <img src="../static/img/c1.bmp" style="width: 70px;height: 100%;" alt="">
-        <span class="ownname"><%=parents.getParentsName()%></span>(<span class="owntel"><%=parents.getParentsTel()%></span>)
+        <span class="ownname"><%=teachers.getTeacherName()%></span>(<span class="owntel"><%=teachers.getTeacherTel()%></span>)
     </div>
     <img src="../static/img/cheat.bmp" style="width:100%;  height:10%;">
     <div id="friendlist">
-        <c:if test="${not empty teachers}">
-            <C:forEach items="${teachers}" var="i">
+        <c:if test="${not empty parents}">
+            <C:forEach items="${parents}" var="i">
                 <div class="friend" onclick="openCheat(this)">
                     <img src="../static/img/c1.bmp" style="width: 70px;  border-radius:50%;" alt="" >
-                    <span class="t-name">${i.teacherName}</span>(<span class="t-tel">${i.teacherTel}</span>)
+                    <span class="t-name">${i.parentsName}</span>(<span class="t-tel">${i.parentsTel}</span>)
                 </div>
 
             </C:forEach>
@@ -172,7 +174,7 @@
 
 
     var ws;
-
+    var i=10000;
     function openCheat(node){
         $("#cheating").css("display",'block');
         var tname=$(node).find(".t-name").text();
@@ -201,7 +203,9 @@
                 ws.onmessage = function (event) {
                     console.log("接收到服务器发送的数据..." + event.data);
                     // document.getElementById("info").innerHTML += event.data + "<br>";
-                    $(".msg-left").append(event.data+"<br>");
+                    // $(".msg-left").append(event.data+"<br>");
+                    $("#MessageFrame").append("<div id="+i+" class='msg-left'>"+event.data+"<div>");
+                    i++;
 
                 };
                 ws.onclose = function (event) {
@@ -228,13 +232,16 @@
         $(".msg-right").text("");
         $(".msg-left").text("");
     });
+    var mys=5000;
     function SendData() {
         var sendmsg=$(".msg");
         if (sendmsg.val()===""){
             alert("输入的内容不能为空")
         }else{
             var time2 = new Date().Format("yyyy-MM-dd hh:mm:ss");
-            $(".msg-right").append($(".ownname").text()+'&emsp;'+time2+":"+sendmsg.val()+'<br>');
+            // $(".msg-right").append($(".ownname").text()+'&emsp;'+time2+":"+sendmsg.val()+'<br>');
+            $("#MessageFrame").append("<div id="+mys+" class='msg-right'>"+sendmsg.val()+':'+'&emsp;'+time2+'&emsp;'+$(".ownname").text()+"<div>");
+            i++;
             try {
                 ws.send(sendmsg.val());
             } catch (ex) {

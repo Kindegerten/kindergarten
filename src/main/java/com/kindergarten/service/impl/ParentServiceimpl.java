@@ -125,7 +125,7 @@ public class ParentServiceimpl implements ParentService {
            }
        }
 
-//        System.out.println(JSON.toJSONString(map));
+        System.out.println(JSON.toJSONString(map));
 
 
         layuiData=new LayuiData<>(0,"",totalRecord,list);
@@ -153,5 +153,15 @@ public class ParentServiceimpl implements ParentService {
         pageBean.setList(list);
 
         return pageBean;
+    }
+
+    @Override
+    public LayuiData<StuAttendance> stuAttendance(int studentId, int curPage, int pageSize) {
+        LayuiData<StuAttendance> layuiData=null;
+        List<StuAttendance> examinations=parentsMapper.SearchStudentKaoQin(studentId,curPage,pageSize);
+        int totalRecord=parentsMapper.SearchStudentKaoQinCount(studentId);
+        layuiData=new LayuiData<>(0,"",totalRecord,examinations);
+
+        return layuiData;
     }
 }

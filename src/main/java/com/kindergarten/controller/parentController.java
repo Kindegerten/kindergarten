@@ -421,6 +421,7 @@ public class parentController {
         return "/partent/parentRead.jsp";
 
     }
+    //聊天
     @RequestMapping(value = "/Cheat")
     public String Cheat(HttpServletRequest request) throws ServletException, IOException {
        //通过学生班级拿到对应老师
@@ -430,6 +431,27 @@ public class parentController {
 
         return "/partent/Cheat.jsp";
     }
+
+    //查看学生考勤
+    @RequestMapping(value = "/attendance")
+    @ResponseBody
+    public String attendance(HttpServletRequest request) throws ServletException, IOException {
+        int curPage;
+        if(request.getParameter("curPage")!=null){
+            curPage = Integer.parseInt(request.getParameter("curPage"));
+        }else{
+            curPage = 1;
+        }
+        int pageSize=Integer.parseInt(request.getParameter("pageSize"));
+
+
+        String studentId= (String) request.getSession().getAttribute("studentID");
+        LayuiData<StuAttendance> stuAttendanceLayuiData =parentService.stuAttendance(Integer.parseInt(studentId),curPage,pageSize);
+
+
+        return JSON.toJSONString(stuAttendanceLayuiData);
+    }
+
 
 
 

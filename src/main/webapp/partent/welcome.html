@@ -11,6 +11,7 @@
     <script src="../static/X-admin/lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="../static/X-admin/js/xadmin.js"></script>
     <script type="text/javascript" src="../static/layui/layui.all.js"></script>
+    <script type="text/javascript" src="../static/X-admin/js/jquery.min.js"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -24,11 +25,11 @@
         <div class="layui-card-body ">
             <div class="layui-carousel" id="test1" lay-filter="test1" style="margin:auto">
                 <div carousel-item="">
-                    <div><img src="../static/img/bg1.png"></div>
-                    <div>条目2</div>
-                    <div>条目3</div>
-                    <div>条目4</div>
-                    <div>条目5</div>
+                    <div><img src="../static/img/chidren1.bmp"></div>
+                    <div><img src="../static/img/chidren2.bmp"></div>
+                    <div><img src="../static/img/chidren3.bmp"></div>
+                    <div><img src="../static/img/chidren4.bmp"></div>
+                    <div><img src="../static/img/chidren5.bmp"></div>
                 </div>
             </div>
 
@@ -38,7 +39,7 @@
                 <div class="layui-card-body ">
                     <ul class="layui-row layui-col-space10 layui-this x-admin-carousel x-admin-backlog">
                         <li class="layui-col-md2 layui-col-xs6">
-                            <a href="javascript:;" class="x-admin-backlog-body">
+                            <a href="javascript:;" class="x-admin-backlog-body" onclick="xadmin.open('个人信息','myinfo.jsp')">
                                 <h3></h3>
                                 <p>
                                     <cite>幼儿中心</cite></p>
@@ -46,16 +47,17 @@
                         </li>
 
                         <li class="layui-col-md2 layui-col-xs6">
-                            <a href="javascript:;" class="x-admin-backlog-body">
+                            <a href="javascript:;" class="x-admin-backlog-body" onclick="xadmin.open('作业中心',' homework.html')">
                                 <h3></h3>
                                 <p>
                                     <cite>作业中心</cite></p>
                             </a>
                         </li>
                         <li class="layui-col-md2 layui-col-xs6">
-                            <a href="javascript:;" class="x-admin-backlog-body">
+                            <a href="javascript:;" class="x-admin-backlog-body" onclick="xadmin.open('安全教育',' SafeVideoEdu.html')">
                                 <h3></h3>
                                 <p>
+
                                     <cite>安全教育</cite></p>
                             </a>
                         </li>
@@ -67,7 +69,7 @@
                             </a>
                         </li>
                         <li class="layui-col-md2 layui-col-xs6 ">
-                            <a href="javascript:;" class="x-admin-backlog-body">
+                            <a href="javascript:;" class="x-admin-backlog-body" onclick="xadmin.open('作业中心','/pt/Cheat')">
                                 <h3></h3>
                                 <p>
                                     <cite>消息中心</cite></p>

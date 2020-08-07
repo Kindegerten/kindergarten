@@ -77,4 +77,7 @@ public interface ParentsMapper {
 
     //找老师名字，电话号码
     public List<Teachers>SearchTeacher(int StudentId);
+    //查看考勤
+    public List<StuAttendance> SearchStudentKaoQin(@Param("studentId")int studentid,@Param("curPage") int curPage, @Param("pageSize") int pageSize);
+    public int SearchStudentKaoQinCount(int studentid);
 }
