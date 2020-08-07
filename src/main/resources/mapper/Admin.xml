@@ -275,6 +275,7 @@
     <insert id="insertPlatformInfo" parameterType="com.kindergarten.bean.PlatformInfo">
         insert into tbl_platform_info ( platform_info_name, platform_info_detail) VALUES (#{platformInfoName},#{platformInfoDetail})
     </insert>
+
     <select id="selectSyslog" parameterType="java.util.HashMap" resultType="com.kindergarten.bean.Syslog">
         select * from tbl_syslog
         <where>
@@ -331,4 +332,5 @@
     <delete id="deleteSafetyVideo" parameterType="java.lang.Integer">
         delete from tbl_safety_video where safety_video_id=#{safetyVideoId};
     </delete>
+
 </mapper>
