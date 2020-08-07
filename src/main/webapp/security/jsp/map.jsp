@@ -4,6 +4,11 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+
+    <%
+        String path = request.getContextPath();
+    %>
+
     <style type="text/css">
         body, html{width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
         #allmap {width: 100%; height:100%; overflow: hidden;}
@@ -30,7 +35,7 @@
         }
 
     </style>
-    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=7R9KWvjvVaV32ejXIC16T05dP7yPnulY"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=PUpFUFstTXZ8wXZFnu8caGaIuq8bu6h7"></script>
     <!--加载鼠标绘制工具-->
     <script type="text/javascript" src="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.js"></script>
     <link rel="stylesheet" href="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.css" />
@@ -38,13 +43,9 @@
     <script type="text/javascript" src="http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.js"></script>
     <link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.css" />
     <!--官方jquery 压缩版引用-->
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="<%=path%>/static/jquery-3.5.1.js"></script>
 
     <title>绘制围栏</title>
-
-    <%
-        String path = request.getContextPath();
-    %>
 
 </head>
 <body>
@@ -68,8 +69,21 @@
     //var poi = new BMap.Point(106.909136,29.895601);
     //初始化地图
     var map = new BMap.Map("allmap");
-    map.centerAndZoom(new BMap.Point(106.909136,29.895601), 16);
+    map.centerAndZoom(new BMap.Point(118.19319099808,24.488554180987), 20);
     map.disableDoubleClickZoom();
+
+    //添加地图类型控件
+    // map.addControl(new BMap.MapTypeControl({
+    //     mapTypes: [
+    //         BMAP_NORMAL_MAP ,
+    //         BMAP_HYBRID_MAP
+    //     ]}));
+    // map.setCurrentCity("厦门");
+    // //设置地图显示的城市此项是必须设置
+    // 的
+    // map.enableScrollwheelZoom(true);
+    // //开启鼠标滚轮缩放
+
 
     //覆盖物列表 本地围栏
     var overlays = [];
@@ -106,7 +120,7 @@
     //鼠标绘制工具
     var styleOptions = {
         strokeColor:"red",    //边线颜色。
-        fillColor:"red",      //填充颜色。当参数为空时，圆形将没有填充效果。
+        fillColor:"",      //填充颜色。当参数为空时，圆形将没有填充效果。
         strokeWeight: 3,       //边线的宽度，以像素为单位。
         strokeOpacity: 0.8,	   //边线透明度，取值范围0 - 1。
         fillOpacity: 0.6,      //填充的透明度，取值范围0 - 1。
@@ -202,6 +216,8 @@
                     denoise:'',
                     sn:'',
                 };
+                console.log(createpolygon_data);
+                console.log(createpolygon_vertexes);
                 post_data(createpolygon_url, createpolygon_data);
             }
 
