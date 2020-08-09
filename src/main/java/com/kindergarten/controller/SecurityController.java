@@ -4,9 +4,11 @@ package com.kindergarten.controller;
 import com.alibaba.fastjson.JSON;
 import com.kindergarten.bean.FaceReturn;
 import com.kindergarten.bean.FaceUserList;
+import com.kindergarten.bean.Location;
 import com.kindergarten.bean.Security;
 import com.kindergarten.service.FaceService;
 import com.kindergarten.service.SecurityService;
+import com.kindergarten.service.SmsService;
 import com.kindergarten.util.AuthService;
 import com.kindergarten.util.FaceAdd;
 import com.kindergarten.util.FaceSearch;
@@ -32,6 +34,9 @@ public class SecurityController {
 
     @Autowired
     private FaceService faceService;
+
+    @Autowired
+    private SmsService smsService;
 
 
 
@@ -131,4 +136,23 @@ public class SecurityController {
         return faceService.faceAdd(base64,faceUserList);
     }
 
+    @RequestMapping(value = "/getPoint")
+    @ResponseBody
+    public String getPoint(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        List<Location> locations=securityService.getPoint();
+        System.out.println("locations:"+locations);
+        return JSON.toJSONString(locations);
+    }
+
+    @RequestMapping(value = "/sendAlter")
+    @ResponseBody
+    public String sendAlter(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        System.out.println("sendAlter ing...");
+        Location location=JSON.parseObject(request.getParameter("alertMsg"),Location.class);
+
+        //TODO 短信
+        smsService.sendSms(location.getStudentName());
+
+        return securityService.insertAlert(location)>0?"报警记录成功！":location.getStudentName()+"的报警记录失败！";
+    }
 }

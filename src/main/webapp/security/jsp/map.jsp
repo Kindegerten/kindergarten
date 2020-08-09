@@ -2,125 +2,110 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
 
     <%
         String path = request.getContextPath();
     %>
 
     <style type="text/css">
-        body, html{width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
-        #allmap {width: 100%; height:100%; overflow: hidden;}
-        #result {width:100%;font-size:12px;}
-        dl,dt,dd,ul,li{
-            margin:0;
-            padding:0;
-            list-style:none;
-        }
-        p{font-size:12px;}
-        dt{
-            font-size:14px;
-            font-family:"微软雅黑";
-            font-weight:bold;
-            border-bottom:1px dotted #000;
-            padding:5px 0 5px 5px;
-            margin:5px 0;
-        }
-        dd{
-            padding:5px 0 0 5px;
-        }
-        li{
-            line-height:28px;
+        body, html {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            font-family: "微软雅黑";
         }
 
+        #allmap {
+            width: 100%;
+            height: 93%;
+            overflow: hidden;
+        }
+
+        #result {
+            width: 100%;
+            font-size: 12px;
+        }
+
+        dl, dt, dd, ul, li {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        p {
+            font-size: 12px;
+        }
+
+        dt {
+            font-size: 14px;
+            font-family: "微软雅黑";
+            font-weight: bold;
+            border-bottom: 1px dotted #000;
+            padding: 5px 0 5px 5px;
+            margin: 5px 0;
+        }
+
+        dd {
+            padding: 5px 0 0 5px;
+        }
+
+        li {
+            line-height: 28px;
+        }
     </style>
-    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=PUpFUFstTXZ8wXZFnu8caGaIuq8bu6h7"></script>
+    <script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=PUpFUFstTXZ8wXZFnu8caGaIuq8bu6h7"></script>
     <!--加载鼠标绘制工具-->
-    <script type="text/javascript" src="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.js"></script>
-    <link rel="stylesheet" href="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.css" />
+    <script type="text/javascript"
+            src="//api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.js"></script>
+    <link rel="stylesheet" href="//api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.css"/>
     <!--加载检索信息窗口-->
-    <script type="text/javascript" src="http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.js"></script>
-    <link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.css" />
-    <!--官方jquery 压缩版引用-->
-    <script src="<%=path%>/static/jquery-3.5.1.js"></script>
+    <script type="text/javascript"
+            src="//api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.js"></script>
+    <link rel="stylesheet" href="//api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.css"/>
 
-    <title>绘制围栏</title>
-
+    <link rel="stylesheet" href="<%=path%>/static/X-admin/css/font.css">
+    <link rel="stylesheet" href="<%=path%>/static/X-admin/css/xadmin.css">
+    <link rel="stylesheet" href="<%=path%>/static/X-admin/css/theme3944.min.css">
+    <script src="<%=path%>/static/X-admin/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="<%=path%>/static/X-admin/js/xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="<%=path%>/static/GeoUtils.js"></script>
+    <script type="text/javascript" src="<%=path%>/static/jquery-3.5.1.js"></script>
+    <title>鼠标绘制工具</title>
 </head>
 <body>
-
-<input type="hidden" id="path" value=<%=path%>>
-
 <div id="allmap" style="overflow:hidden;zoom:1;position:relative;">
     <div id="map" style="height:100%;-webkit-transition: all 0.5s ease-in-out;transition: all 0.5s ease-in-out;"></div>
 </div>
-<!--
 <div id="result">
-    <input type="button" value="获取覆盖物个数" onclick="alert(overlays.length)"/>
-    <input type="button" value="清除所有覆盖物" onclick="clearAll()"/>
+    <input type="button" class="layui-btn" value="获取栅栏个数" onclick="alert(overlays.length)"/>
+    <input type="button" class="layui-btn" value="获取栅栏坐标" onclick="getLayerInformation()">
+    <input type="button" class="layui-btn" value="绘制多边形栅栏" onclick="drawPolygon()">
+    <input type="button" class="layui-btn" value="清除所有栅栏" onclick="clearAll()"/>
+    <label for="">经度：</label> <input type="text" id="ILng">
+    <label for="">纬度：</label> <input type="text" id="ILat">
+    <input type="button" class="layui-btn" value="刷新位置" onclick="refreshPoint()">
+    <input type="button" class="layui-btn" value="判断是否在栅栏内" onclick="IsInPolygon()">
 </div>
--->
-
 <script type="text/javascript">
-
-    //初始化地图
-    //var map = new BMap.Map('map');
-    //var poi = new BMap.Point(106.909136,29.895601);
-    //初始化地图
-    var map = new BMap.Map("allmap");
-    map.centerAndZoom(new BMap.Point(118.19319099808,24.488554180987), 20);
-    map.disableDoubleClickZoom();
-
-    //添加地图类型控件
-    // map.addControl(new BMap.MapTypeControl({
-    //     mapTypes: [
-    //         BMAP_NORMAL_MAP ,
-    //         BMAP_HYBRID_MAP
-    //     ]}));
-    // map.setCurrentCity("厦门");
-    // //设置地图显示的城市此项是必须设置
-    // 的
-    // map.enableScrollwheelZoom(true);
-    // //开启鼠标滚轮缩放
-
-
-    //覆盖物列表 本地围栏
+    // 百度地图API功能
+    var map = new BMap.Map('map');
+    var poi = new BMap.Point(118.19319099808, 24.488554180987);
+    map.centerAndZoom(poi, 19);
+    map.enableScrollWheelZoom();
     var overlays = [];
-    //覆盖物类型
-    var overlays_type = [];
-    //云端围栏
-    var yingyanfences;
-    //ak service_id
-    var ak='your_ak'; //ak
-    var service_id='your_service_id'; //service_id
-    //百度鹰眼接口 查询get 上传post
-    var createcircle_url='http://yingyan.baidu.com/api/v3/fence/createcirclefence';//创建圆形
-    var createpolygon_url='http://yingyan.baidu.com/api/v3/fence/createpolygonfence';//创建多边形
-    var createpolyline_url='http://yingyan.baidu.com/api/v3/fence/createpolylinefence';//创建线形
-    var createpolyline_url='http://yingyan.baidu.com/api/v3/fence/createpolylinefence';//创建线形
-    var createdistrict_url='http://yingyan.baidu.com/api/v3/fence/createdistrictfence';//创建行政区
-    var updatecircle_url='http://yingyan.baidu.com/api/v3/fence/updatecirclefence';//更新圆形
-    var updatepolygon_url='http://yingyan.baidu.com/api/v3/fence/updatepolygonfence';//更新多边形
-    var updatepolyline_url='http://yingyan.baidu.com/api/v3/fence/updatepolylinefence';//更新线型
-    var updatedistrict_url='http://yingyan.baidu.com/api/v3/fence/updatedistrictfence';//更新行政区
-    var delete_url='http://yingyan.baidu.com/api/v3/fence/delete';//删除围栏
-    var list_url='http://yingyan.baidu.com/api/v3/fence/list';//查询围栏 0-99
-    var addmonitor_url='http://yingyan.baidu.com/api/v3/fence/addmonitoredperson';//增加围栏需监控的entity
-    var deletemonitor_url='http://yingyan.baidu.com/api/v3/fence/deletemonitoredperson';//删除围栏可去除监控的entity
-    var listmonitor_url='http://yingyan.baidu.com/api/v3/fence/listmonitoredperson';//查询围栏监控的所有entity
-    //相关数据，位置，logo初始化
-    mapinit();
-
-    //绘制事件完成时，将该绘制图形加入到覆盖物列表
-    var overlaycomplete = function(e){
+    var overlaycomplete = function (e) {
         overlays.push(e.overlay);
-        overlays_type.push(e.drawingMode);
     };
-    //鼠标绘制工具
     var styleOptions = {
-        strokeColor:"red",    //边线颜色。
-        fillColor:"",      //填充颜色。当参数为空时，圆形将没有填充效果。
+        strokeColor: "red",    //边线颜色。
+        fillColor: "",      //填充颜色。当参数为空时，圆形将没有填充效果。
         strokeWeight: 3,       //边线的宽度，以像素为单位。
         strokeOpacity: 0.8,	   //边线透明度，取值范围0 - 1。
         fillOpacity: 0.6,      //填充的透明度，取值范围0 - 1。
@@ -132,7 +117,7 @@
         enableDrawingTool: true, //是否显示工具栏
         drawingToolOptions: {
             anchor: BMAP_ANCHOR_TOP_RIGHT, //位置
-            offset: new BMap.Size(50, 5), //偏离值
+            offset: new BMap.Size(5, 5), //偏离值
         },
         circleOptions: styleOptions, //圆的样式
         polylineOptions: styleOptions, //线的样式
@@ -142,416 +127,130 @@
     //添加鼠标绘制工具监听事件，用于获取绘制结果
     drawingManager.addEventListener('overlaycomplete', overlaycomplete);
 
-
-    //清空覆盖物列表
     function clearAll() {
-        for(var i = 0; i < overlays.length; i++){
-
+        for (var i = 0; i < overlays.length; i++) {
             map.removeOverlay(overlays[i]);
         }
         overlays.length = 0
     }
-    //将覆盖物列表（本地围栏）保存到云端围栏
-    function saveAll()
-    {
-        for(var i = 0; i < overlays.length; i++){
-            //alert(overlays[i].drawingMode);
-            /*
-            var property = "";
-            for (var item in overlays[i]) {
-                 property += "属性：" + item + "数值：" + overlays[i][item] + "\n";
-            }
-            */
-            //console.log(overlays_type[i]);
-            //console.log(overlays[i].drawingMode);
-            console.log(overlays[i]);
-            if(overlays_type[i]=="circle")
-            {
-                //console.log(overlays[i].point.lat);
-                //console.log(overlays[i].point.lng);
-                //console.log(overlays[i].xa);
-                //按圆形方式保存
-                var createcircle_data={
-                    ak:ak,
-                    service_id:service_id,
-                    fence_name:'circle_fences',
-                    monitored_person:'',
-                    longitude: overlays[i].point.lng,
-                    latitude: overlays[i].point.lat,
-                    radius: overlays[i].xa,
-                    coord_type:'bd09ll',
-                    denoise:'',
-                    sn:'',
-                };
-                post_data(createcircle_url, createcircle_data);
-            }
-            /*
-            if(overlays_type[i]=="rectangle")
-            {
-                for(var j = 0; j < overlays[i].so.length; j++){
-                    console.log(overlays[i].so[j].lng);
-                    console.log(overlays[i].so[j].lat);
+
+    //获取点信息
+    //TODO 传到数据库
+    function getLayerInformation() {
+        console.log(overlays[0].getPath());
+        console.log(JSON.stringify(overlays[0].getPath()));
+    }
+
+    var polygon;
+    var pointData=[];
+
+    //绘制多边形
+    //TODO 获取点信息
+    function drawPolygon() {
+        let point;
+        point= overlays[0].getPath();
+
+        let polArry = [];
+        point.forEach(item => {
+            let p = new BMap.Point(item.lng, item.lat);
+            polArry.push(p);
+        });
+        polygon = new BMap.Polygon(polArry, styleOptions);
+        map.addOverlay(polygon);
+    }
+
+    //判断点是否在多边形内
+    function IsInPolygon() {
+
+        if (pointData!=null){
+            pointData.forEach(item=>{
+                let lng = item.lng;
+                let lat = item.lat;
+                let name=item.studentName;
+                let id=item.studentId;
+                let point = new BMap.Point(lng, lat);
+                let marker = new BMap.Marker(point);
+                map.addOverlay(marker);
+                if (BMapLib.GeoUtils.isPointInPolygon(point, polygon)) {
+                    console.log(name+"在区域内");
+                } else {
+                    //TODO 发送记录信息写入报警表
+                    layer.msg(name+"不在区域内",{
+                        // icon: 1,
+                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                    }, function(){
+                        //do something
+                        sendAlert(id,name,point);
+                    });
                 }
-                //按矩形方式保存
+            });
+
+        }else {
+            let lng = $("#ILng").val();
+            let lat = $("#ILat").val();
+            let point = new BMap.Point(lng, lat);
+            let marker = new BMap.Marker(point);
+            map.addOverlay(marker);
+            if (BMapLib.GeoUtils.isPointInPolygon(point, polygon)) {
+                console.log("在区域内");
+            } else {
+                console.log("不在区域内");
             }
-            */
-            if(overlays_type[i]=="rectangle" || overlays_type[i]=="polygon")
-            {
-                var createpolygon_vertexes="";
-                for(var j = 0; j < overlays[i].so.length; j++){
-                    createpolygon_vertexes=createpolygon_vertexes+overlays[i].so[j].lat;
-                    createpolygon_vertexes=createpolygon_vertexes+',';
-                    createpolygon_vertexes=createpolygon_vertexes+overlays[i].so[j].lng;
-                    createpolygon_vertexes=createpolygon_vertexes+';';
-                }
-                console.log(createpolygon_vertexes);
-                //按多边形方式保存
-                var createpolygon_data={
-                    ak:ak,
-                    service_id:service_id,
-                    fence_name:'polygon_fence',
-                    monitored_person:'',
-                    vertexes: createpolygon_vertexes,
-                    coord_type:'bd09ll',
-                    denoise:'',
-                    sn:'',
-                };
-                console.log(createpolygon_data);
-                console.log(createpolygon_vertexes);
-                post_data(createpolygon_url, createpolygon_data);
-            }
-
-            if(overlays_type[i]=="polyline")
-            {
-                for(var j = 0; j < overlays[i].so.length; j++){
-                    console.log(overlays[i].so[j].lng);
-                    console.log(overlays[i].so[j].lat);
-                }
-                //按线型方式保存
-            }
-
-        }
-    }
-    //清除所有服务器已经存在的围栏
-    function ClearAll_onService() {
-        var fence_id = '0,'
-        for(var i = 1; i < 99; i++){
-            fence_id=fence_id+i;
-            fence_id=fence_id+',';
-        }
-        fence_id=fence_id+99;
-
-        var delete_data={
-            ak:ak,
-            service_id:service_id,
-            monitored_person:'',
-            fence_ids: fence_id,
-            sn:'',
-        };
-        post_data(delete_url, delete_data);
-    }
-
-    //定义一个控件类,即function
-    function ZoomControl(){
-        // 默认停靠位置和偏移量
-        this.defaultAnchor = BMAP_ANCHOR_TOP_LEFT;
-        this.defaultOffset = new BMap.Size(10, 10);
-    }
-    // 通过JavaScript的prototype属性继承于BMap.Control
-    ZoomControl.prototype = new BMap.Control();
-    // 自定义控件必须实现自己的initialize方法,并且将控件的DOM元素返回
-    // 在本方法中创建个div元素作为控件的容器,并将其添加到地图容器中
-    ZoomControl.prototype.initialize = function(map){
-        // 创建一个DOM元素
-        var div = document.createElement("div");
-        // 添加文字说明
-        div.appendChild(document.createTextNode("重新绘制"));
-        // 设置样式
-        div.style.cursor = "pointer";
-        div.style.border = "1px solid gray";
-        div.style.backgroundColor = "white";
-        // 绑定事件,点击一次放大两级
-        div.onclick = function(e){
-            //map.setZoom(map.getZoom() + 2);
-            clearAll();
-        }
-        // 添加DOM元素到地图中
-        map.getContainer().appendChild(div);
-        // 将DOM元素返回
-        return div;
-    }
-
-    function SendControl(){
-        this.defaultAnchor = BMAP_ANCHOR_TOP_LEFT;
-        this.defaultOffset = new BMap.Size(100, 10);
-    }
-    SendControl.prototype = new BMap.Control();
-    SendControl.prototype.initialize = function(map){
-        var div = document.createElement("div");
-        div.appendChild(document.createTextNode("保存围栏"));
-        div.style.cursor = "pointer";
-        div.style.border = "1px solid gray";
-        div.style.backgroundColor = "white";
-        div.onclick = function(e){
-            saveAll();
-        }
-        map.getContainer().appendChild(div);
-        return div;
-    }
-
-    function ClearControl(){
-        this.defaultAnchor = BMAP_ANCHOR_TOP_LEFT;
-        this.defaultOffset = new BMap.Size(200, 10);
-    }
-    ClearControl.prototype = new BMap.Control();
-    ClearControl.prototype.initialize = function(map){
-        var div = document.createElement("div");
-        div.appendChild(document.createTextNode("清除全部"));
-        div.style.cursor = "pointer";
-        div.style.border = "1px solid gray";
-        div.style.backgroundColor = "white";
-        div.onclick = function(e){
-            ClearAll_onService();
-        }
-        map.getContainer().appendChild(div);
-        return div;
-    }
-
-    // 创建控件
-    var myZoomCtrl = new ZoomControl();
-    var mySendCtrl = new SendControl();
-    var myClearControl = new ClearControl();
-    // 添加到地图当中
-    map.addControl(myZoomCtrl);
-    map.addControl(mySendCtrl);
-    map.addControl(myClearControl);
-
-    /* 显示卫星地图
-    var mapType1 = new BMap.MapTypeControl(
-        {
-            mapTypes: [BMAP_NORMAL_MAP,BMAP_HYBRID_MAP],
-            anchor: BMAP_ANCHOR_TOP_RIGHT
-        }
-    );//2D图，混合图
-    map.addControl(mapType1);
-    */
-
-    //设置版权控件
-    function mapinit() {
-        //初始化地图
-        //map.centerAndZoom(poi, 16);
-        map.enableScrollWheelZoom();
-
-        var cr = new BMap.CopyrightControl({anchor: BMAP_ANCHOR_BOTTOM_RIGHT});
-        //设置版权控件位置
-        map.addControl(cr); //添加版权控件
-        var bs = map.getBounds();   //返回地图可视区域
-        cr.addCopyright({id: 1, content: "<a href='#' style='font-size:12px;background:white'> Copyright ©重庆第二师范物联网硬件工作室</a>", bounds: bs});
-
-        get_yingyanfences();
-    }
-
-    //绘制云端围栏
-    function draw_yingyanfences()
-    {
-        var fences=[];
-
-        for(var i=0; i<yingyanfences.size; i++)
-        {
-            if(yingyanfences.fences[i].shape=='circle')
-            {
-                var point = new BMap.Point(yingyanfences.fences[i].longitude, yingyanfences.fences[i].latitude);
-                var circle = new BMap.Circle(point,yingyanfences.fences[i].radius,{strokeColor:"blue", strokeWeight:2, strokeOpacity:0.5}); //创建圆
-
-                fences.push(circle);
-            }
-            if(yingyanfences.fences[i].shape=='polygon')
-            {
-                //console.log(yingyanfences.fences[i]);
-                var polygon_point=[];
-                for(var j=0; j<yingyanfences.fences[i].vertexes.length; j++)
-                {
-                    var point = new BMap.Point(yingyanfences.fences[i].vertexes[j].longitude, yingyanfences.fences[i].vertexes[j].latitude);
-                    polygon_point.push(point);
-                }
-                var polygon = new BMap.Polygon(polygon_point, {strokeColor:"blue", strokeWeight:2, strokeOpacity:0.5});  //创建多边形
-                fences.push(polygon);
-            }
-
         }
 
-        //将围栏（覆盖物）加入到地图，并绑定事件
-        for(var i=0; i<fences.length; i++)
-        {
-            //点击覆盖物时，覆盖物可编辑
-            fences[i].addEventListener("click",click_circle);
-            function click_circle(){
-                this.enableEditing();
-            }
-            //双击覆盖物时，删除覆盖物
-            fences[i].addEventListener("dblclick",delete_circle);
-            function delete_circle(){
-                if(window.confirm('是否移除该围栏')){
-                    this.remove();
-                }else{
 
-                }
-            }
-            //当鼠标移动到某个覆盖物时，将该覆盖物设置为最顶层
-            fences[i].addEventListener("mouseover",moveover_circle);
-            function moveover_circle(){
-                this.setTop(true);
-            }
-            //当鼠标移出某个覆盖物时，将该覆盖物设置为最底层
-            fences[i].addEventListener("mouseout",moveout_circle);
-            function moveout_circle(){
-                this.disableEditing()
-                this.setTop(false);
-            }
-            /*
-            //当围栏发生改变时
-            circle_fences[i].addEventListener("lineupdate",update_circle);
-            function update_circle(){
-                //this.setStrokeColor("red");
-                console.log(getStrokeColor());
-            }
-            */
-            map.addOverlay(fences[i]);     //增加圆
-        }
+
+        //获取点坐标
+        // map.addEventListener("click",function(e){
+        //     alert(e.point.lng + "," + e.point.lat);
+        // });
+
     }
-    /*
-    function post(){
+
+    //获取最新点坐标
+    function refreshPoint() {
+        console.log("refreshPoint");
         $.ajax({
-        url:'http://yingyan.baidu.com/api/v3/fence/createcirclefence',
-        type: 'post',
-        dataType:'json',
-        data:{
-            ak:'7R9KWvjvVaV32ejXIC16T05dP7yPnulY',
-            service_id:'212041',
-            fence_name:'test123',
-            monitored_person:'',
-            longitude: longitude,
-            latitude: latitude,
-            //longitude: gcj.lon,
-            //latitude: gcj.lat,
-            radius:'75.93805346277371',
-            coord_type:'gcj02',
-            denoise:'',
-            sn:'',
-        },
-        success:function(result){
-            console.log(result);
+            url: "/sc/getPoint",
+            async: true,
+            type: "POST",
+            data: "",
+            dataType: "json",
+            success: function (msg) {
+                console.log(msg);
+                pointData=msg;
+                console.log(pointData);
+                layer.msg("刷新成功");
+                // $("#ILat").val(msg.split("#")[1]);
+                // $("#ILng").val(msg.split("#")[0]);
             },
-        error:function(err){
-            console.log(err)
+            error: function () {
+                layer.msg("网络繁忙!");
             }
         });
-    }*/
 
-    function post_data(url, date){
+    }
+    
+    function sendAlert(id,name,point) {
+        let alertMsg="{\"studentId\":"+id+",\"lng\":"+point.lng+",\"lat\":"+point.lat+",\"studentName\":\""+name+"\"}";
+        console.log("sendAlter:"+name+" "+point);
+        console.log(alertMsg);
+
         $.ajax({
-            url:url,
-            type: 'post',
-            dataType:'json',
-            data:date,
-            success:function(result){
-                console.log(result);
-                if(result.status==2)
-                {
-                    if(window.confirm(result.message+",请重新绘制")){
-                        clearAll();
-                    }else{
-
-                    }
-                }
+            url: "/sc/sendAlter",
+            async: true,
+            type: "POST",
+            data: "alertMsg="+alertMsg,
+            dataType: "text",
+            success: function (msg) {
+                layer.msg(msg);
             },
-            error:function(err){
-                console.log(err)
+            error: function () {
+                layer.msg(name+"的报警记录失败!");
             }
         });
+
     }
-
-    function get_data(url, date){
-        $.ajax({
-            url:url,
-            type: 'get',
-            dataType:'json',
-            data:date,
-            success:function(result){
-                console.log(result);
-                return result;
-            },
-            error:function(err){
-                console.log(err)
-            }
-        });
-    }
-
-    //从云端获取围栏数据
-    function get_yingyanfences(){
-        var fence_id = '0,'
-        for(var i = 1; i < 99; i++){
-            fence_id=fence_id+i;
-            fence_id=fence_id+',';
-        }
-        fence_id=fence_id+99;
-
-        $.ajax({
-            url:'http://yingyan.baidu.com/api/v3/fence/list',
-            type: 'get',
-            dataType:'json',
-            data:{
-                ak:ak,
-                service_id:service_id,
-                monitored_person:'',
-                fence_ids:fence_id,
-                coord_type_output:'bd09ll',
-                page_index:'',
-                page_size:'',
-                sn:'',
-            },
-            success:function(result){
-                yingyanfences=result;
-                console.log(result);
-                //绘制云端围栏
-                draw_yingyanfences();
-            },
-            error:function(err){
-                console.log(err);
-            }
-        });
-    }
-
-    /*
-    //向服务器上传围栏
-    function upload_circle(e){
-        console.log(e);
-        $.ajax({
-        url:'http://yingyan.baidu.com/api/v3/fence/createcirclefence',
-        type: 'post',
-        dataType:'json',
-        data:{
-            ak:'7R9KWvjvVaV32ejXIC16T05dP7yPnulY',
-            service_id:'212041',
-            fence_name:'test123',
-            monitored_person:'',
-            longitude: e.point.lng,
-            latitude: e.point.lat,
-            radius: e.xa,
-            coord_type:'bd09ll',
-            denoise:'',
-            sn:'',
-        },
-        success:function(result){
-            console.log(result);
-        },
-        error:function(err){
-            console.log(err)
-        }
-        });
-    }
-    */
-
 
 </script>
 </body>

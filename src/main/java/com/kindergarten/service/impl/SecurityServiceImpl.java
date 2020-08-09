@@ -1,11 +1,14 @@
 package com.kindergarten.service.impl;
 
 
+import com.kindergarten.bean.Location;
 import com.kindergarten.bean.Security;
 import com.kindergarten.mapper.SecurityMapper;
 import com.kindergarten.service.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class SecurityServiceImpl implements SecurityService {
@@ -27,5 +30,16 @@ public class SecurityServiceImpl implements SecurityService {
     public Security getInfo(Security security) {
         return securityMapper.getInfo(security);
     }
+
+    @Override
+    public List<Location> getPoint() {
+        return securityMapper.getPoint();
+    }
+
+    @Override
+    public int insertAlert(Location location) {
+        return securityMapper.insertAlert(location);
+    }
+
 
 }
