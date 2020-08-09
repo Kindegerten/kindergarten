@@ -1,148 +1,231 @@
-<%@ page import="com.kindergarten.bean.Course" %>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!doctype html>
-<html class="x-admin-sm">
+<%
+    String path=request.getContextPath();
+    System.out.println(path);
+%>
+<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>后台登录-X-admin2.2</title>
-    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
-    <meta http-equiv="Cache-Control" content="no-siteapp" />
-    <link rel="stylesheet" href="../static/X-admin/css/font.css">
-    <link rel="stylesheet" href="../static/X-admin/css/xadmin.css">
-    <!-- <link rel="stylesheet" href="./css/theme5.css"> -->
-    <script src="../static/X-admin/lib/layui/layui.js" charset="utf-8"></script>
-    <script type="text/javascript" src="../static/X-admin/js/xadmin.js"></script>
-    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
-    <!--[if lt IE 9]>
-    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    <%Course tblCourse= (Course) request.getSession().getAttribute("tblCourse"); %>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="<%=path%>/static/X-admin/lib/layuimini/lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="<%=path%>/static/X-admin/lib/layuimini/css/public.css" media="all">
 </head>
 <body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
 
-<!-- 显示课程表， -->
-<a href="#" class="btn btn-primary btn-xs"
-   data-toggle="modal" data-target="#kechengList" onclick="getKecheng(${tblCourse.getTeacherId()})">课程表
-</a>
-
-<!-- 课程表对话框 -->
-<div class="modal fade" id="kechengList" tabindex="-1"
-     role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document" style="width: 900px;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"
-                        aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title" id="myModalLabel">课程表信息</h4>
+        <div style="margin-left:45%;"><h2>课程表</h2></div>
+        <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+<%--                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加 </button>--%>
+                <%--                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除 </button>--%>
             </div>
+        </script>
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+<%--        <script type="text/html" id="currentTableBar">--%>
+<%--            &lt;%&ndash;            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">编辑</a>&ndash;%&gt;--%>
+<%--            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>--%>
+<%--        </script>--%>
 
-            <div class="modal-body">
-                <div class="table-div">
-                    <h2 style="text-align: center;">课程表</h2>
-                    <table class="table table-bordered table-striped table-hover" style="height: 450px">
-                        <thead>
-                        <tr>
-                            <th scope="col"></th>
-                            <th scope="col">星期一</th>
-                            <th scope="col">星期二</th>
-                            <th scope="col">星期三</th>
-                            <th scope="col">星期四</th>
-                            <th scope="col">星期五</th>
-                        </tr>
-                        </thead>
-
-                        <tbody style="text-align: center;">
-                        <tr style="height: 80px">
-                            <th scope="row">1节
-                            </th>
-                            <td id="table_1_1"></td>
-                            <td id="table_2_1"></td>
-                            <td id="table_3_1"></td>
-                            <td id="table_4_1"></td>
-                            <td id="table_5_1"></td>
-
-                        </tr>
-                        <tr style="height: 80px">
-                            <th scope="row">2节
-                            </th>
-                            <td id="table_1_2"></td>
-                            <td id="table_2_2"></td>
-                            <td id="table_3_2"></td>
-                            <td id="table_4_2"></td>
-                            <td id="table_5_2"></td>
-                        </tr>
-                        <tr style="height: 80px">
-                            <th scope="row">3节
-                            </th>
-                            <td id="table_1_3"></td>
-                            <td id="table_2_3"></td>
-                            <td id="table_3_3"></td>
-                            <td id="table_4_3"></td>
-                            <td id="table_5_3"></td>
-                        </tr>
-                        <tr style="height: 80px">
-                            <th scope="row">4节
-                            </th>
-                            <td id="table_1_4"></td>
-                            <td id="table_2_4"></td>
-                            <td id="table_3_4"></td>
-                            <td id="table_4_4"></td>
-                            <td id="table_5_4">
-                            </td>
-                        </tr>
-                        <tr style="height: 80px">
-                            <th scope="row">5节
-                            </th>
-                            <td id="table_1_5"></td>
-                            <td id="table_2_5"></td>
-                            <td id="table_3_5"></td>
-                            <td id="table_4_5"></td>
-                            <td id="table_5_5">
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
-            </div>
-        </div>
     </div>
 </div>
-<!-- 课程表对话框end -->
-</body>
-
+<%--<div id="insert_div" style="display:none;">--%>
+<%--    <form class="layui-form" action="" id="add">--%>
+<%--        <div class="layui-inline" style=" margin-top: 20px">--%>
+<%--            <label class="layui-form-label">作业名称:</label>--%>
+<%--            <div class="layui-input-block">--%>
+<%--                <input type="text" name="taskName" id="taskName" placeholder="" class="layui-input">--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--        <div class="layui-inline" style=" margin-top: 20px">--%>
+<%--            <label class="layui-form-label">发布日期:</label>--%>
+<%--            <div class="layui-input-block">--%>
+<%--                <input type="text" name="date1" id="date1" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input" disabled="disabled">--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--        <div class="layui-upload" style="margin-left: 120px;margin-top: 20px">--%>
+<%--            <input type="hidden" name="route" id="route" >--%>
+<%--            <button type="button" class="layui-btn layui-btn-normal" id="test3"><i class="layui-icon"></i>上传文件</button>--%>
+<%--        </div>--%>
+<%--    </form>--%>
+<%--</div>--%>
+<script src="<%=path%>/static/X-admin/lib/layuimini/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
 <script>
-    // 通过Tid(教师的id)获取课程表信息
-    function getKecheng(id) {
+    layui.use(['form', 'table','jquery', 'layedit', 'laydate','upload'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+        var layer = layui.layer
+            ,upload = layui.upload
+            ,layedit = layui.layedit
+            ,laydate = layui.laydate;
 
-        $.ajax({
-            type:"get",
-            url:"/tc/getKechengByTid.action",
-            data:{"id":id},
-            success:function(data) {
-                //清空课程表
-                for(var i=1;i<6;i++){
-                    for(var j=1;j<6;j++){
-                        $("#table_"+j+"_"+i).html("");
-                    }
-                }
-                //遍历课程表
-                for (var i=0;i<data.length;i++) {
-                    $("#table_"+data[i].week+"_"+data[i].jieci).html(data[i].cname+"<br>"+data[i].banji+"<br>"+data[i].address);
-                }
-            }
+        table.render({
+            elem: '#currentTableId',
+            url:'<%=path%>/tc/courseSelectList',
+            toolbar: '#toolbarDemo',
+            defaultToolbar: ['filter', 'exports', 'print', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            cols: [[
+                {type: "checkbox", width: 50},
+                {field: 'courseJieci', width: 140, title: '课节'},
+                {field: 'courseZhouyi', width: 140, title: '周一'},
+                {field: 'courseZhouer', width: 140, title: '周二'},
+                {field: 'courseZhousan', width: 140, title: '周三'},
+                {field: 'courseZhousi', width: 140, title: '周四'},
+                {field: 'courseZhouwu', title: '周五', width: 150},
+                // {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center"}
+            ]],
+            limits: [5,10, 15, 20, 25, 50, 100],
+            limit: 5,
+            page: true,
+            skin: 'line'
         });
-    }
 
+
+        /**
+         * toolbar监听事件
+         */
+        <%--table.on('toolbar(currentTableFilter)', function (obj) {--%>
+        <%--    if (obj.event === 'add') {  // 监听添加操作--%>
+        <%--        $('#taskName').val(null);--%>
+        <%--        $('#date').val(null);--%>
+        <%--        var index = layer.open({--%>
+        <%--            title: '发布作业',--%>
+        <%--            type: 1,--%>
+        <%--            shade: 0.2,--%>
+        <%--            maxmin:true,--%>
+        <%--            shadeClose: true,--%>
+        <%--            offset: ['50px','32%'],--%>
+        <%--            area: ['500px', '600px'],--%>
+        <%--            closeBtn: false,--%>
+        <%--            id: 'LAY_layuipro',--%>
+        <%--            btn: ['确定', '返回'],--%>
+        <%--            btnAlign: 'c',--%>
+        <%--            moveType: 1,--%>
+        <%--            content: $('#insert_div'), //内容--%>
+        <%--            success: function(layero,index){--%>
+        <%--                var btn = layero.find('.layui-layer-btn');--%>
+        <%--                btn.find('.layui-layer-btn0').click(function(){--%>
+        <%--                    // var body = layer.getChildFrame('body', index);--%>
+        <%--                    var taskName = $('#taskName').val();--%>
+        <%--                    var releaseTime = $('#date1').val();--%>
+        <%--                    var route = $('#route').val();--%>
+        <%--                    if (taskName!=""&&releaseTime!=null){--%>
+        <%--                        $.ajax({--%>
+        <%--                            type:"post",--%>
+        <%--                            url:"<%=path%>/tc/publishTaskAdd",--%>
+        <%--                            async:true,--%>
+        <%--                            data:{--%>
+        <%--                                // type:"taskAdd",--%>
+        <%--                                workName:taskName,--%>
+        <%--                                workreleaseTime:releaseTime,--%>
+        <%--                                workUrl:route--%>
+        <%--                            },--%>
+        <%--                            dataType:"text",--%>
+        <%--                            success:function(data){--%>
+        <%--                                if(data.trim()=="ok"){--%>
+
+        <%--                                }--%>
+        <%--                                alert("添加成功");--%>
+        <%--                                window.location.reload();--%>
+        <%--                            }--%>
+        <%--                        });--%>
+        <%--                    }else {--%>
+        <%--                        alert("请输入正确信息");--%>
+        <%--                        document.getElementById("layui-layer-iframe"+index).contentWindow.location.reload();--%>
+        <%--                    }--%>
+        <%--                });--%>
+        <%--            }--%>
+        <%--        });--%>
+        <%--        $(window).on("resize", function () {--%>
+        <%--            layer.full(index);--%>
+        <%--        });--%>
+        <%--    } else if (obj.event === 'delete') {  // 监听删除操作--%>
+        <%--        var checkStatus = table.checkStatus('currentTableId')--%>
+        <%--            , data = checkStatus.data;--%>
+        <%--        layer.alert(JSON.stringify(data));--%>
+        <%--    }--%>
+        <%--});--%>
+
+        //监听表格复选框选择
+        table.on('checkbox(currentTableFilter)', function (obj) {
+            console.log(obj)
+        });
+
+        // table.on('tool(currentTableFilter)', function (obj) {
+        //     var data = obj.data;
+        //     if (obj.event === 'edit') {
+        //
+        //         var index = layer.open({
+        //             title: '编辑用户',
+        //             type: 2,
+        //             shade: 0.2,
+        //             maxmin:true,
+        //             shadeClose: true,
+        //             area: ['100%', '100%'],
+        //             content: '../page/table/edit.html',
+        //         });
+        //         $(window).on("resize", function () {
+        //             layer.full(index);
+        //         });
+        //         return false;
+        //     } else if (obj.event === 'delete') {
+        //         layer.confirm('真的删除行么', function (index) {
+        //             shanchu(data.workReleaseid);//alert(data.id);
+        //             obj.del();
+        //             layer.close(index);
+        //         });
+        //     }
+        // });
+
+        <%--// //时间选取--%>
+
+        <%--laydate.render({--%>
+        <%--    elem: '#date1',// input里时间的Id--%>
+        <%--    value: new Date(),--%>
+        <%--});--%>
+
+
+        <%--//上传文件--%>
+        <%--upload.render({--%>
+        <%--    elem: '#test3'--%>
+        <%--    ,url: '<%=path%>/tc/upLoad' //改成您自己的上传接口--%>
+        <%--    ,accept: 'file' //普通文件--%>
+        <%--    ,done: function(res){--%>
+        <%--        layer.msg('上传成功');--%>
+        <%--        $("#route").val(res.msg);--%>
+        <%--        console.log(res);--%>
+        <%--    }--%>
+        <%--});--%>
+
+        <%--//删除--%>
+        <%--function shanchu(data){--%>
+        <%--    $.ajax({--%>
+        <%--        url:"<%=path%>/tc/delPublishTask",--%>
+        <%--        type:"post",--%>
+        <%--        async:true,--%>
+        <%--        data:{--%>
+        <%--            type:"shanchu",--%>
+        <%--            workReleaseid:data--%>
+        <%--        },--%>
+        <%--        dataType:"text",--%>
+        <%--        success:function(data){--%>
+        <%--            // alert(data);--%>
+        <%--            location.reload();--%>
+        <%--        }--%>
+        <%--    });--%>
+        <%--}--%>
+    });
 </script>
 
+</body>
 </html>

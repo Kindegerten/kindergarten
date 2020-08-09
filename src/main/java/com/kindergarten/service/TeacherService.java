@@ -36,5 +36,8 @@ public interface TeacherService
    //安全试题完成情况
    LayuiData safetyTestCompleteSelectList(SafetyTestComplete safetyTestOut, String endTime,int page, int pageSize);
 
+   //课程表
+   LayuiData courseTeacher(Course course,int page,int pageSize);
+
 
 }

@@ -49,7 +49,7 @@
                 <button type="button" class="layui-btn layui-btn-normal" id="test3" ><i class="layui-icon" ></i>上传</button>
             </div>
             <input type="hidden" name="photoUrl" id="photoUrl" >
-            <input type="hidden" name="fileName" id="fileName" >
+            <input type="hidden" name="photoName" id="photoName" >
         </div>
 
     </form>
@@ -100,7 +100,7 @@
                 $('#taskName').val(null);
                 $('#date').val(null);
                 $('#photoUrl').val(null);
-                $('#fileName').val(null);
+                $('#photoName').val(null);
                 var index = layer.open({
                     title: '添加照片',
                     type: 1,
@@ -122,7 +122,7 @@
                             var pictureNote = $('#pictureNote').val();
                             var uploadTime=$('#update').val();
                             var photoUrl = $('#photoUrl').val();
-                            var fileName = $('#fileName').val();
+                            var photoName = $('#photoName').val();
 
 
                             if (pictureNote==""){
@@ -140,7 +140,7 @@
                                         photoTime:uploadTime,
                                         photoDetail:pictureNote,
                                         photoUrl:photoUrl,
-                                        photoName:fileName
+                                        photoName:pictureNote
                                     },
                                     dataType:"text",
                                     success:function(data){
@@ -210,7 +210,7 @@
                 layer.msg('上传成功');
                 var arr = res.msg.split('%');
                 $("#photoUrl").val(arr[0]);
-                $("#fileName").val(arr[1]);
+                $("#photoName").val(arr[1]);
                 console.log(res);
             }
         });
