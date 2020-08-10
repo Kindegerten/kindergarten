@@ -20,13 +20,19 @@
     </update>
 
 <!--    课程表-->
-    <select id="course" resultType="com.kindergarten.bean.Teachers"
-            parameterType="com.kindergarten.bean.Course">
-        select * from tbl_course where teacher_id=#{teacherId}
+    <select id="courseTeacher" resultType="com.kindergarten.bean.Course">
+        select m.*,s.teacher_id
+        from tbl_course m,tbl_teachers s
+        where s.teacher_id=#{e.teacherId}
+        limit #{start},#{pageSize}
+    </select>
+    <select id="courseTeacherCount" resultType="java.lang.Integer">
+        select count(course_id) from tbl_course
+        where teacher_id=#{teacherId}
     </select>
 
 <!--    查发布作业表格-->
-    <select id="publishJobList" resultType="com.kindergarten.bean.Workrelease">
+    <select id="publishJobList" resultType="com.kindergarten.bean.TblWorkrelease">
     select a.work_releaseid,b.class_id,c.class_name,a.work_name,a.workrelease_time
     From tbl_workrelease a
     LEFT JOIN tbl_teachers b on b.teacher_id=a.teacher_id
@@ -195,6 +201,38 @@
     <select id="safetyVideoSelectListCount" resultType="int">
     select count(safety_video_id) from tbl_safety_video
   </select>
+
+<!--    获取班级孩子的所有家长-->
+    <select id="SearchParents" resultType="com.kindergarten.bean.Parents">
+        select distinct a.parents_name,a.parents_tel from tbl_parents a,tbl_students b,tbl_teachers c,tbl_parents_students d
+        where a.parents_id=d.parents_id and b.student_id=d.students_id
+          and c.kinder_id=b.kinder_id and c.class_id=b.class_id and c.teacher_id=#{teacherId}
+    </select>
+
+<!--    试题完成情况-->
+    <!--  //查询表格-->
+    <select id="safetyTestCompleteSelectList" resultType="com.kindergarten.bean.SafetyTestComplete"   >
+        SELECT a.*,b.safety_video_name,b.safety_video_time, c.student_id,c.student_name,d.parents_name,f.*
+        From tbl_safety_test_complete a
+        LEFT JOIN tbl_safety_video b on  a.safety_video_id =b.safety_video_id
+        LEFT JOIN tbl_students c on  a.student_id=c.student_id
+        LEFT JOIN tbl_parents d on d.parents_status=c.student_id
+        LEFT JOIN tbl_parents_students f on f.students_id=d.parents_status
+        WHERE  teacher_id=#{e.teacherId}
+<!--        <if test="e.finishTime!=null and e.finishTime!=''">-->
+<!--            <![CDATA[   and finish_time >= #{e.finishTime} ]]>-->
+<!--        </if>-->
+<!--        <if test="endTime!=null and endTime!=''">-->
+<!--            <![CDATA[   and finish_time <= #{endTime}  ]]>-->
+<!--        </if>-->
+        <if test="e.safetyTestResult!=null and e.safetyTestResult!=''">
+            and safety_test_result=#{e.safetyTestResult}
+        </if>
+        limit #{start},#{pageSize}
+    </select>
+    <select id="safetyTestCompleteSelectListCount" resultType="int">
+        select count(safety_test_id) from tbl_safety_test_complete
+   </select>
 
 
 </mapper>

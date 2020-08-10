@@ -1,7 +1,10 @@
 package com.kindergarten.service;
 
 
+import com.kindergarten.bean.Location;
 import com.kindergarten.bean.Security;
+
+import java.util.List;
 
 public interface SecurityService {
 
@@ -10,5 +13,9 @@ public interface SecurityService {
     int update(Security security);
 
     Security getInfo(Security security);
+
+    List<Location> getPoint();
+
+    int insertAlert(Location location);
 
 }

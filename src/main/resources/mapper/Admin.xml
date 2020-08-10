@@ -234,4 +234,64 @@
         insert into tbl_students (student_name, student_sex, student_birth, student_add, class_id, kinder_id)
          VALUES (#{studentName},#{studentSex},#{studentBirth},#{studentAdd},#{classId},#{kinderId})
     </insert>
+
+    <select id="selectPlatformInfo" parameterType="java.util.HashMap" resultType="com.kindergarten.bean.PlatformInfo">
+        select platform_info_id, platform_info_name, platform_info_time, platform_info_detail, platform_info_status, image_url from tbl_platform_info
+        <where>
+            <if test="condition.platformInfoName!=null and condition.platformInfoName !=''">
+                and platform_info_name like concat('%',#{condition.platformInfoName},'%')
+            </if>
+            <if test="condition.start!=null and condition.start!= '' and condition.end!=null and condition.end!='' ">
+                and date_format(platform_info_time,'%Y-%m-%d') between #{condition.start} and #{condition.end}
+                /*$是直接插入进去,可以进行计算，#相当于占位符*/
+            </if>
+        </where>
+        order by platform_info_time  limit ${(curPage-1)*pageSize},${pageSize}
+    </select>
+    <select id="selectPlatformInfoCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        select count(*) from tbl_platform_info
+        <where>
+            <if test="condition.platformInfoName!=null and condition.platformInfoName !=''">
+                and platform_info_name like concat('%',#{condition.platformInfoName},'%')
+            </if>
+            <if test="condition.start!=null and condition.start!= '' and condition.end!=null and condition.end!='' ">
+                and date_format(platform_info_time,'%Y-%m-%d') between #{condition.start} and #{condition.end}
+                /*$是直接插入进去,可以进行计算，#相当于占位符*/
+            </if>
+        </where>
+    </select>
+    <delete id="deletePlatformInfo" parameterType="java.lang.Integer">
+        delete from tbl_platform_info where platform_info_id=#{platformInfoId}
+    </delete>
+    <update id="release" parameterType="java.lang.Integer">
+        update tbl_platform_info set platform_info_status =2 where platform_info_id=#{platformInfoId}
+    </update>
+    <update id="cancel" parameterType="java.lang.Integer">
+        update tbl_platform_info set platform_info_status =3 where platform_info_id=#{platformInfoId}
+    </update>
+    <update id="updatePlatformInfo" parameterType="com.kindergarten.bean.PlatformInfo">
+        update tbl_platform_info set platform_info_detail=#{platformInfoDetail},platform_info_name=#{platformInfoName} where platform_info_id=#{platformInfoId}
+    </update>
+    <insert id="insertPlatformInfo" parameterType="com.kindergarten.bean.PlatformInfo">
+        insert into tbl_platform_info ( platform_info_name, platform_info_detail) VALUES (#{platformInfoName},#{platformInfoDetail})
+    </insert>
+    <select id="selectSyslog" parameterType="java.util.HashMap" resultType="com.kindergarten.bean.Syslog">
+        select * from tbl_syslog
+        <where>
+            <if test="condition.start!=null and condition.start!= '' and condition.end!=null and condition.end!='' ">
+                and date_format(operate_time,'%Y-%m-%d') between #{condition.start} and #{condition.end}
+                /*$是直接插入进去,可以进行计算，#相当于占位符*/
+            </if>
+        </where>
+        order by operate_time desc  limit ${(curPage-1)*pageSize},${pageSize}
+    </select>
+    <select id="selectSyslogCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        select count(*) from tbl_syslog
+        <where>
+            <if test="condition.start!=null and condition.start!= '' and condition.end!=null and condition.end!='' ">
+                and date_format(operate_time,'%Y-%m-%d') between #{condition.start} and #{condition.end}
+                /*$是直接插入进去,可以进行计算，#相当于占位符*/
+            </if>
+        </where>
+    </select>
 </mapper>

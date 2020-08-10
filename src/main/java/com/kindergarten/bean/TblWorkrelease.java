@@ -9,12 +9,13 @@ public class TblWorkrelease
     private int classId;
     private int teacherId;
     private String className;
+    private String parentsName;
 
     public TblWorkrelease(){
 
     }
 
-    public TblWorkrelease(int workReleaseid, String workreleaseTime, String workName, String workUrl, int classId, int teacherId, String className) {
+    public TblWorkrelease(int workReleaseid, String workreleaseTime, String workName, String workUrl, int classId, int teacherId, String className, String parentsName) {
         this.workReleaseid = workReleaseid;
         this.workreleaseTime = workreleaseTime;
         this.workName = workName;
@@ -22,6 +23,15 @@ public class TblWorkrelease
         this.classId = classId;
         this.teacherId = teacherId;
         this.className = className;
+        this.parentsName = parentsName;
+    }
+
+    public String getParentsName() {
+        return parentsName;
+    }
+
+    public void setParentName(String parentsName) {
+        this.parentsName = parentsName;
     }
 
     public int getWorkReleaseid() {

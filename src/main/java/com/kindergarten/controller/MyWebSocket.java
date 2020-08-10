@@ -9,11 +9,13 @@ import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@ServerEndpoint(value = "/websocket/{user}/{uuid}")
+@ServerEndpoint(value = "/websocket/{user}/{uuid}/{ownname}")
 @Component
 public class MyWebSocket {
     // 通过类似GET请求方式传递参数的方法（服务端采用第二种方法"WebSocketHandler"实现）
@@ -38,6 +40,7 @@ public class MyWebSocket {
      */
     private String user;
 //    private String other;
+    private String ownname; //名字
 
     /**
      * 建立连接
@@ -89,9 +92,9 @@ public class MyWebSocket {
      * @param session 会话
      */
     @OnMessage
-    public void onMessage(String message, Session session, @PathParam("user") String user, @PathParam("uuid") String uuid) {
-        System.out.println("来自" + user + "消息：" + message);
-        pushMessage(user, message, uuid);
+    public void onMessage(String message, Session session, @PathParam("user") String user, @PathParam("uuid") String uuid,@PathParam("ownname") String ownname) {
+        System.out.println("来自" + user+ownname + "消息：" + message);
+        pushMessage(user, message, uuid,ownname);
     }
 
     /**
@@ -113,19 +116,22 @@ public class MyWebSocket {
      * @param message
      * @param uuid    uuid为空则推送全部人员
      */
-    public static void pushMessage(String user, String message, String uuid) {
+    public static void pushMessage(String user, String message, String uuid,String ownname) {
+        SimpleDateFormat NewTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
         if (uuid == null || "".equals(uuid)) {
             for (MyWebSocket myWebSocket : webSockets) {
-                myWebSocket.sendMessage(user + ":" + message);
+                myWebSocket.sendMessage(user + "15点49分:" + message);
             }
         } else {
             for (MyWebSocket myWebSocket : webSockets) {
                 if (uuid.equals(myWebSocket.user)) {
 //                    myWebSocket.sendMessage(message);
-                    myWebSocket.sendMessage(user + ":" + message);
+                    myWebSocket.sendMessage(ownname +" "+NewTime.format(new Date())+ ":" + message);
                 }
 
             }
+
         }
 
     }

@@ -145,7 +145,41 @@
     </select>
 <!--    通过学生id找到它的班级，通过班级找到对应的老师-->
     <select id="SearchTeacher" resultType="com.kindergarten.bean.Teachers">
-        select a.teacher_name,a.teacher_tel from tbl_teachers a,tbl_students b where b.class_id=a.class_id and b.student_id=#{studentId}
+        select a.teacher_name,a.teacher_tel from tbl_teachers a,tbl_students b where b.class_id=a.class_id and b.kinder_id=a.kinder_id and b.student_id=#{studentId}
     </select>
 
+<!--    //查看考勤-->
+    <select id="SearchStudentKaoQin" resultType="com.kindergarten.bean.StuAttendance">
+        select *from tbl_stutime where student_id=#{studentId} order by stutime_date desc limit ${(curPage-1)*pageSize},${curPage*pageSize}
+    </select>
+    <select id="SearchStudentKaoQinCount" resultType="java.lang.Integer">
+        select count(*) from tbl_stutime where student_id=#{studentId}
+    </select>
+
+    <!--    //查看缴费清单-->
+    <select id="SearchMyBill" resultType="com.kindergarten.bean.SchoolBill">
+        select a.*from tbl_schoolbill a,tbl_students b where a.bill_classId=b.class_id and b.student_id=#{studentId} order by a.bill_createtime desc limit ${(curPage-1)*pageSize},${curPage*pageSize}
+    </select>
+    <select id="SearchMyBillCount" resultType="java.lang.Integer">
+        select count(*) from tbl_schoolbill a,tbl_students b where a.bill_classId=b.class_id and b.student_id=#{studentId}
+    </select>
+
+<!--    查找缴费记录表有无此记录-->
+    <select id="FindBilllog" resultType="java.util.Map">
+        select schoolbill_id,studentbill_type from tbl_studentbill where student_id=#{studentId}
+    </select>
+
+<!--    查找缴费记录-->
+    <select id="studentbill" resultType="com.kindergarten.bean.StudentBill">
+        select * from tbl_studentbill where student_id=#{studentId} and schoolbill_id=#{schoolbillId}
+    </select>
+
+<!--    支付接口-->
+    <select id="Pay" resultType="com.kindergarten.bean.SchoolBill" >
+        select * from tbl_schoolbill where bill_id=#{billId}
+    </select>
+<!--    支付成功,插入支付数据-->
+    <insert id="SuccessPay" parameterType="com.kindergarten.bean.StudentBill">
+        insert into tbl_studentbill(student_id, student_name, studentbill_tradeno,studentbill_trano, studentbill_type,schoolbill_id) values (#{studentId},#{studentName},#{studentbillTradeno},#{studentbillTrano},'已缴费',#{schoolbillId})
+    </insert>
 </mapper>

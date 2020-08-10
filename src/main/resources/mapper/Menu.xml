@@ -18,4 +18,52 @@
             <result property="menuUrl" column="m2_url"></result>
         </collection>
     </resultMap>
+    <select id="selectOneMenu" resultType="com.kindergarten.bean.Menu">
+        select * from tbl_menu where parent_id=0;
+    </select>
+    <select id="selectMenuList" parameterType="java.util.HashMap" resultType="com.kindergarten.bean.Menu">
+        select m2.*, m1.menu_name as parentName from tbl_menu m1  right join  tbl_menu m2 on m1.menu_id =m2.parent_id
+        <where>
+            <if test="condition.menuName!=null and condition.menuName !=''">
+                and m2.menu_name like concat('%',#{condition.menuName},'%')
+            </if>
+            <if test="condition.parentId!=null and condition.parentId !=''">
+                and m2.menu_id =#{condition.parentId}
+            </if>
+        </where>
+        order by order_id limit ${(curPage-1)*pageSize},${pageSize}
+    </select>
+    <select id="selectMenuListCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        select count(*) from tbl_menu
+        <where>
+            <if test="condition.menuName!=null and condition.menuName !=''">
+                and menu_name like concat('%',#{condition.menuName},'%')
+            </if>
+            <if test="condition.parentId!=null and condition.parentId !=''">
+                and menu_id =#{condition.parentId}
+            </if>
+        </where>
+    </select>
+    <delete id="deleteMenu" parameterType="java.lang.Integer">
+        delete from tbl_menu where menu_id=#{menuId} or parent_id=#{menuId}
+    </delete>
+    <update id="updateMenu" parameterType="java.util.HashMap">
+        update tbl_menu set
+        <if test="condition.menuUrl!=null and condition.menuUrl !=''">
+            menu_url=#{condition.menuUrl},
+        </if>
+        <if test="condition.menuName!=null and condition.menuName !=''">
+            menu_name=#{condition.menuName},
+        </if>
+        <if test="condition.parentId!=null and condition.parentId !=''">
+            parent_id=#{condition.parentId},
+        </if>
+        <if test="condition.orderId!=null and condition.orderId !=''">
+            order_id=#{condition.orderId}
+        </if>
+       where menu_id=#{condition.menuId}
+    </update>
+    <insert id="insertMenu" parameterType="com.kindergarten.bean.Menu">
+        insert into tbl_menu(menu_name, menu_url, parent_id, order_id) VALUES (#{menuName},#{menuUrl},#{parentId},#{orderId})
+    </insert>
 </mapper>

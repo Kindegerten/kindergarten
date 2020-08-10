@@ -60,4 +60,13 @@ public interface AdminMapper {
     List<Classes>findClassesList();
     List<Classes>selectClasses(int kinderId);
     int insertStudent(Students students);
+    int selectPlatformInfoCount(@Param("condition") HashMap<String, Object> hashMap, @Param("curPage") int curPage, @Param("pageSize") int pageSize);
+    List<PlatformInfo> selectPlatformInfo(@Param("condition") HashMap<String, Object> hashMap, @Param("curPage") int curPage, @Param("pageSize") int pageSize);
+    int deletePlatformInfo(int platformInfoId);
+    int release(int platformInfoId);
+    int cancel(int platformInfoId);
+    int updatePlatformInfo(PlatformInfo platformInfo);
+    int insertPlatformInfo(PlatformInfo platformInfo);
+    int selectSyslogCount(@Param("condition") HashMap<String, Object> hashMap, @Param("curPage") int curPage, @Param("pageSize") int pageSize);
+    List<Syslog> selectSyslog(@Param("condition") HashMap<String, Object> hashMap, @Param("curPage") int curPage, @Param("pageSize") int pageSize);
 }

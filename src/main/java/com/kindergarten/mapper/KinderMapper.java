@@ -24,4 +24,5 @@ public interface KinderMapper {
    int selectKinderByone(Kinder kinder);
    int insertKinder(Kinder kinder);
    int updateKinder(Kinder kinder);
+
 }

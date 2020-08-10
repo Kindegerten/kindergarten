@@ -3,7 +3,7 @@ package com.kindergarten.bean;
 import java.util.Date;
 
 public class Kinder {
-    private int kinderId,kinderStatus;
+    private int kinderId,kinderStatus;//kinderStatus审批状态
     private String parameterText;//状态名
     private String kinderName;//院所名称
     private String kinderLp;//法人
@@ -20,7 +20,7 @@ public class Kinder {
     private String kinderAccount;
     private String kinderStateText;
     private String kinderPwd;
-    private int kinderState;
+    private int kinderState;//账号状态，例如禁用、启用
     public Kinder() {
     }
 

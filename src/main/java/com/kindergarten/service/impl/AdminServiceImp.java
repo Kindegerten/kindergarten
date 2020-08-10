@@ -1,6 +1,7 @@
 package com.kindergarten.service.impl;
 
 
+import com.alibaba.fastjson.JSON;
 import com.kindergarten.bean.*;
 import com.kindergarten.mapper.AdminMapper;
 import com.kindergarten.service.AdminService;
@@ -211,6 +212,23 @@ public class AdminServiceImp implements AdminService {
     }
 
     @Override
+    public LayuiData selectPlatformInfo(HashMap hashMap, int curPage, int pageSize) {
+        LayuiData<PlatformInfo> layuiData = null;
+        List<PlatformInfo> list =null;
+        int a =0;
+
+        list= adminMapper.selectPlatformInfo(hashMap, curPage, pageSize);
+        a= adminMapper.selectPlatformInfoCount(hashMap, curPage, pageSize);
+
+        if (list.size() > 0) {
+            layuiData = new LayuiData<>(0, "", a, list);
+        } else {
+            layuiData = new LayuiData<>(1, "查询失败", 0, null);
+        }
+        return layuiData;
+    }
+
+    @Override
     public LayuiData selectStudent(HashMap hashMap, int curPage, int pageSize) {
         LayuiData<Students> layuiData = null;
         List<Students> list =null;
@@ -258,5 +276,81 @@ public class AdminServiceImp implements AdminService {
         }
         return layuiData;
     }
+
+    @Override
+    public String deletePlatformInfo(int platformInfoId) {
+        String msg=null;
+        int a=0;
+        a=adminMapper.deletePlatformInfo(platformInfoId);
+        if (a>0){
+            msg="success";
+        }
+        return msg;
+    }
+
+    @Override
+    public String releaseOrCancel(int platformInfoId,String title) {
+        String msg=null;
+
+        if (title.equals("release")){
+            int a=0;
+            a=adminMapper.release(platformInfoId);
+            if (a>0){
+                msg="success";
+            }else {
+                msg="filed";
+            }
+        }else  if (title.equals("cancel")){
+            int a=0;
+            a=adminMapper.cancel(platformInfoId);
+            if (a>0){
+                msg="success";
+            }else {
+                msg="filed";
+            }
+        }
+        return msg;
+    }
+
+    @Override
+    public String updatePlatformInfo(PlatformInfo platformInfo) {
+        String msg=null;
+        int a=0;
+        a=adminMapper.updatePlatformInfo(platformInfo);
+        if (a>0){
+            msg="success";
+        }
+        return msg;
+    }
+
+    @Override
+    public String insertPlatformInfo(PlatformInfo platformInfo) {
+        String msg=null;
+        int a=0;
+        a=adminMapper.insertPlatformInfo(platformInfo);
+        if (a>0){
+            msg="success";
+        }
+        return msg;
+    }
+
+    @Override
+    public LayuiData selectSyslog(HashMap hashMap, int curPage, int pageSize) {
+        LayuiData<Syslog> layuiData = null;
+        List<Syslog> list =null;
+        int a =0;
+            list= adminMapper.selectSyslog(hashMap, curPage, pageSize);
+//        System.out.println("selectSyslog:"+ JSON.toJSONString(list));
+            a= adminMapper.selectSyslogCount(hashMap, curPage, pageSize);
+
+
+        if (list.size() > 0) {
+            layuiData = new LayuiData<>(0, "", a, list);
+        } else {
+            layuiData = new LayuiData<>(1, "查询失败", 0, null);
+        }
+        return layuiData;
+    }
+
 
 }

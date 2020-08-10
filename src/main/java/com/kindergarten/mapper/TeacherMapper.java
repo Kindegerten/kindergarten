@@ -15,7 +15,9 @@ public interface TeacherMapper
    //修改密码
    public int updatePwd(@Param("tel") String tel, @Param("pwd") String password);
    //课程表
-   public String course(String teacherid);
+   public List<Course> courseTeacher(@Param("e")Course course, @Param("start") int start, @Param("pageSize") int pageSize);
+   public int courseTeacherCount();
+//   public String course(String teacherid);
    //查发布作业表格
    public List<TblWorkrelease> publishJobList(@Param("e") TblWorkrelease tblPublishTask, @Param("start") int start, @Param("pageSize") int pageSize);
    int publishJobListCount(TblWorkrelease tblWorkrelease);//总数
@@ -63,5 +65,12 @@ public interface TeacherMapper
 
    List<SafetyVideo> safetyVideoSelectList();
    int safetyVideoSelectListCount();
+
+   //查看对应班级孩子的家长列表，用于显示聊天列表
+   public List<Parents> SearchParents(int teacherId);
+
+   //试题完成情况
+   List<SafetyTestComplete> safetyTestCompleteSelectList(@Param("e") SafetyTestComplete safetyTestOut, String endTime,@Param("start") int start, @Param("pageSize") int pageSize);
+   int safetyTestCompleteSelectListCount();
 
 }

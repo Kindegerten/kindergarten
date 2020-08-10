@@ -24,5 +24,7 @@ public interface ParentService {
 
     public PageBean<Readmag> ParentRead(int curPage, int pageSize);
 
+    public LayuiData<StuAttendance> stuAttendance(int studentId,int curPage, int pageSize);
 
+    public LayuiData<SchoolBill> Mybills(int studentId,int curPage, int pageSize);
 }

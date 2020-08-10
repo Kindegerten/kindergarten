@@ -100,7 +100,7 @@
                             <cite>配置试题</cite></a>
                     </li>
                     <li>
-                        <a onclick="xadmin.add_tab('完成情况','/teacher/publishJobTable.jsp')">
+                        <a onclick="xadmin.add_tab('完成情况','/teacher/safetyTestTable.jsp')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>查看完成情况</cite></a>
                     </li>
@@ -163,7 +163,7 @@
                             <cite>班级通知</cite></a>
                     </li>
                     <li>
-                        <a onclick="xadmin.add_tab('家长对话','/teacher/updatePwd.jsp')">
+                        <a onclick="xadmin.add_tab('家长对话','/tc/Cheat')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>家长对话</cite></a>
                     </li>

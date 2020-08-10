@@ -35,4 +35,12 @@
         </set>
         where security_phone = #{securityPhone}
     </update>
+
+    <select id="getPoint" resultType="com.kindergarten.bean.Location">
+        select l.*,s.student_name from tbl_location l left join tbl_students s on l.student_id=s.student_id
+    </select>
+
+    <insert id="insertAlert" parameterType="com.kindergarten.bean.Location">
+        insert into tbl_alert (student_id,student_name,lng,lat) values (#{studentId},#{studentName},#{lng},#{lat})
+    </insert>
 </mapper>

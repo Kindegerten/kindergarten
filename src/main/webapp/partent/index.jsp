@@ -4,7 +4,7 @@
 <html class="x-admin-sm">
     <head>
         <meta charset="UTF-8">
-        <title>后台登录-X-admin2.2</title>
+        <title>智慧幼儿园家长端</title>
         <meta name="renderer" content="webkit|ie-comp|ie-stand">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
@@ -89,25 +89,13 @@
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>家校联系</cite></a>
                             </li>
-
                             <li>
-                                <a href="javascript:;">
-                                    <i class="iconfont">&#xe70b;</i>
-                                    <cite>宝宝作业</cite>
-                                    <i class="iconfont nav_right">&#xe697;</i></a>
-                                <ul class="sub-menu">
-                                    <li>
-                                        <a onclick="xadmin.add_tab('宝宝作业','homework.html')">
-                                            <i class="iconfont">&#xe6a7;</i>
-                                            <cite>今日作业</cite></a>
-                                    </li>
-                                    <li>
-                                        <a onclick="xadmin.add_tab('往期作业','historyhomework.html')">
-                                            <i class="iconfont">&#xe6a7;</i>
-                                            <cite>往期作业</cite></a>
-                                    </li>
-                                </ul>
+                                <a onclick="xadmin.add_tab('宝宝考勤','attendance.html')">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>宝宝考勤</cite></a>
                             </li>
+
+
 
 <%--                            <li>--%>
 <%--                                <a onclick="xadmin.add_tab('宝宝作业','homework.html')">--%>
@@ -144,18 +132,49 @@
 <%--                            </li>--%>
                         </ul>
                     </li>
+                    <li>
+                        <a href="javascript:;">
+                            <i class="iconfont left-nav-li" lay-tips="作业中心">&#xe6ce;</i>
+                            <cite>作业中心</cite>
+                            <i class="iconfont nav_right">&#xe697;</i></a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a onclick="xadmin.add_tab('宝宝作业','homework.html')">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>今日作业</cite></a>
+                            </li>
+                            <li>
+                                <a onclick="xadmin.add_tab('往期作业','historyhomework.html')">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>往期作业</cite></a>
+                            </li>
+                        </ul>
+                    </li>
 
 
                     <li>
                         <a href="javascript:;">
-                            <i class="iconfont left-nav-li" lay-tips="系统统计">&#xe6ce;</i>
+                            <i class="iconfont left-nav-li" lay-tips="个人中心">&#xe6ce;</i>
                             <cite>个人中心</cite>
                             <i class="iconfont nav_right">&#xe697;</i></a>
                         <ul class="sub-menu">
                             <li>
-                                <a onclick="xadmin.add_tab('密码修改','updatePwd.jsp')">
+                                <a onclick="xadmin.add_tab('费用缴交','updatePwd.jsp')">
                                     <i class="iconfont">&#xe6a7;</i>
-                                    <cite>密码修改</cite></a>
+                                    <cite>修改密码</cite></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:;">
+                            <i class="iconfont left-nav-li" lay-tips="缴费平台">&#xe6ce;</i>
+                            <cite>缴费平台</cite>
+                            <i class="iconfont nav_right">&#xe697;</i></a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a onclick="xadmin.add_tab('费用缴交','mybill.html')">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>费用缴交</cite></a>
                             </li>
                         </ul>
                     </li>
@@ -172,6 +191,7 @@
                             </li>
                         </ul>
                     </li>
+
 
                     <li>
                         <a href="javascript:;">
