@@ -1,7 +1,9 @@
 package com.kindergarten.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.kindergarten.bean.*;
+import com.kindergarten.mapper.RectorMapper;
 import com.kindergarten.service.RectorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 
 @RequestMapping("RectorControl")
@@ -22,6 +25,8 @@ import java.util.HashMap;
 public class RectorControl extends HttpServlet {
     @Autowired
     RectorService rectorService;
+    @Autowired
+    RectorMapper rectorMapper;
 
     //园长登录
     @RequestMapping("login")
@@ -176,6 +181,77 @@ public class RectorControl extends HttpServlet {
             return "error";
         }
     }
+    //黄智玟更新======增加缴费单
+    @RequestMapping(value = "/FindClass")
+    @ResponseBody
+    public String FindClass(HttpServletRequest request) throws ServletException, IOException {
+        Rector rector= (Rector) request.getSession().getAttribute("rector");
+        int KinId=rector.getKinderId();
+        List<Classes> list=rectorMapper.FindClass(KinId);
+        Gson gson=new Gson();
+
+        return gson.toJson(list);
+    }
+    //插入账单。
+    @RequestMapping(value = "/InsertBill")
+    @ResponseBody
+    public String InsertBill(HttpServletRequest request,SchoolBill schoolBill) throws ServletException, IOException {
+        Rector rector= (Rector) request.getSession().getAttribute("rector");
+        schoolBill.setKinderId(rector.getKinderId());
+
+        int flag=rectorMapper.AddBill(schoolBill);
+        if (flag>0){
+            return "success";
+        }else {
+            return "error";
+        }
+
+    }
+
+    //查询校园账单表
+    @RequestMapping(value = "/SearchBill")
+    @ResponseBody
+    public String SearchBill(HttpServletRequest request) throws ServletException, IOException {
+        Rector rector= (Rector) request.getSession().getAttribute("rector");
+
+        int curPage;
+        if(request.getParameter("curPage")!=null){
+            curPage = Integer.parseInt(request.getParameter("curPage"));
+        }else{
+            curPage = 1;
+        }
+        HashMap<String,Object> condition = new HashMap<>();
+        String classname = request.getParameter("classname");
+        System.out.println("1"+classname);
+        if (classname!=null&&!classname.trim().equals("")){
+            System.out.println("2"+classname);
+            condition.put("filename",classname.trim());
+        }
+        String start = request.getParameter("start");
+        if (start!=null&&!start.trim().equals("")){
+            condition.put("start",start);
+        }
+        String end = request.getParameter("end");
+        if (end!=null&&!end.trim().equals("")){
+            condition.put("end",end);
+        }
+
+        int pageSize=Integer.parseInt(request.getParameter("pageSize"));
+        LayuiData<SchoolBill> layuiData = rectorService.bills(rector.getKinderId(),condition,curPage,pageSize);
+
+        return  JSON.toJSONString(layuiData);
+
+    }
+    //查看班级中谁缴费了，谁没缴费
+    //插入账单。
+    @RequestMapping(value = "/ClassBill")
+    @ResponseBody
+    public String ClassBill(HttpServletRequest request,int classId,int schoolbillId) throws ServletException, IOException {
+
+        LayuiData<StudentBill> studentBillLayuiData=rectorService.studnetBills(classId, schoolbillId);
+        return JSON.toJSONString(studentBillLayuiData);
+    }
+
 //    @RequestMapping(value = "meallist")
 //    @ResponseBody
 //    public Object meallist(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

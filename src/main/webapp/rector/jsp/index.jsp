@@ -120,6 +120,12 @@
                             <cite>校园公告</cite></a>
                     </li>
 
+                    <li>
+                        <a onclick="xadmin.add_tab('学生缴费','${pageContext.request.contextPath}/rector/jsp/bill.jsp')">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>学生缴费</cite></a>
+                    </li>
+
                 </ul>
             </li>
         </ul>

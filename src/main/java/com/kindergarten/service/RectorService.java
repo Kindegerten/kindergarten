@@ -24,6 +24,12 @@ public interface RectorService {
     //查询新增教职工
     Staffs checkNewStaff(String tableName,String column3,String telphone);
 
+    //账单列表
+    LayuiData<SchoolBill> bills(int kinderId,HashMap<String, Object> condition, int curPage, int pageSize);
+
+    //缴费查看
+    LayuiData<StudentBill> studnetBills(int classId,int schoolbillId);
+
 
 
 
