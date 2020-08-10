@@ -251,10 +251,16 @@ public class parentController {
             String dateStr = simpleDateFormat.format(date);
             String savePath = request.getSession().getServletContext().getRealPath("/upload/");
             //要保存的问题件路径和名称
-            String projectPath = savePath + EnglishClassName + File.separator + uuid + "." + prefix;
+//            String projectPath = savePath + EnglishClassName + File.separator + uuid + "." + prefix;
+//            String projectPath=File.separator + "upload" + File.separator + dateStr + File.separator + uuid + "." + prefix;
 
-//            String projectPath = savePath + dateStr + File.separator + uuid + "." + prefix;
+            String projectPath = savePath + dateStr + File.separator + uuid + "." + prefix;
 
+                //这个相对路径是插入数据库的
+            String XDLJ =File.separator + "upload" + File.separator +EnglishClassName+ File.separator + uuid + "." + prefix;
+
+            System.out.println("相对路径:"+File.separator + "upload" + File.separator +EnglishClassName+ File.separator + uuid + "." + prefix);
+            //File.separator=/
             System.out.println("projectPath==" + projectPath);
             File files = new File(projectPath);
             //打印查看上传路径
@@ -268,12 +274,12 @@ public class parentController {
                 //有数据，只需要更新文件路径+上传新的文件+上传时间
                 SimpleDateFormat NewTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 file.transferTo(files); // 将接收的文件保存到指定文件中
-                int IsSuccess=parentsMapper.UpdateWork(projectPath,parents.getParentsId(),parents.getParentsName(),releaseid,studentid);
+                int IsSuccess=parentsMapper.UpdateWork(XDLJ,parents.getParentsId(),parents.getParentsName(),releaseid,studentid);
                 System.out.println("flag>0更新状态:"+IsSuccess);
             }else{
                 //上传完成后，插入新数据
                 file.transferTo(files); // 将接收的文件保存到指定文件中
-                int newwork=parentsMapper.UploadWork(projectPath,parents.getParentsId(),parents.getParentsName(),releaseid,studentid,studentName,cid);
+                int newwork=parentsMapper.UploadWork(XDLJ,parents.getParentsId(),parents.getParentsName(),releaseid,studentid,studentName,cid);
                 System.out.println("newwork>0更新状态:"+newwork);
             }
 
@@ -451,6 +457,74 @@ public class parentController {
 
         return JSON.toJSONString(stuAttendanceLayuiData);
     }
+
+    //查看费用缴交
+    @RequestMapping(value = "/mybill")
+    @ResponseBody
+    public String mybill(HttpServletRequest request) throws ServletException, IOException {
+        int curPage;
+        if(request.getParameter("curPage")!=null){
+            curPage = Integer.parseInt(request.getParameter("curPage"));
+        }else{
+            curPage = 1;
+        }
+        int pageSize=Integer.parseInt(request.getParameter("pageSize"));
+
+        String studentId= (String) request.getSession().getAttribute("studentID");
+        LayuiData<SchoolBill> schoolBillLayuiData =parentService.Mybills(Integer.parseInt(studentId),curPage,pageSize);
+
+
+        return JSON.toJSONString(schoolBillLayuiData);
+    }
+
+    //查看费用缴交
+    @RequestMapping(value = "/PayInfo")
+    @ResponseBody
+    public String PayInfo(HttpServletRequest request,int billId) throws ServletException, IOException {
+
+        String studentId= (String) request.getSession().getAttribute("studentID");
+        StudentBill studentBill=parentsMapper.studentbill(Integer.parseInt(studentId),billId);
+
+//        return JSON.toJSONString(schoolBillLayuiData);
+        return JSON.toJSONString(studentBill);
+    }
+
+//    //支付成功，插入数据
+    @RequestMapping(value = "/SuccessPay")
+    public void SuccessPay(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        //		//学生ID和学生名字
+        String studentId= (String) request.getSession().getAttribute("studentID");
+        String studentName= (String) request.getSession().getAttribute("studentName");
+        //订单ID billId
+        int billId= (Integer) request.getSession().getAttribute("PayBillId");
+        //商户订单号
+        String out_trade_no = new String(request.getParameter("out_trade_no").getBytes("ISO-8859-1"),"UTF-8");
+        //支付宝交易号
+        String trade_no = new String(request.getParameter("trade_no").getBytes("ISO-8859-1"),"UTF-8");
+        //付款金额
+        String total_amount = new String(request.getParameter("total_amount").getBytes("ISO-8859-1"),"UTF-8");
+
+        System.out.println("out_trade_no:"+out_trade_no+"trade_no:"+trade_no+"total_amount:"+total_amount);
+        System.out.println("billId:"+billId);
+        StudentBill studentBill= new StudentBill();
+
+        studentBill.setStudentId(Integer.parseInt(studentId));
+        studentBill.setStudentName(studentName);
+        studentBill.setStudentbillTradeno(out_trade_no);
+        studentBill.setStudentbillTrano(trade_no);
+        studentBill.setSchoolbillId(billId);
+
+        int flag=parentsMapper.SuccessPay(studentBill);
+        if (flag>0){
+            response.sendRedirect("/partent/index.jsp");
+
+        }else {
+            response.sendRedirect("/partent/error.html");
+        }
+
+    }
+
 
 
 
