@@ -186,4 +186,6 @@ public class Kinder {
     public void setRegistrationPermit(String registrationPermit) {
         this.registrationPermit = registrationPermit;
     }
+
+
 }

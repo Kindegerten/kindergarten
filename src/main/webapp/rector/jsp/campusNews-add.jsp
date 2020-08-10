@@ -36,25 +36,32 @@
 <div class="layui-fluid" id="updateDiv">
     <div class="layui-row">
         <form class="layui-form" action="" method="post">
+            <div  class="layui-form-item">
+                <label class="layui-form-label">园所id</label>
+                <div class="layui-input-inline">
+                    <input  readonly type="text" id="kid" name="kid" value="${rector.kinderId}"
+                            autocomplete="off"
+                            placeholder="" class="layui-input">
+                </div>
+            </div>
             <div class="layui-form-item">
-                <label class="layui-form-label" style="width: 200px">校园名称：</label>
+                <label class="layui-form-label" >公告名称：</label>
                 <div  class="layui-input-inline">
-                    <input style="border:0px;" hidden readonly type="text" id="kinderName" name="kinderName" required lay-verify="required"
-                           autocomplete="off" value="${rector.kinderName}"
+                    <input  type="text" id="campusInfoName" name="campusInfoName" required lay-verify="required"
+                           autocomplete="off"
                            placeholder="" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label" style="width: 200px">消息内容：</label>
+                <label class="layui-form-label" >消息内容：</label>
                 <div class="layui-input-inline">
-                <textarea id="demo" ></textarea>
+                <textarea id="campusInfoDetail" name="campusInfoDetail"></textarea>
 
                 </div>
             </div>
-
             <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <label class="layui-form-label" style="width: 200px"></label>
+                    <label class="layui-form-label" ></label>
                     <button  class="layui-btn" lay-submit lay-filter="newData">发送</button>
 <%--                    <button type="reset" class="layui-btn layui-btn-primary">取消</button>--%>
                 </div>
@@ -81,31 +88,6 @@
         var form = layui.form;
         var table = layui.table;
         var laydate = layui.laydate;
-        // table.render({
-        //     limits: [5, 10, 20]
-        //     , limit: 5,
-        //     elem: '#bodytable',
-        //     id: 'listReload',
-        //     page: true
-        //     , url: path + '/HealtherControl/bodyCheck'
-        //     , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-        //     , cols: [[
-        //         {field: 'id', type: 'checkbox', title: 'ID'}
-        //         , {field: 'sid', title: '宝宝编号', width: 50, sort: true}
-        //         , {field: 'studentName', title: '宝宝名称'}
-        //         , {field: 'height', title: '身高', sort: true}
-        //         , {field: 'weight', title: '体重', sort: true}
-        //         , {field: 'vision', title: '视力', sort: true}
-        //         , {field: 'temperature', title: '体温', sort: true}
-        //         , {field: 'healthStatus', title: '健康状况', sort: true}
-        //         , {field: 'examinationTime', title: '体检时间', sort: true}
-        //         , {title: '操作', align: 'center', toolbar: '#barDemo'}
-        //     ]],
-        //     request: {
-        //         pageName: 'curPage' //页码的参数名称，默认：page
-        //         , limitName: 'pageSize' //每页数据量的参数名，默认：limit
-        //     }
-        // });
         var active = {
             reload: function () {
                 var kinderName = $('#kinderName').val();
@@ -122,60 +104,25 @@
                 }, 'data');
             }
         };
-        //表格操作，进行编辑修改等
-        table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
-            var data = obj.data; //获得当前行数据
-            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-            var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
-            if (layEvent == "edit") {
-                layer.confirm('确认要做此操作吗？', function (index) {
-                    if (index) {
-                        layer.open({
-                            title: '修改体检情况',
-                            type: 1,
-                            area: ['400px', '400px'],
-                            content: $('#updateDiv'),
-                            success: function (layero, index) {
-                                console.log(data);
-                                $("#sid").val(data.sid);
-                                console.log($("#sid"))
-                                $("#studentName").val(data.studentName);
-                                $("#height").val(data.height);
-                                $("#weight").val(data.weight);
-                                $("#vision").val(data.vision);
-                                $("#temperature").val(data.temperature);
-                                $("#healthStatus").val(data.healthStatus);
-                            }
-                        })
-                    }
-                })
-            }
-        });
-        //弹出层表单操作，主要是提交
-        form.on('submit(examinationData)', function (data) {
-            var path = $("#path").val();
-            var examinationData = {
-                "sid": data.field.sid,
-                "studentName": data.field.studentName,
-                "height": data.field.height,
-                "weight": data.field.weight,
-                "vision": data.field.vision,
-                "temperature": data.field.temperature,
-                "healthStatus": data.field.healthStatus
+        //表单操作，主要是提交
+        form.on('submit(newData)', function (data) {
+            var newData = {
+                "kid": data.field.kid,
+                "campusInfoName": data.field.campusInfoName,
+                "campusInfoDetail": data.field.campusInfoDetail,
             };
             $.ajax({
-                url: "/HealtherControl/updateExamination",
+                url: "/RectorControl/addNews",
                 async: true,
                 type: "POST",
-                data: {"value": JSON.stringify(examinationData)},
+                data: {"value": JSON.stringify(newData)},
                 dataType: "text",
                 success: function (msg) {
                     if (msg === "success") {
+                        layer.msg('提交成功!刷新浏览器', {icon: 1, time: 2000})
                         parent.location.reload();
-                        layer.msg('更新成功!刷新浏览器', {icon: 1, time: 8000})
-
                     } else {
-                        layer.msg('更新失败!', {icon: 2, time: 6000});
+                        layer.msg('提交失败!请重新提交', {icon: 2, time: 6000});
                     }
                 },
                 error: function () {

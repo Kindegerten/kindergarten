@@ -10,13 +10,13 @@ public class Teachers
     private String teacherSex;
     private int teacherAge;
     private int classId;
+    private String attendanceTime;
 
-    public Teachers()
-    {
+    public Teachers() {
 
     }
 
-    public Teachers(int teacherId, String teacherTel, String teacherPwd, String teacherName, String teacherSex, int teacherAge, int classId) {
+    public Teachers(int teacherId, String teacherTel, String teacherPwd, String teacherName, String teacherSex, int teacherAge, int classId,String attendanceTime) {
         this.teacherId = teacherId;
         this.teacherTel = teacherTel;
         this.teacherPwd = teacherPwd;
@@ -24,6 +24,15 @@ public class Teachers
         this.teacherSex = teacherSex;
         this.teacherAge = teacherAge;
         this.classId = classId;
+        this.attendanceTime = attendanceTime;
+    }
+
+    public String getAttendanceTime() {
+        return attendanceTime;
+    }
+
+    public void setAttendanceTime(String attendanceTime) {
+        this.attendanceTime = attendanceTime;
     }
 
     public String getTeacherSex() {

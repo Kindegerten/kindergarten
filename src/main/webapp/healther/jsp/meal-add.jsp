@@ -5,7 +5,7 @@
 <%String path = request.getContextPath();%>
 <head>
     <meta charset="UTF-8">
-    <title>体检列表</title>
+    <title>膳食列表</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"

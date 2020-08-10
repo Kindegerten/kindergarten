@@ -2,8 +2,10 @@ package com.kindergarten.bean;
 
 import java.util.List;
 
-public class Classes {
+public class ClassMember {
     private int classId;
+    private int studentId;
+    private String studentName;
     private String className;
     private String classRegtime;
     private int kinderId;
@@ -11,10 +13,26 @@ public class Classes {
     private String classRoom;
     private int teacherId;
     private String teacherName;
-    private List<Classes>classes;
+    private List<ClassMember>classes;
 
-    public Classes() {
+    public ClassMember() {
 
+    }
+
+    public int getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(int studentId) {
+        this.studentId = studentId;
+    }
+
+    public String getStudentName() {
+        return studentName;
+    }
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
     }
 
     public String getTeacherName() {
@@ -81,11 +99,11 @@ public class Classes {
         this.kinderName = kinderName;
     }
 
-    public List<Classes> getClasses() {
+    public List<ClassMember> getClasses() {
         return classes;
     }
 
-    public void setClasses(List<Classes> classes) {
+    public void setClasses(List<ClassMember> classes) {
         this.classes = classes;
     }
 }

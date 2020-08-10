@@ -46,9 +46,9 @@
                                    id="teacherName" name="teacherName" value="${teacherName}">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
-                            <button class="layui-btn" data-type="reload"
-                                    id="search"><i
-                                    class="layui-icon">&#xe615;</i></button>
+                        <button class="layui-btn" data-type="reload"
+                                id="search"><i
+                                class="layui-icon">&#xe615;</i></button>
                         </div>
                     </div>
                 </div>
@@ -121,7 +121,8 @@
         var table = layui.table;
         var laydate = layui.laydate;
         var kinderId= $("#kinderId").val();
-        console.log(kinderId);
+        var teacherName= $("#teacherName").val();
+        console.log(kinderId,teacherName);
         table.render({
             limits: [5, 10, 20]
             , limit:5,
@@ -131,6 +132,7 @@
             , url: path + '/RectorControl/stafflist'
             ,where : {
                 kinderId : kinderId,
+                // teacherName:teacherName,
             }
             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , cols: [[
@@ -156,7 +158,7 @@
                         curr: 1 //重新从第 1 页开始
                     }
                     , where: {
-                        kinderName: teacherName,
+                        teacherName: teacherName,
                         kinderId: kinderId
                     }
                 }, 'data');

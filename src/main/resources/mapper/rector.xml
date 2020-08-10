@@ -7,7 +7,10 @@
     <!--    登录-->
     <select id="login" resultType="com.kindergarten.bean.Rector">
         select * from tbl_rector where rector_tel = #{rectorTel} and rector_pwd=#{rectorPwd}
-
+    </select>
+    <!--     查询园所现有班级-->
+    <select id="findClasses" resultType="com.kindergarten.bean.Students">
+        select * from tbl_classes where kinder_id = #{kid}
     </select>
     <!--    更新个人信息-->
     <update id="updateSelf" parameterType="com.kindergarten.bean.Rector">
@@ -34,10 +37,10 @@
         inner join tbl_role r on r.role_id = s.rid) as allt
         <where>
             <if test="condition.kinderId!=null and condition.kinderId!=''">
-                allt.kinder_id = #{condition.kinderId}
+                allt.kinder_id = ${condition.kinderId}
             </if>
             <if test="condition.teacherName!=null and condition.teacherName!=''">
-                and allt.teacher_name=#{condition.teacherName}
+                and allt.teacher_name like concat('%',#{condition.teacherName},'%')
             </if>
         </where>
         order by role_name desc
@@ -67,35 +70,404 @@
             </if>
         </where>
     </select>
-<!--        删除教职工-->
+    <!--        删除教职工-->
     <delete id="deleteStaff">
     delete from ${tableName} where ${tableId} = #{teacherid}
     </delete>
     <!-- 增加教职工-->
-        <insert id="addStaffs">
-            insert into ${tableName}(${column1},${column2},${column3})
-            values (#{teacherName},#{roleid},#{telphone})
+    <insert id="addStaffs">
+            insert into ${tableName}(${column1},${column2},${column3},${column4})
+            values (#{teacherName},#{roleid},#{telphone},#{kinderid})
         </insert>
-<!--    查询新增教职工-->
-       <select id="checkNewStaff">
+    <!--    查询新增教职工-->
+    <select id="checkNewStaff" resultType="com.kindergarten.bean.Staffs">
            select * from ${tableName} where ${column3}=#{telphone}
        </select>
-    <!--    &lt;!&ndash;    膳食管理列表&ndash;&gt;-->
-    <!--    <select id="meallist" resultType="com.kindergarten.bean.Meal">-->
-    <!--        select * from tbl_meal order by meal_datescope desc limit ${(curPage-1)*pageSize},${pageSize}-->
-    <!--    </select>-->
-    <!--    &lt;!&ndash;    膳食列表总条数&ndash;&gt;-->
-    <!--    <select id="meallistcount" resultType="int">-->
-    <!--        select count(*) from tbl_meal-->
-    <!--    </select>-->
-    <!--    &lt;!&ndash;    增加膳食&ndash;&gt;-->
-    <!--    <insert id="addmeal" parameterType="com.kindergarten.bean.Meal" useGeneratedKeys="true" keyProperty="mealId">-->
-    <!--        insert into tbl_meal(meal_type,meal_datescope,monday,tuesday,wednesday,thursday,friday)-->
-    <!--        values (#{mealType},#{mealDatescope},#{monday},#{tuesday},#{wednesday},#{thursday},#{friday})-->
-    <!--    </insert>-->
-    <!--    &lt;!&ndash;    修改膳食信息&ndash;&gt;-->
-    <!--    <update id="updatemeal" parameterType="com.kindergarten.bean.Meal">-->
-    <!--        update tbl_meal set meal_type=#{mealType},meal_datescope=#{mealDatescope},monday=#{monday},tuesday=#{tuesday},wednesday=#{wednesday},thursday=#{thursday},friday=#{friday}-->
-    <!--         where meal_id=#{mealId}-->
-    <!--    </update>-->
+    <!--    幼儿列表-->
+    <select id="studentlist" resultType="com.kindergarten.bean.Students">
+        select * from tbl_students
+        <where>
+            <if test="condition.kinderId !=null and condition.kinderId !=''">
+                and kinder_id = #{condition.kinderId}
+            </if>
+            <if test="condition.studentName != null and condition.studentName != ''">
+                and student_name like concat('%',#{condition.studentName},'%')
+            </if>
+            <if test="condition.startDate != null and condition.startDate != ''">
+                and student_time &gt;= #{condition.startDate}
+            </if>
+            <if test="condition.endDate != null and condition.endDate != ''">
+                and student_time &lt;= #{condition.endDate}
+            </if>
+        </where>
+        order by student_time limit ${(curPage-1)*pageSize},${pageSize}
+    </select>
+    <!--    幼儿列表总条数-->
+    <select id="studentcount" resultType="int">
+        select count(*) from tbl_students
+        <where>
+            <if test="studentName != null and studentName != ''">
+                and student_name like concat('%',#{condition.studentName},'%')
+            </if>
+            <if test="startDate != null and startDate != ''">
+                and student_time &gt;= #{condition.startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                and student_time &lt;= #{condition.endDate}
+            </if>
+        </where>
+    </select>
+    <!--    增加幼儿-->
+    <insert id="addBaby" parameterType="com.kindergarten.bean.Students" useGeneratedKeys="true" keyProperty="studentId">
+            insert into tbl_students(student_name,student_sex,student_add,student_birth,class_id,kinder_id)
+            values (#{studentName},#{studentSex},#{studentAdd},#{studentBirth},#{classId},#{kinderId})
+        </insert>
+    <!--    修改幼儿信息-->
+    <update id="updateBaby" parameterType="com.kindergarten.bean.Students">
+            update tbl_students set student_name=#{studentName},student_sex=#{studentSex},student_birth=#{studentBirth},student_add=#{studentAdd},class_id=#{classId}
+             where student_id=#{studentId}
+        </update>
+    <!--    删除幼儿-->
+    <delete id="deleteStudent">
+    delete from tbl_students where student_id = #{studentId}
+    </delete>
+    <!--    家长管理列表-->
+    <select id="parentsList" resultType="com.kindergarten.bean.parentsinfo">
+        select
+        s.student_id,p.parents_id,p.parents_name,s.student_name,tps.relation_name,p.parents_tel,p.job,p.parents_regtime
+        from tbl_parents p
+        left join tbl_parents_students tps on p.parents_id = tps.parents_id
+        left join tbl_students s on s.student_id =tps.students_id
+        <where>
+            <if test="condition.kinderId !=null and condition.kinderId !=''">
+                and p.kinder_id = #{condition.kinderId}
+            </if>
+            <if test="condition.parentsName != null and condition.parentsName != ''">
+                and p.parents_name like concat('%',#{condition.parentsName},'%')
+            </if>
+            <if test="condition.startDate != null and condition.startDate != ''">
+                and p.parents_regtime &gt;= #{condition.startDate}
+            </if>
+            <if test="condition.endDate != null and condition.endDate != ''">
+                and p.parents_regtime &lt;= #{condition.endDate}
+            </if>
+        </where>
+        limit ${(curPage-1)*pageSize},${pageSize}
+    </select>
+    <!--    家长列表数据总条数-->
+    <select id="parentscount" resultType="int">
+        select count(*) from
+        (select p.parents_id,p.parents_name,s.student_name,tps.relation_name,p.parents_tel,p.job,p.parents_regtime
+        from tbl_parents p
+        left join tbl_parents_students tps on p.parents_id = tps.parents_id
+        left join tbl_students s on s.student_id =tps.students_id
+        <where>
+            <if test="kinderId !=null and kinderId != ''">
+                and p.kinder_id = #{kinderId}
+            </if>
+        </where>
+        ) as pr
+        <where>
+            <if test="parentsName != null and parentsName != ''">
+                and pr.parents_name like concat('%',#{parentsName},'%')
+            </if>
+            <if test="startDate != null and startDate != ''">
+                and pr.parents_regtime &gt;= #{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                and pr.parents_regtime &lt;= #{endDate}
+            </if>
+        </where>
+    </select>
+    <!--    增加家长-->
+    <insert id="addParents" parameterType="com.kindergarten.bean.parentsinfo" useGeneratedKeys="true"
+            keyProperty="parentsId">
+            insert into tbl_parents(parents_name,parents_sex,parents_tel,job,kinder_id)
+            values (#{parentsName},#{parentsSex},#{parentsTel},#{job},#{kinderId})
+        </insert>
+    <!--     查询学生是否存在-->
+    <select id="checkStudent" resultType="com.kindergarten.bean.Students">
+        select * from tbl_students where student_name = #{studentName}
+    </select>
+    <!--    增加家长学生关系表信息-->
+    <insert id="addTps" parameterType="com.kindergarten.bean.parentsinfo" useGeneratedKeys="true"
+            keyProperty="relationId">
+            insert into tbl_parents_students(parents_id,students_id,relation_name)
+            values (#{parentsId},#{studentsId},#{relationName})
+        </insert>
+    <!--    修改家长信息-->
+    <update id="updateParents" parameterType="com.kindergarten.bean.parentsinfo">
+            update tbl_parents set parents_name=#{parentsName},parents_tel=#{parentsTel},job=#{job}
+             where parents_id=#{parentsId}
+        </update>
+    <!--    修改家长学生关系表信息-->
+    <update id="updateTps" parameterType="com.kindergarten.bean.parentsinfo">
+            update tbl_parents_students set relation_name=#{relationName}
+             where parents_id=#{parentsId}
+        </update>
+    <!--    删除家长-->
+    <delete id="deleteParents">
+    delete from tbl_parents where parents_id = #{parentsId}
+    </delete>
+    <!--    删除家长学生关系表信息-->
+    <delete id="deleteTps">
+    delete from tbl_parents_students where parents_id = #{parentsId}
+    </delete>
+    <!--    教职工考勤管理列表-->
+    <select id="attendanceList" resultType="com.kindergarten.bean.staffAttendance">
+        select * from tbl_staff_attendance
+        <where>
+            <if test="condition.kinderId !=null and condition.kinderId !=''">
+                and kinder_id = #{condition.kinderId}
+            </if>
+            <if test="condition.saStaffname != null and condition.saStaffname != ''">
+                and sa_staffname like concat('%',#{condition.saStaffname},'%')
+            </if>
+            <if test="condition.saRolename != null and condition.saRolename != ''">
+                and sa_rolename = #{condition.saRolename}
+            </if>
+        </where>
+        order by sa_timescope limit ${(curPage-1)*pageSize},${pageSize}
+    </select>
+    <!--    考勤管理列表总条数-->
+    <select id="attendancecount" resultType="int">
+        select count(*) from tbl_staff_attendance
+        <where>
+            <if test="kinderId !=null and kinderId !=''">
+                and kinder_id = #{kinderId}
+            </if>
+            <if test="saStaffname != null and saStaffname != ''">
+                and sa_staffname like concat('%',#{saStaffname},'%')
+            </if>
+            <if test="saRolename != null and saRolename != ''">
+                and sa_rolename = #{saRolename}
+            </if>
+        </where>
+    </select>
+    <!--    教职工考勤详情列表-->
+    <select id="findAttendance" resultType="com.kindergarten.bean.staffAttendance">
+        select * from tbl_staff_attendance
+        <where>
+            <if test="condition.kinderId !=null and condition.kinderId !=''">
+                and kinder_id = #{condition.kinderId}
+            </if>
+            <if test="condition.staffId != null and condition.staffId != ''">
+                and staff_id =#{condition.staffId}
+            </if>
+            <if test="condition.saRolename != null and condition.saRolename != ''">
+                and sa_rolename = #{condition.saRolename}
+            </if>
+        </where>
+        order by sa_timescope limit ${(curPage-1)*pageSize},${pageSize}
+    </select>
+    <!--    考勤详情列表总条数-->
+    <select id="attendanceCount" resultType="int">
+        select count(*) from tbl_staff_attendance
+        <where>
+            <if test="kinderId !=null and kinderId !=''">
+                and kinder_id = #{kinderId}
+            </if>
+            <if test="staffId != null and staffId != ''">
+                and staff_id = #{staffId}
+            </if>
+            <if test="saRolename != null and saRolename != ''">
+                and sa_rolename = #{saRolename}
+            </if>
+        </where>
+    </select>
+    <!--    班级列表-->
+    <select id="classList" resultType="com.kindergarten.bean.Classes">
+        select c.teacher_id,c.class_id,c.class_name,t.teacher_name,c.class_room,c.class_regtime from tbl_classes c
+        inner join tbl_teachers t on t.teacher_id=c.teacher_id
+        <where>
+            <if test="condition.kinderId !=null and condition.kinderId !=''">
+                and c.kinder_id = #{condition.kinderId}
+            </if>
+            <if test="condition.className != null and condition.className != ''">
+                and c.class_name like concat('%',#{condition.className},'%')
+            </if>
+            <if test="condition.startDate != null and condition.startDate != ''">
+                and c.class_regtime &gt;= #{condition.startDate}
+            </if>
+            <if test="condition.endDate != null and condition.endDate != ''">
+                and c.class_regtime &lt;= #{condition.endDate}
+            </if>
+        </where>
+        limit ${(curPage-1)*pageSize},${pageSize}
+    </select>
+    <!--    班级列表总条数-->
+    <select id="classCount" resultType="int">
+        select count(*)
+        from (select c.teacher_id, c.class_id, c.class_name, t.teacher_name, c.class_room, c.class_regtime from
+        tbl_classes c
+        inner join tbl_teachers t on t.teacher_id=c.teacher_id
+        <where>
+            <if test="kinderId !=null and kinderId != ''">
+                and c.kinder_id = #{kinderId}
+            </if>
+        </where>
+        ) as cc
+        <where>
+            <if test="className != null and className != ''">
+                and cc.class_name like concat('%',#{className},'%')
+            </if>
+            <if test="startDate != null and startDate != ''">
+                and cc.class_regtime &gt;= #{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                and cc.class_regtime &lt;= #{endDate}
+            </if>
+        </where>
+    </select>
+    <!--     查询教师是否存在-->
+    <select id="checkTeacher" resultType="com.kindergarten.bean.Teachers">
+        select * from tbl_teachers where teacher_name = #{teacherName}
+    </select>
+    <!-- 增加班级-->
+    <insert id="addClasses" parameterType="com.kindergarten.bean.Classes" useGeneratedKeys="true" keyProperty="classId">
+            insert into tbl_classes(class_name,kinder_id,class_room,teacher_id)
+            values (#{className},#{kinderId},#{classRoom},#{teacherId})
+        </insert>
+    <!--    修改班级信息-->
+    <update id="updateClass" parameterType="com.kindergarten.bean.Classes">
+            update tbl_classes set class_name=#{className},class_room=#{classRoom},teacher_id=#{teacherId},teacher_name=#{teacherName}
+             where class_id=#{classId}
+        </update>
+    <!--    删除班级-->
+    <delete id="deleteClass">
+    delete from tbl_classes where class_id=#{classId}
+    </delete>
+    <!--    课程详情列表-->
+    <select id="findCourse" resultType="com.kindergarten.bean.Course">
+        select * from tbl_course
+        <where>
+            <if test="condition.kinderId !=null and condition.kinderId !=''">
+                and kinder_id = #{condition.kinderId}
+            </if>
+            <if test="condition.classId != null and condition.classId != ''">
+                and class_id = #{condition.classId}
+            </if>
+            <if test="condition.courseTimescope != null and condition.courseTimescope != ''">
+                and course_timescope = #{condition.courseTimescope}
+            </if>
+        </where>
+        limit ${(curPage-1)*pageSize},${pageSize}
+    </select>
+    <!--    课程详情列表总条数-->
+    <select id="courseCount" resultType="int">
+        select count(*) from tbl_course
+        <where>
+            <if test="kinderId !=null and kinderId !=''">
+                and kinder_id = #{kinderId}
+            </if>
+            <if test="classId != null and classId != ''">
+                and class_id = #{classId}
+            </if>
+            <if test="courseTimescope != null and courseTimescope != ''">
+                and course_timescope = #{courseTimescope}
+            </if>
+        </where>
+    </select>
+    <!--    班级成员列表-->
+    <select id="classMemberList" resultType="com.kindergarten.bean.ClassMember">
+        select s.student_id,s.student_name,c.class_name,c.teacher_id,c.teacher_name,c.class_regtime
+        from tbl_classes c inner join tbl_students s on s.class_id = c.class_id
+        <where>
+            <if test="condition.kinderId !=null and condition.kinderId !=''">
+                and c.kinder_id = #{condition.kinderId}
+            </if>
+            <if test="condition.className != null and condition.className != ''">
+                and c.class_name like concat('%',#{condition.className},'%')
+            </if>
+            <if test="condition.studentName != null and condition.studentName != ''">
+                and s.student_name like concat('%',#{condition.studentName},'%')
+            </if>
+            <if test="condition.startDate != null and condition.startDate != ''">
+                and c.class_regtime &gt;= #{condition.startDate}
+            </if>
+            <if test="condition.endDate != null and condition.endDate != ''">
+                and c.class_regtime &lt;= #{condition.endDate}
+            </if>
+        </where>
+        limit ${(curPage-1)*pageSize},${pageSize}
+    </select>
+    <!--    班级成员列表总条数-->
+    <select id="classMemberCount" resultType="int">
+        select count(*)
+        from (select s.student_id,s.student_name,c.class_name,c.teacher_id,c.teacher_name,c.class_regtime
+        from tbl_classes c inner join tbl_students s on s.class_id = c.class_id
+        <where>
+            <if test="kinderId !=null and kinderId != ''">
+                and c.kinder_id = #{kinderId}
+            </if>
+        </where>
+        ) as cc
+        <where>
+            <if test="className != null and className != ''">
+                and cc.class_name like concat('%',#{className},'%')
+            </if>
+            <if test="studentName != null and studentName != ''">
+                and cc.student_name like concat('%',#{studentName},'%')
+            </if>
+            <if test="startDate != null and startDate != ''">
+                and cc.class_regtime &gt;= #{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                and cc.class_regtime &lt;= #{endDate}
+            </if>
+        </where>
+    </select>
+    <!--    校园公告列表-->
+    <select id="campusNewsList" resultType="com.kindergarten.bean.CampusInfo">
+        select * from tbl_campus_info
+        <where>
+            <if test="condition.kinderId !=null and condition.kinderId !=''">
+                and kid = #{condition.kinderId}
+            </if>
+            <if test="condition.campusInfoName != null and condition.campusInfoName != ''">
+                and campus_info_name like concat('%',#{condition.campusInfoName},'%')
+            </if>
+            <if test="condition.startDate != null and condition.startDate != ''">
+                and campus_info_time &gt;= #{condition.startDate}
+            </if>
+            <if test="condition.endDate != null and condition.endDate != ''">
+                and campus_info_time &lt;= #{condition.endDate}
+            </if>
+        </where>
+        limit ${(curPage-1)*pageSize},${pageSize}
+    </select>
+    <!--    班级成员列表总条数-->
+    <select id="campusNewsCount" resultType="int">
+        select count(*) from tbl_campus_info
+        <where>
+            <if test="kinderId !=null and kinderId != ''">
+                and kid = #{kinderId}
+            </if>
+
+            <if test="campusInfoName != null and campusInfoName != ''">
+                and campus_info_name like concat('%',#{campusInfoName},'%')
+            </if>
+            <if test="startDate != null and startDate != ''">
+                and campus_info_time &gt;= #{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                and campus_info_time &lt;= #{endDate}
+            </if>
+        </where>
+    </select>
+    <!--    增加公告-->
+    <insert id="addNews" parameterType="com.kindergarten.bean.CampusInfo" useGeneratedKeys="true"
+            keyProperty="campusInfoId">
+            insert into tbl_campus_info(campus_info_name,campus_info_detail,kid)
+            values (#{campusInfoName},#{campusInfoDetail},#{kid})
+        </insert>
+    <!--    修改公告-->
+    <update id="updateNews" parameterType="com.kindergarten.bean.CampusInfo">
+            update tbl_campus_info set campus_info_name=#{campusInfoName},campus_info_detail=#{campusInfoDetail}
+             where campus_info_id=#{campusInfoId}
+        </update>
+    <!--    删除公告-->
+    <delete id="deleteNews">
+            delete from tbl_campus_info where campus_info_id=#{campusInfoId}
+    </delete>
 </mapper>

@@ -9,18 +9,14 @@ public class Course
     private int courseJieci;
     private String courseBanji;
     private int teacherId;
-
+    private String courseZhouyi;
+    private String courseZhouer;
+    private String courseZhousan;
+    private String courseZhousi;
+    private String courseZhouwu;
+    private String courseTimescope;
     public Course(){
 
-    }
-
-    public Course(int courseId, String courseName, int courseWeek, int courseJieci, String courseBanji, int teacherId) {
-        this.courseId = courseId;
-        this.courseName = courseName;
-        this.courseWeek = courseWeek;
-        this.courseJieci = courseJieci;
-        this.courseBanji = courseBanji;
-        this.teacherId = teacherId;
     }
 
     public int getCourseId() {

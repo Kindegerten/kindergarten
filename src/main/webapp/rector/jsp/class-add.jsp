@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="utf-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html class="x-admin-sm">
 <%String path = request.getContextPath();%>
 <head>
     <meta charset="UTF-8">
-    <title>新增体检情况</title>
+    <title>新增幼儿</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -23,88 +24,117 @@
 </head>
 <body>
 <input type="hidden" id="path" value=<%=path%>>
-<div  class="layui-fluid" id="updateDiv">
+<div class="layui-fluid" id="updateDiv">
     <div class="layui-row">
         <form class="layui-form" action="" method="post">
-            <%--            <div class="layui-form-item">--%>
-            <%--                <label class="layui-form-label">教职工ID</label>--%>
-            <%--                <div  hidden class="layui-input-inline">--%>
-            <%--                    <input hidden readonly type="text" id="teacherId" name="teacherId" required lay-verify="required" autocomplete="off"--%>
-            <%--                           placeholder="" class="layui-input">--%>
-            <%--                </div>--%>
-            <%--            </div>--%>
-            <%--            <input hidden value="teacher">--%>
-                <div  hidden readonly class="layui-form-item">
-                    <label class="layui-form-label">园所id</label>
-                    <div class="layui-input-inline">
-                        <input type="text" id="kid" name="kid" value="${rector.kinderId}"
-                               autocomplete="off"
-                               placeholder="" class="layui-input">
-                    </div>
-                </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">教职工姓名</label>
+            <div  class="layui-form-item">
+                <label class="layui-form-label">园所id</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="teacherName" name="teacherName" required lay-verify="required"
+                    <input  hidden readonly type="text" id="kinderId" name="kinderId" value="${rector.kinderId}"
                            autocomplete="off"
                            placeholder="" class="layui-input">
                 </div>
             </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">教职工电话</label>
-                    <div class="layui-input-inline">
-                        <input type="tel" id="telphone" name="telphone" required lay-verify="required|phone"
-                               autocomplete="off"
-                               placeholder="" class="layui-input">
-                    </div>
-                </div>
-
             <div class="layui-form-item">
-                <label class="layui-form-label">角色</label>
+                <label class="layui-form-label">班级名称</label>
                 <div class="layui-input-inline">
-                    <select lay-filter="mySelect" name="select">
-                        <option value="5">班主任</option>
-                        <option value="4">保健员</option>
-                        <option value="3">消防员</option>
-                    </select>
+                    <input  type="text" id="className" name="className" required lay-verify="required"
+                            autocomplete="off"
+                            placeholder="" class="layui-input">
                 </div>
             </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">所在教室</label>
+                <div class="layui-input-inline">
+                    <input  type="text" id="classRoom" name="classRoom" required lay-verify="required"
+                            autocomplete="off"
+                            placeholder="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">班主任Id</label>
+                <div class="layui-input-inline">
+                    <input  type="text" id="teacherId" name="teacherId" required lay-verify="required"
+                            autocomplete="off"
+                            placeholder="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">班主任姓名</label>
+                <div class="layui-input-inline">
+                    <input  type="text" id="teacherName" name="teacherName" required lay-verify="required"
+                            autocomplete="off"
+                            placeholder="" class="layui-input" onblur="checkTeacher()">
+                </div>
+            </div>
+
             <div class="layui-form-item">
                 <div class="layui-input-block">
                     <button class="layui-btn" lay-submit lay-filter="newData">保存</button>
                     <button type="reset" class="layui-btn layui-btn-primary">取消</button>
-                    <a hidden id="faceAdd" class="layui-btn layui-btn-primary"
-                       onclick="xadmin.open('开始添加人脸','<%=path%>/security/jsp/faceAdd.jsp')">开始添加人脸</a>
+<%--                    <a hidden id="faceAdd" class="layui-btn layui-btn-primary"--%>
+<%--                       onclick="xadmin.open('开始添加人脸','<%=path%>/security/jsp/faceAdd.jsp')">开始添加人脸</a>--%>
                 </div>
             </div>
         </form>
     </div>
 </div>
 <script>
-    layui.use('form', function () {
+    //学生姓名检测
+    function checkTeacher(){
+        var teacherName= $("#teacherName").val();
+        $.ajax({
+            url: "/RectorControl/checkTeacher",
+            async: true,
+            type: "POST",
+            data: {"teacherName": teacherName},
+            dataType: "text",
+            success: function (msg) {
+                if (msg === "success") {
+                    layer.msg('姓名存在，请继续!', {icon: 1, time: 2000}, function () {
+                    })
+                } else {
+                    layer.msg('姓名不存在!', {icon: 2, time: 2000});
+                }
+            },
+            error: function () {
+                layer.msg('网络错误!', {icon: 2, time: 1000});
+            }
+        });
+    }
+</script>
+<script>
+    layui.use(['laydate', 'form', 'laypage', 'table', 'laytpl'], function () {
+        var path = $("#path").val();
         var form = layui.form;
+        var table = layui.table;
+        var laydate = layui.laydate;
+        //日期渲染
+        laydate.render({
+            elem: '#test1'
+        });
         //监听提交
         form.on('submit(newData)', function (data) {
             // var path = $("#path").val();
             var newData = {
+                "kinderId": data.field.kinderId,
+                "className": data.field.className,
+                "teacherId": data.field.teacherId,
                 "teacherName": data.field.teacherName,
-                "telphone": data.field.telphone,
-                "roleId":data.field.select,
-                "kinderid":data.field.kid,
+                "classRoom": data.field.classRoom,
             };
             console.log(newData);
             $.ajax({
-                url: "/RectorControl/addStaffs",
+                url: "/RectorControl/addClasses",
                 async: true,
                 type: "POST",
-                data: newData,
+                data: {"value": JSON.stringify(newData)},
                 dataType: "text",
                 success: function (msg) {
                     console.log(data);
                     if (msg === "success") {
-                        layer.msg('添加成功!', {icon: 1, time: 1000},function () {
-                           // parent.location.reload();
-                            xadmin.open('开始添加人脸','<%=path%>/security/jsp/faceAdd.jsp')
+                        layer.msg('添加成功!', {icon: 1, time: 2000}, function () {
+                            parent.location.reload();
                         })
                     } else {
                         layer.msg('添加失败!', {icon: 2, time: 2000});

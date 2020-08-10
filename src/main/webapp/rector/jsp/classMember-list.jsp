@@ -5,7 +5,7 @@
 <%String path = request.getContextPath();%>
 <head>
     <meta charset="UTF-8">
-    <title>幼儿列表</title>
+    <title>班级管理</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -40,7 +40,6 @@
             <div class="layui-card">
                 <div class="layui-card-body ">
                     <div class="layui-card-body demoTable">
-                        <%--                        <form class="layui-form layui-col-space5">--%>
                         <label class="layui-form-label">搜索</label>
                         <div class="layui-inline layui-show-xs-block">
                             <input class="layui-input" autocomplete="off" placeholder="开始日" name="startDate" id="start"
@@ -51,8 +50,11 @@
                                    value="${endDate}">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
-                            <input type="text" name="studentName" id="studentName1" placeholder="宝宝名字"
-                                   autocomplete="off"
+                            <input type="text" name="className" id="className" placeholder="班级名称" autocomplete="off"
+                                    class="layui-input" value="${className}">
+                        </div>
+                        <div class="layui-inline layui-show-xs-block">
+                            <input type="text" name="studentName" id="studentName" placeholder="宝宝名称" autocomplete="off"
                                    class="layui-input" value="${studentName}">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
@@ -60,16 +62,16 @@
                                     id="search"><i
                                     class="layui-icon">&#xe615;</i></button>
                         </div>
-                        <%--                        </form>--%>
                     </div>
                 </div>
-                <div class="layui-card-header">
-                    <%--                    <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除--%>
-                    <%--                    </button>--%>
-                    <button class="layui-btn" onclick="xadmin.open('新增幼儿','./baby-add.jsp',450,400)"><i
-                            class="layui-icon"></i>新增幼儿
-                    </button>
-                </div>
+<%--                <div class="layui-card-header">--%>
+<%--                    &lt;%&ndash;                    <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除&ndash;%&gt;--%>
+<%--                    &lt;%&ndash;                    </button>&ndash;%&gt;--%>
+<%--&lt;%&ndash;                    <button class="layui-btn" onclick="xadmin.open('新增班级成员','./classMember-add.jsp',450,400)"><i&ndash;%&gt;--%>
+<%--&lt;%&ndash;                            class="layui-icon"></i>新增班级成员&ndash;%&gt;--%>
+<%--&lt;%&ndash;                    </button>&ndash;%&gt;--%>
+<%--                </div>--%>
+<%--                //主体表格--%>
                 <div class="layui-card-body layui-table-body layui-table-main">
                     <table class="layui-table layui-form" id="bodytable" lay-filter="test">
 
@@ -81,82 +83,81 @@
 </div>
 
 <%--//修改信息的div--%>
-<div hidden class="layui-fluid" id="updateDiv">
-    <div class="layui-row">
-        <form class="layui-form" lay-filter="addForm" action="" method="post">
-            <div class="layui-form-item">
-                <label class="layui-form-label">宝宝ID</label>
-                <div hidden class="layui-input-inline">
-                    <input readonly type="text" id="studentId" name="studentId" required lay-verify="required"
-                           autocomplete="off"
-                           placeholder="" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">宝宝名称</label>
-                <div class="layui-input-inline">
-                    <input readonly type="text" id="studentName" name="studentName" required lay-verify="required"
-                           autocomplete="off"
-                           placeholder="" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">性别</label>
-                <div class="layui-input-inline">
-                    <select lay-filter="mySelect" id="studentSex" name="studentSex">
-                        <option value="男">男</option>
-                        <option value="女">女</option>
-                    </select>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">出生年月</label>
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input" name="studentBirth" id="studentBirth"
-                           placeholder="yyyy-MM-dd">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">地址</label>
-                <div class="layui-input-inline">
-                    <input type="text" id="studentAdd" name="studentAdd" required lay-verify="required"
-                           autocomplete="off"
-                           placeholder="" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">班级</label>
-                <div class="layui-input-inline">
-                    <select lay-filter="mySelect" id="classes" name="classes">
-                        <c:forEach items="${classesList}" var="i">
-                            <option value="${i.classId}">${i.className}</option>
-                        </c:forEach>
-                    </select>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit lay-filter="newData">保存</button>
-                    <a class="layui-btn layui-btn-primary" onclick="layer.close(layer.index)">取消</a>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
+<%--<div hidden class="layui-fluid" id="updateDiv">--%>
+<%--    <div class="layui-row">--%>
+<%--        <form class="layui-form" lay-filter="addForm" action="" method="post">--%>
+<%--            <div class="layui-form-item">--%>
+<%--                <label class="layui-form-label">班级ID</label>--%>
+<%--                <div hidden class="layui-input-inline">--%>
+<%--                    <input readonly type="text" id="classId" name="classId" required lay-verify="required"--%>
+<%--                           autocomplete="off"--%>
+<%--                           placeholder="" class="layui-input">--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--            <div class="layui-form-item">--%>
+<%--                <label class="layui-form-label">园所ID</label>--%>
+<%--                <div hidden class="layui-input-inline">--%>
+<%--                    <input readonly type="text" id="kinderId1" name="kinderId" required lay-verify="required"--%>
+<%--                           autocomplete="off"--%>
+<%--                           placeholder="" class="layui-input">--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--            <div class="layui-form-item">--%>
+<%--                <label class="layui-form-label">班级名称</label>--%>
+<%--                <div class="layui-input-inline">--%>
+<%--                    <input  type="text" id="className1" name="className" required lay-verify="required"--%>
+<%--                           autocomplete="off"--%>
+<%--                           placeholder="" class="layui-input">--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--            <div class="layui-form-item">--%>
+<%--                <label class="layui-form-label">宝宝名称</label>--%>
+<%--                <div class="layui-input-inline">--%>
+<%--                    <input  type="text" id="studentName1" name="studentName" required lay-verify="required"--%>
+<%--                           autocomplete="off"--%>
+<%--                           placeholder="" class="layui-input">--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--            <div class="layui-form-item">--%>
+<%--                <label class="layui-form-label">班主任Id</label>--%>
+<%--                <div class="layui-input-inline">--%>
+<%--                    <input  type="text" id="teacherId" name="teacherId" required lay-verify="required"--%>
+<%--                           autocomplete="off"--%>
+<%--                           placeholder="" class="layui-input">--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--            <div class="layui-form-item">--%>
+<%--                <label class="layui-form-label">班主任名称</label>--%>
+<%--                <div class="layui-input-inline">--%>
+<%--                    <input  type="text" id="teacherName" name="teacherName" required lay-verify="required"--%>
+<%--                            autocomplete="off"--%>
+<%--                            placeholder="" class="layui-input">--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--            <div class="layui-form-item">--%>
+<%--                <div class="layui-input-block">--%>
+<%--                    <button class="layui-btn" lay-submit lay-filter="newData">保存</button>--%>
+<%--                    <a class="layui-btn layui-btn-primary" onclick="layer.close(layer.index)">取消</a>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--        </form>--%>
+<%--    </div>--%>
+<%--</div>--%>
 </body>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
-    <a class="layui-btn layui-btn-xs" lay-event="del">删除</a>
+<%--    <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>--%>
+<%--    <a class="layui-btn layui-btn-xs" lay-event="del">删除</a>--%>
 </script>
 
 <script>
-    // 列表展示及分页
+    // 体检列表展示及分页
     layui.use(['laydate', 'form', 'laypage', 'table', 'laytpl'], function () {
         var path = $("#path").val();
         var form = layui.form;
         var table = layui.table;
         var laydate = layui.laydate;
         var kinderId = $("#kinderId").val();
+        console.log(kinderId);
         //执行一个laydate实例
         laydate.render({
             elem: '#start' //指定元素
@@ -172,19 +173,18 @@
             elem: '#bodytable',
             id: 'listReload',
             page: true
-            , url: path + '/RectorControl/studentlist'
+            , url: path + '/RectorControl/classMemberList'
             , where: {
                 kinderId: kinderId,
-                // teacherName:teacherName,
             }
             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , cols: [[
                 {field: 'id', type: 'checkbox', title: 'ID'}
-                , {field: 'studentId', title: '宝宝编号', width: 50, sort: true}
-                , {field: 'studentName', title: '宝宝名称'}
-                , {field: 'studentSex', title: '性别', sort: true}
-                , {field: 'studentBirth', title: '出生年月', sort: true}
-                , {field: 'studentTime', title: '创建时间', sort: true}
+                , {field: 'studentId', title: '成员编号', width: 50}
+                , {field: 'studentName', title: '宝宝名字', width: 50, sort: true}
+                , {field: 'className', title: '班级名称'}
+                , {field: 'teacherName', title: '班主任', sort: true}
+                , {field: 'classRegtime', title: '创建时间', sort: true}
                 , {title: '操作', align: 'center', toolbar: '#barDemo'}
             ]],
             request: {
@@ -194,16 +194,18 @@
         });
         var active = {
             reload: function () {
-                var studentName = $('#studentName1').val();
+                var className = $('#className').val();
+                var studentName = $('#studentName').val();
                 var startDate = $("#start").val();
                 var endDate = $("#end").val();
-                console.log(studentName);
+                console.log(className);
                 //执行重载
                 table.reload('listReload', {//重载表格数据
                     page: {
                         curr: 1 //重新从第 1 页开始
                     }
                     , where: {
+                        className: className,
                         studentName: studentName,
                         startDate: startDate,
                         endDate: endDate,
@@ -218,6 +220,12 @@
         });
         //日期渲染
         laydate.render({
+            elem: '#start' //指定元素
+        });
+        laydate.render({
+            elem: '#end' //指定元素
+        });
+        laydate.render({
             elem: '#studentBirth'
         });
         //表格操作，进行编辑修改等
@@ -227,22 +235,21 @@
             var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
             console.log(data);
             //修改当前行
-            if (layEvent == "edit") {
+            if (layEvent === "edit") {
                 layer.confirm('确认要做此操作吗？', function (index) {
                     if (index) {
                         layer.open({
-                            title: '修改幼儿情况',
+                            title: '修改班级成员',
                             type: 1,
-                            area: ['400px', '400px'],
+                            area: ['400px', '500px'],
                             content: $('#updateDiv'),
                             success: function (layero, index) {
                                 form.val("addForm", { //formTest 即 class="layui-form" 所在元素属性 lay-filter="" 对应的值
-                                    "studentId": data.studentId // "name": "value"
-                                    , "studentName": data.studentName
-                                    , "studentSex": data.studentSex
-                                    , "studentBirth": data.studentBirth
-                                    , "studentAdd": data.studentAdd
-                                    , "classes": data.classId
+                                    "classId": data.classId // "name": "value"
+                                    , "className1": data.className
+                                    , "classRoom": data.classRoom
+                                    , "teacherId": data.teacherId
+                                    , "teacherName": data.teacherName
                                 });
                             }
                         })
@@ -255,11 +262,11 @@
                 layer.confirm('确认要做此操作吗？', function (index) {
                     if (index) {
                         $.ajax({
-                                url: "/RectorControl/deleteStudent",
+                                url: "/RectorControl/deleteClass",
                                 async: true,
                                 type: "post",
                                 data: {
-                                    "studentId": data.studentId,
+                                    "classId": data.classId,
                                 },
                                 datatype: "text",
                                 success: function (msg) {
@@ -280,55 +287,60 @@
                 })
             }
         })
-    });
-    //弹出层表单操作，主要是提交
-    form.on('submit(newData)', function (data) {
-        var path = $("#path").val();
-        var newData = {
-            "studentId": data.field.studentId,
-            "studentName": data.field.studentName,
-            "studentSex": data.field.sex,
-            "studentBirth": data.field.studentBirth,
-            "studentAdd": data.field.studentAdd,
-            "classId": data.field.classes,
-        };
-        $.ajax({
-            url: "/RectorControl/updateBaby",
-            async: true,
-            type: "POST",
-            data: {"value": JSON.stringify(newData)},
-            dataType: "text",
-            success: function (msg) {
-                if (msg === "success") {
-                    parent.location.reload();
-                    layer.msg('更新成功!即将刷新列表', {icon: 1, time: 1000}, function () {
+        //弹出层表单操作，主要是提交
+        form.on('submit(newData)', function (data) {
+            var path = $("#path").val();
+            var newData = {
+                "classId": data.field.classId,
+                "className": data.field.className1,
+                "classRoom": data.field.classRoom,
+                "teacherId": data.field.teacherId,
+                "teacherName": data.field.teacherName,
+
+            };
+            console.log(newData);
+            $.ajax({
+                url: "/RectorControl/updateClass",
+                async: true,
+                type: "POST",
+                data: {"value": JSON.stringify(newData)},
+                dataType: "text",
+                success: function (msg) {
+                    if (msg === "success") {
                         parent.location.reload();
-                    })
+                        layer.msg('更新成功!即将刷新列表', {icon: 1, time: 1000}, function () {
+                            parent.location.reload();
+                        })
 
-                } else {
-                    layer.msg('更新失败!', {icon: 2, time: 6000});
+                    } else {
+                        layer.msg('更新失败!', {icon: 2, time: 6000});
+                    }
+                },
+                error: function () {
+                    layer.msg('网络错误!', {icon: 2, time: 1000});
                 }
-            },
-            error: function () {
-                layer.msg('网络错误!', {icon: 2, time: 1000});
-            }
+            });
+            return false;
         });
-        return false;
+        // 监听全选
+        form.on('checkbox(checkall)', function (data) {
+
+            if (data.elem.checked) {
+                $('tbody input').prop('checked', true);
+            } else {
+                $('tbody input').prop('checked', false);
+            }
+            form.render('checkbox');
+        });
     });
 
 
-    // 监听全选
-    form.on('checkbox(checkall)', function (data) {
-
-        if (data.elem.checked) {
-            $('tbody input').prop('checked', true);
-        } else {
-            $('tbody input').prop('checked', false);
-        }
-        form.render('checkbox');
-    });
 
 
+
+
+
+    
     /*用户-停用*/
     function member_stop(obj, id) {
         layer.confirm('确认要停用吗？', function (index) {

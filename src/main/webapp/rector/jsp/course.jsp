@@ -37,104 +37,129 @@
 <div class="layui-fluid">
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md12">
-            <div class="layui-card">
-                <div class="layui-card-body ">
-                    <div class="layui-card-body demoTable">
-                        <label class="layui-form-label">搜索</label>
-                        <div class="layui-inline layui-show-xs-block">
-                            <input class="layui-input" autocomplete="off" placeholder="开始日" name="startDate" id="start"
-                                   value="${startDate}">
+            <form>
+                <div class="layui-card">
+                    <h1 align="center">课程表</h1>
+                    <div class="layui-form-item">
+                        <input hidden id="staffId">
+                        <label class="layui-form-label">班级名称：</label>
+                        <div class="layui-input-inline">
+                            <input readonly type="text" id="className" name="className" required lay-verify="required"
+                                   autocomplete="off"
+                                   placeholder="" class="layui-input">
                         </div>
-                        <div class="layui-inline layui-show-xs-block">
-                            <input class="layui-input" autocomplete="off" placeholder="截止日" name="endDate" id="end"
-                                   value="${endDate}">
+                        <label class="layui-form-label">班主任名称：</label>
+                        <div class="layui-input-inline">
+                            <input readonly type="text" id="teacherName" name="teacherName" required
+                                   lay-verify="required"
+                                   autocomplete="off"
+                                   placeholder="" class="layui-input">
                         </div>
-                        <div class="layui-inline layui-show-xs-block">
-                            <input type="text" name="className" id="className" placeholder="班级名称" autocomplete="off"
-                                    class="layui-input" value="${className}">
-                        </div>
-                        <div class="layui-inline layui-show-xs-block">
-                            <button class="layui-btn" data-type="reload"
-                                    id="search"><i
-                                    class="layui-icon">&#xe615;</i></button>
+                    </div>
+                    <%--                <div class="layui-card-body ">--%>
+                    <%--                    <div class="layui-card-body demoTable">--%>
+                    <%--                        <label class="layui-form-label">搜索</label>--%>
+                    <%--                        <div class="layui-inline layui-show-xs-block">--%>
+                    <%--                            <input class="layui-input" autocomplete="off" placeholder="开始日" name="startDate" id="start"--%>
+                    <%--                                   value="${startDate}">--%>
+                    <%--                        </div>--%>
+                    <%--                        <div class="layui-inline layui-show-xs-block">--%>
+                    <%--                            <input class="layui-input" autocomplete="off" placeholder="截止日" name="endDate" id="end"--%>
+                    <%--                                   value="${endDate}">--%>
+                    <%--                        </div>--%>
+                    <%--                        <div class="layui-inline layui-show-xs-block">--%>
+                    <%--                            <input type="text" name="className" id="className" placeholder="班级名称" autocomplete="off"--%>
+                    <%--                                    class="layui-input" value="${className}">--%>
+                    <%--                        </div>--%>
+                    <%--                        <div class="layui-inline layui-show-xs-block">--%>
+                    <%--                            <button class="layui-btn" data-type="reload"--%>
+                    <%--                                    id="search"><i--%>
+                    <%--                                    class="layui-icon">&#xe615;</i></button>--%>
+                    <%--                        </div>--%>
+                    <%--                    </div>--%>
+                    <%--                </div>--%>
+                    <%--                <div class="layui-card-header">--%>
+                    <%--                    &lt;%&ndash;                    <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除&ndash;%&gt;--%>
+                    <%--                    &lt;%&ndash;                    </button>&ndash;%&gt;--%>
+                    <%--                    <button class="layui-btn" onclick="xadmin.open('新增班级','./class-add.jsp',450,400)"><i--%>
+                    <%--                            class="layui-icon"></i>新增班级--%>
+                    <%--                    </button>--%>
+                    <%--                </div>--%>
+                    <%--                //主体表格--%>
+                    <div class="layui-card-body layui-table-body layui-table-main">
+                        <table class="layui-table layui-form" id="bodytable" lay-filter="test">
+
+                        </table>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit lay-filter="newData">保存</button>
+                            <a class="layui-btn layui-btn-primary" onclick="layer.close(layer.index)">取消</a>
                         </div>
                     </div>
                 </div>
-                <div class="layui-card-header">
-                    <%--                    <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除--%>
-                    <%--                    </button>--%>
-                    <button class="layui-btn" onclick="xadmin.open('新增班级','./class-add.jsp',450,400)"><i
-                            class="layui-icon"></i>新增班级
-                    </button>
-                </div>
-<%--                //主体表格--%>
-                <div class="layui-card-body layui-table-body layui-table-main">
-                    <table class="layui-table layui-form" id="bodytable" lay-filter="test">
-
-                    </table>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>
 
 <%--//修改信息的div--%>
-<div hidden class="layui-fluid" id="updateDiv">
-    <div class="layui-row">
-        <form class="layui-form" lay-filter="addForm" action="" method="post">
-            <div class="layui-form-item">
-                <label class="layui-form-label">班级ID</label>
-                <div hidden class="layui-input-inline">
-                    <input readonly type="text" id="classId" name="classId" required lay-verify="required"
-                           autocomplete="off"
-                           placeholder="" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">班级名称</label>
-                <div class="layui-input-inline">
-                    <input  type="text" id="className1" name="className1" required lay-verify="required"
-                           autocomplete="off"
-                           placeholder="" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">所在教室</label>
-                <div class="layui-input-inline">
-                    <input  type="text" id="classRoom" name="classRoom" required lay-verify="required"
-                           autocomplete="off"
-                           placeholder="" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">班主任Id</label>
-                <div class="layui-input-inline">
-                    <input  type="text" id="teacherId" name="teacherId" required lay-verify="required"
-                           autocomplete="off"
-                           placeholder="" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">班主任</label>
-                <div class="layui-input-inline">
-                    <input  type="text" id="teacherName" name="teacherName" required lay-verify="required"
-                            autocomplete="off"
-                            placeholder="" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit lay-filter="newData">保存</button>
-                    <a class="layui-btn layui-btn-primary" onclick="layer.close(layer.index)">取消</a>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
+<%--<div hidden class="layui-fluid" id="updateDiv">--%>
+<%--    <div class="layui-row">--%>
+<%--        <form class="layui-form" lay-filter="addForm" action="" method="post">--%>
+<%--            <div class="layui-form-item">--%>
+<%--                <label class="layui-form-label">班级ID</label>--%>
+<%--                <div hidden class="layui-input-inline">--%>
+<%--                    <input readonly type="text" id="classId" name="classId" required lay-verify="required"--%>
+<%--                           autocomplete="off"--%>
+<%--                           placeholder="" class="layui-input">--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--            <div class="layui-form-item">--%>
+<%--                <label class="layui-form-label">班级名称</label>--%>
+<%--                <div class="layui-input-inline">--%>
+<%--                    <input  type="text" id="className1" name="className1" required lay-verify="required"--%>
+<%--                           autocomplete="off"--%>
+<%--                           placeholder="" class="layui-input">--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--            <div class="layui-form-item">--%>
+<%--                <label class="layui-form-label">所在教室</label>--%>
+<%--                <div class="layui-input-inline">--%>
+<%--                    <input  type="text" id="classRoom" name="classRoom" required lay-verify="required"--%>
+<%--                           autocomplete="off"--%>
+<%--                           placeholder="" class="layui-input">--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--            <div class="layui-form-item">--%>
+<%--                <label class="layui-form-label">班主任Id</label>--%>
+<%--                <div class="layui-input-inline">--%>
+<%--                    <input  type="text" id="teacherId" name="teacherId" required lay-verify="required"--%>
+<%--                           autocomplete="off"--%>
+<%--                           placeholder="" class="layui-input">--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--            <div class="layui-form-item">--%>
+<%--                <label class="layui-form-label">班主任</label>--%>
+<%--                <div class="layui-input-inline">--%>
+<%--                    <input  type="text" id="teacherName" name="teacherName" required lay-verify="required"--%>
+<%--                            autocomplete="off"--%>
+<%--                            placeholder="" class="layui-input">--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--            <div class="layui-form-item">--%>
+<%--                <div class="layui-input-block">--%>
+<%--                    <button class="layui-btn" lay-submit lay-filter="newData">保存</button>--%>
+<%--                    <a class="layui-btn layui-btn-primary" onclick="layer.close(layer.index)">取消</a>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--        </form>--%>
+<%--    </div>--%>
+<%--</div>--%>
 </body>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
-    <a class="layui-btn layui-btn-xs" lay-event="del">删除</a>
+    <%--    <a class="layui-btn layui-btn-xs" lay-event="edit">配置课程</a>--%>
+    <%--    <a class="layui-btn layui-btn-xs" lay-event="del">删除</a>--%>
 </script>
 
 <script>
@@ -146,6 +171,10 @@
         var laydate = layui.laydate;
         var kinderId = $("#kinderId").val();
         console.log(kinderId);
+        $("#className").val(parent.data.className);
+        $("#teacherName").val(parent.data.teacherName);
+        var className = $("#className").val();
+        var teacherName = $("#teacherName").val();
         //执行一个laydate实例
         laydate.render({
             elem: '#start' //指定元素
@@ -161,20 +190,21 @@
             elem: '#bodytable',
             id: 'listReload',
             page: true
-            , url: path + '/RectorControl/classList'
+            , url: path + '/RectorControl/findCourse'
             , where: {
                 kinderId: kinderId,
             }
             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , cols: [[
-                {field: 'id', type: 'checkbox', title: 'ID'}
-                , {field: 'teacherId', title: '班主任ID', width: 50,hide:true}
-                , {field: 'classId', title: '班级编号', width: 50, sort: true}
-                , {field: 'className', title: '班级名称'}
-                , {field: 'teacherName', title: '班主任', sort: true}
-                , {field: 'classRoom', title: '所在教室', sort: true}
-                , {field: 'classRegtime', title: '创建时间', sort: true}
-                , {title: '操作', align: 'center', toolbar: '#barDemo'}
+                // {field: 'id', type: 'checkbox', title: 'ID'}
+                {field: 'courseTimescope', title: '课程时间段'}
+                , {field: 'courseJieci', title: '课节', width: 50}
+                , {field: 'courseZhouyi', title: '周一', width: 50,}
+                , {field: 'courseZhouer', title: '周二', isContentEditable: true}
+                , {field: 'courseZhousan', title: '周三', isContentEditable: true}
+                , {field: 'courseZhousi', title: '周四', isContentEditable: true}
+                , {field: 'courseZhouwu', title: '周五', isContentEditable: true}
+
             ]],
             request: {
                 pageName: 'curPage' //页码的参数名称，默认：page
@@ -229,16 +259,16 @@
                             title: '修改家长情况',
                             type: 1,
                             area: ['400px', '400px'],
-                            content: $('#updateDiv'),
-                            success: function (layero, index) {
-                                form.val("addForm", { //formTest 即 class="layui-form" 所在元素属性 lay-filter="" 对应的值
-                                    "classId": data.classId // "name": "value"
-                                    , "className1": data.className
-                                    , "classRoom": data.classRoom
-                                    , "teacherId": data.teacherId
-                                    , "teacherName": data.teacherName
-                                });
-                            }
+                            content: '${pageContext.request.contextPath}/rector/jsp/course.jsp',
+                            // success: function (layero, index) {
+                            //     form.val("addForm", { //formTest 即 class="layui-form" 所在元素属性 lay-filter="" 对应的值
+                            //         "classId": data.classId // "name": "value"
+                            //         , "className1": data.className
+                            //         , "classRoom": data.classRoom
+                            //         , "teacherId": data.teacherId
+                            //         , "teacherName": data.teacherName
+                            //     });
+                            // }
                         })
                     }
                 })
@@ -287,16 +317,15 @@
             };
             console.log(newData);
             $.ajax({
-                url: "/RectorControl/updateClass",
+                url: "/RectorControl/updateCourse",
                 async: true,
                 type: "POST",
                 data: {"value": JSON.stringify(newData)},
                 dataType: "text",
                 success: function (msg) {
                     if (msg === "success") {
-                        parent.location.reload();
                         layer.msg('更新成功!即将刷新列表', {icon: 1, time: 1000}, function () {
-                            parent.location.reload();
+                          this.reload();
                         })
 
                     } else {
@@ -321,13 +350,6 @@
         });
     });
 
-
-
-
-
-
-
-    
     /*用户-停用*/
     function member_stop(obj, id) {
         layer.confirm('确认要停用吗？', function (index) {
