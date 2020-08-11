@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.HashMap;
 import java.util.List;
 
-public interface ParentService {
+public interface ParentService<T> {
 
     public Parents login(String tel);
     public LayuiData<CampusInfo> CampusInfo(int kinderId,int curPage, int pageSize);

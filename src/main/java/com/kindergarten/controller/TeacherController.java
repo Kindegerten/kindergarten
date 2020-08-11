@@ -481,7 +481,7 @@ public class TeacherController {
     }
     @RequestMapping("/selectSex")
     @ResponseBody
-    public String selectSex(HttpServletRequest request, Model model) {
+    public String selectSex(HttpServletRequest request) {
         List<String> xAxis = new ArrayList<String>();
 
         xAxis.add("男");
@@ -501,7 +501,7 @@ public class TeacherController {
 
     @RequestMapping("/selectTeacherAge")
     @ResponseBody
-    public String selectTeacherAge(HttpServletRequest request, Model model) {
+    public String selectTeacherAge(HttpServletRequest request) {
         List<String> xAxis = new ArrayList<String>();
 
         xAxis.add("[10-20]");
