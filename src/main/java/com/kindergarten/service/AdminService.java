@@ -30,8 +30,18 @@ public interface AdminService<T> {
     String updatePlatformInfo(PlatformInfo platformInfo);
     String insertPlatformInfo(PlatformInfo platformInfo);
     LayuiData<T>selectSyslog(@Param("condition") HashMap<String, Object> hashMap, @Param("curPage") int curPage, @Param("pageSize") int pageSize);
-    int selectOneFile(SafetyVideo safetyVideo);
+    SafetyVideo selectOneFile(SafetyVideo safetyVideo);
     String insertVideo(SafetyVideo safetyVideo);
     LayuiData selectSafetyVideo(@Param("condition") HashMap<String, Object> hashMap, @Param("curPage") int curPage, @Param("pageSize") int pageSize);
     String deleteSafetyVideo(int safetyVideoId);
+    String updateSafetyVideo(SafetyVideo safetyVideo);
+    String insertSafetyVtq(SafetyVtq safetyVtq);
+    String updateSafetyVtq(SafetyVtq safetyVtq);
+    String deleteSafetyVtq(int safetyVtqId);
+    LayuiData<T>SearchQuestion( @Param("curPage") int curPage, @Param("pageSize") int pageSize,@Param("videoId") int videoId);
+    String insertReadmsg(Readmag readmag);
+    String insertReadmsgPhoto(ReadmagPhoto readmagPhoto);
+    int selectStudentSex(String studentSex);
+    int selectStudentHealth(String healthStatus);
+    String updateReadPhoto(ReadmagPhoto readmagPhoto);
 }

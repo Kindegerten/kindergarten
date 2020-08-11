@@ -4,9 +4,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.kindergarten.mapper.TeacherMapper">
-    
+
     <select id="tologin" resultType="com.kindergarten.bean.Teachers"
-    parameterType="java.lang.String">
+            parameterType="java.lang.String">
      select * from tbl_teachers where teacher_tel=#{teacherTel}
     </select>
 
@@ -19,13 +19,13 @@
         update tbl_teachers set teacher_pwd=#{pwd} where teacher_tel=#{tel}
     </update>
 
-<!--    课程表-->
+    <!--    课程表-->
     <select id="course" resultType="com.kindergarten.bean.Teachers"
             parameterType="com.kindergarten.bean.Course">
         select * from tbl_course where teacher_id=#{teacherId}
     </select>
 
-<!--    查发布作业表格-->
+    <!--    查发布作业表格-->
     <select id="publishJobList" resultType="com.kindergarten.bean.Workrelease">
     select a.work_releaseid,b.class_id,c.class_name,a.work_name,a.workrelease_time
     From tbl_workrelease a
@@ -39,12 +39,12 @@
     <select id="publishJobListCount" resultType="int">
     select count(work_releaseid) from tbl_workrelease WHERE teacher_id=#{teacherId}
   </select>
-<!--    添加作业-->
-    <insert id="publishTaskAdd" parameterType="com.kindergarten.bean.Workrelease"  >
+    <!--    添加作业-->
+    <insert id="publishTaskAdd" parameterType="com.kindergarten.bean.Workrelease">
     insert into tbl_workrelease(work_name,work_url,workrelease_time,class_id,teacher_id)  values (#{workName},#{workUrl},#{workreleaseTime},#{classId},#{teacherId})
   </insert>
-<!--    删除作业-->
-    <delete id="delPublishTask" parameterType="com.kindergarten.bean.Workrelease"  >
+    <!--    删除作业-->
+    <delete id="delPublishTask" parameterType="com.kindergarten.bean.Workrelease">
      delete from tbl_workrelease where work_releaseid = (#{workReleaseid})
   </delete>
 
@@ -66,7 +66,7 @@
     WHERE b.teacher_id=#{teacherId}
   </select>
 
-<!--    修改作业评级-->
+    <!--    修改作业评级-->
     <update id="updateTask" parameterType="com.kindergarten.bean.Work">
         update tbl_work
         <set>
@@ -75,9 +75,9 @@
         where work_id=#{e.workID}
     </update>
 
-<!--    班级相册-->
+    <!--    班级相册-->
     <!--  //查询表格-->
-    <select id="photoSelectList" resultType="com.kindergarten.bean.Photo"  >
+    <select id="photoSelectList" resultType="com.kindergarten.bean.Photo">
     SELECT
     a.*,b.teacher_id
     from tbl_photo a
@@ -91,16 +91,16 @@
     select count(photo_id) from tbl_photo
   </select>
 
-    <insert id="addClassPhoto" parameterType="com.kindergarten.bean.Photo" >
+    <insert id="addClassPhoto" parameterType="com.kindergarten.bean.Photo">
     insert into tbl_photo(photo_name,photo_detail,photo_url,photo_time,class_id) values (#{e.photoName},#{e.photoDetail},#{e.photoUrl},#{e.photoTime},#{e.classId})
   </insert>
 
-<!--    班级信息-->
+    <!--    班级信息-->
     <!--  查询表格-->
-    <select id="classInfoSelectList" resultType="com.kindergarten.bean.ClassInfo"   >
+    <select id="classInfoSelectList" resultType="com.kindergarten.bean.ClassInfo">
         SELECT b.*,a.*,c.teacher_id,d.*,f.*
         FROM tbl_parents a
-        LEFT JOIN tbl_students b on  b.class_id = b.class_id
+        LEFT JOIN tbl_students b on b.class_id = b.class_id
         LEFT JOIN tbl_teachers c on c.class_id=b.class_id
         LEFT JOIN tbl_parents_students d on d.parents_id = a.parents_id
         LEFT JOIN tbl_stutime f on f.student_id = b.student_id
@@ -125,11 +125,11 @@
         tbl_class a
     </select>
 
-<!--    班级通知-->
+    <!--    班级通知-->
     <!--  查询表格-->
-    <select id="clamsgSelectList" resultType="com.kindergarten.bean.Clamsg"   >
+    <select id="clamsgSelectList" resultType="com.kindergarten.bean.Clamsg">
         select *
-        from  tbl_clamsg
+        from tbl_clamsg
         WHERE teacher_id=#{e.teacherId}
         <if test="e.sendmsgTime!=null and e.sendmsgTime!=''">
             <![CDATA[ and sendmsg_time >=#{e.sendmsgTime}]]>
@@ -144,12 +144,12 @@
    </select>
 
     <!--插入-->
-    <insert id="clamsgAdd" parameterType="com.kindergarten.bean.Clamsg"  >
+    <insert id="clamsgAdd" parameterType="com.kindergarten.bean.Clamsg">
     insert into tbl_clamsg(clamsg_detail,class_id,teacher_id,sendmsg_time,clamsg_name)  values (#{clamsgDetail},#{classId},#{teacherId},#{sendmsgTime},#{clamsgName})
   </insert>
 
     <!--删除-->
-    <delete id="delClamsg" parameterType="com.kindergarten.bean.Clamsg"  >
+    <delete id="delClamsg" parameterType="com.kindergarten.bean.Clamsg">
      delete from tbl_clamsg where clamsg_id = (#{clamsgId})
   </delete>
 
@@ -160,7 +160,7 @@
     where clamsg_id=#{clamsgId}
   </update>
 
-<!--    安全试题配置-->
+    <!--    安全试题配置-->
     <!--  //查询表格-->
     <select id="safetyEduSelectList" resultType="com.kindergarten.bean.SafetyEdu">
     SELECT *
@@ -175,12 +175,12 @@
   </select>
 
     <!--插入-->
-    <insert id="addSafetyEdu" parameterType="com.kindergarten.bean.SafetyEdu"  >
+    <insert id="addSafetyEdu" parameterType="com.kindergarten.bean.SafetyEdu">
     insert into tbl_safety_edu(name,start_time,end_time,teacher_id)  values (#{name},#{startTime},#{endTime},#{teacherId})
   </insert>
 
     <!--修改-->
-    <update id="updateSafetyEdu" parameterType="com.kindergarten.bean.SafetyEdu"  >
+    <update id="updateSafetyEdu" parameterType="com.kindergarten.bean.SafetyEdu">
     UPDATE tbl_safety_edu  SET route=#{route}   WHERE id=#{id}
   </update>
 
@@ -196,29 +196,29 @@
     select count(safety_video_id) from tbl_safety_video
   </select>
 
-<!--    获取班级孩子的所有家长-->
+    <!--    获取班级孩子的所有家长-->
     <select id="SearchParents" resultType="com.kindergarten.bean.Parents">
         select distinct a.parents_name,a.parents_tel from tbl_parents a,tbl_students b,tbl_teachers c,tbl_parents_students d
         where a.parents_id=d.parents_id and b.student_id=d.students_id
           and c.kinder_id=b.kinder_id and c.class_id=b.class_id and c.teacher_id=#{teacherId}
     </select>
 
-<!--    试题完成情况-->
+    <!--    试题完成情况-->
     <!--  //查询表格-->
-    <select id="safetyTestCompleteSelectList" resultType="com.kindergarten.bean.SafetyTestComplete"   >
+    <select id="safetyTestCompleteSelectList" resultType="com.kindergarten.bean.SafetyTestComplete">
         SELECT a.*,b.safety_video_name,b.safety_video_time, c.student_id,c.student_name,d.parents_name,f.*
         From tbl_safety_test_complete a
-        LEFT JOIN tbl_safety_video b on  a.safety_video_id =b.safety_video_id
-        LEFT JOIN tbl_students c on  a.student_id=c.student_id
+        LEFT JOIN tbl_safety_video b on a.safety_video_id =b.safety_video_id
+        LEFT JOIN tbl_students c on a.student_id=c.student_id
         LEFT JOIN tbl_parents d on d.parents_status=c.student_id
         LEFT JOIN tbl_parents_students f on f.students_id=d.parents_status
-        WHERE  teacher_id=#{e.teacherId}
-<!--        <if test="e.finishTime!=null and e.finishTime!=''">-->
-<!--            <![CDATA[   and finish_time >= #{e.finishTime} ]]>-->
-<!--        </if>-->
-<!--        <if test="endTime!=null and endTime!=''">-->
-<!--            <![CDATA[   and finish_time <= #{endTime}  ]]>-->
-<!--        </if>-->
+        WHERE teacher_id=#{e.teacherId}
+        <!--        <if test="e.finishTime!=null and e.finishTime!=''">-->
+        <!--            <![CDATA[   and finish_time >= #{e.finishTime} ]]>-->
+        <!--        </if>-->
+        <!--        <if test="endTime!=null and endTime!=''">-->
+        <!--            <![CDATA[   and finish_time <= #{endTime}  ]]>-->
+        <!--        </if>-->
         <if test="e.safetyTestResult!=null and e.safetyTestResult!=''">
             and safety_test_result=#{e.safetyTestResult}
         </if>
@@ -227,6 +227,14 @@
     <select id="safetyTestCompleteSelectListCount" resultType="int">
         select count(safety_test_id) from tbl_safety_test_complete
    </select>
-
+    <select id="selectBoy" resultType="java.lang.Integer">
+        select count(*)from tbl_teachers where teacher_sex='男';
+    </select>
+    <select id="selectGirl" resultType="java.lang.Integer">
+        select count(*)from tbl_teachers where teacher_sex='女';
+    </select>
+    <select id="selectTeacherAge" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+        select count(*) from tbl_teachers where teacher_age between ${size} and ${size+10};
+    </select>
 
 </mapper>

@@ -70,5 +70,8 @@ public interface TeacherMapper
    //试题完成情况
       List<SafetyTestComplete> safetyTestCompleteSelectList(@Param("e") SafetyTestComplete safetyTestOut, String endTime,@Param("start") int start, @Param("pageSize") int pageSize);
    int safetyTestCompleteSelectListCount();
+   int selectBoy();
+   int selectGirl();
+   int selectTeacherAge(@Param("size")int size);
 
 }

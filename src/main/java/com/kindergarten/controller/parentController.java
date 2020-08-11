@@ -26,10 +26,10 @@ import java.util.UUID;
 @RequestMapping("/pt")
 @Controller
 public class parentController {
-     @Autowired
-     ParentService parentService;
-     @Autowired
-     ParentsMapper parentsMapper;
+    @Autowired
+    ParentService parentService;
+    @Autowired
+    ParentsMapper parentsMapper;
 
 
     @RequestMapping(value = "/login")
@@ -38,60 +38,60 @@ public class parentController {
         String tel = request.getParameter("tel");
         String password = request.getParameter("password");
         String sessionCode = (String) request.getSession().getAttribute("vCode");
-        String paramCode=request.getParameter("code");
+        String paramCode = request.getParameter("code");
         System.out.println(paramCode);
         System.out.println(sessionCode);
 
         request.getSession().removeAttribute("vcode"); //错了就换新的验证码：
 
-        if (paramCode.equalsIgnoreCase(sessionCode)){
-        Parents parents=parentService.login(tel);
-        if (parents!=null) {
-            if (password.equals(parents.getParentsPwd())){
+        if (paramCode.equalsIgnoreCase(sessionCode)) {
+            Parents parents = parentService.login(tel);
+            if (parents != null) {
+                if (password.equals(parents.getParentsPwd())) {
 
-                if (parents.getParentsStatus()==2){
-                    return "登陆失败,账户被封禁！";
-                }else {
-                    String roleName = parentsMapper.FindRole(parents.getRoleID());
-                    parents.setRoleName(roleName);
-                    request.getSession().setAttribute("parents",parents);
+                    if (parents.getParentsStatus() == 2) {
+                        return "登陆失败,账户被封禁！";
+                    } else {
+                        String roleName = parentsMapper.FindRole(parents.getRoleID());
+                        parents.setRoleName(roleName);
+                        request.getSession().setAttribute("parents", parents);
 
-                    //查该家长的孩子list
-                    List<Students> studentlist=parentService.studentsList(parents.getParentsId());
-                    request.getSession().setAttribute("MyChild",studentlist);
-                    return "success";
+                        //查该家长的孩子list
+                        List<Students> studentlist = parentService.studentsList(parents.getParentsId());
+                        request.getSession().setAttribute("MyChild", studentlist);
+                        return "success";
+                    }
+
+                } else {
+
+                    return "账号或密码错误";
                 }
 
-            }else {
-
-                return "账号或密码错误";
+            } else {
+                return "无此账号";
             }
-
-        }else {
-            return "无此账号";
-        }
-        }else {
+        } else {
             return "验证码错误";
         }
     }
 
     @RequestMapping(value = "/UpdatePwd")
     @ResponseBody
-    public String UpdatePwd(String oldpwd,String newpwd,HttpServletRequest request) throws ServletException, IOException {
+    public String UpdatePwd(String oldpwd, String newpwd, HttpServletRequest request) throws ServletException, IOException {
 
-        Parents parents= (Parents) request.getSession().getAttribute("parents");
-        if (oldpwd.equals(parents.getParentsPwd())){
+        Parents parents = (Parents) request.getSession().getAttribute("parents");
+        if (oldpwd.equals(parents.getParentsPwd())) {
 
-            int a=parentsMapper.updatePwd(parents.getParentsTel(),newpwd);
-            if (a>0){
+            int a = parentsMapper.updatePwd(parents.getParentsTel(), newpwd);
+            if (a > 0) {
                 parents.setParentsPwd(newpwd);
-                request.getSession().setAttribute("parents",parents);
+                request.getSession().setAttribute("parents", parents);
                 return "success";
-            }else {
+            } else {
                 return "error";
             }
 
-        }else {
+        } else {
 
             return "error";
         }
@@ -102,17 +102,17 @@ public class parentController {
     @ResponseBody
     public String SchoolInfo(HttpServletRequest request) throws ServletException, IOException {
         int curPage;
-        if(request.getParameter("curPage")!=null){
+        if (request.getParameter("curPage") != null) {
             curPage = Integer.parseInt(request.getParameter("curPage"));
-        }else{
+        } else {
             curPage = 1;
         }
-        int pageSize=Integer.parseInt(request.getParameter("pageSize"));
+        int pageSize = Integer.parseInt(request.getParameter("pageSize"));
 //        Students students= (Students) request.getSession().getAttribute("students");
-        String studentID= (String) request.getSession().getAttribute("studentID");
+        String studentID = (String) request.getSession().getAttribute("studentID");
 //        int studentID= (int)
 
-        LayuiData<CampusInfo> layuiData=parentService.CampusInfo(Integer.parseInt(studentID),curPage,pageSize);
+        LayuiData<CampusInfo> layuiData = parentService.CampusInfo(Integer.parseInt(studentID), curPage, pageSize);
         System.out.println(JSON.toJSONString(layuiData.getData()));
         return JSON.toJSONString(layuiData);
     }
@@ -122,13 +122,13 @@ public class parentController {
     @ResponseBody
     public String PlatformInfo(HttpServletRequest request) throws ServletException, IOException {
         int curPage;
-        if(request.getParameter("curPage")!=null){
+        if (request.getParameter("curPage") != null) {
             curPage = Integer.parseInt(request.getParameter("curPage"));
-        }else{
+        } else {
             curPage = 1;
         }
-        int pageSize=Integer.parseInt(request.getParameter("pageSize"));
-        LayuiData<PlatformInfo> layuiData=parentService.PlatformInfo(curPage,pageSize);
+        int pageSize = Integer.parseInt(request.getParameter("pageSize"));
+        LayuiData<PlatformInfo> layuiData = parentService.PlatformInfo(curPage, pageSize);
         System.out.println(JSON.toJSONString(layuiData.getData()));
         return JSON.toJSONString(layuiData);
     }
@@ -140,17 +140,17 @@ public class parentController {
     public String MyChild(HttpServletRequest request) throws ServletException, IOException {
 
         System.out.println("进来了");
-       List<Students> students= (List<Students>) request.getSession().getAttribute("MyChild");
+        List<Students> students = (List<Students>) request.getSession().getAttribute("MyChild");
         return JSON.toJSONString(students);
     }
 
     @RequestMapping(value = "/confirmKid")
     @ResponseBody
-    public String confirmKid(String studentID,String studentName,HttpServletRequest request) throws ServletException, IOException {
-        System.out.println("选中的孩子ID:"+studentID);
-        System.out.println("选中的孩子姓名:"+studentName);
-        request.getSession().setAttribute("studentID",studentID);
-        request.getSession().setAttribute("studentName",studentName);
+    public String confirmKid(String studentID, String studentName, HttpServletRequest request) throws ServletException, IOException {
+        System.out.println("选中的孩子ID:" + studentID);
+        System.out.println("选中的孩子姓名:" + studentName);
+        request.getSession().setAttribute("studentID", studentID);
+        request.getSession().setAttribute("studentName", studentName);
 
 
         return "OK";
@@ -160,15 +160,15 @@ public class parentController {
     @ResponseBody
     public String babyhealth(HttpServletRequest request) throws ServletException, IOException {
         int curPage;
-        if(request.getParameter("curPage")!=null){
+        if (request.getParameter("curPage") != null) {
             curPage = Integer.parseInt(request.getParameter("curPage"));
-        }else{
+        } else {
             curPage = 1;
         }
-        int pageSize=Integer.parseInt(request.getParameter("pageSize"));
+        int pageSize = Integer.parseInt(request.getParameter("pageSize"));
 
-        String studentid= (String) request.getSession().getAttribute("studentID");
-        LayuiData<Examination> examinations=parentService.examination(Integer.parseInt(studentid),curPage,pageSize);
+        String studentid = (String) request.getSession().getAttribute("studentID");
+        LayuiData<Examination> examinations = parentService.examination(Integer.parseInt(studentid), curPage, pageSize);
 
         return JSON.toJSONString(examinations);
     }
@@ -177,15 +177,15 @@ public class parentController {
     @ResponseBody
     public String schoolVideo(HttpServletRequest request) throws ServletException, IOException {
         int curPage;
-        if(request.getParameter("curPage")!=null){
+        if (request.getParameter("curPage") != null) {
             curPage = Integer.parseInt(request.getParameter("curPage"));
-        }else{
+        } else {
             curPage = 1;
         }
-        int pageSize=Integer.parseInt(request.getParameter("pageSize"));
+        int pageSize = Integer.parseInt(request.getParameter("pageSize"));
 
-        String studentid= (String) request.getSession().getAttribute("studentID");
-        LayuiData<Monitor> examinations=parentService.monitors(Integer.parseInt(studentid),curPage,pageSize);
+        String studentid = (String) request.getSession().getAttribute("studentID");
+        LayuiData<Monitor> examinations = parentService.monitors(Integer.parseInt(studentid), curPage, pageSize);
 
         return JSON.toJSONString(examinations);
     }
@@ -193,20 +193,20 @@ public class parentController {
     @RequestMapping(value = "/searchmeal")
 //    @ResponseBody
     public String searchmeal(HttpServletRequest request) throws ServletException, IOException {
-        String studentid= (String) request.getSession().getAttribute("studentID");
+        String studentid = (String) request.getSession().getAttribute("studentID");
 
         int curPage;
-        if(request.getParameter("curPage")!=null){
+        if (request.getParameter("curPage") != null) {
             curPage = Integer.parseInt(request.getParameter("curPage"));
-        }else{
+        } else {
             curPage = 1;
         }
 
 
-        PageBean<Meal> pageBean=parentService.meals(Integer.parseInt(studentid),curPage,3);
+        PageBean<Meal> pageBean = parentService.meals(Integer.parseInt(studentid), curPage, 3);
 
 //        return JSON.toJSONString(examinations);
-        request.setAttribute("meals",pageBean);
+        request.setAttribute("meals", pageBean);
         System.out.println(JSON.toJSONString(pageBean));
         return "/partent/meal.jsp";
     }
@@ -215,28 +215,28 @@ public class parentController {
     @ResponseBody
     public String homework(HttpServletRequest request) throws ServletException, IOException {
         int curPage;
-        if(request.getParameter("curPage")!=null){
+        if (request.getParameter("curPage") != null) {
             curPage = Integer.parseInt(request.getParameter("curPage"));
-        }else{
+        } else {
             curPage = 1;
         }
-        int pageSize=Integer.parseInt(request.getParameter("pageSize"));
+        int pageSize = Integer.parseInt(request.getParameter("pageSize"));
 
-        String studentid= (String) request.getSession().getAttribute("studentID");
-        LayuiData<Workrelease> workreleaseLayuiData=parentService.studentWork(Integer.parseInt(studentid),curPage,pageSize);
+        String studentid = (String) request.getSession().getAttribute("studentID");
+        LayuiData<Workrelease> workreleaseLayuiData = parentService.studentWork(Integer.parseInt(studentid), curPage, pageSize);
 
         return JSON.toJSONString(workreleaseLayuiData);
     }
 
     @RequestMapping(value = "/uploadHomeWork")
     @ResponseBody
-    public Object uploadHomeWork(HttpServletRequest request, HttpServletResponse response, MultipartFile file, String fileName,String releaseid) {
-        String studentid= (String) request.getSession().getAttribute("studentID");
-        String studentName= (String) request.getSession().getAttribute("studentName");
-        int cid=parentsMapper.SearchStudentClass(Integer.parseInt(studentid));
+    public Object uploadHomeWork(HttpServletRequest request, HttpServletResponse response, MultipartFile file, String fileName, String releaseid) {
+        String studentid = (String) request.getSession().getAttribute("studentID");
+        String studentName = (String) request.getSession().getAttribute("studentName");
+        int cid = parentsMapper.SearchStudentClass(Integer.parseInt(studentid));
 
-        String EnglishClassName= parentsMapper.SearchEnglishClassName(Integer.parseInt(studentid));
-        Parents parents= (Parents) request.getSession().getAttribute("parents");
+        String EnglishClassName = parentsMapper.SearchEnglishClassName(Integer.parseInt(studentid));
+        Parents parents = (Parents) request.getSession().getAttribute("parents");
 
         System.out.println("fileName=" + file.getOriginalFilename());
         try {
@@ -263,18 +263,18 @@ public class parentController {
                 files.getParentFile().mkdirs();
             }
             //判断是否首次上传文件？
-            int flag=parentsMapper.IsNewWork(releaseid,studentid);
-            if (flag>0){
+            int flag = parentsMapper.IsNewWork(releaseid, studentid);
+            if (flag > 0) {
                 //有数据，只需要更新文件路径+上传新的文件+上传时间
                 SimpleDateFormat NewTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 file.transferTo(files); // 将接收的文件保存到指定文件中
-                int IsSuccess=parentsMapper.UpdateWork(projectPath,parents.getParentsId(),parents.getParentsName(),releaseid,studentid);
-                System.out.println("flag>0更新状态:"+IsSuccess);
-            }else{
+                int IsSuccess = parentsMapper.UpdateWork(projectPath, parents.getParentsId(), parents.getParentsName(), releaseid, studentid);
+                System.out.println("flag>0更新状态:" + IsSuccess);
+            } else {
                 //上传完成后，插入新数据
                 file.transferTo(files); // 将接收的文件保存到指定文件中
-                int newwork=parentsMapper.UploadWork(projectPath,parents.getParentsId(),parents.getParentsName(),releaseid,studentid,studentName,cid);
-                System.out.println("newwork>0更新状态:"+newwork);
+                int newwork = parentsMapper.UploadWork(projectPath, parents.getParentsId(), parents.getParentsName(), releaseid, studentid, studentName, cid);
+                System.out.println("newwork>0更新状态:" + newwork);
             }
 
 
@@ -291,53 +291,53 @@ public class parentController {
 
     @RequestMapping(value = "/download")
     @ResponseBody
-    public String download(HttpServletRequest request, HttpServletResponse response,int id) throws ServletException, IOException {
-              System.out.println(id);
-              String Url=parentsMapper.SearchTeacherWork(id);
+    public String download(HttpServletRequest request, HttpServletResponse response, int id) throws ServletException, IOException {
+        System.out.println(id);
+        String Url = parentsMapper.SearchTeacherWork(id);
 
 
-            File file = new File(Url);
-            String fileName=file.getName();
-            // 浏览器以utf-8进行编码
-            fileName = URLEncoder.encode(fileName, "utf-8");
+        File file = new File(Url);
+        String fileName = file.getName();
+        // 浏览器以utf-8进行编码
+        fileName = URLEncoder.encode(fileName, "utf-8");
 
-            if (!file.exists()){
+        if (!file.exists()) {
 
-                return "文件不存在";
-            }else {
+            return "文件不存在";
+        } else {
 //                   进行下载
-                response.setContentType("text/html;charset=utf-8");
-                response.setContentType("application/octet-stream");
-                response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+            response.setContentType("text/html;charset=utf-8");
+            response.setContentType("application/octet-stream");
+            response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
 
-                FileInputStream inputStream = new FileInputStream(file);
-                InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
-                BufferedReader br = new BufferedReader(reader);
-                byte[] bytes = new byte[1024];
-                int len = 0;
-                while ((len = inputStream.read(bytes)) > 0) {
-                    response.getOutputStream().write(bytes, 0, len);
-                }
-                inputStream.close();
-                return "success";
-
+            FileInputStream inputStream = new FileInputStream(file);
+            InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+            BufferedReader br = new BufferedReader(reader);
+            byte[] bytes = new byte[1024];
+            int len = 0;
+            while ((len = inputStream.read(bytes)) > 0) {
+                response.getOutputStream().write(bytes, 0, len);
             }
+            inputStream.close();
+            return "success";
 
         }
+
+    }
 
     @RequestMapping(value = "/historyhomework")
     @ResponseBody
     public String historyhomework(HttpServletRequest request) throws ServletException, IOException {
         int curPage;
-        if(request.getParameter("curPage")!=null){
+        if (request.getParameter("curPage") != null) {
             curPage = Integer.parseInt(request.getParameter("curPage"));
-        }else{
+        } else {
             curPage = 1;
         }
-        int pageSize=Integer.parseInt(request.getParameter("pageSize"));
+        int pageSize = Integer.parseInt(request.getParameter("pageSize"));
 
-        String studentid= (String) request.getSession().getAttribute("studentID");
-        LayuiData<Workrelease> workreleaseLayuiData=parentService.studentWork(Integer.parseInt(studentid),curPage,pageSize);
+        String studentid = (String) request.getSession().getAttribute("studentID");
+        LayuiData<Workrelease> workreleaseLayuiData = parentService.studentWork(Integer.parseInt(studentid), curPage, pageSize);
 
         return JSON.toJSONString(workreleaseLayuiData);
     }
@@ -346,21 +346,20 @@ public class parentController {
     @RequestMapping(value = "/SafeEducation")
     @ResponseBody
     public String SafeEducation(HttpServletRequest request) throws ServletException, IOException {
-        String studentid= (String) request.getSession().getAttribute("studentID");
+        String studentid = (String) request.getSession().getAttribute("studentID");
         int curPage;
-        if(request.getParameter("curPage")!=null){
+        if (request.getParameter("curPage") != null) {
             curPage = Integer.parseInt(request.getParameter("curPage"));
-        }else{
+        } else {
             curPage = 1;
         }
-        int pageSize=Integer.parseInt(request.getParameter("pageSize"));
+        int pageSize = Integer.parseInt(request.getParameter("pageSize"));
 
 
-        LayuiData<ParentShowSafeQue> parentShowSafeQueLayuiData=parentService.AllSafeEducation(Integer.parseInt(studentid),curPage,pageSize);
+        LayuiData<ParentShowSafeQue> parentShowSafeQueLayuiData = parentService.AllSafeEducation(Integer.parseInt(studentid), curPage, pageSize);
 
         return JSON.toJSONString(parentShowSafeQueLayuiData);
     }
-
 
 
     @RequestMapping(value = "/SafeEduAns")
@@ -374,29 +373,29 @@ public class parentController {
     @ResponseBody
     public List<SafetyVtq> SafeQuestion(int videoId) throws ServletException, IOException {
 
-        List<SafetyVtq> list=parentsMapper.SearchQuestion(videoId);
+        List<SafetyVtq> list = parentsMapper.SearchQuestion(videoId);
         System.out.println(JSON.toJSONString(list));
         return list;
     }
 
     @RequestMapping(value = "/UpdateQueScore")
     @ResponseBody
-    public String UpdateQueScore(HttpServletRequest request,int videoId,int score) throws ServletException, IOException {
-        String studentid= (String) request.getSession().getAttribute("studentID");
-        int flag=parentsMapper.UpdateQueScore(videoId,Integer.parseInt(studentid),score);
-            if (flag>0){
+    public String UpdateQueScore(HttpServletRequest request, int videoId, int score) throws ServletException, IOException {
+        String studentid = (String) request.getSession().getAttribute("studentID");
+        int flag = parentsMapper.UpdateQueScore(videoId, Integer.parseInt(studentid), score);
+        if (flag > 0) {
 
-                return "success";
-            }else {
-                return "error";
-            }
+            return "success";
+        } else {
+            return "error";
+        }
     }
 
     //点击查看绘图
     @RequestMapping(value = "/ParentPhoto")
     @ResponseBody
-    public String ParentPhoto(String titleName,int readMagId) throws ServletException, IOException {
-        ReadmagData<ReadmagPhoto> readmagData=parentService.AllPitcures(titleName, readMagId);
+    public String ParentPhoto(String titleName, int readMagId) throws ServletException, IOException {
+        ReadmagData<ReadmagPhoto> readmagData = parentService.AllPitcures(titleName, readMagId);
         System.out.println("===============绘本信息================");
         System.out.println(JSON.toJSONString(readmagData));
         return JSON.toJSONString(readmagData);
@@ -408,31 +407,123 @@ public class parentController {
     public String parentRead(HttpServletRequest request) throws ServletException, IOException {
 
         int curPage;
-        if(request.getParameter("curPage")!=null){
+        if (request.getParameter("curPage") != null) {
             curPage = Integer.parseInt(request.getParameter("curPage"));
-        }else{
+        } else {
             curPage = 1;
         }
 
 //
-        PageBean<Readmag> pageBean=parentService.ParentRead(curPage,6);
+        PageBean<Readmag> pageBean = parentService.ParentRead(curPage, 6);
 //
-        request.setAttribute("read",pageBean);
+        request.setAttribute("read", pageBean);
         return "/partent/parentRead.jsp";
 
     }
+
     @RequestMapping(value = "/Cheat")
     public String Cheat(HttpServletRequest request) throws ServletException, IOException {
-       //通过学生班级拿到对应老师
-        String studentid= (String) request.getSession().getAttribute("studentID");
-        List<Teachers> teachers=parentsMapper.SearchTeacher(Integer.parseInt(studentid));
-        request.setAttribute("teachers",teachers);
+        //通过学生班级拿到对应老师
+        String studentid = (String) request.getSession().getAttribute("studentID");
+        List<Teachers> teachers = parentsMapper.SearchTeacher(Integer.parseInt(studentid));
+        request.setAttribute("teachers", teachers);
 
         return "/partent/Cheat.jsp";
     }
 
 
+    @RequestMapping(value = "/selectReadmag")
+    @ResponseBody
+    public String selectReadmag(HttpServletRequest request) throws ServletException, IOException {
+        HashMap<String, Object> condition = new HashMap<>();
+        String start = request.getParameter("start");
+        if (start != null && start.trim() != "") {
+            condition.put("start", start);
+        }
+        String end = request.getParameter("end");
+        if (end != null && end.trim() != "") {
+            condition.put("end", end);
+        }
+
+        String readmagName = request.getParameter("readmagName");
+        if (readmagName != null && readmagName.trim() != "") {
+            condition.put("readmagName", readmagName);
+        }
+        int curPage;
+        if (request.getParameter("curPage") != null) {
+            curPage = Integer.parseInt(request.getParameter("curPage"));
+        } else {
+            curPage = 1;
+        }
+        int pageSize = Integer.parseInt(request.getParameter("pageSize"));
 
 
+        LayuiData<Readmag> layuiData = null;
+        layuiData = parentService.selectReadmag(condition, curPage, pageSize);
 
+        return JSON.toJSONString(layuiData);
+    }
+
+    @RequestMapping(value = "/selectReadmagPhoto")
+    @ResponseBody
+    public String selectReadmagPhoto(int readmagId) throws ServletException, IOException {
+        System.out.println("readmagId" + readmagId);
+        //通过学生班级拿到对应老师
+        List<ReadmagPhoto> list = null;
+        list = parentsMapper.selectReadmagPhoto(readmagId);
+//        List<ReadmagPhoto>selectReadmagPhoto(int readmagId);
+        int a = 0;
+        a = parentsMapper.selectReadmagPhotoCount(readmagId);
+        LayuiData<ReadmagPhoto> layuiData = new LayuiData(0, "", a, list);
+        System.out.println("layuiData" + JSON.toJSONString(layuiData));
+        return JSON.toJSONString(layuiData);
+    }
+
+    @RequestMapping(value = "/deleteReadmsgPhoto")
+    @ResponseBody
+    public String deleteReadmsgPhoto(HttpServletRequest request, int readmagPhotoId) throws ServletException, IOException {
+        String msg = null;
+        int a = 0;
+        ReadmagPhoto readmagPhoto = parentsMapper.selectReadmsgPhotoByid(readmagPhotoId);
+        String savePath = request.getSession().getServletContext().getRealPath("");//在文件下载的根目录下加上/upload
+        String path = readmagPhoto.getSrc();
+        if (path != null && path.length() > 0) {
+            String filePath = savePath + readmagPhoto.getSrc();//删除图片的完整路径
+            File file = new File(filePath);
+            file.delete();
+            a = parentsMapper.deleteReadmsgPhoto(readmagPhotoId);
+            if (a > 0) {
+                msg = "success";
+            }
+        }
+
+        return msg;
+    }
+    @RequestMapping(value = "/deleteReadmsg")
+    @ResponseBody
+    public String deleteReadmsg(HttpServletRequest request, int readmagId) throws ServletException, IOException {
+        String msg = null;
+        int a = 0;
+       Readmag readmag =parentsMapper.selectReadmagByid(readmagId);
+        String savePath = request.getSession().getServletContext().getRealPath("");//在文件下载的根目录下加上/upload
+        String path = readmag.getReadmagPic();
+        if (path != null && path.length() > 0) {
+            String filePath = savePath + path;//删除图片的完整路径
+            File file = new File(filePath);
+            file.delete();
+            List<ReadmagPhoto>list=parentsMapper.selectReadmagPhoto(readmagId);
+            for (int i=0;i<list.size();i++){
+                String deletePath=list.get(i).getSrc();
+                if (deletePath.length()>0){
+                    String filePathTwo = savePath + deletePath;//删除图片的完整路径
+                    File fileTwo = new File(filePathTwo);
+                    fileTwo.delete();
+                }
+            }
+
+            msg= parentService.deleteReadmsg(readmagId);
+        }
+
+        return msg;
+    }
 }

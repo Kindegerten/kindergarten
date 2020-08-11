@@ -19,7 +19,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
           content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
-    <script src="${pageContext.request.contextPath}/static/X-admin/js/jquery-3.5.1.js" charset="UTF-8"></script>
+    <script src="/static/X-admin/js/jquery-3.5.1.js" charset="UTF-8"></script>
 
     <link rel="stylesheet" href="<%=path%>/static/X-admin/css/font.css">
     <link rel="stylesheet" href="<%=path%>/static/X-admin/css/xadmin.css">
@@ -65,10 +65,10 @@
                         </div>
                     </div>
                     <div class="layui-inline">
-                    <label for="safetyVideoName" class="layui-form-label">
-                        <span class="x-red">*</span>文件名称</label>
+                        <label class="layui-form-label">视频名称</label>
                     <div class="layui-input-inline">
-                        <input type="text" id="safetyVideoName" name="safetyVideoName" required="" lay-verify="pass" autocomplete="off" class="layui-input"></div>
+                        <input type="text" id="safetyVideoName" name="safetyVideoName" required="" lay-verify="pass" autocomplete="off" class="layui-input">
+                    </div>
                     </div>
                     </div>
                 <div class="layui-form-item">
@@ -93,47 +93,47 @@
 </div>
 </div>
 <%--//弹出层--%>
-<div class="layui-card-body  layui-form" id="insert_div" style="display:none"
-     lay-filter="update"><%--当添加layui下拉框就要在最外层加上layui-form，要不然不会显示下拉框的样式--%>
-    <form class="layui-form">
-        <div class="layui-form-item">
-            <label for="securityPhone" class="layui-form-label">
-                <span class="x-red">*</span>上传视频</label>
-            <div class="layui-input-inline">
-                <input type="file" id="securityPhone" name="securityPhone" required="" lay-verify="required|phone"
-                       autocomplete="off" class="layui-input">
+<div class="layui-card-body  layui-form" id="insert_div" style="display:none"  lay-filter="update"><%--当添加layui下拉框就要在最外层加上layui-form，要不然不会显示下拉框的样式--%>
+    <div class="layui-row">
+        <form class="layui-form" lay-filter="update">
+            <div class="layui-form-item">
+                <label for="test8" class="layui-form-label">
+                    <span class="x-red">*</span>上传视频</label>
+                <div class="layui-input-inline">
+                    <button type="button" class="layui-btn layui-btn-normal" id="test8">选择文件</button>
+                    <%--                            <input type="file" id="securityPhone" name="securityPhone" required="" lay-verify="required|phone" autocomplete="off" class="layui-input">--%>
+                </div>
             </div>
-        </div>
-        <div class="layui-form-item">
-            <label for="securityName" class="layui-form-label">
-                <span class="x-red">*</span>视频名称</label>
-            <div class="layui-input-inline">
-                <input type="text" id="securityName" name="securityName" required="" lay-verify="nikename"
-                       autocomplete="off" class="layui-input"></div>
-        </div>
-        <div class="layui-form-item">
-            <label for="securityPwd" class="layui-form-label">
-                <span class="x-red">*</span>文件名称</label>
-            <div class="layui-input-inline">
-                <input type="password" id="securityPwd" name="securityPwd" required="" lay-verify="pass"
-                       autocomplete="off" class="layui-input"></div>
-        </div>
-
-        <div class="layui-form-item">
-            <label for="securityAge" class="layui-form-label">
-                <span class="x-red">*</span>文件地址</label>
-            <div class="layui-input-inline">
-                <input type="text" id="securityAge" name="securityAge" required="" lay-verify="teacherAge"
-                       autocomplete="off" class="layui-input"></div>
-            <div class="layui-form-mid layui-word-aux"></div>
-        </div>
-
-        <div class="layui-form-item">
-            <label for="securityAge" class="layui-form-label"></label>
-            <button class="layui-btn" lay-filter="add" lay-submit="">增加</button>
-        </div>
-        <button class="layui-btn" lay-filter="add" lay-submit="">取消</button>
-    </form>
+            <div class="layui-form-item">
+                <label for="safetyVideoName" class="layui-form-label">
+                    <span class="x-red">*</span>视频名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="safetyVideoNameTwo" name="safetyVideoNameTwo" required="" lay-verify="nikename"
+                           autocomplete="off" class="layui-input"></div>
+            </div>
+            <div class="layui-form-item">
+                <label for="videoName" class="layui-form-label">
+                    <span class="x-red">*</span>文件名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="videoName" name="videoName" required="" lay-verify="pass" autocomplete="off"
+                           class="layui-input"></div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">上传时间</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <input class="layui-input " autocomplete="off" placeholder="开始日" name="start" id="safetyVideoStar">
+                </div>
+                <div class="layui-inline layui-show-xs-block">
+                    <input class="layui-input" autocomplete="off" placeholder="截止日" name="end" id="safetyVideoEnd">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="test9" class="layui-form-label"></label>
+                <button class="layui-btn" type="button" lay-filter="formDemo" lay-submit="" id="test9">增加</button>
+                <%--                        <button type="button" class="layui-btn" id="test9">开始上传</button>--%>
+                <button class="layui-btn" lay-filter="add" onclick="close()">取消</button>
+            </div>
+        </form>
 </div>
 
 </div>
@@ -159,7 +159,7 @@
             , url: "/platformController/selectSafetyVideo"
             // ,cellMinWidth: 80 //全kin局定义常规单元格的最小宽度，layui 2.2.1 新增
             , cols: [[
-                , {field: 'safetyVideoId', type: 'numbers', title: '视频编号', fixed: 'left'}
+                , {field: 'safetyVideoId', title: '视频编号', fixed: 'left'}
                 , {field: 'safetyVideoName', title: '视频名称'}
                 , {field: 'videoName', title: '文件名称', sort: true}
                 , {field: 'videoAdd', title: '文件地址', sort: true}
@@ -219,12 +219,24 @@
                 }, 'data');
             }
         };
-
+        /* 执行ladate实例*/
+        laydate.render({
+            elem: '#Start'
+        })
+        laydate.render({
+            elem: '#end'
+        });
         $('.demoTable .layui-btn').on('click', function () {
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
-
+        /* 执行ladate实例*/
+        laydate.render({
+            elem: '#safetyVideoStar'
+        })
+        laydate.render({
+            elem: '#safetyVideoEnd'
+        });
 
         table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data; //获得当前行数据
@@ -252,92 +264,71 @@
                 });
 
             }
-            if (layEvent === 'update') {
+            if (layEvent === 'againUpload') {
 
                 var index = layer.open({
-                    title: '资讯内容',
+                    title: '重新上传',
                     type: 1,
                     shade: 0.2,
                     maxmin: true,
                     shadeClose: true,
                     offset: ['50px', '33%'],
                     area: ['600px', '400px'],
-                    btn: ['提交', '返回'],
+                    // btn: ['提交', '返回'],
                     btnAlign: 'c',
-                    closeBtn: false,
+                    // closeBtn: false,
                     id: 'LAY_layuipro',
                     moveType: 1,
                     content: $('#insert_div'),
                     success: function (layero, index) {
+                        // var safetyVideoNameTwo=layero.find('#safetyVideoNameTwo').val();
+                        // console.log(safetyVideoNameTwo)
                         //多图片上传
                         upload.render({
-                            elem: '#test2'
-                            ,url: '' //改成您自己的上传接口
-                            ,multiple: true
-                            ,before: function(obj){
-                                //预读本地文件示例，不支持ie8
-                                obj.preview(function(index, file, result){
-                                    console.log("file.name"+file.name)
-                                    //给表单赋值
+                            elem: '#test8'
+                            , url: "/platformController/againUpload" //改成您自己的上传接口
+                            , auto: false //不自动上传，需要绑定某个按钮点击上传
+                            , accept: 'video' //普通文件（文件类型）
+                            , data: {
+                                safetyVideoName:function () {
+                                    return $("#safetyVideoNameTwo").val()
+                                },
+                                // safetyVideoName:safetyVideoNameTwo,
+                                videoName:function () {
+                                    return $("#videoName").val()
+                                },
+                                safetyVideoStar:function () {
+                                    return $("#safetyVideoStar").val()
+                                },
+                                safetyVideoEnd:function () {
+                                    return $("#safetyVideoEnd").val()
+                                },
+                                safetyVideoId:data.safetyVideoId
+                            }//额外添加的参数
+                            , choose: function (obj) {
+                                obj.preview(function (index, file, result) {
+                                    //对上传失败的单个文件重新上传，一般在某个事件中使用
+                                    //obj.upload(index, file);
+                                    var  videoName=$("#videoName");
+
+                                    videoName.text(" ");//当另外选择一个文件后，文件名那栏要更新
                                     form.val("update", { //formTest 即 class="layui-form" 所在元素属性 lay-filter="" 对应的值
-                                        "securityName":file.name // "name": "value"
-                                        // , "menuUrl": data.menuUrl
-                                        // , "orderId": data.orderId
-                                        // ,"check[write]": true
-                                        // ,"open": false
-                                        // ,"desc": "我爱layui"
+                                        "videoName": file.name, // "name": "value"
+                                        "safetyVideoNameTwo":data.safetyVideoName
+
                                     });
-                                    // $('#demo2').append('<img src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img">')
                                 });
                             }
-                            ,done: function(res){
-                                //上传完毕
+                            // ,exts: 'jpg|png|gif|bmp|jpeg|docx' //普通文件（文件类型）
+                            //,multiple: true //是否多个文件上传
+                            , bindAction: '#test9'
+                            , done: function (res) {
+                                layer.msg(res.msg);
+                                xadmin.close();
+                                // 可以对父窗口进行刷新
+                                xadmin.father_reload();
                             }
-                        });
-
-
-                        // //获取表单区域所有值
-                        //     var data1 = form.val("update");
-                        //     console.log("data1"+data1)
-                        var btn = layero.find('.layui-layer-btn');
-                        btn.find('.layui-layer-btn0').click(function () {
-                            // debugger
-                            //layero为子窗口对象
-                            var menuName = layero.find('#menuNameTwo').val();
-                            var parentId = layero.find('#parentNameone').val();
-                            var menuUrl = layero.find('#menuUrl').val();
-                            var orderId = layero.find('#orderId').val();
-                            console.log("menuName" + menuName)
-                            console.log("parent" + parentId)
-                            console.log("menuUrl" + menuUrl)
-                            console.log("orderId" + orderId)
-                            // if(platformInfoName!=''&&platformInfoName!=null && platformInfoDetail!=''&&platformInfoDetail!=null){
-                            $.ajax({
-                                type: "post",
-                                url: "/platformController/updateMenu",
-                                async: true,
-                                data: {
-                                    menuId: data.menuId,
-                                    parentId: parentId,
-                                    menuName: menuName,
-                                    menuUrl: menuUrl,
-                                    orderId: orderId,
-                                },
-                                dataType: "text",
-                                success: function (data) {
-                                    if (data == "success") {
-                                        alert("修改成功");
-                                        window.location.reload();
-                                    }
-                                    // alert("修改成功");
-                                    // location.reload();
-                                }
-                            });
-                            // }else{
-                            //     alert("请输入正确信息");
-                            //     document.getElementById("layui-layer-iframe"+index).contentWindow.location.reload();
-                            // }
-                        });
+                        })
                     }
                 });
                 $(window).on("resize", function () {
@@ -346,11 +337,16 @@
                 return false;
             }
         });
+        function close() {
+            xadmin.close();
+            // 可以对父窗口进行刷新
+            xadmin.father_reload();
+        }
     });
 
 </script>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="update">重新上传</a>
+    <a class="layui-btn layui-btn-xs" lay-event="againUpload">重新上传</a>
     <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
 </script>
 </html>

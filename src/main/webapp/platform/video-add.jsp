@@ -48,17 +48,17 @@
             <div class="layui-inline">
                 <label class="layui-form-label">设置时间</label>
                 <div class="layui-inline layui-show-xs-block">
-                    <input class="layui-input " autocomplete="off" placeholder="开始日" name="safetyVideoStar"
+                    <input class="layui-input " autocomplete="off" placeholder="开始日" lay-verify="required" name="safetyVideoStar"
                            id="safetyVideoStar">
                 </div>
                 <div class="layui-inline layui-show-xs-block">
-                    <input class="layui-input" autocomplete="off" placeholder="截止日" name="safetyVideoEnd"
+                    <input class="layui-input" autocomplete="off" placeholder="截止日" lay-verify="required" name="safetyVideoEnd"
                            id="safetyVideoEnd">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label for="test9" class="layui-form-label"></label>
-                <button class="layui-btn" type="button" lay-filter="formDemo" id="test9">增加</button>
+                <button class="layui-btn" type="button" lay-filter="formDemo" lay-submit="" id="test9">增加</button>
                 <%--                        <button type="button" class="layui-btn" id="test9">开始上传</button>--%>
                 <button class="layui-btn" lay-filter="add" lay-submit="">取消</button>
             </div>
@@ -79,8 +79,8 @@
             //自定义验证规则
             form.verify({
                 nikename: function (value) {
-                    if (value.length < 3) {
-                        return '昵称至少得3个字符啊';
+                    if (value.length < 2) {
+                        return '文件名至少得2个字符啊';
                     }
                 },
                 pass: [/(.+){3,12}$/, '密码必须3到12位'],
@@ -93,18 +93,6 @@
             laydate.render({
                 elem: '#safetyVideoEnd'
             });
-            // var data1 = form.val("update");
-            // var safetyVideoStar = $("#safetyVideoStar").val();
-            // var safetyVideoEnd = $("#safetyVideoEnd").val();
-            // var videoName = $("#videoName").val();
-            // var safetyVideoName = $("#safetyVideoName").val();
-            // console.log("safetyVideoStar" + safetyVideoStar)
-            // var SafetyVideo={
-            //     safetyVideoName: safetyVideoName,
-            //     videoName:videoName,
-            //     safetyVideoStar:safetyVideoStar,
-            //     safetyVideoEnd:safetyVideoEnd
-            // }
             //选完文件后不自动上传
             upload.render({
 
@@ -124,7 +112,8 @@
                     },
                     safetyVideoEnd:function () {
                         return $("#safetyVideoEnd").val()
-                    }
+                    },
+
                     // safetyVideoName: $("#safetyVideoName").val(),
                     // videoName:$("#videoName").val(),
                     // safetyVideoStar:$("#safetyVideoStar").val(),
@@ -135,7 +124,9 @@
                     obj.preview(function (index, file, result) {
                         //对上传失败的单个文件重新上传，一般在某个事件中使用
                         //obj.upload(index, file);
+                        var  videoName=$("#videoName");
 
+                       videoName.text(" ");//当另外选择一个文件后，文件名那栏要更新
                         form.val("update", { //formTest 即 class="layui-form" 所在元素属性 lay-filter="" 对应的值
                             "videoName": file.name // "name": "value"
 
@@ -147,7 +138,9 @@
                 , bindAction: '#test9'
                 , done: function (res) {
                     layer.msg(res.msg);
-                    // console.log(res)
+                    xadmin.close();
+                    // 可以对父窗口进行刷新
+                    xadmin.father_reload();
                 }
             });
 

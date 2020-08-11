@@ -77,4 +77,13 @@ public interface ParentsMapper {
 
     //找老师名字，电话号码
     public List<Teachers>SearchTeacher(int StudentId);
+    public List<Readmag>selectReadmag(@Param("condition")HashMap<String,Object>condition,@Param("curPage") int curPage, @Param("pageSize") int pageSize);
+    public int selectReadmagCount(@Param("condition")HashMap<String,Object>condition);
+    int deleteReadmsg(int readmagId);
+    List<ReadmagPhoto>selectReadmagPhoto(int readmagId);
+    int selectReadmagPhotoCount(int readmagId);
+    int deleteReadmsgPhoto(int readmagPhotoId);
+    int deleteReadmsgPhotoByid(int readmagId);
+    ReadmagPhoto selectReadmsgPhotoByid(int readmagPhotoId);
+    Readmag selectReadmagByid(int readmagId);
 }

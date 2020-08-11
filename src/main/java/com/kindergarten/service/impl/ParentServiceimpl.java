@@ -154,4 +154,30 @@ public class ParentServiceimpl implements ParentService {
 
         return pageBean;
     }
+
+    @Override
+    public String deleteReadmsg(int readmagId) {
+        String msg=null;
+        int a=0;
+        int b=0;
+        a=parentsMapper.deleteReadmsg(readmagId);
+        b=parentsMapper.deleteReadmsgPhotoByid(readmagId);
+        if(a>0&&b>0){
+            msg="success";
+        }
+        return msg;
+    }
+
+    @Override
+    public LayuiData selectReadmag(HashMap condition, int curPage, int pageSize) {
+        LayuiData<Readmag> layuiData=null;
+        List<Readmag> list=parentsMapper.selectReadmag(condition,curPage,pageSize);
+        int totalRecord=parentsMapper.selectReadmagCount(condition);
+        if (totalRecord>0){
+            layuiData=new LayuiData<>(0,"",totalRecord,list);
+        }else {
+            layuiData=new LayuiData<>(1,"",0,null);
+        }
+       return layuiData;
+    }
 }

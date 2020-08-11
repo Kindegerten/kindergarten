@@ -335,18 +335,19 @@ public class AdminServiceImp implements AdminService {
     }
 
     @Override
-    public int selectOneFile(SafetyVideo safetyVideo) {
+    public SafetyVideo selectOneFile(SafetyVideo safetyVideo) {
 
-        int a=0;
-        a=adminMapper.selectOneFile(safetyVideo);
+        SafetyVideo safetyVideo1=null;
+        safetyVideo1=adminMapper.selectOneFile(safetyVideo);
 
-        return a;
+        return safetyVideo1;
     }
 
     @Override
     public String insertVideo(SafetyVideo safetyVideo) {
         String msg=null;
         int a=0;
+//        System.out.println("safetyVideo"+JSON.toJSONString(safetyVideo));
         a=adminMapper.insertVideo(safetyVideo);
         if (a>0){
             msg="success";
@@ -359,6 +360,114 @@ public class AdminServiceImp implements AdminService {
         String msg=null;
         int a=0;
         a=adminMapper.deleteSafetyVideo(safetyVideoId);
+        if (a>0){
+            msg="success";
+        }
+        return msg;
+    }
+
+    @Override
+    public String updateSafetyVideo(SafetyVideo safetyVideo) {
+        String msg=null;
+        int a=0;
+        a=adminMapper.updateSafetyVideo(safetyVideo);
+        if (a>0){
+            msg="success";
+        }
+        return msg;
+    }
+
+    @Override
+    public String insertSafetyVtq(SafetyVtq safetyVtq) {
+        String msg=null;
+        int a=0;
+        a=adminMapper.insertSafetyVtq(safetyVtq);
+        if (a>0){
+            msg="success";
+        }
+        return msg;
+    }
+
+    @Override
+    public String deleteSafetyVtq(int safetyVtqId) {
+        String msg=null;
+        int a=0;
+        a=adminMapper.deleteSafetyVtq(safetyVtqId);
+        if (a>0){
+            msg="success";
+        }
+        return msg;
+    }
+
+    @Override
+    public LayuiData SearchQuestion(int curPage, int pageSize, int videoId) {
+        LayuiData<SafetyVtq> layuiData = null;
+        List<SafetyVtq> list =null;
+        int a =0;
+        list= adminMapper.SearchQuestion(curPage, pageSize,videoId);
+//        System.out.println("selectSyslog:"+ JSON.toJSONString(list));
+        a= adminMapper.SearchQuestionCount(videoId);
+
+
+        if (list.size() > 0) {
+            layuiData = new LayuiData<>(0, "", a, list);
+        } else {
+            layuiData = new LayuiData<>(1, "查询失败", 0, null);
+        }
+        return layuiData;
+    }
+
+    @Override
+    public String insertReadmsg(Readmag readmag) {
+        String msg=null;
+        int a=0;
+        a=adminMapper.insertReadmsg(readmag);
+        if (a>0){
+            msg="success";
+        }
+        return msg;
+    }
+
+    @Override
+    public String insertReadmsgPhoto(ReadmagPhoto readmagPhoto) {
+        String msg=null;
+        int a=0;
+        a=adminMapper.insertReadmsgPhoto(readmagPhoto);
+        if (a>0){
+            msg="success";
+        }
+        return msg;
+    }
+
+    @Override
+    public int selectStudentSex(String studentSex) {
+        int a=adminMapper.selectStudentSex(studentSex);
+        return a;
+    }
+
+    @Override
+    public int selectStudentHealth(String healthStatus) {
+        int a=adminMapper.selectStudentHealth(healthStatus);
+        return a;
+    }
+
+    @Override
+    public String updateReadPhoto(ReadmagPhoto readmagPhoto) {
+        String msg=null;
+        int a=0;
+        a=adminMapper.updateReadPhoto(readmagPhoto);
+        if (a>0){
+            msg="success";
+        }
+        return msg;
+    }
+
+
+    @Override
+    public String updateSafetyVtq(SafetyVtq safetyVtq) {
+        String msg=null;
+        int a=0;
+        a=adminMapper.updateSafetyVtq(safetyVtq);
         if (a>0){
             msg="success";
         }

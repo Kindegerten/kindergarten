@@ -6,6 +6,7 @@ import com.kindergarten.mapper.TeacherMapper;
 import com.kindergarten.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -476,5 +477,65 @@ public class TeacherController {
         LayuiData layuiData = teacherService.safetyTestCompleteSelectList( safetyTestOut, endTime,Integer.parseInt(pageStr), Integer.parseInt(pageSizeStr));
         return JSON.toJSONString(layuiData);
     }
+//    @RequestMapping(value = "selectSex")
+//    @ResponseBody
+//    public String selectSex(HttpServletRequest request, HttpServletResponse response ) {
+//        HashMap<String,Object> hashMap=new HashMap();
+//        int a=teacherMapper.selectBoy();
+//        int b=teacherMapper.selectGirl();
+//        hashMap.put("男",a);
+//        hashMap.put("女",b);
+//        System.out.println("hashMap"+hashMap);
+//        return JSON.toJSONString(hashMap);
+//    }
+    @RequestMapping("/selectSex")
+    @ResponseBody
+    public String selectSex(HttpServletRequest request, Model model) {
+        List<String> xAxis = new ArrayList<String>();
 
+        xAxis.add("男");
+        xAxis.add("女");
+//        List<Object> data = new ArrayList<Object>();
+        HashMap<String,Object> hashMap=new HashMap();
+        int a=teacherMapper.selectBoy();
+        int b=teacherMapper.selectGirl();
+        List<Integer>data=new ArrayList<>();
+        data.add(a);
+        data.add(b);
+        hashMap.put("xAxis", xAxis);
+        hashMap.put("data", data);
+//        model.
+        return JSON.toJSONString(hashMap);
+    }
+
+    @RequestMapping("/selectTeacherAge")
+    @ResponseBody
+    public String selectTeacherAge(HttpServletRequest request, Model model) {
+        List<String> xAxis = new ArrayList<String>();
+
+        xAxis.add("[10-20]");
+        xAxis.add("[20-30]");
+        xAxis.add("[30-40]");
+        xAxis.add("[40-50]");
+        xAxis.add("[50-60]");
+//        List<Object> data = new ArrayList<Object>();
+        HashMap<String,Object> hashMap=new HashMap();
+        int a=teacherMapper.selectTeacherAge(10);//10-20
+        int b=teacherMapper.selectTeacherAge(20);//20-30
+        int c=teacherMapper.selectTeacherAge(30);//30-40
+        int d=teacherMapper.selectTeacherAge(40);//40-50
+        int e=teacherMapper.selectTeacherAge(50);//50-60
+        System.out.println("a"+a);
+        System.out.println("b"+b);
+//        int b=teacherMapper.selectGirl();
+        List<Integer>data=new ArrayList<>();
+        data.add(a);
+        data.add(b);
+        data.add(c);
+        data.add(d);
+        data.add(e);
+        hashMap.put("xAxis", xAxis);
+        hashMap.put("data", data);
+        return JSON.toJSONString(hashMap);
+    }
 }
