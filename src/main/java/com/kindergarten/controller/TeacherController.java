@@ -6,7 +6,6 @@ import com.kindergarten.mapper.TeacherMapper;
 import com.kindergarten.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -467,9 +466,12 @@ public class TeacherController {
 
         Teachers staffRo=(Teachers) request.getSession().getAttribute("tblTeachers");
 
-        if(state!=null&&!state.isEmpty()){
-            Integer state1 = Integer.valueOf(state);
+        if(state!=""){
+            String state1 = state;
             safetyTestOut.setSafetyTestResult(state1);//设置完成状态
+        }else if (state==""){
+            LayuiData layuiDatas = teacherService.safetyTestCompleteSelectList( safetyTestOut, endTime,Integer.parseInt(pageStr), Integer.parseInt(pageSizeStr));
+            return JSON.toJSONString(layuiDatas);
         }
         safetyTestOut.setTeacherId(staffRo.getTeacherId());//设置staffID
 //        safetyTestOut.setFinishTime(startTime);//设置开始完成时间
@@ -477,17 +479,6 @@ public class TeacherController {
         LayuiData layuiData = teacherService.safetyTestCompleteSelectList( safetyTestOut, endTime,Integer.parseInt(pageStr), Integer.parseInt(pageSizeStr));
         return JSON.toJSONString(layuiData);
     }
-//    @RequestMapping(value = "selectSex")
-//    @ResponseBody
-//    public String selectSex(HttpServletRequest request, HttpServletResponse response ) {
-//        HashMap<String,Object> hashMap=new HashMap();
-//        int a=teacherMapper.selectBoy();
-//        int b=teacherMapper.selectGirl();
-//        hashMap.put("男",a);
-//        hashMap.put("女",b);
-//        System.out.println("hashMap"+hashMap);
-//        return JSON.toJSONString(hashMap);
-//    }
     @RequestMapping("/selectSex")
     @ResponseBody
     public String selectSex(HttpServletRequest request, Model model) {
@@ -538,4 +529,19 @@ public class TeacherController {
         hashMap.put("data", data);
         return JSON.toJSONString(hashMap);
     }
+    /*查询*/
+    @RequestMapping(value = "/courseSelectList")
+    @ResponseBody
+    public Object courseSelectList(HttpServletRequest request, HttpServletResponse response ,Course course) {
+
+        String pageStr = request.getParameter("page");//页码
+        String pageSizeStr = request.getParameter("limit");//每页记录数
+        Teachers staffRo=(Teachers) request.getSession().getAttribute("tblTeachers");
+        course.setTeacherId(staffRo.getTeacherId());
+
+        LayuiData layuiData = teacherService.courseTeacher(course,Integer.parseInt(pageStr), Integer.parseInt(pageSizeStr));
+        System.out.println(JSON.toJSONString(layuiData));
+        return layuiData;
+    }
+
 }

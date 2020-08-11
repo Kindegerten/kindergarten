@@ -78,9 +78,9 @@
             }],
             cols: [[
                 {type: "checkbox", width: 50},
-                {field: 'workReleaseid', width: 140, title: 'ID', sort: true},
+                {field: 'workReleaseid', width: 140, title: 'ID'},
                 {field: 'classId', width: 140, title: '班号'},
-                {field: 'className', width: 140, title: '班名', sort: true},
+                {field: 'className', width: 140, title: '班名'},
                 {field: 'workName', width: 140, title: '作业'},
                 {field: 'workreleaseTime', title: '发布时间', width: 150},
                 {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center"}

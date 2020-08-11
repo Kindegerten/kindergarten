@@ -75,12 +75,12 @@
                             <cite>园所审批</cite></a>
                     </li>
                     <li>
-                        <a onclick="xadmin.add_tab('教师管理','${pageContext.request.contextPath}/rector/jsp/teacher-list.jsp')">
+                        <a onclick="xadmin.add_tab('教职工管理','${pageContext.request.contextPath}/rector/jsp/teacher-list.jsp')">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>教师管理</cite></a>
+                            <cite>教职工管理</cite></a>
                     </li>
                     <li>
-                        <a onclick="xadmin.add_tab('教师考勤','${pageContext.request.contextPath}/rector/jsp/attendence.jsp')">
+                        <a onclick="xadmin.add_tab('教师考勤','${pageContext.request.contextPath}/rector/jsp/attendance-list.jsp')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>教师考勤</cite></a>
                     </li>
@@ -100,7 +100,7 @@
                             <cite>班级管理</cite></a>
                     </li>
                     <li>
-                        <a onclick="xadmin.add_tab('班级成员管理','${pageContext.request.contextPath}/rector/jsp/classmember-list.jsp')">
+                        <a onclick="xadmin.add_tab('班级成员管理','${pageContext.request.contextPath}/rector/jsp/classMember-list.jsp')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>班级成员管理</cite></a>
                     </li>
@@ -115,9 +115,15 @@
                             <cite>消息通知</cite></a>
                     </li>
                     <li>
-                        <a onclick="xadmin.add_tab('校园公告','${pageContext.request.contextPath}/rector/jsp/campusNews.jsp')">
+                        <a onclick="xadmin.add_tab('校园公告','${pageContext.request.contextPath}/rector/jsp/campusNews-list.jsp')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>校园公告</cite></a>
+                    </li>
+
+                    <li>
+                        <a onclick="xadmin.add_tab('学生缴费','${pageContext.request.contextPath}/rector/jsp/bill.jsp')">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>学生缴费</cite></a>
                     </li>
 
                 </ul>

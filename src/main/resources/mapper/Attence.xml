@@ -8,7 +8,7 @@
     <insert id="insertAttendance" parameterType="com.kindergarten.bean.FaceUserList">
         insert into
         <if test="group_id=='teacher'">tbl_tertime (tid) values (#{user_id})</if>
-        <if test="group_id=='student'">tbl_stutime (student_id,photo_url) values (#{user_id},#{photo_url})</if>
+        <if test="group_id=='student'">tbl_stutime (student_id,student_type) values (#{user_id},#{student_type})</if>
 
     </insert>
 

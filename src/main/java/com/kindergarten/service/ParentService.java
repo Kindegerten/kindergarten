@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.HashMap;
 import java.util.List;
 
-public interface ParentService<T> {
+public interface ParentService {
 
     public Parents login(String tel);
     public LayuiData<CampusInfo> CampusInfo(int kinderId,int curPage, int pageSize);
@@ -26,4 +26,7 @@ public interface ParentService<T> {
     public LayuiData<T>selectReadmag(@Param("condition")HashMap<String,Object>condition,@Param("curPage") int curPage, @Param("pageSize") int pageSize);
     public  String deleteReadmsg(int readmagId);
 
+    public LayuiData<StuAttendance> stuAttendance(int studentId,int curPage, int pageSize);
+
+    public LayuiData<SchoolBill> Mybills(int studentId,int curPage, int pageSize);
 }

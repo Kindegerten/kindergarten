@@ -86,4 +86,23 @@ public interface ParentsMapper {
     int deleteReadmsgPhotoByid(int readmagId);
     ReadmagPhoto selectReadmsgPhotoByid(int readmagPhotoId);
     Readmag selectReadmagByid(int readmagId);
+    //查看考勤
+    public List<StuAttendance> SearchStudentKaoQin(@Param("studentId")int studentid,@Param("curPage") int curPage, @Param("pageSize") int pageSize);
+    public int SearchStudentKaoQinCount(int studentid);
+
+    //查看需要缴交的费用
+    public List<SchoolBill> SearchMyBill (@Param("studentId")int studentid,@Param("curPage") int curPage, @Param("pageSize") int pageSize);
+    public int SearchMyBillCount(int studentid);
+
+    //遍历记录表中有无缴费记录
+    List<HashMap<String,Object>> FindBilllog(@Param("studentId")int studentId);
+
+    //缴费记录
+    StudentBill studentbill(@Param("studentId")int studentId,@Param("schoolbillId")int schoolId);
+
+    //作为支付使用,点击支付发id，而后去请求支付接口
+
+    SchoolBill Pay(@Param("billId")int billId);
+
+    int SuccessPay(StudentBill studentBill);
 }

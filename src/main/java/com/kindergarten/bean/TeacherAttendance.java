@@ -59,44 +59,37 @@ public class TeacherAttendance {
 
     public String getTertimeDate() {
 
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");    // HH:mm:ss
-        Date sd = null;      // 时间戳转换成时间
-        try {
-            sd = sdf.parse(this.getPrinttime());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        System.out.println("格式化结果：" + sd);
+        String time=this.getPrinttime().split(" ")[0];
 
-        return sd+"";
+        return time+"";
     }
 
     public void setTertimeDate(String tertimeDate) {
         this.tertimeDate = tertimeDate;
     }
 
-    public String getTertimePeriod() {
+    public String getTertimePeriod() throws ParseException {
 
-        SimpleDateFormat sdf2 = new SimpleDateFormat("HH");
-        Date sd2 = null;
-        try {
-            sd2 = sdf2.parse(this.printtime);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        System.out.println("格式化结果：" + sd2);
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
+        Date time=df.parse(this.getPrinttime().split(" ")[1]);
+        System.out.println("time:"+time);
+        String beginTime=new String("12:00:00");
+        Date sd=df.parse(beginTime);
+        System.out.println("sd:"+sd);
+        System.out.println("Period:"+time.before(sd));
 
-        return sd2+"";
+
+        return time.before(sd)==true?"上午":"下午";
     }
 
     public void setTertimePeriod(String tertimePeriod) {
         this.tertimePeriod = tertimePeriod;
     }
 
-//    public static void main(String[] args) {
+//    public static void main(String[] args) throws ParseException {
 //        TeacherAttendance teacherAttendance=new TeacherAttendance();
 //        teacherAttendance.setPrinttime("2020-08-05 11:32:12");
-//        System.out.println(teacherAttendance.getTertimeDate()+" "+teacherAttendance.getTertimePeriod());
+//        System.out.println(teacherAttendance.getTertimePeriod());
 //    }
 }
 

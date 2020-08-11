@@ -13,9 +13,17 @@ public class Rector {
     private Date rectorRegtime;
     private int rectorStatus;
     private int kinderId;
-
+    private String kinderName;
     public Rector() {
 
+    }
+
+    public String getKinderName() {
+        return kinderName;
+    }
+
+    public void setKinderName(String kinderName) {
+        this.kinderName = kinderName;
     }
 
     public int getRectorId() {

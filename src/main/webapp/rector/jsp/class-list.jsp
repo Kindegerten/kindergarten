@@ -5,7 +5,7 @@
 <%String path = request.getContextPath();%>
 <head>
     <meta charset="UTF-8">
-    <title>体检列表</title>
+    <title>班级管理</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -22,6 +22,7 @@
 </head>
 <body>
 <input type="hidden" id="path" value=<%=path%>>
+<input type="hidden" id="kinderId" value="${rector.kinderId}">
 <div class="x-nav">
           <span class="layui-breadcrumb">
             <a href="">首页</a>
@@ -39,14 +40,18 @@
             <div class="layui-card">
                 <div class="layui-card-body ">
                     <div class="layui-card-body demoTable">
-                        <label class="layui-form-label">搜索园所班级</label>
+                        <label class="layui-form-label">搜索</label>
                         <div class="layui-inline layui-show-xs-block">
-                            <input class="layui-input" autocomplete="off" placeholder="园所名（如“英才幼儿园”）"
-                                   id="kinderName" name="kinderName" value="${kinderName}">
+                            <input class="layui-input" autocomplete="off" placeholder="开始日" name="startDate" id="start"
+                                   value="${startDate}">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
-                            <input type="text" name="className" placeholder="班级名(如“小一班”)" autocomplete="off"
-                                   id="className" class="layui-input" value="${className}">
+                            <input class="layui-input" autocomplete="off" placeholder="截止日" name="endDate" id="end"
+                                   value="${endDate}">
+                        </div>
+                        <div class="layui-inline layui-show-xs-block">
+                            <input type="text" name="className" id="className" placeholder="班级名称" autocomplete="off"
+                                    class="layui-input" value="${className}">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
                             <button class="layui-btn" data-type="reload"
@@ -58,10 +63,11 @@
                 <div class="layui-card-header">
                     <%--                    <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除--%>
                     <%--                    </button>--%>
-                    <button class="layui-btn" onclick="xadmin.open('新增体检情况','./bodyCheck-add.jsp',450,400)"><i
-                            class="layui-icon"></i>新增体检情况
+                    <button class="layui-btn" onclick="xadmin.open('新增班级','./class-add.jsp',450,400)"><i
+                            class="layui-icon"></i>新增班级
                     </button>
                 </div>
+<%--                //主体表格--%>
                 <div class="layui-card-body layui-table-body layui-table-main">
                     <table class="layui-table layui-form" id="bodytable" lay-filter="test">
 
@@ -72,62 +78,54 @@
     </div>
 </div>
 
-<%--//修改体检信息的div--%>
+<%--//修改信息的div--%>
 <div hidden class="layui-fluid" id="updateDiv">
     <div class="layui-row">
-        <form class="layui-form" action="" method="post">
+        <form class="layui-form" lay-filter="addForm" action="" method="post">
             <div class="layui-form-item">
-                <label class="layui-form-label">宝宝ID</label>
-                <div  hidden class="layui-input-inline">
-                    <input hidden readonly type="text" id="sid" name="sid" required lay-verify="required" autocomplete="off"
+                <label class="layui-form-label">班级ID</label>
+                <div hidden class="layui-input-inline">
+                    <input readonly type="text" id="classId" name="classId" required lay-verify="required"
+                           autocomplete="off"
                            placeholder="" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
-            <label class="layui-form-label">宝宝名称</label>
-            <div class="layui-input-inline">
-                <input type="text" id="studentName" name="studentName" required lay-verify="required" autocomplete="off"
-                       placeholder="" class="layui-input">
-            </div>
-        </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">身高</label>
+                <label class="layui-form-label">班级名称</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="height" name="height" required lay-verify="required" autocomplete="off"
-                           class="layui-input">
+                    <input  type="text" id="className1" name="className1" required lay-verify="required"
+                           autocomplete="off"
+                           placeholder="" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">体重</label>
+                <label class="layui-form-label">所在教室</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="weight" name="weight" required lay-verify="required" autocomplete="off"
-                           class="layui-input">
+                    <input  type="text" id="classRoom" name="classRoom" required lay-verify="required"
+                           autocomplete="off"
+                           placeholder="" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">视力</label>
+                <label class="layui-form-label">班主任Id</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="vision" name="vision" lay-verify="required" autocomplete="off" class="layui-input">
+                    <input  type="text" id="teacherId" name="teacherId" required lay-verify="required"
+                           autocomplete="off"
+                           placeholder="" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">体温</label>
+                <label class="layui-form-label">班主任</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="temperature" name="temperature" lay-verify="required" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">健康状况</label>
-                <div class="layui-input-inline">
-                    <%--                    <input type="radio" name="sex" value="男" title="男">--%>
-                    <%--                    <input type="radio" name="sex" value="女" title="女" checked>--%>
-                    <input type="text" id="healthStatus" name="healthStatus" lay-verify="required" autocomplete="off" class="layui-input">
+                    <input  type="text" id="teacherName" name="teacherName" required lay-verify="required"
+                            autocomplete="off"
+                            placeholder="" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit lay-filter="examinationData">保存</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">取消</button>
+                    <button class="layui-btn" lay-submit lay-filter="newData">保存</button>
+                    <a class="layui-btn layui-btn-primary" onclick="layer.close(layer.index)">取消</a>
                 </div>
             </div>
         </form>
@@ -135,7 +133,8 @@
 </div>
 </body>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="edit" >修改</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+    <a class="layui-btn layui-btn-xs" lay-event="del">删除</a>
 </script>
 
 <script>
@@ -145,24 +144,36 @@
         var form = layui.form;
         var table = layui.table;
         var laydate = layui.laydate;
+        var kinderId = $("#kinderId").val();
+        console.log(kinderId);
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#start' //指定元素
+        });
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#end' //指定元素
+        });
         table.render({
             limits: [5, 10, 20]
             , limit: 5,
             elem: '#bodytable',
             id: 'listReload',
             page: true
-            , url: path + '/HealtherControl/bodyCheck'
+            , url: path + '/RectorControl/classList'
+            , where: {
+                kinderId: kinderId,
+            }
             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , cols: [[
                 {field: 'id', type: 'checkbox', title: 'ID'}
-                , {field: 'sid', title: '宝宝编号', width: 50, sort: true}
-                , {field: 'studentName', title: '宝宝名称'}
-                , {field: 'height', title: '身高', sort: true}
-                , {field: 'weight', title: '体重', sort: true}
-                , {field: 'vision', title: '视力', sort: true}
-                , {field: 'temperature', title: '体温', sort: true}
-                , {field: 'healthStatus', title: '健康状况', sort: true}
-                , {field: 'examinationTime', title: '体检时间', sort: true}
+                , {field: 'teacherId', title: '班主任ID', width: 50,hide:true}
+                , {field: 'classId', title: '班级编号', width: 50, sort: true}
+                , {field: 'className', title: '班级名称'}
+                , {field: 'teacherName', title: '班主任', sort: true}
+                , {field: 'classRoom', title: '所在教室', sort: true}
+                , {field: 'classRegtime', title: '创建时间', sort: true}
                 , {title: '操作', align: 'center', toolbar: '#barDemo'}
             ]],
             request: {
@@ -172,71 +183,121 @@
         });
         var active = {
             reload: function () {
-                var kinderName = $('#kinderName').val();
-                var className = $("#className").val();
+                var className = $('#className').val();
+                var startDate = $("#start").val();
+                var endDate = $("#end").val();
+                console.log(className);
                 //执行重载
                 table.reload('listReload', {//重载表格数据
                     page: {
                         curr: 1 //重新从第 1 页开始
                     }
                     , where: {
-                        kinderName: kinderName,
                         className: className,
+                        startDate: startDate,
+                        endDate: endDate,
+                        kinderId: kinderId
                     }
                 }, 'data');
             }
         };
+        $('.demoTable .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        //日期渲染
+        laydate.render({
+            elem: '#start' //指定元素
+        });
+        laydate.render({
+            elem: '#end' //指定元素
+        });
+        laydate.render({
+            elem: '#studentBirth'
+        });
         //表格操作，进行编辑修改等
-        table.on('tool(test)', function(obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+        table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
-            if(layEvent=="edit") {
+            console.log(data);
+            //修改当前行
+            if (layEvent === "edit") {
                 layer.confirm('确认要做此操作吗？', function (index) {
                     if (index) {
-                      layer.open({
-                          title:'修改体检情况',
-                          type:1,
-                          area:['400px','400px'],
-                          content:$('#updateDiv'),
-                          success:function(layero,index){
-                              console.log(data);
-                              $("#sid").val(data.sid);
-                              console.log($("#sid"))
-                              $("#studentName").val(data.studentName);
-                              $("#height").val(data.height);
-                              $("#weight").val(data.weight);
-                              $("#vision").val(data.vision);
-                              $("#temperature").val(data.temperature);
-                              $("#healthStatus").val(data.healthStatus);
-                          }
-                      })
+                        layer.open({
+                            title: '修改家长情况',
+                            type: 1,
+                            area: ['400px', '400px'],
+                            content: $('#updateDiv'),
+                            success: function (layero, index) {
+                                form.val("addForm", { //formTest 即 class="layui-form" 所在元素属性 lay-filter="" 对应的值
+                                    "classId": data.classId // "name": "value"
+                                    , "className1": data.className
+                                    , "classRoom": data.classRoom
+                                    , "teacherId": data.teacherId
+                                    , "teacherName": data.teacherName
+                                });
+                            }
+                        })
                     }
                 })
             }
-        });
+            //删除当前行
+            if (layEvent === "del") {
+                console.log(data.field);
+                layer.confirm('确认要做此操作吗？', function (index) {
+                    if (index) {
+                        $.ajax({
+                                url: "/RectorControl/deleteClass",
+                                async: true,
+                                type: "post",
+                                data: {
+                                    "classId": data.classId,
+                                },
+                                datatype: "text",
+                                success: function (msg) {
+                                    alert(msg);
+                                    if (msg === "success") {
+                                        layer.msg('删除成功!刷新浏览器', {icon: 1, time: 5000});
+                                        parent.location.reload();
+                                    } else {
+                                        layer.msg('删除失败');
+                                    }
+                                },
+                                error: function () {
+                                    alert("网络繁忙！");
+                                },
+                            }
+                        );
+                    }
+                })
+            }
+        })
         //弹出层表单操作，主要是提交
-        form.on('submit(examinationData)', function (data) {
+        form.on('submit(newData)', function (data) {
             var path = $("#path").val();
-            var examinationData = {
-                "sid": data.field.sid,
-                "studentName": data.field.studentName,
-                "height": data.field.height,
-                "weight": data.field.weight,
-                "vision": data.field.vision,
-                "temperature": data.field.temperature,
-                "healthStatus": data.field.healthStatus
+            var newData = {
+                "classId": data.field.classId,
+                "className": data.field.className1,
+                "classRoom": data.field.classRoom,
+                "teacherId": data.field.teacherId,
+                "teacherName": data.field.teacherName,
+
             };
+            console.log(newData);
             $.ajax({
-                url: "/HealtherControl/updateExamination",
+                url: "/RectorControl/updateClass",
                 async: true,
                 type: "POST",
-                data: {"value": JSON.stringify(examinationData)},
+                data: {"value": JSON.stringify(newData)},
                 dataType: "text",
                 success: function (msg) {
                     if (msg === "success") {
                         parent.location.reload();
-                        layer.msg('更新成功!刷新浏览器', {icon: 1, time: 8000})
+                        layer.msg('更新成功!即将刷新列表', {icon: 1, time: 1000}, function () {
+                            parent.location.reload();
+                        })
 
                     } else {
                         layer.msg('更新失败!', {icon: 2, time: 6000});
@@ -248,12 +309,6 @@
             });
             return false;
         });
-
-        $('.demoTable .layui-btn').on('click', function () {
-            var type = $(this).data('type');
-            active[type] ? active[type].call(this) : '';
-        });
-
         // 监听全选
         form.on('checkbox(checkall)', function (data) {
 
@@ -264,22 +319,15 @@
             }
             form.render('checkbox');
         });
-
-
-
-        //执行一个laydate实例
-        laydate.render({
-            elem: '#start' //指定元素
-        });
-
-        //执行一个laydate实例
-        laydate.render({
-            elem: '#end' //指定元素
-        });
-
-
     });
 
+
+
+
+
+
+
+    
     /*用户-停用*/
     function member_stop(obj, id) {
         layer.confirm('确认要停用吗？', function (index) {

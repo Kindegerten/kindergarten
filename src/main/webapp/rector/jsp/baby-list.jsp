@@ -5,7 +5,7 @@
 <%String path = request.getContextPath();%>
 <head>
     <meta charset="UTF-8">
-    <title>体检列表</title>
+    <title>幼儿列表</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -22,6 +22,7 @@
 </head>
 <body>
 <input type="hidden" id="path" value=<%=path%>>
+<input type="hidden" id="kinderId" value="${rector.kinderId}">
 <div class="x-nav">
           <span class="layui-breadcrumb">
             <a href="">首页</a>
@@ -39,27 +40,34 @@
             <div class="layui-card">
                 <div class="layui-card-body ">
                     <div class="layui-card-body demoTable">
-                        <label class="layui-form-label">搜索园所班级</label>
+                        <%--                        <form class="layui-form layui-col-space5">--%>
+                        <label class="layui-form-label">搜索</label>
                         <div class="layui-inline layui-show-xs-block">
-                            <input class="layui-input" autocomplete="off" placeholder="园所名（如“英才幼儿园”）"
-                                   id="kinderName" name="kinderName" value="${kinderName}">
+                            <input class="layui-input" autocomplete="off" placeholder="开始日" name="startDate" id="start"
+                                   value="${startDate}">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
-                            <input type="text" name="className" placeholder="班级名(如“小一班”)" autocomplete="off"
-                                   id="className" class="layui-input" value="${className}">
+                            <input class="layui-input" autocomplete="off" placeholder="截止日" name="endDate" id="end"
+                                   value="${endDate}">
+                        </div>
+                        <div class="layui-inline layui-show-xs-block">
+                            <input type="text" name="studentName" id="studentName1" placeholder="宝宝名字"
+                                   autocomplete="off"
+                                   class="layui-input" value="${studentName}">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
                             <button class="layui-btn" data-type="reload"
                                     id="search"><i
                                     class="layui-icon">&#xe615;</i></button>
                         </div>
+                        <%--                        </form>--%>
                     </div>
                 </div>
                 <div class="layui-card-header">
                     <%--                    <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除--%>
                     <%--                    </button>--%>
-                    <button class="layui-btn" onclick="xadmin.open('新增体检情况','./bodyCheck-add.jsp',450,400)"><i
-                            class="layui-icon"></i>新增体检情况
+                    <button class="layui-btn" onclick="xadmin.open('新增幼儿','./baby-add.jsp',450,400)"><i
+                            class="layui-icon"></i>新增幼儿
                     </button>
                 </div>
                 <div class="layui-card-body layui-table-body layui-table-main">
@@ -72,62 +80,64 @@
     </div>
 </div>
 
-<%--//修改体检信息的div--%>
+<%--//修改信息的div--%>
 <div hidden class="layui-fluid" id="updateDiv">
     <div class="layui-row">
-        <form class="layui-form" action="" method="post">
+        <form class="layui-form" lay-filter="addForm" action="" method="post">
             <div class="layui-form-item">
                 <label class="layui-form-label">宝宝ID</label>
-                <div  hidden class="layui-input-inline">
-                    <input hidden readonly type="text" id="sid" name="sid" required lay-verify="required" autocomplete="off"
+                <div hidden class="layui-input-inline">
+                    <input readonly type="text" id="studentId" name="studentId" required lay-verify="required"
+                           autocomplete="off"
                            placeholder="" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
-            <label class="layui-form-label">宝宝名称</label>
-            <div class="layui-input-inline">
-                <input type="text" id="studentName" name="studentName" required lay-verify="required" autocomplete="off"
-                       placeholder="" class="layui-input">
-            </div>
-        </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">身高</label>
+                <label class="layui-form-label">宝宝名称</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="height" name="height" required lay-verify="required" autocomplete="off"
-                           class="layui-input">
+                    <input readonly type="text" id="studentName" name="studentName" required lay-verify="required"
+                           autocomplete="off"
+                           placeholder="" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">体重</label>
+                <label class="layui-form-label">性别</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="weight" name="weight" required lay-verify="required" autocomplete="off"
-                           class="layui-input">
+                    <select lay-filter="mySelect" id="studentSex" name="studentSex">
+                        <option value="男">男</option>
+                        <option value="女">女</option>
+                    </select>
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">视力</label>
+                <label class="layui-form-label">出生年月</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="vision" name="vision" lay-verify="required" autocomplete="off" class="layui-input">
+                    <input type="text" class="layui-input" name="studentBirth" id="studentBirth"
+                           placeholder="yyyy-MM-dd">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">体温</label>
+                <label class="layui-form-label">地址</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="temperature" name="temperature" lay-verify="required" autocomplete="off" class="layui-input">
+                    <input type="text" id="studentAdd" name="studentAdd" required lay-verify="required"
+                           autocomplete="off"
+                           placeholder="" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">健康状况</label>
+                <label class="layui-form-label">班级</label>
                 <div class="layui-input-inline">
-                    <%--                    <input type="radio" name="sex" value="男" title="男">--%>
-                    <%--                    <input type="radio" name="sex" value="女" title="女" checked>--%>
-                    <input type="text" id="healthStatus" name="healthStatus" lay-verify="required" autocomplete="off" class="layui-input">
+                    <select lay-filter="mySelect" id="classes" name="classes">
+                        <c:forEach items="${classesList}" var="i">
+                            <option value="${i.classId}">${i.className}</option>
+                        </c:forEach>
+                    </select>
                 </div>
             </div>
             <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit lay-filter="examinationData">保存</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">取消</button>
+                    <button class="layui-btn" lay-submit lay-filter="newData">保存</button>
+                    <a class="layui-btn layui-btn-primary" onclick="layer.close(layer.index)">取消</a>
                 </div>
             </div>
         </form>
@@ -135,138 +145,18 @@
 </div>
 </body>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="edit" >修改</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+    <a class="layui-btn layui-btn-xs" lay-event="del">删除</a>
 </script>
 
 <script>
-    // 体检列表展示及分页
+    // 列表展示及分页
     layui.use(['laydate', 'form', 'laypage', 'table', 'laytpl'], function () {
         var path = $("#path").val();
         var form = layui.form;
         var table = layui.table;
         var laydate = layui.laydate;
-        table.render({
-            limits: [5, 10, 20]
-            , limit: 5,
-            elem: '#bodytable',
-            id: 'listReload',
-            page: true
-            , url: path + '/HealtherControl/bodyCheck'
-            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-            , cols: [[
-                {field: 'id', type: 'checkbox', title: 'ID'}
-                , {field: 'sid', title: '宝宝编号', width: 50, sort: true}
-                , {field: 'studentName', title: '宝宝名称'}
-                , {field: 'height', title: '身高', sort: true}
-                , {field: 'weight', title: '体重', sort: true}
-                , {field: 'vision', title: '视力', sort: true}
-                , {field: 'temperature', title: '体温', sort: true}
-                , {field: 'healthStatus', title: '健康状况', sort: true}
-                , {field: 'examinationTime', title: '体检时间', sort: true}
-                , {title: '操作', align: 'center', toolbar: '#barDemo'}
-            ]],
-            request: {
-                pageName: 'curPage' //页码的参数名称，默认：page
-                , limitName: 'pageSize' //每页数据量的参数名，默认：limit
-            }
-        });
-        var active = {
-            reload: function () {
-                var kinderName = $('#kinderName').val();
-                var className = $("#className").val();
-                //执行重载
-                table.reload('listReload', {//重载表格数据
-                    page: {
-                        curr: 1 //重新从第 1 页开始
-                    }
-                    , where: {
-                        kinderName: kinderName,
-                        className: className,
-                    }
-                }, 'data');
-            }
-        };
-        //表格操作，进行编辑修改等
-        table.on('tool(test)', function(obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
-            var data = obj.data; //获得当前行数据
-            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-            var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
-            if(layEvent=="edit") {
-                layer.confirm('确认要做此操作吗？', function (index) {
-                    if (index) {
-                      layer.open({
-                          title:'修改体检情况',
-                          type:1,
-                          area:['400px','400px'],
-                          content:$('#updateDiv'),
-                          success:function(layero,index){
-                              console.log(data);
-                              $("#sid").val(data.sid);
-                              console.log($("#sid"))
-                              $("#studentName").val(data.studentName);
-                              $("#height").val(data.height);
-                              $("#weight").val(data.weight);
-                              $("#vision").val(data.vision);
-                              $("#temperature").val(data.temperature);
-                              $("#healthStatus").val(data.healthStatus);
-                          }
-                      })
-                    }
-                })
-            }
-        });
-        //弹出层表单操作，主要是提交
-        form.on('submit(examinationData)', function (data) {
-            var path = $("#path").val();
-            var examinationData = {
-                "sid": data.field.sid,
-                "studentName": data.field.studentName,
-                "height": data.field.height,
-                "weight": data.field.weight,
-                "vision": data.field.vision,
-                "temperature": data.field.temperature,
-                "healthStatus": data.field.healthStatus
-            };
-            $.ajax({
-                url: "/HealtherControl/updateExamination",
-                async: true,
-                type: "POST",
-                data: {"value": JSON.stringify(examinationData)},
-                dataType: "text",
-                success: function (msg) {
-                    if (msg === "success") {
-                        parent.location.reload();
-                        layer.msg('更新成功!刷新浏览器', {icon: 1, time: 8000})
-
-                    } else {
-                        layer.msg('更新失败!', {icon: 2, time: 6000});
-                    }
-                },
-                error: function () {
-                    layer.msg('网络错误!', {icon: 2, time: 1000});
-                }
-            });
-            return false;
-        });
-
-        $('.demoTable .layui-btn').on('click', function () {
-            var type = $(this).data('type');
-            active[type] ? active[type].call(this) : '';
-        });
-
-        // 监听全选
-        form.on('checkbox(checkall)', function (data) {
-
-            if (data.elem.checked) {
-                $('tbody input').prop('checked', true);
-            } else {
-                $('tbody input').prop('checked', false);
-            }
-            form.render('checkbox');
-        });
-
-
-
+        var kinderId = $("#kinderId").val();
         //执行一个laydate实例
         laydate.render({
             elem: '#start' //指定元素
@@ -276,9 +166,168 @@
         laydate.render({
             elem: '#end' //指定元素
         });
-
-
+        table.render({
+            limits: [5, 10, 20]
+            , limit: 5,
+            elem: '#bodytable',
+            id: 'listReload',
+            page: true
+            , url: path + '/RectorControl/studentlist'
+            , where: {
+                kinderId: kinderId,
+                // teacherName:teacherName,
+            }
+            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , cols: [[
+                {field: 'id', type: 'checkbox', title: 'ID'}
+                , {field: 'studentId', title: '宝宝编号', width: 50, sort: true}
+                , {field: 'studentName', title: '宝宝名称'}
+                , {field: 'studentSex', title: '性别', sort: true}
+                , {field: 'studentBirth', title: '出生年月', sort: true}
+                , {field: 'studentTime', title: '创建时间', sort: true}
+                , {title: '操作', align: 'center', toolbar: '#barDemo'}
+            ]],
+            request: {
+                pageName: 'curPage' //页码的参数名称，默认：page
+                , limitName: 'pageSize' //每页数据量的参数名，默认：limit
+            }
+        });
+        var active = {
+            reload: function () {
+                var studentName = $('#studentName1').val();
+                var startDate = $("#start").val();
+                var endDate = $("#end").val();
+                console.log(studentName);
+                //执行重载
+                table.reload('listReload', {//重载表格数据
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    , where: {
+                        studentName: studentName,
+                        startDate: startDate,
+                        endDate: endDate,
+                        kinderId: kinderId
+                    }
+                }, 'data');
+            }
+        };
+        $('.demoTable .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        //日期渲染
+        laydate.render({
+            elem: '#studentBirth'
+        });
+        //表格操作，进行编辑修改等
+        table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+            console.log(data);
+            //修改当前行
+            if (layEvent == "edit") {
+                layer.confirm('确认要做此操作吗？', function (index) {
+                    if (index) {
+                        layer.open({
+                            title: '修改幼儿情况',
+                            type: 1,
+                            area: ['400px', '400px'],
+                            content: $('#updateDiv'),
+                            success: function (layero, index) {
+                                form.val("addForm", { //formTest 即 class="layui-form" 所在元素属性 lay-filter="" 对应的值
+                                    "studentId": data.studentId // "name": "value"
+                                    , "studentName": data.studentName
+                                    , "studentSex": data.studentSex
+                                    , "studentBirth": data.studentBirth
+                                    , "studentAdd": data.studentAdd
+                                    , "classes": data.classId
+                                });
+                            }
+                        })
+                    }
+                })
+            }
+            //删除当前行
+            if (layEvent === "del") {
+                console.log(data.field);
+                layer.confirm('确认要做此操作吗？', function (index) {
+                    if (index) {
+                        $.ajax({
+                                url: "/RectorControl/deleteStudent",
+                                async: true,
+                                type: "post",
+                                data: {
+                                    "studentId": data.studentId,
+                                },
+                                datatype: "text",
+                                success: function (msg) {
+                                    alert(msg);
+                                    if (msg === "success") {
+                                        layer.msg('删除成功!刷新浏览器', {icon: 1, time: 5000});
+                                        parent.location.reload();
+                                    } else {
+                                        layer.msg('删除失败');
+                                    }
+                                },
+                                error: function () {
+                                    alert("网络繁忙！");
+                                },
+                            }
+                        );
+                    }
+                })
+            }
+        })
     });
+    //弹出层表单操作，主要是提交
+    form.on('submit(newData)', function (data) {
+        var path = $("#path").val();
+        var newData = {
+            "studentId": data.field.studentId,
+            "studentName": data.field.studentName,
+            "studentSex": data.field.sex,
+            "studentBirth": data.field.studentBirth,
+            "studentAdd": data.field.studentAdd,
+            "classId": data.field.classes,
+        };
+        $.ajax({
+            url: "/RectorControl/updateBaby",
+            async: true,
+            type: "POST",
+            data: {"value": JSON.stringify(newData)},
+            dataType: "text",
+            success: function (msg) {
+                if (msg === "success") {
+                    parent.location.reload();
+                    layer.msg('更新成功!即将刷新列表', {icon: 1, time: 1000}, function () {
+                        parent.location.reload();
+                    })
+
+                } else {
+                    layer.msg('更新失败!', {icon: 2, time: 6000});
+                }
+            },
+            error: function () {
+                layer.msg('网络错误!', {icon: 2, time: 1000});
+            }
+        });
+        return false;
+    });
+
+
+    // 监听全选
+    form.on('checkbox(checkall)', function (data) {
+
+        if (data.elem.checked) {
+            $('tbody input').prop('checked', true);
+        } else {
+            $('tbody input').prop('checked', false);
+        }
+        form.render('checkbox');
+    });
+
 
     /*用户-停用*/
     function member_stop(obj, id) {

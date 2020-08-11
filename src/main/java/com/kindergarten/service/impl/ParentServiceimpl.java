@@ -180,4 +180,35 @@ public class ParentServiceimpl implements ParentService {
         }
        return layuiData;
     }
+
+    @Override
+    public LayuiData<StuAttendance> stuAttendance(int studentId, int curPage, int pageSize) {
+        LayuiData<StuAttendance> layuiData=null;
+        List<StuAttendance> examinations=parentsMapper.SearchStudentKaoQin(studentId,curPage,pageSize);
+        int totalRecord=parentsMapper.SearchStudentKaoQinCount(studentId);
+        layuiData=new LayuiData<>(0,"",totalRecord,examinations);
+
+        return layuiData;
+    }
+
+    @Override
+    public LayuiData<SchoolBill> Mybills(int studentId, int curPage, int pageSize) {
+        LayuiData<SchoolBill> layuiData=null;
+        List<SchoolBill> list=parentsMapper.SearchMyBill(studentId,curPage,pageSize);
+        List<HashMap<String,Object>> map=parentsMapper.FindBilllog(studentId);
+
+        for (int i=0;i<list.size();i++){
+            for (int j=0;j<map.size();j++){
+                if (String.valueOf(map.get(j).get("schoolbill_id")).equals(String.valueOf(list.get(i).getBillId()))){
+                    list.get(i).setStudentbillType(map.get(j).get("studentbill_type")+"");
+                }
+
+            }
+        }
+
+        int totalRecord=parentsMapper.SearchMyBillCount(studentId);
+        layuiData=new LayuiData<>(0,"",totalRecord,list);
+
+        return layuiData;
+    }
 }
