@@ -19,6 +19,9 @@ public class PageBean<T> {
         //判断总页数，利用三目运算：   ==0总的记录数/页数 否则：+1。
     }
 
+    public PageBean() {
+    }
+
     public int getCurPage() {
         return curPage;
     }

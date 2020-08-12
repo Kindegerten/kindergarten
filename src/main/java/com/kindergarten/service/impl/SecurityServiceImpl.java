@@ -1,8 +1,7 @@
 package com.kindergarten.service.impl;
 
 
-import com.kindergarten.bean.Location;
-import com.kindergarten.bean.Security;
+import com.kindergarten.bean.*;
 import com.kindergarten.mapper.SecurityMapper;
 import com.kindergarten.service.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +38,31 @@ public class SecurityServiceImpl implements SecurityService {
     @Override
     public int insertAlert(Location location) {
         return securityMapper.insertAlert(location);
+    }
+
+    @Override
+    public List<AlertInfo> getAlert(AlertInfo alertInfo,int limit,int curPage) {
+        return securityMapper.getAlert(alertInfo,limit,curPage);
+    }
+
+    @Override
+    public int countAlert(AlertInfo alertInfo) {
+        return securityMapper.countAlert(alertInfo);
+    }
+
+    @Override
+    public List<Classes> getClassSelect() {
+        return securityMapper.getClassSelect();
+    }
+
+    @Override
+    public List<PickupInfo> getPickup(PickupInfo pickupInfo,int limit,int curPage) {
+        return securityMapper.getStudentPickup(pickupInfo,limit,curPage);
+    }
+
+    @Override
+    public int countPickup(PickupInfo pickupInfo) {
+        return securityMapper.countPickup(pickupInfo);
     }
 
 

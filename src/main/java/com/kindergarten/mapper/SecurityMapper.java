@@ -1,9 +1,9 @@
 package com.kindergarten.mapper;
 
 
-import com.kindergarten.bean.Location;
-import com.kindergarten.bean.Security;
+import com.kindergarten.bean.*;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -20,4 +20,13 @@ public interface SecurityMapper {
 
     int insertAlert(Location location);
 
+    List<AlertInfo> getAlert(@Param("alertInfo") AlertInfo alertInfo,@Param("limit") int limit,@Param("curPage") int curPage);
+
+    int countAlert(AlertInfo alertInfo);
+
+    List<Classes> getClassSelect();
+
+    List<PickupInfo> getStudentPickup(@Param("pickupInfo") PickupInfo pickupInfo,@Param("limit") int limit,@Param("curPage") int curPage);
+
+    int countPickup(PickupInfo pickupInfo);
 }

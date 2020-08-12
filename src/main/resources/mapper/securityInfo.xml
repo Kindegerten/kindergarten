@@ -43,4 +43,66 @@
     <insert id="insertAlert" parameterType="com.kindergarten.bean.Location">
         insert into tbl_alert (student_id,student_name,lng,lat) values (#{studentId},#{studentName},#{lng},#{lat})
     </insert>
+
+    <select id="countAlert" parameterType="com.kindergarten.bean.AlertInfo" resultType="java.lang.Integer">
+        select count(*) from tbl_alert
+        <where>
+            <if test="studentName!='' and studentName!=null">
+                and student_name like concat('%',#{studentName},'%')
+            </if>
+            <if test="startDate!='' and startDate!=null">
+                and alert>#{startDate}
+            </if>
+            <if test="endDate!='' and endDate!=null">
+                and #{endDate}>alert
+            </if>
+        </where>
+    </select>
+
+    <select id="getAlert" parameterType="com.kindergarten.bean.AlertInfo" resultType="com.kindergarten.bean.AlertInfo">
+        select * from tbl_alert
+        <where>
+            <if test="alertInfo.studentName!='' and alertInfo.studentName!=null">
+                and student_name like concat('%',#{alertInfo.studentName},'%')
+            </if>
+            <if test="alertInfo.startDate!='' and alertInfo.startDate!=null">
+                and alert>#{alertInfo.startDate}
+            </if>
+            <if test="alertInfo.endDate!='' and alertInfo.endDate!=null">
+                and #{alertInfo.endDate}>alert
+            </if>
+        </where>
+        order by alert_id DESC limit ${(curPage - 1)*limit},${limit}
+    </select>
+    
+    <select id="getClassSelect" resultType="com.kindergarten.bean.Classes">
+        select * from tbl_classes
+    </select>
+
+    <select id="getStudentPickup" parameterType="com.kindergarten.bean.PickupInfo" resultType="com.kindergarten.bean.PickupInfo">
+        select s.student_id,s.student_name,s.student_sex,s.class_id,s.kinder_id,c.class_name,t.teacher_name from tbl_students s left join tbl_classes c on s.class_id=c.class_id left join tbl_teachers t on s.class_id=t.class_id
+        <where>
+            <if test="pickupInfo.classId!='0' and pickupInfo.classId!='' and pickupInfo.classId!=null">
+                and s.class_id=#{pickupInfo.classId}
+            </if>
+            <if test="pickupInfo.studentName!='' and pickupInfo.studentName!=null">
+                and student_name like concat('%',#{pickupInfo.studentName},'%')
+            </if>
+        </where>
+        order by student_id DESC limit ${(curPage - 1)*limit},${limit}
+    </select>
+
+    <select id="countPickup" parameterType="com.kindergarten.bean.PickupInfo" resultType="java.lang.Integer">
+        select count(*) from tbl_students s left join tbl_classes c on s.class_id=c.class_id left join tbl_teachers t on s.class_id=t.class_id
+        <where>
+            <if test="classId!='0' and classId!=null and classId!=''">
+                and s.class_id=#{classId}
+            </if>
+            <if test="studentName!='' and studentName!=null">
+                and student_name like concat('%',#{studentName},'%')
+            </if>
+        </where>
+    </select>
 </mapper>
+
+<!--        select t1.*,tt.teacher_name from (select ts.*,c.class_name from tbl_students ts left join tbl_classes c on ts.class_id=c.class_id) t1 left join tbl_teachers tt on t1.class_id = tt.class_id ;-->
