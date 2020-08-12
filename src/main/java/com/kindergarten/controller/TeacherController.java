@@ -196,19 +196,11 @@ public class TeacherController {
             String dateStr = simpleDateFormat.format(date);
 //            String savePath = ResourceUtils.getURL("classpath:").getPath()+"static/";
             String savePath =request.getSession().getServletContext().getRealPath("/upload/");
-//            String savePath = request.getRequestURL("/upload/");
             //保存的文件路径和名称
-            //相对路径
-            String filepath=File.separator + "upload" + File.separator + dateStr + File.separator + uuid + "." + prefix;
-
+//            String filepath="upLoad/"+dateStr+ File.separator + uuid + "." + prefix;
             String projectPath = savePath + dateStr + File.separator + uuid + "." + prefix;
-//            System.out.println("savePath:"+savePath);
-//            System.out.println("dateStr:"+dateStr);
-//            System.out.println("filepath:"+filepath);
-//            System.out.println("File.separator:"+File.separator);
-//            System.out.println("uuid:"+uuid);
-//            System.out.println("prefix:"+prefix);
-//            System.out.println("projectPath:"+projectPath);
+
+            System.out.println("projectPath:"+projectPath);
             File files=new File(projectPath);
             //打印查看上传路径
             if (!files.getParentFile().exists()){//判断目录是否存在
@@ -219,7 +211,7 @@ public class TeacherController {
             System.out.println("projectPath:"+projectPath);
             LayuiData layuiData=new LayuiData();
             layuiData.setCode(0);
-            layuiData.setMsg(filepath);
+            layuiData.setMsg("projectPath");
             return JSON.toJSONString(layuiData);
         }catch (IOException e) {
             e.printStackTrace();
@@ -291,8 +283,8 @@ public class TeacherController {
     public Object addClassPhoto(HttpServletRequest request, HttpServletResponse response,  Photo classPhoto){
 
         Teachers staffRo=(Teachers) request.getSession().getAttribute("tblTeachers");
-
         classPhoto.setClassId(staffRo.getClassId());
+
 
         System.out.println(JSON.toJSONString(classPhoto));
         int i = teacherService.addClassPhoto(classPhoto);
@@ -487,7 +479,56 @@ public class TeacherController {
         LayuiData layuiData = teacherService.safetyTestCompleteSelectList( safetyTestOut, endTime,Integer.parseInt(pageStr), Integer.parseInt(pageSizeStr));
         return JSON.toJSONString(layuiData);
     }
+    @RequestMapping("/selectSex")
+    @ResponseBody
+    public String selectSex(HttpServletRequest request) {
+        List<String> xAxis = new ArrayList<String>();
 
+        xAxis.add("男");
+        xAxis.add("女");
+//        List<Object> data = new ArrayList<Object>();
+        HashMap<String,Object> hashMap=new HashMap();
+        int a=teacherMapper.selectBoy();
+        int b=teacherMapper.selectGirl();
+        List<Integer>data=new ArrayList<>();
+        data.add(a);
+        data.add(b);
+        hashMap.put("xAxis", xAxis);
+        hashMap.put("data", data);
+//        model.
+        return JSON.toJSONString(hashMap);
+    }
+
+    @RequestMapping("/selectTeacherAge")
+    @ResponseBody
+    public String selectTeacherAge(HttpServletRequest request) {
+        List<String> xAxis = new ArrayList<String>();
+
+        xAxis.add("[10-20]");
+        xAxis.add("[20-30]");
+        xAxis.add("[30-40]");
+        xAxis.add("[40-50]");
+        xAxis.add("[50-60]");
+//        List<Object> data = new ArrayList<Object>();
+        HashMap<String,Object> hashMap=new HashMap();
+        int a=teacherMapper.selectTeacherAge(10);//10-20
+        int b=teacherMapper.selectTeacherAge(20);//20-30
+        int c=teacherMapper.selectTeacherAge(30);//30-40
+        int d=teacherMapper.selectTeacherAge(40);//40-50
+        int e=teacherMapper.selectTeacherAge(50);//50-60
+        System.out.println("a"+a);
+        System.out.println("b"+b);
+//        int b=teacherMapper.selectGirl();
+        List<Integer>data=new ArrayList<>();
+        data.add(a);
+        data.add(b);
+        data.add(c);
+        data.add(d);
+        data.add(e);
+        hashMap.put("xAxis", xAxis);
+        hashMap.put("data", data);
+        return JSON.toJSONString(hashMap);
+    }
     /*查询*/
     @RequestMapping(value = "/courseSelectList")
     @ResponseBody

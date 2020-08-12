@@ -1,13 +1,30 @@
 package com.kindergarten.bean;
 
 public class SafetyVtq {
+    private int safetyVtqId;
     private String safetyVtqName;
     private String a;
     private int aValue;
     private String b;
     private String bValue;
-
+    private int safetyVideoId;//试题对应视频的id
     public SafetyVtq() {
+    }
+
+    public int getSafetyVtqId() {
+        return safetyVtqId;
+    }
+
+    public void setSafetyVtqId(int safetyVtqId) {
+        this.safetyVtqId = safetyVtqId;
+    }
+
+    public int getSafetyVideoId() {
+        return safetyVideoId;
+    }
+
+    public void setSafetyVideoId(int safetyVideoId) {
+        this.safetyVideoId = safetyVideoId;
     }
 
     public String getSafetyVtqName() {

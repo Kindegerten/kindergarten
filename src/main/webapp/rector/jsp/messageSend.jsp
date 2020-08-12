@@ -5,7 +5,7 @@
 <%String path = request.getContextPath();%>
 <head>
     <meta charset="UTF-8">
-    <title>体检列表</title>
+    <title>校园通知</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -33,101 +33,30 @@
        onclick="location.reload()" title="刷新">
         <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i></a>
 </div>
-<div class="layui-fluid">
-    <div class="layui-row layui-col-space15">
-        <div class="layui-col-md12">
-            <div class="layui-card">
-                <div class="layui-card-body ">
-                    <div class="layui-card-body demoTable">
-                        <label class="layui-form-label">搜索园所班级</label>
-                        <div class="layui-inline layui-show-xs-block">
-                            <input class="layui-input" autocomplete="off" placeholder="园所名（如“英才幼儿园”）"
-                                   id="kinderName" name="kinderName" value="${kinderName}">
-                        </div>
-                        <div class="layui-inline layui-show-xs-block">
-                            <input type="text" name="className" placeholder="班级名(如“小一班”)" autocomplete="off"
-                                   id="className" class="layui-input" value="${className}">
-                        </div>
-                        <div class="layui-inline layui-show-xs-block">
-                            <button class="layui-btn" data-type="reload"
-                                    id="search"><i
-                                    class="layui-icon">&#xe615;</i></button>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-card-header">
-                    <%--                    <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除--%>
-                    <%--                    </button>--%>
-                    <button class="layui-btn" onclick="xadmin.open('新增体检情况','./bodyCheck-add.jsp',450,400)"><i
-                            class="layui-icon"></i>新增体检情况
-                    </button>
-                </div>
-                <div class="layui-card-body layui-table-body layui-table-main">
-                    <table class="layui-table layui-form" id="bodytable" lay-filter="test">
-
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<%--//修改体检信息的div--%>
-<div hidden class="layui-fluid" id="updateDiv">
+<div class="layui-fluid" id="updateDiv">
     <div class="layui-row">
         <form class="layui-form" action="" method="post">
             <div class="layui-form-item">
-                <label class="layui-form-label">宝宝ID</label>
-                <div  hidden class="layui-input-inline">
-                    <input hidden readonly type="text" id="sid" name="sid" required lay-verify="required" autocomplete="off"
+                <label class="layui-form-label" style="width: 200px">校园名称：</label>
+                <div  class="layui-input-inline">
+                    <input style="border:0px;" hidden readonly type="text" id="kinderName" name="kinderName" required lay-verify="required"
+                           autocomplete="off" value="${rector.kinderName}"
                            placeholder="" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
-            <label class="layui-form-label">宝宝名称</label>
-            <div class="layui-input-inline">
-                <input type="text" id="studentName" name="studentName" required lay-verify="required" autocomplete="off"
-                       placeholder="" class="layui-input">
-            </div>
-        </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">身高</label>
+                <label class="layui-form-label" style="width: 200px">消息内容：</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="height" name="height" required lay-verify="required" autocomplete="off"
-                           class="layui-input">
+                <textarea id="demo" ></textarea>
+
                 </div>
             </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">体重</label>
-                <div class="layui-input-inline">
-                    <input type="text" id="weight" name="weight" required lay-verify="required" autocomplete="off"
-                           class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">视力</label>
-                <div class="layui-input-inline">
-                    <input type="text" id="vision" name="vision" lay-verify="required" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">体温</label>
-                <div class="layui-input-inline">
-                    <input type="text" id="temperature" name="temperature" lay-verify="required" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">健康状况</label>
-                <div class="layui-input-inline">
-                    <%--                    <input type="radio" name="sex" value="男" title="男">--%>
-                    <%--                    <input type="radio" name="sex" value="女" title="女" checked>--%>
-                    <input type="text" id="healthStatus" name="healthStatus" lay-verify="required" autocomplete="off" class="layui-input">
-                </div>
-            </div>
+
             <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit lay-filter="examinationData">保存</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">取消</button>
+                    <label class="layui-form-label" style="width: 200px"></label>
+                    <button  class="layui-btn" lay-submit lay-filter="newData">发送</button>
+<%--                    <button type="reset" class="layui-btn layui-btn-primary">取消</button>--%>
                 </div>
             </div>
         </form>
@@ -135,9 +64,16 @@
 </div>
 </body>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="edit" >修改</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
 </script>
-
+<script>
+    layui.use('layedit', function(){
+        var layedit = layui.layedit;
+        layedit.build('id', {
+            height: 180 //设置编辑器高度
+        });
+    });
+</script>
 <script>
     // 体检列表展示及分页
     layui.use(['laydate', 'form', 'laypage', 'table', 'laytpl'], function () {
@@ -145,31 +81,31 @@
         var form = layui.form;
         var table = layui.table;
         var laydate = layui.laydate;
-        table.render({
-            limits: [5, 10, 20]
-            , limit: 5,
-            elem: '#bodytable',
-            id: 'listReload',
-            page: true
-            , url: path + '/HealtherControl/bodyCheck'
-            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-            , cols: [[
-                {field: 'id', type: 'checkbox', title: 'ID'}
-                , {field: 'sid', title: '宝宝编号', width: 50, sort: true}
-                , {field: 'studentName', title: '宝宝名称'}
-                , {field: 'height', title: '身高', sort: true}
-                , {field: 'weight', title: '体重', sort: true}
-                , {field: 'vision', title: '视力', sort: true}
-                , {field: 'temperature', title: '体温', sort: true}
-                , {field: 'healthStatus', title: '健康状况', sort: true}
-                , {field: 'examinationTime', title: '体检时间', sort: true}
-                , {title: '操作', align: 'center', toolbar: '#barDemo'}
-            ]],
-            request: {
-                pageName: 'curPage' //页码的参数名称，默认：page
-                , limitName: 'pageSize' //每页数据量的参数名，默认：limit
-            }
-        });
+        // table.render({
+        //     limits: [5, 10, 20]
+        //     , limit: 5,
+        //     elem: '#bodytable',
+        //     id: 'listReload',
+        //     page: true
+        //     , url: path + '/HealtherControl/bodyCheck'
+        //     , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+        //     , cols: [[
+        //         {field: 'id', type: 'checkbox', title: 'ID'}
+        //         , {field: 'sid', title: '宝宝编号', width: 50, sort: true}
+        //         , {field: 'studentName', title: '宝宝名称'}
+        //         , {field: 'height', title: '身高', sort: true}
+        //         , {field: 'weight', title: '体重', sort: true}
+        //         , {field: 'vision', title: '视力', sort: true}
+        //         , {field: 'temperature', title: '体温', sort: true}
+        //         , {field: 'healthStatus', title: '健康状况', sort: true}
+        //         , {field: 'examinationTime', title: '体检时间', sort: true}
+        //         , {title: '操作', align: 'center', toolbar: '#barDemo'}
+        //     ]],
+        //     request: {
+        //         pageName: 'curPage' //页码的参数名称，默认：page
+        //         , limitName: 'pageSize' //每页数据量的参数名，默认：limit
+        //     }
+        // });
         var active = {
             reload: function () {
                 var kinderName = $('#kinderName').val();
@@ -187,30 +123,30 @@
             }
         };
         //表格操作，进行编辑修改等
-        table.on('tool(test)', function(obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+        table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
-            if(layEvent=="edit") {
+            if (layEvent == "edit") {
                 layer.confirm('确认要做此操作吗？', function (index) {
                     if (index) {
-                      layer.open({
-                          title:'修改体检情况',
-                          type:1,
-                          area:['400px','400px'],
-                          content:$('#updateDiv'),
-                          success:function(layero,index){
-                              console.log(data);
-                              $("#sid").val(data.sid);
-                              console.log($("#sid"))
-                              $("#studentName").val(data.studentName);
-                              $("#height").val(data.height);
-                              $("#weight").val(data.weight);
-                              $("#vision").val(data.vision);
-                              $("#temperature").val(data.temperature);
-                              $("#healthStatus").val(data.healthStatus);
-                          }
-                      })
+                        layer.open({
+                            title: '修改体检情况',
+                            type: 1,
+                            area: ['400px', '400px'],
+                            content: $('#updateDiv'),
+                            success: function (layero, index) {
+                                console.log(data);
+                                $("#sid").val(data.sid);
+                                console.log($("#sid"))
+                                $("#studentName").val(data.studentName);
+                                $("#height").val(data.height);
+                                $("#weight").val(data.weight);
+                                $("#vision").val(data.vision);
+                                $("#temperature").val(data.temperature);
+                                $("#healthStatus").val(data.healthStatus);
+                            }
+                        })
                     }
                 })
             }
@@ -264,7 +200,6 @@
             }
             form.render('checkbox');
         });
-
 
 
         //执行一个laydate实例

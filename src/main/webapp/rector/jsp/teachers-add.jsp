@@ -23,8 +23,7 @@
 </head>
 <body>
 <input type="hidden" id="path" value=<%=path%>>
-<%--//修改信息的div--%>
-<div hidden class="layui-fluid" id="updateDiv">
+<div  class="layui-fluid" id="updateDiv">
     <div class="layui-row">
         <form class="layui-form" action="" method="post">
             <%--            <div class="layui-form-item">--%>
@@ -35,6 +34,14 @@
             <%--                </div>--%>
             <%--            </div>--%>
             <%--            <input hidden value="teacher">--%>
+                <div  hidden readonly class="layui-form-item">
+                    <label class="layui-form-label">园所id</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="kid" name="kid" value="${rector.kinderId}"
+                               autocomplete="off"
+                               placeholder="" class="layui-input">
+                    </div>
+                </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">教职工姓名</label>
                 <div class="layui-input-inline">
@@ -46,7 +53,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">教职工电话</label>
                     <div class="layui-input-inline">
-                        <input type="text" id="telphone" name="telphone" required lay-verify="required"
+                        <input type="tel" id="telphone" name="telphone" required lay-verify="required|phone"
                                autocomplete="off"
                                placeholder="" class="layui-input">
                     </div>
@@ -66,7 +73,7 @@
                 <div class="layui-input-block">
                     <button class="layui-btn" lay-submit lay-filter="newData">保存</button>
                     <button type="reset" class="layui-btn layui-btn-primary">取消</button>
-                    <a class="layui-btn layui-btn-primary"
+                    <a hidden id="faceAdd" class="layui-btn layui-btn-primary"
                        onclick="xadmin.open('开始添加人脸','<%=path%>/security/jsp/faceAdd.jsp')">开始添加人脸</a>
                 </div>
             </div>
@@ -79,26 +86,28 @@
         //监听提交
         form.on('submit(newData)', function (data) {
             // var path = $("#path").val();
-            // var newData = {
-            //     "teacherName": data.field.teacherName,
-            //     "roleId":data.field.select,
-            // };
+            var newData = {
+                "teacherName": data.field.teacherName,
+                "telphone": data.field.telphone,
+                "roleId":data.field.select,
+                "kinderid":data.field.kid,
+            };
+            console.log(newData);
             $.ajax({
-                url: "/HealtherControl/addStaffs",
+                url: "/RectorControl/addStaffs",
                 async: true,
                 type: "POST",
-                data: {
-                    "teacherName": data.field.teacherName,
-                    "telphone": data.field.telphone,
-                    "roleId": data.field.select,
-                },
+                data: newData,
                 dataType: "text",
                 success: function (msg) {
+                    console.log(data);
                     if (msg === "success") {
-                        layer.msg('添加成功!刷新浏览器', {icon: 1, time: 5000})
-                        parent.location.reload();
+                        layer.msg('添加成功!', {icon: 1, time: 1000},function () {
+                           // parent.location.reload();
+                            xadmin.open('开始添加人脸','<%=path%>/security/jsp/faceAdd.jsp')
+                        })
                     } else {
-                        layer.msg('添加失败!', {icon: 2, time: 6000});
+                        layer.msg('添加失败!', {icon: 2, time: 2000});
                     }
                 },
                 error: function () {

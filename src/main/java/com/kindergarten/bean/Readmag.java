@@ -2,10 +2,10 @@ package com.kindergarten.bean;
 
 public class Readmag {
     private int readmagId;
-    private String readmagName;
-    private String readmagTime;
-    private String readmagDocumentUrl;
-    private String readmagPic;
+    private String readmagName;//绘本名称
+    private String readmagTime;//绘本上传时间
+    private String readmagDocumentUrl;//绘本路径
+    private String readmagPic;//封面图片路径
 
     public Readmag() {
     }

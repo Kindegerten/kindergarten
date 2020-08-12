@@ -421,7 +421,6 @@ public class parentController {
         return "/partent/parentRead.jsp";
 
     }
-    //聊天
     @RequestMapping(value = "/Cheat")
     public String Cheat(HttpServletRequest request) throws ServletException, IOException {
        //通过学生班级拿到对应老师
@@ -452,9 +451,168 @@ public class parentController {
         return JSON.toJSONString(stuAttendanceLayuiData);
     }
 
+    //查看费用缴交
+    @RequestMapping(value = "/mybill")
+    @ResponseBody
+    public String mybill(HttpServletRequest request) throws ServletException, IOException {
+        int curPage;
+        if(request.getParameter("curPage")!=null){
+            curPage = Integer.parseInt(request.getParameter("curPage"));
+        }else{
+            curPage = 1;
+        }
+        int pageSize=Integer.parseInt(request.getParameter("pageSize"));
+
+        String studentId= (String) request.getSession().getAttribute("studentID");
+        LayuiData<SchoolBill> schoolBillLayuiData =parentService.Mybills(Integer.parseInt(studentId),curPage,pageSize);
+
+
+        return JSON.toJSONString(schoolBillLayuiData);
+    }
+
+    //查看费用缴交
+    @RequestMapping(value = "/PayInfo")
+    @ResponseBody
+    public String PayInfo(HttpServletRequest request,int billId) throws ServletException, IOException {
+
+        String studentId= (String) request.getSession().getAttribute("studentID");
+        StudentBill studentBill=parentsMapper.studentbill(Integer.parseInt(studentId),billId);
+
+//        return JSON.toJSONString(schoolBillLayuiData);
+        return JSON.toJSONString(studentBill);
+    }
+
+//    //支付成功，插入数据
+    @RequestMapping(value = "/SuccessPay")
+    public void SuccessPay(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        //		//学生ID和学生名字
+        String studentId= (String) request.getSession().getAttribute("studentID");
+        String studentName= (String) request.getSession().getAttribute("studentName");
+        //订单ID billId
+        int billId= (Integer) request.getSession().getAttribute("PayBillId");
+        //商户订单号
+        String out_trade_no = new String(request.getParameter("out_trade_no").getBytes("ISO-8859-1"),"UTF-8");
+        //支付宝交易号
+        String trade_no = new String(request.getParameter("trade_no").getBytes("ISO-8859-1"),"UTF-8");
+        //付款金额
+        String total_amount = new String(request.getParameter("total_amount").getBytes("ISO-8859-1"),"UTF-8");
+
+        System.out.println("out_trade_no:"+out_trade_no+"trade_no:"+trade_no+"total_amount:"+total_amount);
+        System.out.println("billId:"+billId);
+        StudentBill studentBill= new StudentBill();
+
+        studentBill.setStudentId(Integer.parseInt(studentId));
+        studentBill.setStudentName(studentName);
+        studentBill.setStudentbillTradeno(out_trade_no);
+        studentBill.setStudentbillTrano(trade_no);
+        studentBill.setSchoolbillId(billId);
+
+        int flag=parentsMapper.SuccessPay(studentBill);
+        if (flag>0){
+            response.sendRedirect("/partent/index.jsp");
+
+        }else {
+            response.sendRedirect("/partent/error.html");
+        }
+
+    }
+//
 
 
 
+    @RequestMapping(value = "/selectReadmag")
+    @ResponseBody
+    public String selectReadmag(HttpServletRequest request) throws ServletException, IOException {
+        HashMap<String, Object> condition = new HashMap<>();
+        String start = request.getParameter("start");
+        if (start != null && start.trim() != "") {
+            condition.put("start", start);
+        }
+        String end = request.getParameter("end");
+        if (end != null && end.trim() != "") {
+            condition.put("end", end);
+        }
+
+        String readmagName = request.getParameter("readmagName");
+        if (readmagName != null && readmagName.trim() != "") {
+            condition.put("readmagName", readmagName);
+        }
+        int curPage;
+        if (request.getParameter("curPage") != null) {
+            curPage = Integer.parseInt(request.getParameter("curPage"));
+        } else {
+            curPage = 1;
+        }
+        int pageSize = Integer.parseInt(request.getParameter("pageSize"));
 
 
+        LayuiData<Readmag> layuiData = null;
+        layuiData = parentService.selectReadmag(condition, curPage, pageSize);
+
+        return JSON.toJSONString(layuiData);
+    }
+
+    @RequestMapping(value = "/selectReadmagPhoto")
+    @ResponseBody
+    public String selectReadmagPhoto(int readmagId) throws ServletException, IOException {
+        System.out.println("readmagId" + readmagId);
+        //通过学生班级拿到对应老师
+        List<ReadmagPhoto> list = null;
+        list = parentsMapper.selectReadmagPhoto(readmagId);
+//        List<ReadmagPhoto>selectReadmagPhoto(int readmagId);
+        int a = 0;
+        a = parentsMapper.selectReadmagPhotoCount(readmagId);
+        LayuiData<ReadmagPhoto> layuiData = new LayuiData(0, "", a, list);
+        System.out.println("layuiData" + JSON.toJSONString(layuiData));
+        return JSON.toJSONString(layuiData);
+    }
+
+    @RequestMapping(value = "/deleteReadmsgPhoto")
+    @ResponseBody
+    public String deleteReadmsgPhoto(HttpServletRequest request, int readmagPhotoId) throws ServletException, IOException {
+        String msg = null;
+        int a = 0;
+        ReadmagPhoto readmagPhoto = parentsMapper.selectReadmsgPhotoByid(readmagPhotoId);
+        String savePath = request.getSession().getServletContext().getRealPath("");//在文件下载的根目录下加上/upload
+        String path = readmagPhoto.getSrc();
+        if (path != null && path.length() > 0) {
+            String filePath = savePath + readmagPhoto.getSrc();//删除图片的完整路径
+            File file = new File(filePath);
+            file.delete();
+            a = parentsMapper.deleteReadmsgPhoto(readmagPhotoId);
+            if (a > 0) {
+                msg = "success";
+            }
+        }
+
+        return msg;
+    }
+    @RequestMapping(value = "/deleteReadmsg")
+    @ResponseBody
+    public String deleteReadmsg(HttpServletRequest request, int readmagId) throws ServletException, IOException {
+        String msg = null;
+        int a = 0;
+       Readmag readmag =parentsMapper.selectReadmagByid(readmagId);
+        String savePath = request.getSession().getServletContext().getRealPath("");//在文件下载的根目录下加上/upload
+        String path = readmag.getReadmagPic();
+        if (path != null && path.length() > 0) {
+            String filePath = savePath + path;//删除图片的完整路径
+            File file = new File(filePath);
+            file.delete();
+            List<ReadmagPhoto>list=parentsMapper.selectReadmagPhoto(readmagId);
+            for (int i=0;i<list.size();i++){
+                String deletePath=list.get(i).getSrc();
+                if (deletePath.length()>0){
+                    String filePathTwo = savePath + deletePath;//删除图片的完整路径
+                    File fileTwo = new File(filePathTwo);
+                    fileTwo.delete();
+                }
+            }
+
+            msg= parentService.deleteReadmsg(readmagId);
+        }
+
+        return msg;
+    }
 }

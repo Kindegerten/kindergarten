@@ -14,9 +14,18 @@ public class Healther {
     private int healtherStatus;
     private String healtherPwd;
     private int kid;
+    private String attendanceTime;
 
     public Healther() {
 
+    }
+
+    public String getAttendanceTime() {
+        return attendanceTime;
+    }
+
+    public void setAttendanceTime(String attendanceTime) {
+        this.attendanceTime = attendanceTime;
     }
 
     public int getHealtherId() {

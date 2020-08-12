@@ -1,12 +1,30 @@
 package com.kindergarten.bean;
 
 public class ReadmagPhoto {
-    private String alt;
-    private int pid;
-    private String src;
+    private int readmagId;
+    private int readmagPhotoId;
+    private String alt;//描述内容
+    private int pid;//页码
+    private String src;//图片路径
     private String thumb;
 
     public ReadmagPhoto() {
+    }
+
+    public int getReadmagId() {
+        return readmagId;
+    }
+
+    public void setReadmagId(int readmagId) {
+        this.readmagId = readmagId;
+    }
+
+    public int getReadmagPhotoId() {
+        return readmagPhotoId;
+    }
+
+    public void setReadmagPhotoId(int readmagPhotoId) {
+        this.readmagPhotoId = readmagPhotoId;
     }
 
     public String getAlt() {

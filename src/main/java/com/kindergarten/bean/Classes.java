@@ -1,19 +1,44 @@
 package com.kindergarten.bean;
 
-
-import java.util.Date;
 import java.util.List;
 
 public class Classes {
     private int classId;
     private String className;
-    private Date classRegtime;
+    private String classRegtime;
     private int kinderId;
     private String kinderName;
+    private String classRoom;
+    private int teacherId;
+    private String teacherName;
     private List<Classes>classes;
 
     public Classes() {
 
+    }
+
+    public String getTeacherName() {
+        return teacherName;
+    }
+
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
+    }
+
+    public int getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(int teacherId) {
+        this.teacherId = teacherId;
+    }
+
+    public String getClassRoom() {
+        return classRoom;
+    }
+
+    public void setClassRoom(String classRoom) {
+        this.classRoom = classRoom;
     }
 
     public int getClassId() {
@@ -32,11 +57,11 @@ public class Classes {
         this.className = className;
     }
 
-    public Date getClassRegtime() {
+    public String getClassRegtime() {
         return classRegtime;
     }
 
-    public void setClassRegtime(Date classRegtime) {
+    public void setClassRegtime(String classRegtime) {
         this.classRegtime = classRegtime;
     }
 

@@ -32,7 +32,7 @@
     </select>
 
 <!--    查发布作业表格-->
-    <select id="publishJobList" resultType="com.kindergarten.bean.TblWorkrelease">
+    <select id="publishJobList" resultType="com.kindergarten.bean.Workrelease">
     select a.work_releaseid,b.class_id,c.class_name,a.work_name,a.workrelease_time
     From tbl_workrelease a
     LEFT JOIN tbl_teachers b on b.teacher_id=a.teacher_id
@@ -233,6 +233,14 @@
     <select id="safetyTestCompleteSelectListCount" resultType="int">
         select count(safety_test_id) from tbl_safety_test_complete
    </select>
-
+    <select id="selectBoy" resultType="java.lang.Integer">
+        select count(*)from tbl_teachers where teacher_sex='男';
+    </select>
+    <select id="selectGirl" resultType="java.lang.Integer">
+        select count(*)from tbl_teachers where teacher_sex='女';
+    </select>
+    <select id="selectTeacherAge" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+        select count(*) from tbl_teachers where teacher_age between ${size} and ${size+10};
+    </select>
 
 </mapper>

@@ -279,8 +279,6 @@
                             //layero为子窗口对象
                             var platformInfoName=layero.find('#platformInfoName').val();
                             var platformInfoDetail=layero.find('#platformInfoDetail').val();
-                            // console.log("platformInfoName"+platformInfoName)
-                            // console.log("platformInfoDetail"+platformInfoDetail)
                             if(platformInfoName!=''&&platformInfoName!=null && platformInfoDetail!=''&&platformInfoDetail!=null){
                                 $.ajax({
                                     type:"post",

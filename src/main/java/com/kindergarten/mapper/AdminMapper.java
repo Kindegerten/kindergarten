@@ -69,4 +69,20 @@ public interface AdminMapper {
     int insertPlatformInfo(PlatformInfo platformInfo);
     int selectSyslogCount(@Param("condition") HashMap<String, Object> hashMap, @Param("curPage") int curPage, @Param("pageSize") int pageSize);
     List<Syslog> selectSyslog(@Param("condition") HashMap<String, Object> hashMap, @Param("curPage") int curPage, @Param("pageSize") int pageSize);
+    SafetyVideo selectOneFile(SafetyVideo safetyVideo);
+    int insertVideo(SafetyVideo safetyVideo);
+    int selectSafetyVideoCount(@Param("condition") HashMap<String, Object> hashMap, @Param("curPage") int curPage, @Param("pageSize") int pageSize);
+    List<SafetyVideo> selectSafetyVideo(@Param("condition") HashMap<String, Object> hashMap, @Param("curPage") int curPage, @Param("pageSize") int pageSize);
+    int deleteSafetyVideo(int safetyVideoId);
+    int updateSafetyVideo(SafetyVideo safetyVideo);
+    int insertSafetyVtq(SafetyVtq safetyVtq);
+    int updateSafetyVtq(SafetyVtq safetyVtq);
+    int deleteSafetyVtq(int safetyVtqId);
+    int SearchQuestionCount(@Param("videoId") int videoId);
+    List<SafetyVtq>SearchQuestion( @Param("curPage") int curPage, @Param("pageSize") int pageSize,@Param("videoId") int videoId);
+    int insertReadmsg(Readmag readmag);
+    int insertReadmsgPhoto(ReadmagPhoto readmagPhoto);
+    int selectStudentSex(String studentSex);
+    int selectStudentHealth(String healthStatus);
+    int updateReadPhoto(ReadmagPhoto readmagPhoto);
 }

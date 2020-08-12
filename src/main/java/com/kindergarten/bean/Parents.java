@@ -3,21 +3,59 @@ package com.kindergarten.bean;
 
 
 public class Parents {
-    private int parentsId;
-   private String parentsTel;
+   private int parentsId;
+    private String parentsTel;
    private String parentsName;
    private String parentsSex;
    private int parentsStatus;
    private String parentsPwd;
+    private String job;
+    private String parentsRegtime;
    private int roleID;
-
-
-
+   private int kinderId;
 
    private String roleName;
 
 
     public Parents() {
+    }
+
+    public Parents(int parentsId, String parentsTel, String parentsName, String parentsSex, int parentsStatus, String parentsPwd, String job, String parentsRegtime, int roleID, int kinderId, String roleName) {
+        this.parentsId = parentsId;
+        this.parentsTel = parentsTel;
+        this.parentsName = parentsName;
+        this.parentsSex = parentsSex;
+        this.parentsStatus = parentsStatus;
+        this.parentsPwd = parentsPwd;
+        this.job = job;
+        this.parentsRegtime = parentsRegtime;
+        this.roleID = roleID;
+        this.kinderId = kinderId;
+        this.roleName = roleName;
+    }
+
+    public int getKinderId() {
+        return kinderId;
+    }
+
+    public void setKinderId(int kinderId) {
+        this.kinderId = kinderId;
+    }
+
+    public String getJob() {
+        return job;
+    }
+
+    public void setJob(String job) {
+        this.job = job;
+    }
+
+    public String getParentsRegtime() {
+        return parentsRegtime;
+    }
+
+    public void setParentsRegtime(String parentsRegtime) {
+        this.parentsRegtime = parentsRegtime;
     }
 
     public String getParentsTel() {
@@ -83,4 +121,6 @@ public class Parents {
     public void setParentsId(int parentsId) {
         this.parentsId = parentsId;
     }
+
+
 }
