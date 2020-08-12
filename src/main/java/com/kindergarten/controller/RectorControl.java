@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-@RequestMapping("RectorControl")
+@RequestMapping("rectorControl")
 @Controller
 public class RectorControl extends HttpServlet {
     @Autowired
