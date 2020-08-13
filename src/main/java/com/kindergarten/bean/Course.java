@@ -19,6 +19,69 @@ public class Course
 
     }
 
+    public Course(int courseId, String courseName, int courseWeek, int courseJieci, String courseBanji, int teacherId, String courseZhouyi, String courseZhouer, String courseZhousan, String courseZhousi, String courseZhouwu, String courseTimescope) {
+        this.courseId = courseId;
+        this.courseName = courseName;
+        this.courseWeek = courseWeek;
+        this.courseJieci = courseJieci;
+        this.courseBanji = courseBanji;
+        this.teacherId = teacherId;
+        this.courseZhouyi = courseZhouyi;
+        this.courseZhouer = courseZhouer;
+        this.courseZhousan = courseZhousan;
+        this.courseZhousi = courseZhousi;
+        this.courseZhouwu = courseZhouwu;
+        this.courseTimescope = courseTimescope;
+    }
+
+    public String getCourseZhouyi() {
+        return courseZhouyi;
+    }
+
+    public void setCourseZhouyi(String courseZhouyi) {
+        this.courseZhouyi = courseZhouyi;
+    }
+
+    public String getCourseZhouer() {
+        return courseZhouer;
+    }
+
+    public void setCourseZhouer(String courseZhouer) {
+        this.courseZhouer = courseZhouer;
+    }
+
+    public String getCourseZhousan() {
+        return courseZhousan;
+    }
+
+    public void setCourseZhousan(String courseZhousan) {
+        this.courseZhousan = courseZhousan;
+    }
+
+    public String getCourseZhousi() {
+        return courseZhousi;
+    }
+
+    public void setCourseZhousi(String courseZhousi) {
+        this.courseZhousi = courseZhousi;
+    }
+
+    public String getCourseZhouwu() {
+        return courseZhouwu;
+    }
+
+    public void setCourseZhouwu(String courseZhouwu) {
+        this.courseZhouwu = courseZhouwu;
+    }
+
+    public String getCourseTimescope() {
+        return courseTimescope;
+    }
+
+    public void setCourseTimescope(String courseTimescope) {
+        this.courseTimescope = courseTimescope;
+    }
+
     public int getCourseId() {
         return courseId;
     }
