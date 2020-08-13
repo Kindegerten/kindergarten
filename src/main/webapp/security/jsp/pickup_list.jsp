@@ -113,6 +113,7 @@
     });</script>
 
 <script>
+    var pickupDetail;
     layui.use(['table', 'form','layer'],
         function () {
             var table = layui.table;
@@ -141,7 +142,6 @@
             // })
             form.on('submit(sreach)', function(data){
                 console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
-
 
                 var startDate = data.field.start;
                 var endDate = data.field.end;
@@ -207,6 +207,10 @@
                 if(layEvent === 'detail'){ //查看
                     //TODO 弹出框个人考勤表
                     console.log(data);
+
+                    pickupDetail=data;
+                    console.log("parent:"+pickupDetail);
+
                 <%--<a onclick="xadmin.open('开始添加人脸','<%=path%>/security/jsp/faceAdd.jsp')">开始添加人脸</a>--%>
 
                     layer.open({
@@ -214,11 +218,11 @@
                         title: false,
                         closeBtn: 0, //不显示关闭按钮
                         shade: [0],
-                        area: ['340px', '215px'],
+                        area: ['200px', '200px'],
                         offset: 'rb', //右下角弹出
                         time: 2000, //2秒后自动关闭
                         anim: 2,
-                        content: ['test/guodu.html', 'no'], //iframe的url，no代表不显示滚动条
+                        content: ['/security/jsp/jumping.jsp', 'no'], //iframe的url，no代表不显示滚动条
                         end: function(){ //此处用于演示
                             layer.open({
                                 type: 2,
@@ -227,7 +231,7 @@
                                 shade: false,
                                 maxmin: true, //开启最大化最小化按钮
                                 area: ['893px', '600px'],
-                                content: '//pickup_detail.jsp/'
+                                content: '/security/jsp/pickup_detail.jsp'
                             });
                         }
                     });

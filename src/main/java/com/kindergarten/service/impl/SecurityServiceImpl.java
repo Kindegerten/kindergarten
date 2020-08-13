@@ -65,5 +65,15 @@ public class SecurityServiceImpl implements SecurityService {
         return securityMapper.countPickup(pickupInfo);
     }
 
+    @Override
+    public List<PickupDetail> getPickupDetail(PickupDetail pickupDetail) {
+        return securityMapper.getPickupDetail(pickupDetail);
+    }
+
+    @Override
+    public int countPickupDetail(PickupDetail pickupDetail) {
+        return securityMapper.countPickupDetail(pickupDetail);
+    }
+
 
 }
