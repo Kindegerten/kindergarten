@@ -114,6 +114,13 @@
         where tps.students_id=#{studentsId}
     </select>
 
+    <select id="getMonitor" resultType="com.kindergarten.bean.Monitor">
+        select * from tbl_monitor
+    </select>
+
+    <select id="countMonitor" resultType="java.lang.Integer">
+        select count(*) from tbl_monitor
+    </select>
 
 
 

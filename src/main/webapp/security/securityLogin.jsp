@@ -81,7 +81,7 @@
                     success:function (msg) {
                         if  ( msg == "success"){
                             layer.msg("登入成功！");
-                            location.href = "/security/jsp/index.jsp";
+                            location.href = "index.jsp";
                         }else {
                             layer.msg(msg);
                             $("#pwd").val("");

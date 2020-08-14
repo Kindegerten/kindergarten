@@ -44,12 +44,12 @@
 
 <button type="button" class="layui-btn" id="test2">
     <i class="layui-icon">&#xe67c;</i>
-    <a onclick="xadmin.open('开始添加人脸','<%=path%>/security/jsp/faceAdd.jsp')">开始添加人脸</a>
+    <a onclick="xadmin.open('开始添加人脸','<%=path%>/security/faceAdd.jsp')">开始添加人脸</a>
 </button>
 
 <button type="button" class="layui-btn" id="video">
     <i class="layui-icon">&#xe67c;</i>
-    <a onclick="xadmin.open('开始人脸识别','<%=path%>/security/jsp/face.jsp')">开始人脸识别</a>
+    <a onclick="xadmin.open('开始人脸识别','<%=path%>/security/face.jsp')">开始人脸识别</a>
 </button>
 
 

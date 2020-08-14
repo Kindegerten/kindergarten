@@ -33,4 +33,8 @@ public interface SecurityMapper {
     List<PickupDetail> getPickupDetail(PickupDetail pickupDetail);
 
     int countPickupDetail(PickupDetail pickupDetail);
+
+    List<Monitor> getMonitor();
+
+    int countMonitor();
 }

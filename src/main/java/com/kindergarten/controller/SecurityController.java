@@ -254,4 +254,16 @@ public class SecurityController {
         return JSON.toJSONString(layuiData);
     }
 
+    @RequestMapping(value = "/getMonitor")
+    @ResponseBody
+    public String getMonitor(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        System.out.println("getMonitor ing ...");
+        LayuiData layuiData=new LayuiData();
+        layuiData.setData(securityService.getMonitor());
+        layuiData.setCount(securityService.countMonitor());
+        System.err.println("layuiData:"+layuiData.toString());
+
+        return JSON.toJSONString(layuiData);
+    }
+
 }

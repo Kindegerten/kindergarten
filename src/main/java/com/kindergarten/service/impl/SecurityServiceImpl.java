@@ -75,5 +75,15 @@ public class SecurityServiceImpl implements SecurityService {
         return securityMapper.countPickupDetail(pickupDetail);
     }
 
+    @Override
+    public List<Monitor> getMonitor() {
+        return securityMapper.getMonitor();
+    }
+
+    @Override
+    public int countMonitor() {
+        return securityMapper.countMonitor();
+    }
+
 
 }

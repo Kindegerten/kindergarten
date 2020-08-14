@@ -117,7 +117,7 @@
                 }, function () {
                     //do something
                     // location.href = "/security/jsp/login.jsp";
-                    parent.location.href = "/security/jsp/securityLogin.jsp";
+                    parent.location.href = "securityLogin.jsp";
                 });
             } else {
                 $.ajax({

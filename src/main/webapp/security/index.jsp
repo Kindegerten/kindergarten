@@ -79,11 +79,11 @@
             <dl class="layui-nav-child">
                 <!-- 二级菜单 -->
                 <dd>
-                    <a onclick="xadmin.open('个人信息','<%=path%>/security/jsp/personalPage.jsp')">个人信息</a></dd>
+                    <a onclick="xadmin.open('个人信息','<%=path%>/security/personalPage.jsp')">个人信息</a></dd>
                 <dd>
 <%--                    <a onclick="xadmin.open('切换帐号','http://www.baidu.com')">切换帐号</a></dd>--%>
 <%--                <dd>--%>
-                    <a href="<%=path%>/security/jsp/securityLogin.jsp">退出</a></dd>
+                    <a href="<%=path%>/security/securityLogin.jsp">退出</a></dd>
             </dl>
         </li>
         <li class="layui-nav-item to-index">
@@ -139,14 +139,14 @@
                     <i class="iconfont nav_right">&#xe697;</i></a>
                 <ul class="sub-menu">
                     <li>
-                        <a onclick="xadmin.add_tab('直播管理','city.html')">
+                        <a onclick="xadmin.add_tab('直播管理','monitor_list.jsp')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>直播管理</cite></a>
                     </li>
                 </ul>
                 <ul class="sub-menu">
                     <li>
-                        <a onclick="xadmin.add_tab('直播权限管理','city.html')">
+                        <a onclick="xadmin.add_tab('直播权限管理','')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>直播权限管理</cite></a>
                     </li>
@@ -178,7 +178,7 @@
         </div>
         <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
-                <iframe src='./welcome.jsp' frameborder="0" scrolling="yes" class="x-iframe"></iframe>
+                <iframe src='welcome.jsp' frameborder="0" scrolling="yes" class="x-iframe"></iframe>
             </div>
         </div>
         <div id="tab_show"></div>
