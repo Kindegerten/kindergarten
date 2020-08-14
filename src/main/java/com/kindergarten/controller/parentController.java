@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
 import java.io.*;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -253,9 +254,11 @@ public class parentController {
             //要保存的问题件路径和名称
             String projectPath = savePath + EnglishClassName + File.separator + uuid + "." + prefix;
 
-//            String projectPath = savePath + dateStr + File.separator + uuid + "." + prefix;
-
-            System.out.println("projectPath==" + projectPath);
+            //sql插入的时候的路径
+            String SQLprojectPath =File.separator+"upload"+File.separator+ EnglishClassName+File.separator + uuid + "." + prefix;
+            System.out.println("===========================projectPath========================================");
+            System.out.println("projectPath==" + SQLprojectPath);
+            System.out.println("===========================projectPath========================================");
             File files = new File(projectPath);
             //打印查看上传路径
             if (!files.getParentFile().exists()) {//判断目录是否存在
@@ -268,12 +271,12 @@ public class parentController {
                 //有数据，只需要更新文件路径+上传新的文件+上传时间
                 SimpleDateFormat NewTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 file.transferTo(files); // 将接收的文件保存到指定文件中
-                int IsSuccess=parentsMapper.UpdateWork(projectPath,parents.getParentsId(),parents.getParentsName(),releaseid,studentid);
+                int IsSuccess=parentsMapper.UpdateWork(SQLprojectPath,parents.getParentsId(),parents.getParentsName(),releaseid,studentid);
                 System.out.println("flag>0更新状态:"+IsSuccess);
             }else{
                 //上传完成后，插入新数据
                 file.transferTo(files); // 将接收的文件保存到指定文件中
-                int newwork=parentsMapper.UploadWork(projectPath,parents.getParentsId(),parents.getParentsName(),releaseid,studentid,studentName,cid);
+                int newwork=parentsMapper.UploadWork(SQLprojectPath,parents.getParentsId(),parents.getParentsName(),releaseid,studentid,studentName,cid);
                 System.out.println("newwork>0更新状态:"+newwork);
             }
 
@@ -294,6 +297,7 @@ public class parentController {
     public String download(HttpServletRequest request, HttpServletResponse response,int id) throws ServletException, IOException {
               System.out.println(id);
               String Url=parentsMapper.SearchTeacherWork(id);
+        System.out.println("DOWNLOADURL:"+Url);
 
 
             File file = new File(Url);
@@ -301,10 +305,12 @@ public class parentController {
             // 浏览器以utf-8进行编码
             fileName = URLEncoder.encode(fileName, "utf-8");
 
-            if (!file.exists()){
-
-                return "文件不存在";
-            }else {
+//            if (!file.exists()){
+//
+//
+//                return "文件不存在";
+//
+//            }else {
 //                   进行下载
                 response.setContentType("text/html;charset=utf-8");
                 response.setContentType("application/octet-stream");
@@ -323,7 +329,46 @@ public class parentController {
 
             }
 
-        }
+//        }
+
+    @RequestMapping(value = "/myworkdownload")
+    @ResponseBody
+    public String myworkdownload(HttpServletRequest request, HttpServletResponse response,int id) throws ServletException, IOException {
+        System.out.println(id);
+        String Url=parentsMapper.SearchTeacherWork(id);
+        System.out.println("WorkDOWNLOADURL:"+Url);
+
+
+//        File file = new File(Url);
+//        String fileName=file.getName();
+//        // 浏览器以utf-8进行编码
+//        fileName = URLEncoder.encode(fileName, "utf-8");
+//
+//        if (!file.exists()){
+//
+//
+//            return "文件不存在";
+//
+//        }else {
+////                   进行下载
+//            response.setContentType("text/html;charset=utf-8");
+//            response.setContentType("application/octet-stream");
+//            response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+//
+//            FileInputStream inputStream = new FileInputStream(file);
+//            InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+//            BufferedReader br = new BufferedReader(reader);
+//            byte[] bytes = new byte[1024];
+//            int len = 0;
+//            while ((len = inputStream.read(bytes)) > 0) {
+//                response.getOutputStream().write(bytes, 0, len);
+//            }
+//            inputStream.close();
+            return JSON.toJSONString(Url);
+
+//        }
+
+    }
 
     @RequestMapping(value = "/historyhomework")
     @ResponseBody

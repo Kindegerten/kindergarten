@@ -104,6 +104,10 @@
         SELECT tbl_workrelease.work_url from tbl_workrelease where work_releaseid=#{workid};
     </select>
 
+<!--    查找我的作业-->
+    <select id="SearchMyWork" resultType="java.lang.String">
+        SELECT tbl_work.work_url from tbl_work where work_releaseid=#{workid};
+    </select>
     <!--    家长端遍历所有的安全视频-->
     <select id="AllSafeVideo" resultType="com.kindergarten.bean.ParentShowSafeQue">
         select * from (select safety_video_id,safety_video_name,safety_video_star,video_add from tbl_safety_video) a order by safety_video_star desc limit ${(curPage-1)*pageSize},${curPage*pageSize}

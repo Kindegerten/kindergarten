@@ -40,15 +40,18 @@
             ,url: path+'/pt/uploadHomeWork?releaseid='+parent.ANAME //改成您自己的上传接口
             ,auto: false
             //,multiple: true
+            ,accept:'file' //普通文件
+            ,exts:'png|jpg|bmp|doc|docx|ppt|pptx|txt|xls|xlsx'
             ,bindAction: '#test9'
             ,done: function(res){
 
                 if (res.code===0){
                     // var index = parent.layer.getFrameIndex(window.name);
-                    layer.msg('上传成功,请刷新当前页面');
+
                     console.log(res);
-                    // parent.layer.close(index);//关闭当前页
-                    // location.reload();
+                    parent.layer.msg('作业上传成功！');
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);//关闭当前页
                 }else {
                     layer.msg(res.msg);
                 }

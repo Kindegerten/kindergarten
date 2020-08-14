@@ -52,7 +52,7 @@ public class VxController {
                         request.getSession().setAttribute("MyChild",studentlist);
                         System.out.println(JSON.toJSONString(studentlist));
 
-                        return parents.getParentsId()+"";
+                        return JSON.toJSONString(parents);
                     }
 
                 }else {
@@ -70,7 +70,7 @@ public class VxController {
     @RequestMapping(value = "/findkid")
     @ResponseBody
     public String findkid(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("ssss");
+
         String parentId=request.getParameter("parentId");
         List<Students> studentlist=parentService.studentsList(Integer.parseInt(parentId));
 
@@ -170,6 +170,42 @@ public class VxController {
         LayuiData<PlatformInfo> layuiData=parentService.PlatformInfo(curPage,5);
         System.out.println(JSON.toJSONString(layuiData.getData()));
         return JSON.toJSONString(layuiData);
+    }
+
+    @RequestMapping(value = "/UpdatePwd")
+    @ResponseBody
+    public String UpdatePwd(HttpServletRequest request) throws ServletException, IOException {
+
+                String tel=request.getParameter("tel");
+                String newpassword=request.getParameter("newpassword");
+
+            int a=parentsMapper.updatePwd(tel,newpassword);
+            if (a>0){
+
+                return "success";
+            }else {
+                return "error";
+            }
+
+    }
+
+
+    @RequestMapping(value = "/schoolVideo")
+    @ResponseBody
+    public String schoolVideo(HttpServletRequest request) throws ServletException, IOException {
+        int curPage;
+        if(request.getParameter("curPage")!=null){
+            curPage = Integer.parseInt(request.getParameter("curPage"));
+        }else{
+            curPage = 1;
+        }
+        String studentid= (String) request.getParameter("studentId");
+        int pageSize=parentsMapper.SearchVideoCount(Integer.parseInt(studentid));
+
+
+        LayuiData<Monitor> monitorLayuiData=parentService.monitors(Integer.parseInt(studentid),curPage,pageSize);
+
+        return JSON.toJSONString(monitorLayuiData);
     }
 
 
