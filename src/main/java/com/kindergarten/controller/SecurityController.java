@@ -2,10 +2,7 @@ package com.kindergarten.controller;
 
 
 import com.alibaba.fastjson.JSON;
-import com.kindergarten.bean.FaceReturn;
-import com.kindergarten.bean.FaceUserList;
-import com.kindergarten.bean.Location;
-import com.kindergarten.bean.Security;
+import com.kindergarten.bean.*;
 import com.kindergarten.service.FaceService;
 import com.kindergarten.service.SecurityService;
 import com.kindergarten.service.SmsService;
@@ -151,8 +148,110 @@ public class SecurityController {
         Location location=JSON.parseObject(request.getParameter("alertMsg"),Location.class);
 
         //TODO 短信
-        smsService.sendSms(location.getStudentName());
+        smsService.sendSms(location.getStudentId());
 
         return securityService.insertAlert(location)>0?"报警记录成功！":location.getStudentName()+"的报警记录失败！";
     }
+
+    @RequestMapping(value = "/getAlert")
+    @ResponseBody
+    public String getAlert(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        System.out.println("getAlert ing...");
+
+        AlertInfo alertInfo=new AlertInfo();
+        alertInfo.setStudentName(request.getParameter("name"));
+        alertInfo.setStartDate(request.getParameter("startDate"));
+        alertInfo.setEndDate(request.getParameter("endDate"));
+
+
+        int curPage;
+        if (request.getParameter("page") != null) {
+            curPage = Integer.parseInt(request.getParameter("page"));
+        } else {
+            curPage = 1;
+        }
+
+        Integer limit = Integer.parseInt(request.getParameter("limit"));
+
+        System.out.println("alertInfo:"+alertInfo.toString()+"  "+curPage+"  "+limit);
+
+
+        LayuiData layuiData=new LayuiData();
+        layuiData.setCount(securityService.countAlert(alertInfo));
+        layuiData.setData(securityService.getAlert(alertInfo,limit,curPage));
+        System.out.println("layuiData:"+layuiData);
+
+        return JSON.toJSONString(layuiData);
+    }
+
+    @RequestMapping(value = "/getClassSelect")
+    @ResponseBody
+    public String getClassSelect(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        System.out.println("getClassSelect ing ...");
+        return JSON.toJSONString(securityService.getClassSelect());
+    }
+
+    @RequestMapping(value = "/getPickup")
+    @ResponseBody
+    public String getPickup(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        System.out.println("getPickup ing ...");
+        PickupInfo pickupInfo=new PickupInfo();
+
+        int curPage;
+        if (request.getParameter("page") != null) {
+            curPage = Integer.parseInt(request.getParameter("page"));
+        } else {
+            curPage = 1;
+        }
+
+        Integer limit = Integer.parseInt(request.getParameter("limit"));
+
+        System.out.println("curPage : "+curPage+"limit : "+limit);
+
+        if (request.getParameter("class")!=null&&request.getParameter("class")!=""){
+            pickupInfo.setClassId(Integer.parseInt(request.getParameter("class")));
+        }
+
+        pickupInfo.setStudentName(request.getParameter("name"));
+
+        System.out.println("pickupInfo:"+pickupInfo.toString());
+
+        LayuiData layuiData=new LayuiData();
+        layuiData.setData(securityService.getPickup(pickupInfo,limit,curPage));
+        layuiData.setCount(securityService.countPickup(pickupInfo));
+        System.out.println("LayuiData:"+layuiData.toString());
+
+        return JSON.toJSONString(layuiData);
+    }
+
+    @RequestMapping(value = "/getPickupDetail")
+    @ResponseBody
+    public String getPickupDetail(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        System.out.println("getPickupDetail ing ...");
+
+        int curPage;
+        if (request.getParameter("page") != null) {
+            curPage = Integer.parseInt(request.getParameter("page"));
+        } else {
+            curPage = 1;
+        }
+
+        Integer limit = Integer.parseInt(request.getParameter("limit"));
+
+        System.out.println("curPage : "+curPage+"limit : "+limit);
+
+        PickupDetail pickupDetail=new PickupDetail();
+        pickupDetail.setStudentsId(Integer.parseInt(request.getParameter("studentsId")));
+        System.out.println("pickupDetail:"+pickupDetail.toString());
+
+        List<PickupDetail> pickupDetails=securityService.getPickupDetail(pickupDetail);
+        System.out.println("List<PickupDetail>:"+JSON.toJSONString(pickupDetails));
+
+        LayuiData layuiData=new LayuiData();
+        layuiData.setData(pickupDetails);
+        layuiData.setCount(securityService.countPickupDetail(pickupDetail));
+
+        return JSON.toJSONString(layuiData);
+    }
+
 }

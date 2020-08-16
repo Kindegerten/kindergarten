@@ -5,6 +5,7 @@ public class Work {
     private int workReleaseid;
     private String workUrl;
     private String workFinishtime;
+    private String workreleaseTime;
     private int cid;
     private String workResult;
     private String workEva;
@@ -17,11 +18,12 @@ public class Work {
     public Work() {
     }
 
-    public Work(int workID, int workReleaseid, String workUrl, String workFinishtime, int cid, String workResult, String workEva, int studentId, String studentName, int parentId, String parentsName, int kid) {
+    public Work(int workID, int workReleaseid, String workUrl, String workFinishtime, String workreleaseTime, int cid, String workResult, String workEva, int studentId, String studentName, int parentId, String parentsName, int kid) {
         this.workID = workID;
         this.workReleaseid = workReleaseid;
         this.workUrl = workUrl;
         this.workFinishtime = workFinishtime;
+        this.workreleaseTime = workreleaseTime;
         this.cid = cid;
         this.workResult = workResult;
         this.workEva = workEva;
@@ -32,7 +34,13 @@ public class Work {
         this.kid = kid;
     }
 
+    public String getWorkreleaseTime() {
+        return workreleaseTime;
+    }
 
+    public void setWorkreleaseTime(String workreleaseTime) {
+        this.workreleaseTime = workreleaseTime;
+    }
 
     public int getWorkID() {
         return workID;
