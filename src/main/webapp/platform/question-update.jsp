@@ -248,9 +248,6 @@
                             , "aValue": data.aValue
                             , "b": data.b
                             , "bValue": data.bValue
-                            // ,"check[write]": true
-                            // ,"open": false
-                            // ,"desc": "我爱layui"
                         });
 
                         // //获取表单区域所有值
@@ -260,14 +257,11 @@
                         btn.find('.layui-layer-btn0').click(function () {
                             // debugger
                             //layero为子窗口对象
-                            var safetyVtqName = layero.find('#safetyVtqName').val();
-                            var a = layero.find('#a').val();
-                            var aValue = layero.find('#aValue').val();
-                            var b = layero.find('#b').val();
-                            var bValue = layero.find('#bValue').val();
-                              // console.log("safetyVtqName"+safetyVtqName)
-                              // console.log("aValue"+aValue)
-                              // console.log("bValue"+bValue)
+                            var safetyVtqName = layero.find('#safetyVtqNameTwo').val();
+                            var a = layero.find('#aTwo').val();
+                            var aValue = layero.find('#aValueTwo').val();
+                            var b = layero.find('#bTwo').val();
+                            var bValue = layero.find('#bValueTwo').val();
                             // if (parameterText != '' && parameterText != null && parameterValue != '' && parameterValue != null) {
                                 $.ajax({
                                     type: "post",

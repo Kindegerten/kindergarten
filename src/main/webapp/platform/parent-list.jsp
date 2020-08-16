@@ -93,15 +93,14 @@
             // ,dataType:"json"
             // ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , cols: [[
-               ,{field: 'parentsId', title: 'id', width: 80,fixed: 'left', hide: "true" }
-                , {field: 'parentsName', title: '用户名', width: 80}
-                , {field: 'parentsPwd', title: '密码', width: 80}
-                , {field: 'parentsSex', title: '性别', width: 80, sort: true}
-                , {field: 'parentsTel', title: '手机号', width: 120, sort: true}
+               ,{field: 'parentsId', title: 'id',fixed: 'left', hide: "true" }
+                , {field: 'parentsName', title: '用户名'}
+                , {field: 'parentsPwd', title: '密码'}
+                , {field: 'parentsSex', title: '性别', sort: true}
+                , {field: 'parentsTel', title: '手机号', sort: true}
                 , {
                     field: 'parentsStatus',
                     title: '状态',
-                    width: 80,
                     sort: true,
                     templet:    function (d) {
                         // console.log(d.parentsStatus);
@@ -113,7 +112,7 @@
                         }
                     }
                 }
-                , {title: '操作', align: 'center', width: 250, toolbar:'#barDemo'}
+                , {title: '操作', align: 'center', toolbar:'#barDemo'}
             ]],
             request: {
                 pageName: 'curPage' //页码的参数名称，默认：page

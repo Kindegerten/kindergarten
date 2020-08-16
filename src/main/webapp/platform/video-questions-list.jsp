@@ -90,7 +90,23 @@
         </div>
     </div>
 </div>
+<div class="layui-card-body  layui-form" id="update_div" style="display:none" lay-filter="update">
+    <form class="layui-form">
 
+        <div class="layui-form-item">
+            <label for="safetyVideoName" class="layui-form-label">
+                <span class="x-red"></span>视频名称</label>
+            <div class="layui-input-inline">
+                <input type="text" id="safetyVideoNameTwo" name="safetyVideoName" required="" lay-verify="nikename" autocomplete="off" class="layui-input"></div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">视频解析</label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入解析内容" name="safetyAnswer" id="safetyAnswer" lay-verify="nikename" class="layui-textarea"></textarea>
+            </div>
+        </div>
+    </form>
+</div>
 </body>
 <script>
 
@@ -193,26 +209,62 @@
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
             window.videoId=data.safetyVideoId;
-            // if (layEvent === 'delete') { //
-            //     // console.log("obj"+obj)
-            //     layer.confirm('确认要删除吗？', function (index) {
-            //         //发异步删除数据
-            //         $.ajax({
-            //             url: "/platformController/deleteSafetyVideo",
-            //             asnyc: true,
-            //             type: "Post",
-            //             data: "safetyVideoId=" + data.safetyVideoId,
-            //             dataType: "text",
-            //             success: function (msg) {
-            //                 layer.msg("修改成功"),
-            //                     location.reload();
-            //             }
-            //         })
-            //         tr.remove();
-            //         layer.msg('已删除!', {icon: 1, time: 1000});
-            //     });
-            //
-            // }
+            if (layEvent === 'answer') { //
+                var index = layer.open({
+                    title: '修改',
+                    type: 1,
+                    shade: 0.2,
+                    maxmin: true,
+                    shadeClose: true,
+                    offset: ['50px', '33%'],
+                    area: ['600px', '400px'],
+                    btn: ['提交', '返回'],
+                    btnAlign: 'c',
+                    // closeBtn: false,
+                    id: 'LAY_layuipro',
+                    moveType: 1,
+                    content: $('#update_div'),
+                    success:function () {
+                        // return '<div οnclick="show_img(this)" ><img src="' + d.src + '" alt="" width="60px" height="60px"></a></div>';
+                        form.val("update", { //formTest 即 class="layui-form" 所在元素属性 lay-filter="" 对应的值
+                            // "imageUrl": data.src, // "name": "value"
+                            "safetyVideoName": data.safetyVideoName,
+                            "safetyAnswer": data.safetyAnswer,
+
+                        });
+                    }
+                    , yes: function () {
+                        $.ajax({
+                            type: "post",
+                            url: "/platformController/updateAnswer",
+                            async: true,
+                            data: {
+                                safetyVideoId: data.safetyVideoId,
+                                safetyAnswer: function () {
+                                    return $('#safetyAnswer').val()
+                                },
+                            },
+                            dataType: "text",
+                            success: function (data) {
+                                if (data == "success") {
+                                    alert("修改成功");
+                                    window.location.reload();
+                                }
+                                // alert("修改成功");
+                                // location.reload();
+                            }
+                        });
+                    }
+                    , btn2: function () {
+                        layer.closeAll();
+                    }
+
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            }
 
         });
 
@@ -221,6 +273,7 @@
 </script>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-xs"   lay-event="安全试题" onclick="xadmin.open('安全试题','question-update.jsp',900,480)">安全试题</a>
+    <a class="layui-btn layui-btn-xs" lay-event="answer">视频解析</a>
 </script>
 </html>
 
