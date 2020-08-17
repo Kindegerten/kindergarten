@@ -2,15 +2,18 @@ package com.kindergarten.controller;
 
 
 import com.alibaba.fastjson.JSON;
+import com.google.gson.Gson;
 import com.kindergarten.bean.*;
+import com.kindergarten.mapper.MenuMapper;
 import com.kindergarten.service.AdminService;
 import com.kindergarten.service.MenuService;
 import com.kindergarten.service.ParameterService;
-import org.apache.tomcat.jni.FileInfo;
+import com.kindergarten.util.MD5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,23 +38,24 @@ public class PlatformControler {
     @Autowired
     ParameterService parameterService;
 
+    @Autowired
+    MenuMapper menuMapper;
+
     @RequestMapping(value = "/login")
     @ResponseBody //直接返回数据而不是跳转拼接的页面
     public String login(HttpServletRequest request, HttpServletResponse response, String adminTel, String adminPwd) throws ServletException, IOException {
         response.setContentType("text/html;charset=utf-8");
-
-        Admin admin1 = adminService.login(adminTel, adminPwd);
+            String md5Pwd= MD5Utils.md5(adminPwd);
+        Admin admin1 = adminService.login(adminTel, md5Pwd);//默认密码为1234
         if (admin1 != null) {
             //菜单列表
             List<Menu> menu = menuService.findMenuList(adminTel);
-//            System.out.println(menu);
-//            System.out.println("菜单信息："+menu.size());
-            System.out.println("admin1:" + JSON.toJSONString(admin1));
+//            System.out.println("admin1:" + JSON.toJSONString(admin1));
             request.getSession().setAttribute("menu", menu);
             request.getSession().setAttribute("admin", admin1);
-
-
+//            System.out.println("menu"+JSON.toJSONString(menu));
             return "success";
+          //  return JSON.toJSONString(menu);
         } else {
             return " 账号或密码不正确";
         }
@@ -110,6 +114,7 @@ public class PlatformControler {
             condition.put("rectorName", rectorName);
         }
         layuiData = adminService.selectParent(condition, curPage, pageSize, roleID);
+        System.out.println("layuiData"+JSON.toJSONString(layuiData));
         return JSON.toJSONString(layuiData);
     }
 
@@ -712,7 +717,7 @@ public class PlatformControler {
     public String updateSafetyVtq(SafetyVtq safetyVtq) throws IOException {
 //        System.out.println("safetyVtq"+JSON.toJSONString(safetyVtq));
         String msg = null;
-
+        System.out.println("safetyVtq"+JSON.toJSONString(safetyVtq));
         msg = adminService.updateSafetyVtq(safetyVtq);
         return msg;
     }
@@ -733,9 +738,9 @@ public class PlatformControler {
             videoId = Integer.parseInt(request.getParameter("videoId"));
         }
         int pageSize = Integer.parseInt(request.getParameter("pageSize"));
-        System.out.println("curPage" + curPage);
-        System.out.println("pageSize" + pageSize);
-        System.out.println("videoId" + videoId);
+//        System.out.println("curPage" + curPage);
+//        System.out.println("pageSize" + pageSize);
+//        System.out.println("videoId" + videoId);
         layuiData = adminService.SearchQuestion(curPage, pageSize, videoId);
         return JSON.toJSONString(layuiData);
     }
@@ -871,7 +876,188 @@ public class PlatformControler {
         return msg;
     }
 
+    @RequestMapping(value = "/updateAnswer")
+    @ResponseBody //直接返回数据而不是跳转拼接的页面
+    public String updateAnswer(SafetyVideo safetyVideo) throws IOException {
+//        System.out.println("safetyVtq"+JSON.toJSONString(safetyVtq));
+        String msg = null;
+//        if(safetyVideo.getSafetyAnswer()==null|| safetyVideo.getSafetyAnswer().trim().equals("")){
+//            safetyVideo.setSafetyAnswer(" ");
+//        }
 
+        msg = adminService.updateAnswer(safetyVideo);
+        return msg;
+    }
+    @RequestMapping(value = "/selectAnswer")
+    @ResponseBody //直接返回数据而不是跳转拼接的页面
+    public String selectAnswer( int safetyVideoId) throws IOException {
+//        System.out.println("safetyVtq"+JSON.toJSONString(safetyVtq));
+        String msg = null;
+
+        msg = adminService.selectAnswer(safetyVideoId);
+        return msg;
+    }
+    @RequestMapping(value = "/selectMenuDemoTwo")
+    @ResponseBody //直接返回数据而不是跳转拼接的页面
+    public String selectMenuDemo(int rid) throws IOException {
+//        System.out.println("safetyVtq"+JSON.toJSONString(safetyVtq));
+
+//        int rid=2;
+        List<MenuDemo>list3=menuService.selectParentMenu(rid);//父菜单
+//        System.out.println("子菜单的父id："+JSON.toJSONString(list3));
+        HashMap<Integer, MenuDemo>middleHahmap=new HashMap<>();
+        List< HashMap<Integer, MenuDemo>>middleList=new ArrayList<>();
+        for (int i=0;i<list3.size();i++){
+            MenuDemo parentMenu = list3.get(i);
+            parentMenu.setRegion_type(1);
+            List<MenuDemo>list=menuService.selectChileMenu(parentMenu.getRegionId());
+            List<Map<Integer, Object>> list1=new ArrayList<>();
+            Map<Integer,Object>hashMap=new HashMap<>();
+            for (MenuDemo  childMenu:   list     ) {
+                childMenu.setRegion_type(2);
+                hashMap.put(childMenu.getRegionId(), childMenu);
+
+            }
+            list1.add(hashMap);
+            parentMenu.set_child(list1);
+            middleHahmap.put(parentMenu.getRegionId(),parentMenu);
+        }
+        middleList.add(middleHahmap);
+//        for (MenuDemo middleMenu:   list3     ) {
+//
+//            middleHahmap.put(middleMenu.getRegionId(), list3);
+//
+//        }
+//        middleList.add(middleHahmap);
+//
+//
+        MenuDemoTwo rootMenu = new MenuDemoTwo();
+
+        rootMenu.setRegionId(0);
+        rootMenu.setRegionName("菜单");
+        rootMenu.setRegionPid(0);
+        rootMenu.setRegion_type(0);
+        rootMenu.set_child(middleList);
+
+        HashMap<Integer,MenuDemoTwo>hashMapThree=new HashMap<>();
+        hashMapThree.put(0,rootMenu);
+        HashMap<String, HashMap<Integer,MenuDemoTwo>>hashMapFour=new HashMap<>();
+        hashMapFour.put("list",hashMapThree);
+
+        MenuLaydate menuLaydate=new MenuLaydate();
+        menuLaydate.setCode(1);
+        menuLaydate.setMsg("操作成功");
+//        HashMap<String, HashMap<String, HashMap<Integer,MenuDemoTwo>>>data=new HashMap<>();
+//        data.put("data",hashMapFour);
+        menuLaydate.setData(hashMapFour);
+     //   System.out.println(JSON.toJSONString(list3));
+        Gson gson=new Gson();
+        String menuJson=gson.toJson(menuLaydate);
+//        System.out.println("hhh"+menuJson);
+        menuJson = menuJson.replace("["," ");//QString字符串分割函数
+        menuJson = menuJson.replace("]"," ");//QString字符串分割函数
+//        System.out.println(menuJson);
+        return menuJson;
+       // return JSON.toJSONString(menuLaydate);
+    }
+    @RequestMapping(value = "/selectMenuDemoThree")
+    @ResponseBody //直接返回数据而不是跳转拼接的页面
+    public String selectMenuDemoThree(int rid) throws IOException {
+//        System.out.println("safetyVtq"+JSON.toJSONString(safetyVtq));
+
+//        int rid=2;
+        List<MenuDemo>list3=menuMapper.selectAllMenu();//父菜单
+//        System.out.println("子菜单的父id："+JSON.toJSONString(list3));
+        HashMap<Integer, MenuDemo>middleHahmap=new HashMap<>();
+        List< HashMap<Integer, MenuDemo>>middleList=new ArrayList<>();
+        for (int i=0;i<list3.size();i++){
+            MenuDemo parentMenu = list3.get(i);
+            parentMenu.setRegion_type(1);
+            List<MenuDemo>list=menuService.selectChileMenu(parentMenu.getRegionId());
+            List<Map<Integer, Object>> list1=new ArrayList<>();
+            Map<Integer,Object>hashMap=new HashMap<>();
+            for (MenuDemo  childMenu:   list     ) {
+                childMenu.setRegion_type(2);
+                hashMap.put(childMenu.getRegionId(), childMenu);
+
+            }
+            list1.add(hashMap);
+            parentMenu.set_child(list1);
+            middleHahmap.put(parentMenu.getRegionId(),parentMenu);
+        }
+        middleList.add(middleHahmap);
+//        for (MenuDemo middleMenu:   list3     ) {
+//
+//            middleHahmap.put(middleMenu.getRegionId(), list3);
+//
+//        }
+//        middleList.add(middleHahmap);
+//
+//
+        MenuDemoTwo rootMenu = new MenuDemoTwo();
+
+        rootMenu.setRegionId(0);
+        rootMenu.setRegionName("菜单");
+        rootMenu.setRegionPid(0);
+        rootMenu.setRegion_type(0);
+        rootMenu.set_child(middleList);
+
+        HashMap<Integer,MenuDemoTwo>hashMapThree=new HashMap<>();
+        hashMapThree.put(0,rootMenu);
+        HashMap<String, HashMap<Integer,MenuDemoTwo>>hashMapFour=new HashMap<>();
+        hashMapFour.put("list",hashMapThree);
+
+        MenuLaydate menuLaydate=new MenuLaydate();
+        menuLaydate.setCode(1);
+        menuLaydate.setMsg("操作成功");
+//        HashMap<String, HashMap<String, HashMap<Integer,MenuDemoTwo>>>data=new HashMap<>();
+//        data.put("data",hashMapFour);
+        menuLaydate.setData(hashMapFour);
+        //   System.out.println(JSON.toJSONString(list3));
+        Gson gson=new Gson();
+        String menuJson=gson.toJson(menuLaydate);
+//        System.out.println("hhh"+menuJson);
+        menuJson = menuJson.replace("["," ");//QString字符串分割函数
+        menuJson = menuJson.replace("]"," ");//QString字符串分割函数
+//        System.out.println(menuJson);
+        return menuJson;
+        // return JSON.toJSONString(menuLaydate);
+    }
+    @RequestMapping(value = "/selectRole")
+    @ResponseBody //直接返回数据而不是跳转拼接的页面
+    public String selectRole() throws IOException {
+//        System.out.println("safetyVtq"+JSON.toJSONString(safetyVtq));
+        String msg = null;
+        List<Role>list=menuMapper.selectRole();
+
+        return JSON.toJSONString(list);
+    }
+
+    @RequestMapping(value = "/updatePermissions")
+    @ResponseBody //直接返回数据而不是跳转拼接的页面
+    public String updatePermissions(HttpServletRequest request, @RequestParam(value = "sourceArr2",required = true) List<String>sourceArr2, int rid) throws IOException {
+//        String sourceArr2 = request.getParameter("sourceArr2");
+//        System.out.println("sourceArr2"+JSON.toJSONString(sourceArr2));
+        System.out.println(rid);
+//        ArrayList<Menu>list=new ArrayList<>();
+//        for (int i=0;i<sourceArr2.size();i++){
+////            System.out.println(sourceArr2[i]);
+//            Menu menu=new Menu();
+//            menu.setOrderId(rid);
+//            menu.setMenuId(Integer.parseInt(sourceArr2[i]));
+//            list.add(menu);
+//        }
+        System.out.println("sourceArr2"+JSON.toJSONString(sourceArr2));
+        List<String>menuId=menuMapper.selectMid(rid);
+        System.out.println("menuId"+JSON.toJSONString(menuId));
+        String msg=null;
+        msg=menuService.updateMenuByrid(rid,sourceArr2,menuId);
+        List<Menu> menu = menuService.findMenuList("13407942208");
+//            System.out.println("admin1:" + JSON.toJSONString(admin1));
+        request.getSession().setAttribute("menu", menu);
+
+        return msg;
+    }
 
 }
 

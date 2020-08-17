@@ -13,10 +13,6 @@ import java.util.Date;
 public class KindergartenApplication {
 
     public static void main(String[] args) {
-
-
-//        System.out.println(sd1.after(sd2));
-
         SpringApplication.run(KindergartenApplication.class, args);
     }
 

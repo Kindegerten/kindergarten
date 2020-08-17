@@ -55,7 +55,7 @@
                     data: adminJson,
                     dataType: "text",
                     success: function (data) {
-                        // console.log("data"+data)
+                        // console.log(data)
                         // alert(data);
                         if (data=="success"){
                             location.href='/platform/index.jsp'

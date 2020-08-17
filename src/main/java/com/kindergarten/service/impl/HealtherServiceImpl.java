@@ -8,10 +8,11 @@ import com.kindergarten.mapper.HealtherMapper;
 import com.kindergarten.service.HealtherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
-
+@Transactional
 @Service
 public class HealtherServiceImpl implements HealtherService {
     @Autowired//注入相应mapper

@@ -33,12 +33,11 @@
         </script>
     </head>
 
-
     <body class="index">
         <!-- 顶部开始 -->
         <div class="container">
             <div class="logo">
-                <a href="./index.html">X-admin v2.2</a></div>
+                <a href="./index.jsp">管理端</a></div>
             <div class="left_open">
                 <a><i title="展开左侧栏" class="iconfont">&#xe699;</i></a>
             </div>
@@ -67,13 +66,13 @@
             </ul>
             <ul class="layui-nav right" lay-filter="">
                 <li class="layui-nav-item">
-                    <a href="javascript:;">admin</a>
+                    <a href="javascript:;">${admin.adminName}</a>
                     <dl class="layui-nav-child">
                         <!-- 二级菜单 -->
                         <dd>
                             <a onclick="xadmin.open('个人信息','/platform/personal.jsp')">个人信息</a></dd>
                         <dd>
-                            <a onclick="xadmin.open('切换帐号','http://www.baidu.com')">切换帐号</a></dd>
+                            <a href="/platform/login.jsp">切换帐号</a></dd>
                         <dd>
                             <a onclick="xadmin.open('修改密码','/platform/password.jsp')">修改密码</a></dd>
                         <%--<dd>
@@ -82,8 +81,8 @@
                             <a href="./login.html">退出</a></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item to-index">
-                    <a href="/">前台首页</a></li>
+<%--                <li class="layui-nav-item to-index">--%>
+<%--                    <a href="/">前台首页</a></li>--%>
             </ul>
         </div>
         <!-- 顶部结束 -->
@@ -131,7 +130,7 @@
                 </div>
                 <div class="layui-tab-content">
                     <div class="layui-tab-item layui-show">
-                        <iframe src=' ' frameborder="0" scrolling="yes" class="x-iframe"></iframe>
+                        <iframe src='/static/img/bg.jpg' frameborder="0" scrolling="yes" class="x-iframe"></iframe>
                     </div>
                 </div>
                 <div id="tab_show"></div>

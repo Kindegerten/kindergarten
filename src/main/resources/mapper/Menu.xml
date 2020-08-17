@@ -28,7 +28,7 @@
                 and m2.menu_name like concat('%',#{condition.menuName},'%')
             </if>
             <if test="condition.parentId!=null and condition.parentId !=''">
-                and m2.menu_id =#{condition.parentId}
+                and m1.menu_id =#{condition.parentId} or  m2.menu_id =#{condition.parentId}
             </if>
         </where>
         order by order_id limit ${(curPage-1)*pageSize},${pageSize}
@@ -66,4 +66,34 @@
     <insert id="insertMenu" parameterType="com.kindergarten.bean.Menu">
         insert into tbl_menu(menu_name, menu_url, parent_id, order_id) VALUES (#{menuName},#{menuUrl},#{parentId},#{orderId})
     </insert>
+    <select id="selectParentMenu" parameterType="java.lang.Integer" resultType="com.kindergarten.bean.MenuDemo">
+        select distinct m.menu_id as region_id, m.menu_name as region_name, m.parent_id as region_pid from (select a.parent_id from tbl_menu a,tbl_role_menu b where b.mid= a.menu_id  and b.rid=#{rid})t,tbl_menu m where t.parent_id=m.menu_id;
+    </select>
+    <select id="selectChileMenu" parameterType="java.lang.Integer" resultType="com.kindergarten.bean.MenuDemo">
+        select menu_id as region_id,menu_name as region_name,parent_id as region_pid from tbl_menu where parent_id=#{parentId};
+    </select>
+    <select id="selectRole" resultType="com.kindergarten.bean.Role">
+        select * from tbl_role;
+    </select>
+    <select id="noMenuByrid" resultType="com.kindergarten.bean.MenuDemo" parameterType="java.lang.Integer">
+       select distinct  m.menu_id as region_id, m.menu_name as region_name, m.parent_id as region_pid from tbl_menu m inner join (select parent_id  from tbl_menu  where menu_id not in (select mid from tbl_role_menu where rid=#{rid}))t on m.parent_id=t.parent_id and m.parent_id=0;
+    </select>
+    <select id="selectAllMenu" resultType="com.kindergarten.bean.MenuDemo">
+      select distinct  m.menu_id as region_id, m.menu_name as region_name, m.parent_id as region_pid from tbl_menu m where parent_id=0;
+    </select>
+    <insert id="insertMenuByrole" parameterType="java.util.List">
+        insert into tbl_role_menu (rid, mid) VALUES
+        <foreach collection="list" index="index" separator="," item="item">
+            (#{item.orderId},#{item.menuId})
+        </foreach>
+    </insert>
+    <select id="selectMid" resultType="java.lang.String" parameterType="java.lang.Integer">
+        select mid from tbl_role_menu where rid=#{rid};
+    </select>
+    <delete id="deleteMenuById" parameterType="java.util.List" >
+        delete from tbl_role_menu where rid=#{rid} and mid in
+        <foreach collection="list" open="(" close=")" item="item" separator="," >
+            #{item}
+        </foreach>
+    </delete>
 </mapper>

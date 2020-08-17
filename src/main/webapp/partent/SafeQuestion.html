@@ -3,7 +3,7 @@
     
     <head>
         <meta charset="UTF-8">
-        <title>欢迎页面-X-admin2.2</title>
+        <title>安全教育问题</title>
         <meta name="renderer" content="webkit">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
@@ -50,6 +50,7 @@
     </body>
     <script type="text/javascript" src="js/jquery-3.4.1.js"></script>
     <script>
+        var iaaa=1;
         layui.use(['form', 'layedit', 'laydate'], function() {
             var form = layui.form
                 , layer = layui.layer
@@ -62,7 +63,7 @@
                 // alert(1);
                 var cou=1;
                 var score=0;
-                for (var i=1;i<6;i++){
+                for (var i=1;i<iaaa;i++){
                     var v1= $('input[name='+cou+']:checked ').val();
                     cou++;
                     score=Number(v1)+score;
@@ -112,7 +113,7 @@
                 dataType: "json",
                 success: function (msg) {
                     console.log(msg);
-                    var iaaa=1;
+
                     for (var i=0;i<msg.length;i++){
 
                         $("#main").append("<span class='title'>"+iaaa+"."+msg[i].safetyVtqName+"</span>");

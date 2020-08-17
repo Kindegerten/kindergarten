@@ -12,11 +12,20 @@ public class SafetyVideo
     private String safetyVideoStar;
     private String safetyVideoEnd;
     private String videoAdd;//文件存储路径
+    private  String safetyAnswer;
     public SafetyVideo(){}
 
     public SafetyVideo(int safetyVideoId, String safetyVideoName) {
         this.safetyVideoId = safetyVideoId;
         this.safetyVideoName = safetyVideoName;
+    }
+
+    public String getSafetyAnswer() {
+        return safetyAnswer;
+    }
+
+    public void setSafetyAnswer(String safetyAnswer) {
+        this.safetyAnswer = safetyAnswer;
     }
 
     public String getVideoName() {

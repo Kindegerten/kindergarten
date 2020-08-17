@@ -1,8 +1,8 @@
 package com.kindergarten.service;
 
 
-import com.kindergarten.bean.Location;
-import com.kindergarten.bean.Security;
+import com.kindergarten.bean.*;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,4 +18,17 @@ public interface SecurityService {
 
     int insertAlert(Location location);
 
+    List<AlertInfo> getAlert(AlertInfo alertInfo, @Param("limit") int limit, @Param("curPage") int curPage);
+
+    int countAlert(AlertInfo alertInfo);
+
+    List<Classes> getClassSelect();
+
+    List<PickupInfo> getPickup(PickupInfo pickupInfo, @Param("limit") int limit, @Param("curPage") int curPage);
+
+    int countPickup(PickupInfo pickupInfo);
+
+    List<PickupDetail> getPickupDetail(PickupDetail pickupDetail);
+
+    int countPickupDetail(PickupDetail pickupDetail);
 }

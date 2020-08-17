@@ -139,12 +139,12 @@
                             <i class="iconfont nav_right">&#xe697;</i></a>
                         <ul class="sub-menu">
                             <li>
-                                <a onclick="xadmin.add_tab('宝宝作业','homework.html')">
+                                <a onclick="xadmin.add_tab('宝宝作业','homework.jsp')">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>今日作业</cite></a>
                             </li>
                             <li>
-                                <a onclick="xadmin.add_tab('往期作业','historyhomework.html')">
+                                <a onclick="xadmin.add_tab('往期作业','historyhomework.jsp')">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>往期作业</cite></a>
                             </li>

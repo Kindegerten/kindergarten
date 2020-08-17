@@ -116,7 +116,7 @@
                     <i class="iconfont nav_right">&#xe697;</i></a>
                 <ul class="sub-menu">
                     <li>
-                        <a onclick="xadmin.add_tab('接送管理','order-list.html')">
+                        <a onclick="xadmin.add_tab('接送管理','pickup_list.jsp')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>接送管理</cite></a>
                     </li>
@@ -124,6 +124,11 @@
                         <a onclick="xadmin.add_tab('电子围栏','map.jsp')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>电子围栏</cite></a>
+                    </li>
+                    <li>
+                        <a onclick="xadmin.add_tab('报警信息','alert_list.jsp')">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>报警信息</cite></a>
                     </li>
                 </ul>
             </li>

@@ -309,9 +309,8 @@
     </insert>
 
     <select id="selectSafetyVideo" parameterType="java.util.HashMap" resultType="com.kindergarten.bean.SafetyVideo">
-        select safety_video_id, safety_video_name, safety_video_time, safety_video_place, video_name, video_add,
-        safety_video_star,
-        safety_video_end from tbl_safety_video
+        select v.safety_video_id, v.safety_video_name, v.safety_video_time, v.safety_video_place, v.video_name, v.video_add,
+        v.safety_video_star,v.safety_video_end ,a.safety_ans_answer as safetyAnswer from tbl_safety_video v  left join tbl_safety_ans  a on v.safety_video_id=a.safety_video_id
         <where>
             <if test="condition.start!=null and condition.start!= '' and condition.end!=null and condition.end!='' ">
                 and date_format(safety_video_time,'%Y-%m-%d') between #{condition.start} and #{condition.end}
@@ -335,6 +334,21 @@
             </if>
         </where>
     </select>
+    <select id="selectAnswer" resultType="java.lang.String" parameterType="java.lang.Integer">
+        select safety_ans_answer from tbl_safety_ans where safety_video_id=#{safetyVideoId};
+    </select>
+    <update id="updateAnswer" parameterType="com.kindergarten.bean.SafetyVideo">
+        update tbl_safety_ans set
+        <choose>
+            <when test="safetyAnswer !=null and  safetyAnswer != ''">
+                safety_ans_answer=#{safetyAnswer}
+            </when>
+            <otherwise>
+                safety_ans_answer=' '
+            </otherwise>
+        </choose>
+        where safety_video_id=#{safetyVideoId}
+    </update>
     <delete id="deleteSafetyVideo" parameterType="java.lang.Integer">
         delete from tbl_safety_video where safety_video_id=#{safetyVideoId};
     </delete>
@@ -361,7 +375,7 @@
         <if test="bValue!=null and bValue !=''">
             b_value=#{bValue}
         </if>
-        where safety_vtq_id=#{safetyVtqId};
+        where safety_vtq_id=#{safetyVtqId}
     </update>
     <delete id="deleteSafetyVtq" parameterType="java.lang.Integer">
         delete from tbl_safety_vtq where safety_vtq_id=#{safetyVtqId};

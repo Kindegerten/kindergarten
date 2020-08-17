@@ -85,4 +85,6 @@ public interface AdminMapper {
     int selectStudentSex(String studentSex);
     int selectStudentHealth(String healthStatus);
     int updateReadPhoto(ReadmagPhoto readmagPhoto);
+    String selectAnswer(int safetyVideoId);
+    int updateAnswer(SafetyVideo safetyVideo);
 }
