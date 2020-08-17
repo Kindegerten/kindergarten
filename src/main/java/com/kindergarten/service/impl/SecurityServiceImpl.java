@@ -85,5 +85,15 @@ public class SecurityServiceImpl implements SecurityService {
         return securityMapper.countMonitor();
     }
 
+    @Override
+    public List<MonitorVideo> getMonitorVideo(MonitorVideo monitorVideo,int limit,int curPage) {
+        return securityMapper.getMonitorVideo(monitorVideo,limit,curPage);
+    }
+
+    @Override
+    public int countMonitorVideo(MonitorVideo monitorVideo) {
+        return securityMapper.countMonitorVideo(monitorVideo);
+    }
+
 
 }

@@ -266,4 +266,34 @@ public class SecurityController {
         return JSON.toJSONString(layuiData);
     }
 
+    @RequestMapping(value = "/getMonitorVideo")
+    @ResponseBody
+    public String getMonitorVideo(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        System.out.println("getMonitorVideo ing ...");
+
+        int curPage;
+        if (request.getParameter("page") != null) {
+            curPage = Integer.parseInt(request.getParameter("page"));
+        } else {
+            curPage = 1;
+        }
+
+        Integer limit = Integer.parseInt(request.getParameter("limit"));
+
+        System.out.println("curPage : "+curPage+"limit : "+limit);
+
+        MonitorVideo monitorVideo=new MonitorVideo();
+        monitorVideo.setVideoName(request.getParameter("name"));
+        monitorVideo.setStart(request.getParameter("start"));
+        monitorVideo.setEnd(request.getParameter("end"));
+        System.out.println("condition monitorVideo:"+monitorVideo.toString());
+
+        LayuiData layuiData=new LayuiData();
+        layuiData.setCount(securityService.countMonitorVideo(monitorVideo));
+        layuiData.setData(securityService.getMonitorVideo(monitorVideo,limit,curPage));
+        System.out.println("layuiData:"+layuiData.toString());
+
+        return JSON.toJSONString(layuiData);
+    }
+
 }

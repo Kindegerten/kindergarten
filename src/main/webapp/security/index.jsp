@@ -153,7 +153,7 @@
                 </ul>
                 <ul class="sub-menu">
                     <li>
-                        <a onclick="xadmin.add_tab('视频管理','city.html')">
+                        <a onclick="xadmin.add_tab('视频管理','monitor_video.jsp')">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>视频管理</cite></a>
                     </li>

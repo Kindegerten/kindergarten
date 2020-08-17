@@ -37,4 +37,8 @@ public interface SecurityMapper {
     List<Monitor> getMonitor();
 
     int countMonitor();
+
+    List<MonitorVideo> getMonitorVideo(@Param("monitorVideo")MonitorVideo monitorVideo,@Param("limit") int limit,@Param("curPage") int curPage);
+
+    int countMonitorVideo(MonitorVideo monitorVideo);
 }
