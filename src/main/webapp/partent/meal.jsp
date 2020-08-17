@@ -12,7 +12,7 @@
 <title>膳食表</title>
 </head>
 <body>
-<h4 style="text-align:center">膳食表</h4>
+<h2 style="text-align:center">膳食表</h2>
 <c:if test="${not empty meals}">
 <% PageBean pageBean= (PageBean) request.getAttribute("meals");
   System.out.println();
@@ -21,12 +21,12 @@
 <h4 style="text-align:center"><%=pageBean.getList().get(0).toString()%><span id="lodate"></span></h4>
 <table class="layui-table" width="80%" height="50%" border="1" align="center" cellpadding="0" cellspacing="0">
   <tr>
-    <td width="15%" bgcolor="red"><div align="center" style="color: white">餐别</div></td>
-    <td width="15%" bgcolor="red"><div align="center" style="color: white">周一</div></td>
-    <td width="15%" bgcolor="red"><div align="center" style="color: white">周二</div></td>
-    <td width="15%" bgcolor="red"><div align="center" style="color: white">周三</div></td>
-    <td width="15%" bgcolor="red"><div align="center" style="color: white">周四</div></td>
-    <td width="15%" bgcolor="red"><div align="center" style="color: white">周五</div></td>
+    <td width="15%" bgcolor="orange"><div align="center" style="color: white">餐别</div></td>
+    <td width="15%" bgcolor="orange"><div align="center" style="color: white">周一</div></td>
+    <td width="15%" bgcolor="orange"><div align="center" style="color: white">周二</div></td>
+    <td width="15%" bgcolor="orange"><div align="center" style="color: white">周三</div></td>
+    <td width="15%" bgcolor="orange"><div align="center" style="color: white">周四</div></td>
+    <td width="15%" bgcolor="orange"><div align="center" style="color: white">周五</div></td>
   </tr>
   <c:forEach items="${meals.list}" var="i">
     <tr>
