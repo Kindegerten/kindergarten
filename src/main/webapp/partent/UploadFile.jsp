@@ -52,6 +52,7 @@
                     parent.layer.msg('作业上传成功！');
                     var index = parent.layer.getFrameIndex(window.name);
                     parent.layer.close(index);//关闭当前页
+                    parent.location.reload();
                 }else {
                     layer.msg(res.msg);
                 }
