@@ -61,11 +61,8 @@
     </div>
 </div>
 
-</div>
-</div>
 <%--新增图片的div--%>
-<div class="layui-card-body  layui-form" id="update_div" style="display:none"
-     lay-filter="update"><%--当添加layui下拉框就要在最外层加上layui-form，要不然不会显示下拉框的样式--%>
+<div class="layui-card-body  layui-form" id="update_div" style="display:none" lay-filter="update"><%--当添加layui下拉框就要在最外层加上layui-form，要不然不会显示下拉框的样式--%>
     <div class="layui-row">
         <form class="layui-form" lay-filter="update">
             <div class="layui-form-item">

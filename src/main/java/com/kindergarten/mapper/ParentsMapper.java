@@ -53,8 +53,11 @@ public interface ParentsMapper {
     public int UploadWork(@Param("url")String url, @Param("parentid")int parentid, @Param("parentname")String parentname, @Param("workid")String workid, @Param("studentid")String studentid,@Param("studentname")String studentname,@Param("cid")int cid);
     //查找孩子属于哪个班级的，用于作业上传需要
     public int SearchStudentClass(int studentId);
-    //通过文件ID找作业文件路径
+    //通过文件ID找老师布置的作业文件路径
     public String SearchTeacherWork(int workid);
+
+    //查看历史提交的作业列表
+    public String SearchMyWork(int workid);
 
     //遍历所有的安全视频
     public List<ParentShowSafeQue> AllSafeVideo(@Param("curPage") int curPage, @Param("pageSize") int pageSize);

@@ -44,4 +44,6 @@ public interface AdminService<T> {
     int selectStudentSex(String studentSex);
     int selectStudentHealth(String healthStatus);
     String updateReadPhoto(ReadmagPhoto readmagPhoto);
+    String selectAnswer(int safetyVideoId);
+    String updateAnswer(SafetyVideo safetyVideo);
 }

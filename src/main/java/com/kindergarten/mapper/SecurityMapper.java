@@ -29,4 +29,8 @@ public interface SecurityMapper {
     List<PickupInfo> getStudentPickup(@Param("pickupInfo") PickupInfo pickupInfo,@Param("limit") int limit,@Param("curPage") int curPage);
 
     int countPickup(PickupInfo pickupInfo);
+
+    List<PickupDetail> getPickupDetail(PickupDetail pickupDetail);
+
+    int countPickupDetail(PickupDetail pickupDetail);
 }

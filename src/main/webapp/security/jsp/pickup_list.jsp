@@ -72,7 +72,9 @@
                             <th lay-data="{field:'className', sort: true, }">所在班级</th>
                             <th lay-data="{field:'teacherName',sort: true}">班主任</th>
                             <th lay-data="{field:'studentSex',sort: true}">性别</th>
-                            <th lay-data="{fixed: 'right', width:100, align:'center', toolbar: '#barDemo'}"></th>
+                            <th lay-data="{fixed: 'right', width:100, align:'center', toolbar: '#barDemo'}">操作
+<%--                                <a onclick="xadmin.open('开始添加人脸','<%=path%>/security/jsp/faceAdd.jsp')"></a>--%>
+                            </th>
 
 <%--                            <th lay-data="{field:'alert', sort: true}">报警时间</th>--%>
                             <%--                            , templet: '#switchTpl'--%>
@@ -111,11 +113,13 @@
     });</script>
 
 <script>
-    layui.use(['table', 'form'],
+    var pickupDetail;
+    layui.use(['table', 'form','layer'],
         function () {
             var table = layui.table;
             var form = layui.form;
-            var $ = layui.jquery
+            var $ = layui.jquery;
+            var layer=layui.layer;
             let path = $("#path").val();
 
             // $("#search").click(function (data) {
@@ -138,7 +142,6 @@
             // })
             form.on('submit(sreach)', function(data){
                 console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
-
 
                 var startDate = data.field.start;
                 var endDate = data.field.end;
@@ -205,7 +208,33 @@
                     //TODO 弹出框个人考勤表
                     console.log(data);
 
+                    pickupDetail=data;
+                    console.log("parent:"+pickupDetail);
 
+                <%--<a onclick="xadmin.open('开始添加人脸','<%=path%>/security/jsp/faceAdd.jsp')">开始添加人脸</a>--%>
+
+                    layer.open({
+                        type: 2,
+                        title: false,
+                        closeBtn: 0, //不显示关闭按钮
+                        shade: [0],
+                        area: ['200px', '200px'],
+                        offset: 'rb', //右下角弹出
+                        time: 2000, //2秒后自动关闭
+                        anim: 2,
+                        content: ['/security/jsp/jumping.jsp', 'no'], //iframe的url，no代表不显示滚动条
+                        end: function(){ //此处用于演示
+                            layer.open({
+                                type: 2,
+                                title: '宝宝接送信息',
+                                shadeClose: true,
+                                shade: false,
+                                maxmin: true, //开启最大化最小化按钮
+                                area: ['893px', '600px'],
+                                content: '/security/jsp/pickup_detail.jsp'
+                            });
+                        }
+                    });
 
                 } else if(layEvent === 'del'){ //删除
                     layer.confirm('真的删除行么', function(index){
@@ -232,7 +261,7 @@
 
 <script>
     window.onload=function(){
-        layer.msg("拉取下拉框选项中...");
+        // layer.msg("拉取下拉框选项中...");
         layui.use('form', function () {
             // var path = $("#path").val();
             var form = layui.form;

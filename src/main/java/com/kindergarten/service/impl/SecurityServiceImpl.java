@@ -6,9 +6,10 @@ import com.kindergarten.mapper.SecurityMapper;
 import com.kindergarten.service.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
+@Transactional
 @Service
 public class SecurityServiceImpl implements SecurityService {
 
@@ -63,6 +64,16 @@ public class SecurityServiceImpl implements SecurityService {
     @Override
     public int countPickup(PickupInfo pickupInfo) {
         return securityMapper.countPickup(pickupInfo);
+    }
+
+    @Override
+    public List<PickupDetail> getPickupDetail(PickupDetail pickupDetail) {
+        return securityMapper.getPickupDetail(pickupDetail);
+    }
+
+    @Override
+    public int countPickupDetail(PickupDetail pickupDetail) {
+        return securityMapper.countPickupDetail(pickupDetail);
     }
 
 

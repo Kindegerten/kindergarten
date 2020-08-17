@@ -9,6 +9,7 @@
         insert into
         <if test="group_id=='teacher'">tbl_tertime (tid) values (#{user_id})</if>
         <if test="group_id=='student'">tbl_stutime (student_id,student_type) values (#{user_id},#{student_type})</if>
+        <if test="group_id=='parent'">tbl_pickup (parent_id) values (#{user_id})</if>
 
     </insert>
 

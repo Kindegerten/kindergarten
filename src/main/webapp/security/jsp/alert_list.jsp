@@ -110,24 +110,6 @@
             var $ = layui.jquery
             let path = $("#path").val();
 
-            // $("#search").click(function (data) {
-            //     var startDate = $("#start").val();
-            //     var endDate = $("#end").val();
-            //     var name = $("#name").val();
-            //
-            //     layer.msg("search!!!")
-            //
-            //     table.reload('test', {
-            //         url: '/sc/getAlert',
-            //         page: {
-            //             curr: 1
-            //         },
-            //         where: {
-            //             name: name, startDate: startDate, endDate: endDate
-            //         }
-            //     });
-            //     // return false;
-            // })
             form.on('submit(sreach)', function(data){
                 console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
 

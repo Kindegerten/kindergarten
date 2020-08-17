@@ -48,12 +48,13 @@
         }
 
         #cheating{
-            margin-top: -75%;
+
+            margin-top: -200%;
             width: 600px;
             height: 600px;
             background: #ffffff;
             margin-left: 110%;
-            /*float: left;*/
+            float: left;
             border-radius: 50%;
 
         }
@@ -105,11 +106,17 @@
             color: black;
             text-align: right;
         }
+        #friendlist{
+            height: 600px;
+            overflow-y: auto;
+        }
+
     </style>
     <% Teachers teachers= (Teachers) request.getSession().getAttribute("tblTeachers"); %>
 </head>
 <body>
 <div id="cheatFrame">
+    <div id="cheat">
     <div id="myinfo">
         <img src="../static/img/c1.bmp" style="width: 70px;height: 100%;" alt="">
         <span class="ownname"><%=teachers.getTeacherName()%></span>(<span class="owntel"><%=teachers.getTeacherTel()%></span>)
@@ -126,6 +133,7 @@
             </C:forEach>
         </c:if>
 
+    </div>
     </div>
 
     <div id="cheating" style="display: none">
@@ -240,8 +248,10 @@
         }else{
             var time2 = new Date().Format("yyyy-MM-dd hh:mm:ss");
             // $(".msg-right").append($(".ownname").text()+'&emsp;'+time2+":"+sendmsg.val()+'<br>');
-            $("#MessageFrame").append("<div id="+mys+" class='msg-right'>"+sendmsg.val()+':'+'&emsp;'+time2+'&emsp;'+$(".ownname").text()+"<div>");
-            i++;
+            // $("#MessageFrame").append("<div id="+mys+" class='msg-right'>"+sendmsg.val()+':'+'&emsp;'+time2+'&emsp;'+$(".ownname").text()+"<div>");
+            $("#MessageFrame").append("<div id="+mys+" class='msg-right'>"+$(".ownname").text()+'&emsp;'+time2+'&emsp;'+"<div>");
+            $("#MessageFrame").append("<div id="+mys+1+" class='msg-right'>"+sendmsg.val()+"<div>");
+            mys++;
             try {
                 ws.send(sendmsg.val());
             } catch (ex) {

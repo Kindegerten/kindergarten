@@ -15,7 +15,7 @@ public class FaceSearch {
             Map<String, Object> map = new HashMap<>();
             map.put("image", base64);
 //            map.put("liveness_control", "NORMAL");
-            map.put("group_id_list", "security,teacher,student");
+            map.put("group_id_list", "parent,teacher,student");
             map.put("image_type", "BASE64");
             map.put("quality_control", "LOW");
 

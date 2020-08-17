@@ -7,10 +7,11 @@ import com.kindergarten.mapper.AdminMapper;
 import com.kindergarten.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
-
+@Transactional   //事务操作注解
 @Service("adminService")
 public class AdminServiceImp implements AdminService {
 
@@ -456,6 +457,22 @@ public class AdminServiceImp implements AdminService {
         String msg=null;
         int a=0;
         a=adminMapper.updateReadPhoto(readmagPhoto);
+        if (a>0){
+            msg="success";
+        }
+        return msg;
+    }
+
+    @Override
+    public String selectAnswer(int safetyVideoId) {
+        return adminMapper.selectAnswer(safetyVideoId);
+    }
+
+    @Override
+    public String updateAnswer(SafetyVideo safetyVideo) {
+        String msg=null;
+        int a=0;
+        a=adminMapper.updateAnswer(safetyVideo);
         if (a>0){
             msg="success";
         }

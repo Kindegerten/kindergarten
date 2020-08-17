@@ -224,4 +224,34 @@ public class SecurityController {
         return JSON.toJSONString(layuiData);
     }
 
+    @RequestMapping(value = "/getPickupDetail")
+    @ResponseBody
+    public String getPickupDetail(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        System.out.println("getPickupDetail ing ...");
+
+        int curPage;
+        if (request.getParameter("page") != null) {
+            curPage = Integer.parseInt(request.getParameter("page"));
+        } else {
+            curPage = 1;
+        }
+
+        Integer limit = Integer.parseInt(request.getParameter("limit"));
+
+        System.out.println("curPage : "+curPage+"limit : "+limit);
+
+        PickupDetail pickupDetail=new PickupDetail();
+        pickupDetail.setStudentsId(Integer.parseInt(request.getParameter("studentsId")));
+        System.out.println("pickupDetail:"+pickupDetail.toString());
+
+        List<PickupDetail> pickupDetails=securityService.getPickupDetail(pickupDetail);
+        System.out.println("List<PickupDetail>:"+JSON.toJSONString(pickupDetails));
+
+        LayuiData layuiData=new LayuiData();
+        layuiData.setData(pickupDetails);
+        layuiData.setCount(securityService.countPickupDetail(pickupDetail));
+
+        return JSON.toJSONString(layuiData);
+    }
+
 }
