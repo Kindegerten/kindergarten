@@ -31,8 +31,8 @@
 
         table.render({
             elem: '#mytable',
-            height: 600,
-            limit:5,
+            height: 490,
+            limit:10,
             url: '/sc/getMonitorVideo',
             page: true,
             request: {
@@ -53,7 +53,7 @@
 
 <script type="text/html" id="vdo">
     <div>
-        <button value="{{ d.videoUrl }}" class="layui-btn" onclick="openVideo(this)" style="width: 60px; height: 30px;">播放视频
+        <button value="{{ d.videoUrl }}" class="layui-btn" onclick="openVideo(this)" style="width: 80px; height: 30px;">播放视频
         </button>
     </div>
 </script>
@@ -72,7 +72,7 @@
             shade: 0.7,
             content:item.value,
             success: function(layero){
-                console.log(layero)
+                console.log(layero);
                 // 处理layer层中video播放器全屏样式问题
                 setTimeout(function() {
                     $(layero).removeClass('layer-anim');

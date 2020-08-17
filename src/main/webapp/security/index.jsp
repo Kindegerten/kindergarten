@@ -111,7 +111,7 @@
             </li>
             <li>
                 <a href="javascript:;">
-                    <i class="iconfont left-nav-li" lay-tips="安全中心">&#xe723;</i>
+                    <i class="iconfont left-nav-li layui-icon" lay-tips="安全中心">&#xe672;</i>
                     <cite>安全中心</cite>
                     <i class="iconfont nav_right">&#xe697;</i></a>
                 <ul class="sub-menu">
@@ -134,7 +134,7 @@
             </li>
             <li>
                 <a href="javascript:;">
-                    <i class="iconfont left-nav-li" lay-tips="直播中心">&#xe723;</i>
+                    <i class="iconfont left-nav-li layui-icon" lay-tips="直播中心">&#xe652;</i>
                     <cite>直播中心</cite>
                     <i class="iconfont nav_right">&#xe697;</i></a>
                 <ul class="sub-menu">
@@ -178,7 +178,7 @@
         </div>
         <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
-                <iframe src='welcome.jsp' frameborder="0" scrolling="yes" class="x-iframe"></iframe>
+                <iframe src='home_page.html' frameborder="0" scrolling="yes" class="x-iframe"></iframe>
             </div>
         </div>
         <div id="tab_show"></div>
