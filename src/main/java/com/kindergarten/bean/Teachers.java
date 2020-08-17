@@ -1,5 +1,7 @@
 package com.kindergarten.bean;
 
+import java.util.Date;
+
 public class Teachers
 {
 
@@ -10,13 +12,15 @@ public class Teachers
     private String teacherSex;
     private int teacherAge;
     private int classId;
-    private String attendanceTime;
+    private int teacherStatus;
+    private Date teacherRegtime;
+    private  int rid;
 
     public Teachers() {
 
     }
 
-    public Teachers(int teacherId, String teacherTel, String teacherPwd, String teacherName, String teacherSex, int teacherAge, int classId,String attendanceTime) {
+    public Teachers(int teacherId, String teacherTel, String teacherPwd, String teacherName, String teacherSex, int teacherAge, int classId) {
         this.teacherId = teacherId;
         this.teacherTel = teacherTel;
         this.teacherPwd = teacherPwd;
@@ -24,15 +28,31 @@ public class Teachers
         this.teacherSex = teacherSex;
         this.teacherAge = teacherAge;
         this.classId = classId;
-        this.attendanceTime = attendanceTime;
+
     }
 
-    public String getAttendanceTime() {
-        return attendanceTime;
+    public int getTeacherStatus() {
+        return teacherStatus;
     }
 
-    public void setAttendanceTime(String attendanceTime) {
-        this.attendanceTime = attendanceTime;
+    public void setTeacherStatus(int teacherStatus) {
+        this.teacherStatus = teacherStatus;
+    }
+
+    public Date getTeacherRegtime() {
+        return teacherRegtime;
+    }
+
+    public void setTeacherRegtime(Date teacherRegtime) {
+        this.teacherRegtime = teacherRegtime;
+    }
+
+    public int getRid() {
+        return rid;
+    }
+
+    public void setRid(int rid) {
+        this.rid = rid;
     }
 
     public String getTeacherSex() {

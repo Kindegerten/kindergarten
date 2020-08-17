@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Layui</title>
+    <title>家校联系</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -193,7 +193,7 @@
 
                 try {
                     //服务器地址+自己手机号+对方手机号
-                    ws = new WebSocket("ws://127.0.0.1:8080/websocket/" + owntel+"/"+ttel+"/"+ownname);//连接服务器
+                    ws = new WebSocket("ws://localhost:8080/websocket/" + owntel+"/"+ttel+"/"+ownname);//连接服务器
                     ws.onopen = function (event) {
                         console.log("已经与服务器建立了连接...");
                         // alert("登陆成功，可以开始聊天了")
@@ -203,7 +203,9 @@
                         console.log("接收到服务器发送的数据..." + event.data);
                         // document.getElementById("info").innerHTML += event.data + "<br>";
                         // $(".msg-left").append(event.data+"<br>");
+
                         $("#MessageFrame").append("<div id="+i+" class='msg-left'>"+event.data+"<div>");
+
                         i++;
 
                     };
@@ -239,8 +241,10 @@
             }else{
                 var time2 = new Date().Format("yyyy-MM-dd hh:mm:ss");
                 // $(".msg-right").append($(".ownname").text()+'&emsp;'+time2+":"+sendmsg.val()+'<br>');
-                $("#MessageFrame").append("<div id="+mys+" class='msg-right'>"+sendmsg.val()+':'+'&emsp;'+time2+'&emsp;'+$(".ownname").text()+"<div>");
-                i++;
+                // $("#MessageFrame").append("<div id="+mys+" class='msg-right'>"+sendmsg.val()+':'+'&emsp;'+time2+'&emsp;'+$(".ownname").text()+"<div>");
+                $("#MessageFrame").append("<div id="+mys+" class='msg-right'>"+$(".ownname").text()+'&emsp;'+time2+'&emsp;'+"<div>");
+                $("#MessageFrame").append("<div id="+mys+1+" class='msg-right'>"+sendmsg.val()+"<div>");
+                mys++;
                 try {
                     ws.send(sendmsg.val());
                 } catch (ex) {

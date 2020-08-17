@@ -185,6 +185,7 @@ public class RectorControl extends HttpServlet {
         }
     }
 
+    //幼儿列表
     @RequestMapping(value = "studentlist")
     @ResponseBody
     public Object studentlist(HttpServletRequest request, HttpServletResponse response, String studentName, String startDate, String endDate, String kinderId) throws ServletException, IOException {
@@ -250,6 +251,7 @@ public class RectorControl extends HttpServlet {
             return "error";
         }
     }
+
     //删除幼儿
     @RequestMapping(value = "/deleteStudent")
     @ResponseBody
@@ -262,6 +264,7 @@ public class RectorControl extends HttpServlet {
             return "error";
         }
     }
+
     //家长列表
     @RequestMapping(value = "parentsList")
     @ResponseBody
@@ -296,6 +299,7 @@ public class RectorControl extends HttpServlet {
         LayuiData<parentsinfo> layuiData = rectorService.parentsList(condition, curPage, pageSize);
         return new Gson().toJson(layuiData);
     }
+
     //修改家长信息及相应关系表信息
     @RequestMapping(value = "/updateParents")
     @ResponseBody
@@ -305,36 +309,39 @@ public class RectorControl extends HttpServlet {
         System.out.println(value);
         parentsinfo parentsinfo = gson.fromJson(value, parentsinfo.class);
         int flag = rectorService.updateParents(parentsinfo);
-        if (flag ==1) {
+        if (flag == 1) {
             return "success";
         } else {
             return "error";
         }
     }
+
     //删除家长及相应关系表信息
     @RequestMapping(value = "/deleteParents")
     @ResponseBody
     public String deleteParents(HttpServletRequest request, HttpServletResponse response, String parentsId) throws ServletException, IOException {
         System.out.println(parentsId);
         int flag = rectorService.deleteParents(parentsId);
-        if (flag == 1 ) {
+        if (flag == 1) {
             return "success";
         } else {
             return "error";
         }
     }
+
     //检测学生是否存在
     @RequestMapping(value = "/checkStudent")
     @ResponseBody
     public String checkStudent(HttpServletRequest request, HttpServletResponse response, String studentName) throws ServletException, IOException {
         System.out.println(studentName);
-        List<Students>  studentsList = rectorService.checkStudent(studentName);
-        if (studentsList.size()>0 ) {
+        List<Students> studentsList = rectorService.checkStudent(studentName);
+        if (studentsList.size() > 0) {
             return "success";
         } else {
             return "error";
         }
     }
+
     //增加家长及相应关系表信息
     @RequestMapping(value = "/addParents")
     @ResponseBody
@@ -344,17 +351,18 @@ public class RectorControl extends HttpServlet {
         System.out.println(value);
         parentsinfo parentsinfo = gson.fromJson(value, parentsinfo.class);
         int flag = rectorService.addParents(parentsinfo);
-        if (flag ==1) {
+        if (flag == 1) {
             return "success";
         } else {
             return "error";
         }
     }
+
     //教师考勤管理列表
     @RequestMapping(value = "attendanceList")
     @ResponseBody
-    public Object attendanceList(HttpServletRequest request, HttpServletResponse response, String saStaffname, String saRolename,String kinderId) throws ServletException, IOException {
-        System.out.println(saStaffname + "," + saRolename+","+kinderId);
+    public Object attendanceList(HttpServletRequest request, HttpServletResponse response, String saStaffname, String saRolename, String kinderId) throws ServletException, IOException {
+        System.out.println(saStaffname + "," + saRolename + "," + kinderId);
         int curPage;
         if (request.getParameter("curPage") != null && !"".equals(request.getParameter("curPage").trim())) {
             curPage = Integer.parseInt(request.getParameter("curPage"));
@@ -381,11 +389,12 @@ public class RectorControl extends HttpServlet {
         LayuiData<staffAttendance> layuiData = rectorService.attendanceList(condition, curPage, pageSize);
         return new Gson().toJson(layuiData);
     }
+
     //考勤信息列表
     @RequestMapping(value = "findAttendance")
     @ResponseBody
-    public Object findAttendance(HttpServletRequest request, HttpServletResponse response, String staffId, String saRolename,String kinderId) throws ServletException, IOException {
-        System.out.println(staffId + "," + saRolename+","+kinderId);
+    public Object findAttendance(HttpServletRequest request, HttpServletResponse response, String staffId, String saRolename, String kinderId) throws ServletException, IOException {
+        System.out.println(staffId + "," + saRolename + "," + kinderId);
         int curPage;
         if (request.getParameter("curPage") != null && !"".equals(request.getParameter("curPage").trim())) {
             curPage = Integer.parseInt(request.getParameter("curPage"));
@@ -412,6 +421,7 @@ public class RectorControl extends HttpServlet {
         LayuiData<staffAttendance> layuiData = rectorService.findAttendance(condition, curPage, pageSize);
         return new Gson().toJson(layuiData);
     }
+
     //班级列表
     @RequestMapping("classList")
     @ResponseBody
@@ -446,19 +456,21 @@ public class RectorControl extends HttpServlet {
         LayuiData<Classes> layuiData = rectorService.classList(condition, curPage, pageSize);
         return new Gson().toJson(layuiData);
     }
+
     //检测班主任是否存在
     @RequestMapping(value = "checkTeacher")
     @ResponseBody
     public String checkTeacher(HttpServletRequest request, HttpServletResponse response, String teacherName) throws ServletException, IOException {
         System.out.println(teacherName);
-        List<Teachers>  list = rectorService.checkTeacher(teacherName);
+        List<Teachers> list = rectorService.checkTeacher(teacherName);
         System.out.println(list);
-        if (list.size()>0 ) {
+        if (list.size() > 0) {
             return "success";
         } else {
             return "error";
         }
     }
+
     //增加班级
     @RequestMapping(value = "/addClasses")
     @ResponseBody
@@ -475,39 +487,41 @@ public class RectorControl extends HttpServlet {
             return "error";
         }
     }
-        //修改班级信息
-        @RequestMapping(value = "updateClass")
-        @ResponseBody
-        public String updateClass(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            Gson gson = new Gson();
-            String value = request.getParameter("value");
-            System.out.println(value);
-            Classes classes = gson.fromJson(value, Classes.class);
-            int flag = rectorService.updateClass(classes);
-            if (flag > 0) {
-                return "success";
-            } else {
-                return "error";
-            }
+
+    //修改班级信息
+    @RequestMapping(value = "updateClass")
+    @ResponseBody
+    public String updateClass(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Gson gson = new Gson();
+        String value = request.getParameter("value");
+        System.out.println(value);
+        Classes classes = gson.fromJson(value, Classes.class);
+        int flag = rectorService.updateClass(classes);
+        if (flag > 0) {
+            return "success";
+        } else {
+            return "error";
         }
-        //删除班级
-        @RequestMapping(value = "/deleteClass")
-        @ResponseBody
-        public String deleteClass(HttpServletRequest request, HttpServletResponse response, String classId) throws ServletException, IOException {
-            System.out.println(classId);
-            int flag = rectorService.deleteClass(classId);
-            if (flag > 0) {
-                return "success";
-            } else {
-                return "error";
-            }
+    }
+
+    //删除班级
+    @RequestMapping(value = "/deleteClass")
+    @ResponseBody
+    public String deleteClass(HttpServletRequest request, HttpServletResponse response, String classId) throws ServletException, IOException {
+        System.out.println(classId);
+        int flag = rectorService.deleteClass(classId);
+        if (flag > 0) {
+            return "success";
+        } else {
+            return "error";
         }
+    }
 
     //配置课程
     @RequestMapping("findCourse")
     @ResponseBody
-    public Object findCourse (HttpServletRequest request, HttpServletResponse response,String kinderId, String classId, String courseTimescope) throws ServletException, IOException {
-        System.out.println(kinderId+","+classId + "," + courseTimescope);
+    public Object findCourse(HttpServletRequest request, HttpServletResponse response, String kinderId, String classId, String courseTimescope) throws ServletException, IOException {
+        System.out.println(kinderId + "," + classId + "," + courseTimescope);
         int curPage;
         if (request.getParameter("curPage") != null && !"".equals(request.getParameter("curPage").trim())) {
             curPage = Integer.parseInt(request.getParameter("curPage"));
@@ -534,11 +548,12 @@ public class RectorControl extends HttpServlet {
         LayuiData<Course> layuiData = rectorService.findCourse(condition, curPage, pageSize);
         return new Gson().toJson(layuiData);
     }
+
     //班级成员列表
     @RequestMapping("classMemberList")
     @ResponseBody
-    public Object classMemberList(HttpServletRequest request, HttpServletResponse response,String studentName, String className, String startDate, String endDate, String kinderId) throws ServletException, IOException {
-        System.out.println(className+","+ studentName+ "," + startDate + "," + endDate + "," + kinderId);
+    public Object classMemberList(HttpServletRequest request, HttpServletResponse response, String studentName, String className, String startDate, String endDate, String kinderId) throws ServletException, IOException {
+        System.out.println(className + "," + studentName + "," + startDate + "," + endDate + "," + kinderId);
         int curPage;
         if (request.getParameter("curPage") != null && !"".equals(request.getParameter("curPage").trim())) {
             curPage = Integer.parseInt(request.getParameter("curPage"));
@@ -571,11 +586,12 @@ public class RectorControl extends HttpServlet {
         LayuiData<ClassMember> layuiData = rectorService.classMemberList(condition, curPage, pageSize);
         return new Gson().toJson(layuiData);
     }
+
     //校园公告列表
     @RequestMapping("campusNewsList")
     @ResponseBody
-    public Object campusNewsList(HttpServletRequest request, HttpServletResponse response,String campusInfoName,String startDate, String endDate, String kinderId) throws ServletException, IOException {
-        System.out.println(campusInfoName+ "," + startDate + "," + endDate + "," + kinderId);
+    public Object campusNewsList(HttpServletRequest request, HttpServletResponse response, String campusInfoName, String startDate, String endDate, String kinderId) throws ServletException, IOException {
+        System.out.println(campusInfoName + "," + startDate + "," + endDate + "," + kinderId);
         int curPage;
         if (request.getParameter("curPage") != null && !"".equals(request.getParameter("curPage").trim())) {
             curPage = Integer.parseInt(request.getParameter("curPage"));
@@ -605,6 +621,7 @@ public class RectorControl extends HttpServlet {
         LayuiData<CampusInfo> layuiData = rectorService.campusNewsList(condition, curPage, pageSize);
         return new Gson().toJson(layuiData);
     }
+
     //增加公告
     @RequestMapping(value = "/addNews")
     @ResponseBody
@@ -636,12 +653,28 @@ public class RectorControl extends HttpServlet {
             return "error";
         }
     }
+
     //删除公告
     @RequestMapping(value = "/deleteNews")
     @ResponseBody
     public String deleteNews(HttpServletRequest request, HttpServletResponse response, String campusInfoId) throws ServletException, IOException {
         System.out.println(campusInfoId);
         int flag = rectorService.deleteNews(campusInfoId);
+        if (flag > 0) {
+            return "success";
+        } else {
+            return "error";
+        }
+    }
+    //增加通知
+    @RequestMapping(value = "/addInform")
+    @ResponseBody
+    public String addInform(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Gson gson = new Gson();
+        String value = request.getParameter("value");
+        System.out.println(value);
+        Inform inform = gson.fromJson(value, Inform.class);
+        int flag = rectorService.addInform(inform);
         if (flag > 0) {
             return "success";
         } else {

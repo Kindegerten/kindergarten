@@ -70,11 +70,11 @@
                         </div>
                     </div>
                 </div>
-<%--                <div class="layui-form-item">--%>
-<%--                    <div class="layui-input-inline ">--%>
-<%--                        <button data-type="reload" class="layui-btn">查询</button>--%>
-<%--                    </div>--%>
-<%--                </div>--%>
+                <%--                <div class="layui-form-item">--%>
+                <%--                    <div class="layui-input-inline ">--%>
+                <%--                        <button data-type="reload" class="layui-btn">查询</button>--%>
+                <%--                    </div>--%>
+                <%--                </div>--%>
             </div>
             <%--            <div class="layui-card-header">--%>
             <%--            </div>--%>
@@ -120,8 +120,6 @@
                         } else {
                             return ""
                         }
-
-                        // util.toDateString(time, format)
                     }
                 }
                 , {field: 'operateDetail', title: '操作事项', sort: true}

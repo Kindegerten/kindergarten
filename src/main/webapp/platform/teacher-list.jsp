@@ -101,7 +101,14 @@
                 , {field: 'teacherAge', title: '年龄', width: 80, sort: true}
                 , {field: 'teacherTel', title: '手机号', width: 120, sort: true}
                 , {field: 'teacherRegtime', title: '注册时间', width: 200, sort: true,
-                    templet: function(d) {return util.toDateString(d.teacherRegtime)}
+                    templet: function(d) {
+                    if (d.teacherRegtime!=null){
+                        return util.toDateString(d.teacherRegtime)
+                    }else {
+                        return ""
+                    }
+
+                }
                 }
                 , {
                     field: 'teacherStatus',

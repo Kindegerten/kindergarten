@@ -1,8 +1,9 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html class="x-admin-sm">
     <head>
         <meta charset="UTF-8">
-        <title>欢迎页面-X-admin2.2</title>
+        <title>往期作业</title>
         <meta name="renderer" content="webkit">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
@@ -60,7 +61,7 @@
 
                 page: true
 
-                , url:'/pt/homework'
+                , url:'/pt/historyhomework'
                 ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
 
                 , cols: [[
@@ -68,10 +69,11 @@
                     // {field: 'campusInfoId', title: 'ID',width: 50, sort: true}
                      {field: 'workreleaseId', title: '作业编号'}
                     , {field: 'workName', title: '作业名称'}
-                    , { title: '作业内容',toolbar: '#barDemo'}
                     , {field: 'workreleaseTime', title: '发布时间', sort: true}
-                    , {field: 'campusInfoTime', title: '操作',toolbar: '#barDemo1'}
+                    , {field: 'workEva', title: '作业评价', sort: true}
                     , {field: 'workResult', title: '完成情况', sort: true}
+                    , {field: 'campusInfoTime', title: '作业内容',toolbar: '#barDemo1'}
+
 
 
                 ]],
@@ -83,25 +85,28 @@
             });
             //表格所有的操作。
             table.on('tool(test)',function (obj) {  //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
-                var data = obj.data; //获得当前行数据
+                var data = obj.data; //获得当前行数据33.
+
                 var layEven=obj.event;  //事件数据
-                if (layEven=='提交作业'){
-                    // layer.open({
-                    //     type: 1,
-                    //     skin: 'layui-layer-rim', //加上边框
-                    //     area: ['420px', '240px'], //宽高
-                    //     content: ['UploadFile.jsp']
-                    // });
-                    var workName=data.workName;
-                    var workId=data.workreleaseId;
-                    window.PartitionId=workName;
-                    window.ANAME=workId;
+                if (layEven==='查看作业'){
+                    $.ajax({
+                        url:"/pt/myworkdownload",
+                        async: true,
+                        type: "post",
+                        data:{"id":data.workreleaseId},
+                        dataType: "json",
+                        success: function (msg) {
+                          window.location.href=${pageContext.request.contextPath}msg
+                        },
+                        error: function () {
+                            alert("网络繁忙");
 
+                        },
+                        complete: function () {
+                            // alert("ajax执行完毕");
+                        }
+                    });
 
-
-                }
-                if (layEven=='查看作业'){
-                    window.location.href="/pt/download?id="+data.workreleaseId;
 
                 }
 
@@ -110,9 +115,10 @@
       });
     </script>
     <script type="text/html" id="barDemo1">
-        <button class="layui-btn layui-btn-xs"   lay-event="提交作业" onclick="xadmin.open('提交作业','UploadFile.jsp',600,400)">提交作业</button>
-    </script>
-    <script type="text/html" id="barDemo">
-        <a class="layui-btn layui-btn-xs"   lay-event="查看作业">查看作业</a>
+
+
+        {{#  if(d.workResult=='完成'){ }}
+        <a class="layui-btn layui-btn-xs"   lay-event="查看作业">查看我提交的作业</a>
+        {{#  } }}
     </script>
 </html>

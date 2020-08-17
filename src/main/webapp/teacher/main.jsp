@@ -4,7 +4,7 @@
 <html class="x-admin-sm">
 <head>
     <meta charset="UTF-8">
-    <title>后台登录-X-admin2.2</title>
+    <title>教师端主界面</title>
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
@@ -21,7 +21,7 @@
     <![endif]-->
     <%Teachers tblTeachers= (Teachers) request.getSession().getAttribute("tblTeachers"); %>
 </head>
-<body class="index">
+<body class="index" onload="findInform()">
 <!-- 顶部开始 -->
 <div class="container">
     <div class="logo">
@@ -226,6 +226,29 @@
 <script>
     // 是否开启刷新记忆tab功能
     var is_remember = false;
+    //找到新通知
+    function findInform() {
+        var kinderId = $("#kinderId").val();
+        console.log(kinderId);
+        $.ajax({
+            url: "/InformControl/findInform",
+            async: true,
+            type: "post",
+            data: "kinderId", kinderId,
+            datatype: "text",
+            success: function (msg) {
+                layui.use([ 'layer'], function () {
+                    var layer = layui.layer;
+                    layer.open({
+                        title: '通知',
+                        type: 1,
+                        area: ['300px', '200px'],
+                        content: msg,
+                    });
+                });
+            }
+        });
+    }
 </script>
 </body>
 

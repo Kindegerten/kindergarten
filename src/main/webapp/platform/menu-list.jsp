@@ -35,6 +35,7 @@
     <%--    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>--%>
     <%--    <![endif]-->--%>
 </head>
+<body>
 <div class="x-nav">
           <span class="layui-breadcrumb">
             <a href="">首页</a>
@@ -88,8 +89,6 @@
     </div>
 </div>
 
-    </div>
-</div>
 <%--//弹出层--%>
 <div class="layui-card-body  layui-form" id="insert_div" style="display:none" lay-filter="update"><%--当添加layui下拉框就要在最外层加上layui-form，要不然不会显示下拉框的样式--%>
     <form class="layui-form" action="">
@@ -121,7 +120,6 @@
             </div>
         </div>
     </form>
-</div>
 </div>
 </body>
 <script>

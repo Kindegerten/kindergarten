@@ -127,7 +127,9 @@ public class MyWebSocket {
             for (MyWebSocket myWebSocket : webSockets) {
                 if (uuid.equals(myWebSocket.user)) {
 //                    myWebSocket.sendMessage(message);
-                    myWebSocket.sendMessage(ownname +" "+NewTime.format(new Date())+ ":" + message);
+//                    myWebSocket.sendMessage(ownname +" "+NewTime.format(new Date())+ ":" + message);
+                    myWebSocket.sendMessage(ownname +" "+NewTime.format(new Date()));
+                    myWebSocket.sendMessage(message);
                 }
 
             }

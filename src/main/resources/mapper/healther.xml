@@ -22,7 +22,7 @@
          where healther_id=#{healtherId}
     </update>
 
-<!--    体检管理列表-->
+    <!--    体检管理列表-->
     <select id="bodyCheck" resultType="com.kindergarten.bean.Examination">
         select * from tbl_examination e inner join
         (select class_id from tbl_classes
@@ -37,7 +37,7 @@
         ) c on e.class_id=c.class_id
         limit ${(curPage-1)*pageSize},${pageSize}
     </select>
-<!--    体检列表总条数-->
+    <!--    体检列表总条数-->
     <select id="bodyCheckcount" resultType="int">
         select count(*) from tbl_examination e inner join
         (select class_id from tbl_classes
@@ -51,12 +51,13 @@
         </where>
         ) c on e.class_id=c.class_id
     </select>
-<!--    增加体检信息-->
-    <insert id="addExamination" parameterType="com.kindergarten.bean.Examination" useGeneratedKeys="true" keyProperty="examinationId">
+    <!--    增加体检信息-->
+    <insert id="addExamination" parameterType="com.kindergarten.bean.Examination" useGeneratedKeys="true"
+            keyProperty="examinationId">
         insert into tbl_examination(student_name,sid,class_id,height,weight,vision,temperature,health_status)
         values (#{studentName},#{sid},#{classId},#{height},#{weight},#{vision},#{temperature},#{healthStatus})
     </insert>
-<!--    更新体检信息-->
+    <!--    更新体检信息-->
     <update id="updateExamination" parameterType="com.kindergarten.bean.Examination">
         update tbl_examination set student_name=#{studentName},height=#{height},weight=#{weight},vision=#{vision},temperature=#{temperature},health_status=#{healthStatus}
          where sid=#{sid}
@@ -79,4 +80,5 @@
         update tbl_meal set meal_type=#{mealType},meal_datescope=#{mealDatescope},monday=#{monday},tuesday=#{tuesday},wednesday=#{wednesday},thursday=#{thursday},friday=#{friday}
          where meal_id=#{mealId}
     </update>
+
 </mapper>

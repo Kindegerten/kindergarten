@@ -30,11 +30,12 @@
         // var is_remember = false;
     </script>
 </head>
-<body class="index">
+<body class="index" onload="findInform()">
 <%--<input  value="${healther.healtherName}">--%>
 <!-- 顶部开始 -->
 <div class="container">
     <input type="hidden" id="path" value="${pageContext.request.contextPath}">
+    <input hidden id="kinderId" value="${healther.kid}">
     <div class="logo">
         <a href="./index.jsp">保健员管理端</a></div>
     <div class="left_open">
@@ -139,5 +140,28 @@
 <!-- 中部结束 -->
 
 </body>
-
+<script>
+    function findInform() {
+        var kinderId = $("#kinderId").val();
+        console.log(kinderId);
+        $.ajax({
+            url: "/InformControl/findInform",
+            async: true,
+            type: "post",
+            data: "kinderId", kinderId,
+            datatype: "text",
+            success: function (msg) {
+                layui.use([ 'layer'], function () {
+                    var layer = layui.layer;
+                    layer.open({
+                        title: '通知',
+                        type: 1,
+                        area: ['300px', '200px'],
+                        content: msg,
+                    });
+                });
+            }
+        });
+    }
+</script>
 </html>
