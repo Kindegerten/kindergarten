@@ -49,7 +49,7 @@
         <table width="80%" border="0" cellspacing="0" cellpadding="0">
             <tr>
                 <td><div align="center"> <a  class="layui-btn layui-btn-lg layui-btn-normal" href="${pageContext.request.contextPath}/pt/parentRead?curPage=${read.prePage}">上一页</a></div></td>
-                <td><div align="center"> <a  class="layui-btn layui-btn-lg layui-btn-normal" href="${pageContext.request.contextPath}/pt/parentRead?curPage=${read.nextPage}">上一页</a></div></td>
+                <td><div align="center"> <a  class="layui-btn layui-btn-lg layui-btn-normal" href="${pageContext.request.contextPath}/pt/parentRead?curPage=${read.nextPage}">下一页</a></div></td>
             </tr>
         </table>
     </div>
