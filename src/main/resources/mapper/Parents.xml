@@ -5,7 +5,6 @@
 
 <mapper namespace="com.kindergarten.mapper.ParentsMapper">
 
-
     <select id="login" resultType="com.kindergarten.bean.Parents" parameterType="java.lang.String">
         select * from tbl_parents where parents_tel=#{_parameter}
     </select>
@@ -14,30 +13,16 @@
         select role_name from tbl_role  where role_id=#{_parameter}
     </select>
 
-    <select id="login" resultType="com.kindergarten.bean.Parents" parameterType="java.lang.String" >
-        select * from tbl_parents where parents_tel=#{_parameter}
-    </select>
-
-    <select id="FindRole" resultType="String" parameterType="java.lang.Integer" >
-        select role_name from tbl_role  where role_id=#{_parameter}
-    </select>
-    
-
     <update id="updatePwd" parameterType="java.lang.Object">
         update tbl_parents set parents_pwd=#{pwd} where parents_tel=#{tel}
     </update>
 
-
     <!--    找对应孩子的学校资讯-->
     <select id="CampusInfo" resultType="com.kindergarten.bean.CampusInfo" parameterType="java.lang.Integer">
-
-<!--    找对应孩子的学校资讯-->
-    <select id="CampusInfo" resultType="com.kindergarten.bean.CampusInfo" parameterType="java.lang.Integer" >
-
         select * from (select i.* from tbl_students s,tbl_campus_info i where
-           i.kid=s.kinder_id and  s.student_id=#{kinderId}  order by i.campus_info_time desc)a
+            i.kid=s.kinder_id and  s.student_id=#{kinderId}  order by i.campus_info_time desc)a
 
-         limit ${(curPage-1)*pageSize},${curPage*pageSize}
+        limit ${(curPage-1)*pageSize},${curPage*pageSize}
     </select>
 
     <select id="CampusInfoCount" resultType="java.lang.Integer">
@@ -45,11 +30,7 @@
             s.student_id=#{kinderId}  order by i.campus_info_time desc)a
     </select>
 
-
     <!--    平台发布的消息-->
-
-<!--    平台发布的消息-->
-
     <select id="PlatformInfo" resultType="com.kindergarten.bean.PlatformInfo">
         select *from (select * from tbl_platform_info order by tbl_platform_info.platform_info_time desc )a limit ${(curPage-1)*pageSize},${curPage*pageSize}
     </select>
@@ -57,20 +38,12 @@
         select count(*) from tbl_platform_info
     </select>
 
-
     <!--    登陆成功后选择孩子Id-->
-
-<!--    登陆成功后选择孩子Id-->
-
     <select id="SerchStudent" resultType="com.kindergarten.bean.Students">
         select t.* from tbl_students t,tbl_parents_students r,tbl_parents p where r.parents_id=p.parents_id and r.students_id=t.student_id and p.parents_id=#{pid}
     </select>
 
-
     <!--    查询孩子的体检信息，根据孩子ID-->
-
-<!--    查询孩子的体检信息，根据孩子ID-->
-
     <select id="SearchBabyHeath" resultType="com.kindergarten.bean.Examination">
         select * from (select *from tbl_examination where sid=#{studentid} order by examination_time desc ) a limit ${(curPage-1)*pageSize},${curPage*pageSize}
     </select>
@@ -79,21 +52,14 @@
     </select>
 
     <!--    家长查看校园监控列表-->
-
-<!--    家长查看校园监控列表-->
-
     <select id="SearchVideo" resultType="com.kindergarten.bean.Monitor">
-     select * from ( select m.* from tbl_students s,tbl_monitor m where s.kinder_id=m.kid and student_id=#{studentid} ) a limit ${(curPage-1)*pageSize},${curPage*pageSize}
+        select * from ( select m.* from tbl_students s,tbl_monitor m where s.kinder_id=m.kid and student_id=#{studentid} ) a limit ${(curPage-1)*pageSize},${curPage*pageSize}
     </select>
     <select id="SearchVideoCount" resultType="java.lang.Integer">
         select count(*) from tbl_students s,tbl_monitor m where s.kinder_id=m.kid and student_id=#{studentid}
     </select>
 
-
     <!--    查看膳食表-->
-
-<!--    查看膳食表-->
-
     <select id="SearchMeal" resultType="com.kindergarten.bean.Meal">
         select m.* from tbl_meal m,tbl_students s  where s.kinder_id=m.kid and s.student_id=#{studentid} order by m.meal_datescope desc limit ${(curPage-1)*pageSize},3
     </select>
@@ -101,20 +67,14 @@
         select count(*) from tbl_meal m,tbl_students s  where s.kinder_id=m.kid and s.student_id=#{studentid}
     </select>
 
-
     <!--    作业列表-->
-
-<!--    作业列表-->
     <select id="StudentWork" resultType="com.kindergarten.bean.Workrelease">
-      select * from (select a.* from tbl_workrelease a,tbl_students c where a.class_id=c.class_id and c.student_id=#{studentid} and work_name is not null ) a order by a.workrelease_time desc limit ${(curPage-1)*pageSize},${curPage*pageSize}
+        select * from (select a.* from tbl_workrelease a,tbl_students c where a.class_id=c.class_id and c.student_id=#{studentid} and work_name is not null ) a order by a.workrelease_time desc limit ${(curPage-1)*pageSize},${curPage*pageSize}
     </select>
     <select id="StudentWorkCount" resultType="java.lang.Integer">
         select count(*) from  tbl_workrelease a,tbl_students c where a.class_id=c.class_id and  c.student_id=#{studentid}
     </select>
     <!--    查询是否有无完成情况-->
-
-<!--    查询是否有无完成情况-->
-
     <select id="WorkResult" resultType="java.util.Map">
         select w.work_releaseid,w.work_result,w.work_eva from tbl_work w,tbl_workrelease l where w.work_releaseid=l.work_releaseid and student_id=#{studentid}
     </select>
@@ -132,29 +92,11 @@
         update tbl_work set work_url=#{url}, parents_id=#{parentid}, parents_name=#{parentname} where work_releaseid=#{workid} and student_id=#{studentid}
     </update>
     <!--    作业提交+数据库插入-->
-
-<!--    查询班级的英文名，用于存放文件夹-->
-    <select id="SearchEnglishClassName" resultType="java.lang.String">
-        select a.kinder_englishname from tbl_classes a,tbl_students s where a.class_id=s.class_id and a.kinder_id=s.kinder_id and s.student_id=#{studentid}
-    </select>
-<!--    是否首次上传作业？-->
-    <select id="IsNewWork" resultType="java.lang.Integer">
-        select count(*) from tbl_work where work_releaseid=#{workid} and  student_id=#{studentid}
-    </select>
-<!--    重新提交作业，更新文件路径-->
-    <update id="UpdateWork" parameterType="java.lang.Object" >
-        update tbl_work set work_url=#{url}, parents_id=#{parentid}, parents_name=#{parentname} where work_releaseid=#{workid} and student_id=#{studentid}
-    </update>
-<!--    作业提交+数据库插入-->
-
     <insert id="UploadWork" parameterType="java.lang.Object">
-     insert into  tbl_work(work_releaseid,work_url,cid,work_result,student_id,student_name,parents_id,parents_name) values (#{workid},#{url},#{cid},'完成',#{studentid},#{studentname},#{parentid},#{parentname});
+        insert into  tbl_work(work_releaseid,work_url,cid,work_result,student_id,student_name,parents_id,parents_name) values (#{workid},#{url},#{cid},'完成',#{studentid},#{studentname},#{parentid},#{parentname});
     </insert>
 
     <!--    查找班级-->
-
-<!--    查找班级-->
-
     <select id="SearchStudentClass" resultType="java.lang.Integer">
         select class_id from tbl_students where student_id=#{studentid}
     </select>
@@ -163,7 +105,6 @@
     </select>
 
     <!--    家长端遍历所有的安全视频-->
-<!--    家长端遍历所有的安全视频-->
     <select id="AllSafeVideo" resultType="com.kindergarten.bean.ParentShowSafeQue">
         select * from (select safety_video_id,safety_video_name,safety_video_star,video_add from tbl_safety_video) a order by safety_video_star desc limit ${(curPage-1)*pageSize},${curPage*pageSize}
     </select>
@@ -176,36 +117,27 @@
         select safety_video_id,safety_test_score,safety_test_result from tbl_safety_test_complete where student_id=#{studentId}
     </select>
     <!--    查看答案-->
-<!--    查看得分和完成情况-->
-    <select id="SearchSafeVideoResult" resultType="java.util.Map">
-        select safety_video_id,safety_test_score,safety_test_result from tbl_safety_test_complete where student_id=#{studentId}
-    </select>
-<!--    查看答案-->
     <select id="SafeEduAns" resultType="java.lang.String">
         select a.safety_ans_answer from tbl_safety_ans a,tbl_safety_vtq b where a.safety_vtq_id=b.safety_vtq_id and b.safety_video_id=#{videoId}
     </select>
+
     <!--        安全教育试题-->
     <select id="SearchQuestion" resultType="com.kindergarten.bean.SafetyVtq">
         select * from tbl_safety_vtq where safety_video_id=#{videoId}
     </select>
     <!--    插入安全教育分数-->
-<!--        安全教育试题-->
-    <select id="SearchQuestion" resultType="com.kindergarten.bean.SafetyVtq">
-        select * from tbl_safety_vtq where safety_video_id=#{videoId}
-    </select>
-<!--    插入安全教育分数-->
     <insert id="UpdateQueScore" parameterType="java.lang.Object">
         insert into tbl_safety_test_complete(safety_video_id,student_id,safety_test_score,safety_test_result) values (#{videoId},#{studentId},#{score},'已完成')
     </insert>
 
     <!--        亲子阅读-->
-<!--        亲子阅读-->
     <select id="ParentRead" resultType="com.kindergarten.bean.Readmag">
         select * from tbl_readmag limit ${(curPage-1)*pageSize},6
     </select>
     <select id="ParentReadCount" resultType="java.lang.Integer">
         select COUNT(*) from tbl_readmag
     </select>
+
 
     <!--    点击阅读时候看图片-->
     <select id="SearchReadmagPhoto" resultType="com.kindergarten.bean.ReadmagPhoto">
@@ -215,64 +147,8 @@
     <select id="SearchTeacher" resultType="com.kindergarten.bean.Teachers">
         select a.teacher_name,a.teacher_tel from tbl_teachers a,tbl_students b where b.class_id=a.class_id and b.kinder_id=a.kinder_id and b.student_id=#{studentId}
     </select>
-    <select id="selectReadmag" parameterType="java.util.HashMap" resultType="com.kindergarten.bean.Readmag">
-        select readmag_id, readmag_name, readmag_time, readmag_document_url, readmag_pic from tbl_readmag
-        <where>
-            <if test="condition.start!=null and condition.start!= '' and condition.end!=null and condition.end!='' ">
-                and date_format(readmag_time,'%Y-%m-%d') between #{condition.start} and #{condition.end}
-                /*$是直接插入进去,可以进行计算，#相当于占位符*/
-            </if>
-            <if test="condition.readmagName!=null and condition.readmagName !=''">
-                and readmag_name like concat('%',#{condition.readmagName},'%')
-            </if>
-        </where>
-        order by readmag_time desc limit ${(curPage-1)*pageSize},${pageSize}
-    </select>
-   <!-- //查询删除文件的路径-->
-    <select id="selectReadmagByid" resultType="com.kindergarten.bean.Readmag" parameterType="java.lang.Integer">
-        select * from tbl_readmag where readmag_id=#{readmagId}
-    </select>
-    <select id="selectReadmagCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
-        select count(*) from tbl_readmag
-        <where>
-            <if test="condition.start!=null and condition.start!= '' and condition.end!=null and condition.end!='' ">
-                and date_format(readmag_time,'%Y-%m-%d') between #{condition.start} and #{condition.end}
-                /*$是直接插入进去,可以进行计算，#相当于占位符*/
-            </if>
-            <if test="condition.readmagName!=null and condition.readmagName !=''">
-                and readmag_name like concat('%',#{condition.readmagName},'%')
-            </if>
-        </where>
-    </select>
-    <delete id="deleteReadmsg" parameterType="java.lang.Integer">
-        delete from tbl_readmag where readmag_id=#{readmagId}
-    </delete>
-    <select id="selectReadmagPhoto" resultType="com.kindergarten.bean.ReadmagPhoto" parameterType="java.lang.Integer">
-       select readmag_photo_id as readmagPhotoId, readmag_photo_detail as alt, readmag_photo_page as pid,readmag_photo_url as src from tbl_readmag_photo where readmag_id=#{readmagId}
-    </select>
-    <select id="selectReadmagPhotoCount" resultType="java.lang.Integer" parameterType="java.lang.Integer">
-       select count(*) from tbl_readmag_photo where readmag_id=#{readmagId}
-    </select>
-    <delete id="deleteReadmsgPhoto" parameterType="java.lang.Integer">
-    delete from tbl_readmag_photo where readmag_photo_id=#{readmagPhotoId}
-    </delete>
-    <delete id="deleteReadmsgPhotoByid" parameterType="java.lang.Integer">
-    delete from tbl_readmag_photo where readmag_id=#{readmagId}
-    </delete>
-    <select id="selectReadmsgPhotoByid" parameterType="java.lang.Integer" resultType="com.kindergarten.bean.ReadmagPhoto">
-        select readmag_photo_id as readmagPhotoId, readmag_photo_detail as alt, readmag_photo_page as pid,readmag_photo_url as src from tbl_readmag_photo where readmag_photo_id=#{readmagPhotoId};
-    </select>
-=======
-<!--    点击阅读时候看图片-->
-    <select id="SearchReadmagPhoto" resultType="com.kindergarten.bean.ReadmagPhoto">
-        select readmag_photo_detail as alt, readmag_photo_page as pid,readmag_photo_url as src from tbl_readmag_photo where readmag_id=#{readmagId}
-    </select>
-<!--    通过学生id找到它的班级，通过班级找到对应的老师-->
-    <select id="SearchTeacher" resultType="com.kindergarten.bean.Teachers">
-        select a.teacher_name,a.teacher_tel from tbl_teachers a,tbl_students b where b.class_id=a.class_id and b.kinder_id=a.kinder_id and b.student_id=#{studentId}
-    </select>
 
-<!--    //查看考勤-->
+    <!--    //查看考勤-->
     <select id="SearchStudentKaoQin" resultType="com.kindergarten.bean.StuAttendance">
         select *from tbl_stutime where student_id=#{studentId} order by stutime_date desc limit ${(curPage-1)*pageSize},${curPage*pageSize}
     </select>
@@ -288,23 +164,21 @@
         select count(*) from tbl_schoolbill a,tbl_students b where a.bill_classId=b.class_id and b.student_id=#{studentId}
     </select>
 
-<!--    查找缴费记录表有无此记录-->
+    <!--    查找缴费记录表有无此记录-->
     <select id="FindBilllog" resultType="java.util.Map">
         select schoolbill_id,studentbill_type from tbl_studentbill where student_id=#{studentId}
     </select>
 
-<!--    查找缴费记录-->
+    <!--    查找缴费记录-->
     <select id="studentbill" resultType="com.kindergarten.bean.StudentBill">
         select * from tbl_studentbill where student_id=#{studentId} and schoolbill_id=#{schoolbillId}
     </select>
-
-<!--    支付接口-->
-    <select id="Pay" resultType="com.kindergarten.bean.SchoolBill" >
+    <!--    支付接口-->
+    <select id="Pay" resultType="com.kindergarten.bean.SchoolBill">
         select * from tbl_schoolbill where bill_id=#{billId}
     </select>
-<!--    支付成功,插入支付数据-->
+    <!--    支付成功,插入支付数据-->
     <insert id="SuccessPay" parameterType="com.kindergarten.bean.StudentBill">
         insert into tbl_studentbill(student_id, student_name, studentbill_tradeno,studentbill_trano, studentbill_type,schoolbill_id) values (#{studentId},#{studentName},#{studentbillTradeno},#{studentbillTrano},'已缴费',#{schoolbillId})
     </insert>
->>>>>>> origin/master
 </mapper>

@@ -21,7 +21,7 @@
     <![endif]-->
     <%Teachers tblTeachers= (Teachers) request.getSession().getAttribute("tblTeachers"); %>
 </head>
-<body class="index">
+<body class="index" onload="findInform()">
 <!-- 顶部开始 -->
 <div class="container">
     <div class="logo">
@@ -226,6 +226,29 @@
 <script>
     // 是否开启刷新记忆tab功能
     var is_remember = false;
+    //找到新通知
+    function findInform() {
+        var kinderId = $("#kinderId").val();
+        console.log(kinderId);
+        $.ajax({
+            url: "/InformControl/findInform",
+            async: true,
+            type: "post",
+            data: "kinderId", kinderId,
+            datatype: "text",
+            success: function (msg) {
+                layui.use([ 'layer'], function () {
+                    var layer = layui.layer;
+                    layer.open({
+                        title: '通知',
+                        type: 1,
+                        area: ['300px', '200px'],
+                        content: msg,
+                    });
+                });
+            }
+        });
+    }
 </script>
 </body>
 

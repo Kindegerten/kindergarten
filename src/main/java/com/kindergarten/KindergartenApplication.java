@@ -17,8 +17,6 @@ public class KindergartenApplication {
 
 //        System.out.println(sd1.after(sd2));
 
-
-
         SpringApplication.run(KindergartenApplication.class, args);
     }
 

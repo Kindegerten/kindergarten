@@ -98,4 +98,6 @@ public interface RectorMapper {
     int updateNews(CampusInfo campusInfo);
     //删除公告
     int deleteNews(String campusInfoId);
+   //增加通知
+    int addInform(Inform inform);
 }

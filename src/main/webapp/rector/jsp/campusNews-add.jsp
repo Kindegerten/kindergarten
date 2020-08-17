@@ -62,7 +62,7 @@
             <div class="layui-form-item">
                 <div class="layui-input-block">
                     <label class="layui-form-label" ></label>
-                    <button  class="layui-btn" lay-submit lay-filter="newData">发送</button>
+                    <button  class="layui-btn" lay-submit lay-filter="newData">确认发布</button>
 <%--                    <button type="reset" class="layui-btn layui-btn-primary">取消</button>--%>
                 </div>
             </div>
@@ -119,8 +119,9 @@
                 dataType: "text",
                 success: function (msg) {
                     if (msg === "success") {
-                        layer.msg('提交成功!刷新浏览器', {icon: 1, time: 2000})
-                        parent.location.reload();
+                        layer.msg('提交成功!刷新浏览器', {icon: 1, time: 1000},function () {
+                            parent.location.reload();
+                        });
                     } else {
                         layer.msg('提交失败!请重新提交', {icon: 2, time: 6000});
                     }

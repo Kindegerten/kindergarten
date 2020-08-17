@@ -470,4 +470,9 @@
     <delete id="deleteNews">
             delete from tbl_campus_info where campus_info_id=#{campusInfoId}
     </delete>
+    <!--    增加通知-->
+    <insert id="addInform" parameterType="com.kindergarten.bean.Inform" useGeneratedKeys="true" keyProperty="informId">
+            insert into tbl_inform(kinder_id,kinder_name,inform_content)
+            values (#{kinderId},#{kinderName},#{informContent})
+        </insert>
 </mapper>
