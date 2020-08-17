@@ -255,7 +255,7 @@ public class parentController {
             String projectPath = savePath + EnglishClassName + File.separator + uuid + "." + prefix;
 
             //sql插入的时候的路径
-            String SQLprojectPath =File.separator+"upload"+File.separator+ EnglishClassName+File.separator + uuid + "." + prefix;
+            String SQLprojectPath =File.separator+"upload"+File.separator+ simpleDateFormat+File.separator + uuid + "." + prefix;
             System.out.println("===========================projectPath========================================");
             System.out.println("projectPath==" + SQLprojectPath);
             System.out.println("===========================projectPath========================================");
