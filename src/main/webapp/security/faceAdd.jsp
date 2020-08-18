@@ -42,6 +42,10 @@
 
 
 <script>
+    var user_info;
+    var user_group;
+    var user_id;
+    var user_phone;
     !(function () {
         // 老的浏览器可能根本没有实现 mediaDevices，所以我们可以先设置一个空的对象
         if (navigator.mediaDevices === undefined) {
@@ -86,6 +90,7 @@
             console.error(err.name + ": " + err.message);
         })
         document.getElementById('take').addEventListener('click', function () {
+
             if (videoPlaying) {
                 let canvas = document.getElementById('canvas');
                 canvas.width = v.videoWidth;
@@ -93,23 +98,9 @@
                 canvas.getContext('2d').drawImage(v, 0, 0);
                 let data = canvas.toDataURL('image/png');
                 document.getElementById('photo').setAttribute('src', data);
-                // alert(data);
-
                 $("#pic").val(data);
-                // $.ajax({
-                //     url: "/sc/addFace",
-                //     async: true,
-                //     type: "POST",
-                //     data: "base64=" + encodeURIComponent(data),
-                //     dataType: "text",
-                //     success: function (msg) {
-                //         layer.msg(msg)
-                //         console.log(msg);
-                //     },
-                //     error: function () {
-                //         layer.msg("网络繁忙!");
-                //     }
-                // });
+
+                getInfo();
 
             }
         }, false);
@@ -127,7 +118,7 @@
                     url: "/sc/addFace",
                     async: true,
                     type: "POST",
-                    data: "base64=" + encodeURIComponent(data),
+                    data: "base64=" + encodeURIComponent(data)+"&user_group="+user_group+"&user_info="+user_info+"&user_phone="+user_phone,
                     dataType: "text",
                     success: function (msg) {
                         layer.msg(msg)
@@ -142,6 +133,41 @@
 
         },false);
     })();
+
+    function getInfo() {
+        layer.prompt({
+            formType: 0,
+            value: '',
+            title: '请输入名称',
+            area: ['800px', '350px'] //自定义文本域宽高
+        }, function(value, index, elem){
+            user_info=value;
+            // alert(user_info); //得到value
+            layer.close(index);
+        });
+
+        layer.prompt({
+            formType: 0,
+            value: '',
+            title: '请输入电话号码',
+            area: ['800px', '350px'] //自定义文本域宽高
+        }, function(value, index, elem){
+            user_phone=value;
+            // alert(user_phone); //得到value
+            layer.close(index);
+        });
+
+        layer.prompt({
+            formType: 0,
+            value: '',
+            title: '请输入角色teacher/security/parent/student',
+            area: ['800px', '350px'] //自定义文本域宽高
+        }, function(value, index, elem){
+            user_group=value;
+            // alert(user_group); //得到value
+            layer.close(index);
+        });
+    }
 </script>
 </body>
 

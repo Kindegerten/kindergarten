@@ -39,4 +39,6 @@ public interface SecurityService {
     List<MonitorVideo> getMonitorVideo(MonitorVideo monitorVideo, @Param("limit") int limit, @Param("curPage") int curPage);
 
     int countMonitorVideo(MonitorVideo monitorVideo);
+
+    int insertTeacher(Teachers teachers);
 }

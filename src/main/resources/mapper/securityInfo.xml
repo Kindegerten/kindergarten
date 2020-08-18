@@ -153,6 +153,10 @@
         </where>
     </select>
 
+    <insert id="insertTeacher" parameterType="com.kindergarten.bean.Teachers" useGeneratedKeys="true" keyProperty="teacherId" keyColumn="teacher_id">
+        insert into tbl_teachers (teacher_name,teacher_tel) values (#{teacherName},#{teacherTel})
+    </insert>
+
 </mapper>
 
 <!--        select t1.*,tt.teacher_name from (select ts.*,c.class_name from tbl_students ts left join tbl_classes c on ts.class_id=c.class_id) t1 left join tbl_teachers tt on t1.class_id = tt.class_id ;-->

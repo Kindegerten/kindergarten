@@ -96,5 +96,9 @@ public class SecurityServiceImpl implements SecurityService {
         return securityMapper.countMonitorVideo(monitorVideo);
     }
 
+    @Override
+    public int insertTeacher(Teachers teachers) {
+        return securityMapper.insertTeacher(teachers);
+    }
 
 }
