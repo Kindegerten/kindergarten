@@ -42,7 +42,7 @@
             cols: [[
                 {field: 'videoId', title: '视频编号'},
                 {field: 'videoName', title: '视频名称'},
-                {field: 'videoLocation',title: '监控位置'},
+                {field: 'monitorLocation',title: '监控位置'},
                 {field: 'videoDate',title: '视频日期'},
                 {field: 'videoUrl', title: '操作', templet: '#vdo'}
             ]]
