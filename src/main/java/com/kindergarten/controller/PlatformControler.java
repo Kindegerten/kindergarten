@@ -923,14 +923,6 @@ public class PlatformControler {
             middleHahmap.put(parentMenu.getRegionId(),parentMenu);
         }
         middleList.add(middleHahmap);
-//        for (MenuDemo middleMenu:   list3     ) {
-//
-//            middleHahmap.put(middleMenu.getRegionId(), list3);
-//
-//        }
-//        middleList.add(middleHahmap);
-//
-//
         MenuDemoTwo rootMenu = new MenuDemoTwo();
 
         rootMenu.setRegionId(0);
@@ -1038,7 +1030,7 @@ public class PlatformControler {
     public String updatePermissions(HttpServletRequest request, @RequestParam(value = "sourceArr2",required = true) List<String>sourceArr2, int rid) throws IOException {
 //        String sourceArr2 = request.getParameter("sourceArr2");
 //        System.out.println("sourceArr2"+JSON.toJSONString(sourceArr2));
-        System.out.println(rid);
+//        System.out.println(rid);
 //        ArrayList<Menu>list=new ArrayList<>();
 //        for (int i=0;i<sourceArr2.size();i++){
 ////            System.out.println(sourceArr2[i]);
@@ -1047,9 +1039,9 @@ public class PlatformControler {
 //            menu.setMenuId(Integer.parseInt(sourceArr2[i]));
 //            list.add(menu);
 //        }
-        System.out.println("sourceArr2"+JSON.toJSONString(sourceArr2));
+//        System.out.println("sourceArr2"+JSON.toJSONString(sourceArr2));
         List<String>menuId=menuMapper.selectMid(rid);
-        System.out.println("menuId"+JSON.toJSONString(menuId));
+//        System.out.println("menuId"+JSON.toJSONString(menuId));
         String msg=null;
         msg=menuService.updateMenuByrid(rid,sourceArr2,menuId);
         List<Menu> menu = menuService.findMenuList("13407942208");
