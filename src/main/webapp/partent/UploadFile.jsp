@@ -43,16 +43,24 @@
             ,accept:'file' //普通文件
             ,exts:'png|jpg|bmp|doc|docx|ppt|pptx|txt|xls|xlsx'
             ,bindAction: '#test9'
+            ,before:function () {
+                $("#test9").attr('disabled',true);
+                $("#test9").text("上传中请稍后...");
+
+
+            }
             ,done: function(res){
 
                 if (res.code===0){
                     // var index = parent.layer.getFrameIndex(window.name);
-
+                    $("#test9").attr('disabled',false);
                     console.log(res);
-                    parent.layer.msg('作业上传成功！');
+                    // parent.layer.msg('作业上传成功！');
+
                     var index = parent.layer.getFrameIndex(window.name);
                     parent.layer.close(index);//关闭当前页
                     parent.location.reload();
+                    parent.layer.alert('文件上传成功', {icon: 1});
                 }else {
                     layer.msg(res.msg);
                 }

@@ -261,39 +261,46 @@ public class parentController {
             System.out.println("projectPath==" + SQLprojectPath);
             System.out.println("===========================projectPath========================================");
 
-
-            int flag=parentsMapper.IsNewWork(releaseid,studentid);
-            if (flag>0){
-                //有数据，只需要更新文件路径+上传新的文件+上传时间
-                SimpleDateFormat NewTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            boolean ftpupload = FtpUtil.uploadFile("120.25.208.32", 21, "jx1912", "jx1912","/home/jx1912/","/upload/work/student/"+dateStr,uuid + "." + prefix,file.getInputStream());
+            if (ftpupload){ int flag=parentsMapper.IsNewWork(releaseid,studentid);
+                if (flag>0){
+                    //有数据，只需要更新文件路径+上传新的文件+上传时间
+                    SimpleDateFormat NewTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //                file.transferTo(files); // 将接收的文件保存到指定文件中
 //                120.25.208.32/usr/java/upload
-                boolean ftpupload = FtpUtil.uploadFile("120.25.208.32", 21, "jx1912", "jx1912","/home/jx1912/","/upload/work/student/"+dateStr,uuid + "." + prefix,file.getInputStream());
 
-                int IsSuccess=parentsMapper.UpdateWork(SQLprojectPath,parents.getParentsId(),parents.getParentsName(),releaseid,studentid);
-                System.out.println("=========================================================================");
-                System.out.println("数据库更新状态:"+IsSuccess);
-                System.out.println("FTP上传状态:"+ftpupload);
-                System.out.println("=========================================================================");
-            }else{
-                //上传完成后，插入新数据
+
+                    int IsSuccess=parentsMapper.UpdateWork(SQLprojectPath,parents.getParentsId(),parents.getParentsName(),releaseid,studentid);
+                    System.out.println("=========================================================================");
+                    System.out.println("数据库更新状态:"+IsSuccess);
+                    System.out.println("FTP上传状态:"+ftpupload);
+                    System.out.println("=========================================================================");
+                }else{
+                    //上传完成后，插入新数据
 //                file.transferTo(files); // 将接收的文件保存到指定文件中
-                boolean ftpupload = FtpUtil.uploadFile("120.25.208.32", 21, "jx1912", "jx1912","/home/jx1912/","/upload/"+dateStr,uuid + "." + prefix,file.getInputStream());
-                int newwork=parentsMapper.UploadWork(SQLprojectPath,parents.getParentsId(),parents.getParentsName(),releaseid,studentid,studentName,cid);
-                System.out.println("=========================================================================");
-                System.out.println("插入新数据,数据库更新状态:"+newwork);
-                System.out.println("FTP上传状态:"+ftpupload);
-                System.out.println("=========================================================================");
+//                boolean ftpupload = FtpUtil.uploadFile("120.25.208.32", 21, "jx1912", "jx1912","/home/jx1912/","/upload/"+dateStr,uuid + "." + prefix,file.getInputStream());
+                    int newwork=parentsMapper.UploadWork(SQLprojectPath,parents.getParentsId(),parents.getParentsName(),releaseid,studentid,studentName,cid);
+                    System.out.println("=========================================================================");
+                    System.out.println("插入新数据,数据库更新状态:"+newwork);
+                    System.out.println("FTP上传状态:"+ftpupload);
+                    System.out.println("=========================================================================");
 
 
-            }
+                }
 
 
 //            System.out.println(projectPath);
-            LayuiData layuiData = new LayuiData();
-            layuiData.setCode(0);
-            layuiData.setMsg("上传成功");
-            return JSON.toJSONString(layuiData);
+                LayuiData layuiData = new LayuiData();
+                layuiData.setCode(0);
+                layuiData.setMsg("上传成功");
+                return JSON.toJSONString(layuiData);}
+            else{
+                LayuiData layuiData = new LayuiData();
+                layuiData.setCode(0);
+                layuiData.setMsg("上传失败,文件并没有上传上去");
+                return JSON.toJSONString(layuiData);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             return null;
