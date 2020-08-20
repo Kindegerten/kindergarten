@@ -4,7 +4,7 @@
 <html class="x-admin-sm">
     <head>
         <meta charset="UTF-8">
-        <title>欢迎页面-X-admin2.2</title>
+        <title>亲子阅读</title>
         <meta name="renderer" content="webkit">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
@@ -49,7 +49,7 @@
         <table width="80%" border="0" cellspacing="0" cellpadding="0">
             <tr>
                 <td><div align="center"> <a  class="layui-btn layui-btn-lg layui-btn-normal" href="${pageContext.request.contextPath}/pt/parentRead?curPage=${read.prePage}">上一页</a></div></td>
-                <td><div align="center"> <a  class="layui-btn layui-btn-lg layui-btn-normal" href="${pageContext.request.contextPath}/pt/parentRead?curPage=${read.nextPage}">上一页</a></div></td>
+                <td><div align="center"> <a  class="layui-btn layui-btn-lg layui-btn-normal" href="${pageContext.request.contextPath}/pt/parentRead?curPage=${read.nextPage}">下一页</a></div></td>
             </tr>
         </table>
     </div>

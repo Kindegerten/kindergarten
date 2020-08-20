@@ -30,7 +30,7 @@
         // var is_remember = false;
     </script>
 </head>
-<body class="index">
+<body class="index" onload="findInform()">
 <%--<input  value="${healther.healtherName}">--%>
 <!-- 顶部开始 -->
 <div class="container">
@@ -150,7 +150,7 @@
         </div>
         <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
-                <iframe src='${pageContext.request.contextPath}/healther/jsp/welcome.jsp' frameborder="0"
+                <iframe src='${pageContext.request.contextPath}/rector/jsp/welcome.jsp' frameborder="0"
                         scrolling="yes" class="x-iframe"></iframe>
             </div>
         </div>
@@ -163,5 +163,28 @@
 <!-- 中部结束 -->
 
 </body>
-
+<script>
+    function findInform() {
+        var kinderId = $("#kinderId").val();
+        console.log(kinderId);
+        $.ajax({
+            url: "/InformControl/findInform",
+            async: true,
+            type: "post",
+            data: "kinderId", kinderId,
+            datatype: "text",
+            success: function (msg) {
+                layui.use([ 'layer'], function () {
+                    var layer = layui.layer;
+                    layer.open({
+                        title: '通知',
+                        type: 1,
+                        area: ['300px', '200px'],
+                        content: msg,
+                    });
+                });
+            }
+        });
+    }
+</script>
 </html>

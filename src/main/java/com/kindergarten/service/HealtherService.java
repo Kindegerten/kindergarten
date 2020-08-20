@@ -8,18 +8,28 @@ import com.kindergarten.bean.Meal;
 import java.util.HashMap;
 
 public interface HealtherService {
+    //保健员登录
     Healther login(String healtherPhone, String healtherPwd);
-    //体检列表
-     LayuiData<Examination> bodyCheck(HashMap<String, Object> condition, int curPage, int pageSize);
-     //新增体检情况
-    int addExamination(Examination examination);
-// 修改体检情况
-    int updateExamination(Examination examination);
-//膳食管理列表
-    LayuiData<Meal> meallist(int curPage, int pageSize);
-//添加膳食信息
-    int addmeal(Meal meal);
-//更新膳食信息
-    int updatemeal(Meal meal);
+
+    //更改个人信息
     int updateSelf(Healther healther);
+
+    //体检列表
+    LayuiData<Examination> bodyCheck(HashMap<String, Object> condition, int curPage, int pageSize);
+
+    //新增体检情况
+    int addExamination(Examination examination);
+
+    // 修改体检情况
+    int updateExamination(Examination examination);
+
+    //膳食管理列表
+    LayuiData<Meal> meallist(int curPage, int pageSize);
+
+    //添加膳食信息
+    int addmeal(Meal meal);
+
+    //更新膳食信息
+    int updatemeal(Meal meal);
+
 }

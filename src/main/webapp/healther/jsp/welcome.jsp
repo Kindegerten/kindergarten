@@ -31,23 +31,29 @@
         <div class="layui-card-body ">
             <div class="layui-carousel" id="test1" lay-filter="test1" style="margin:auto;width: auto;height: auto; ">
                 <div carousel-item="" style="margin: auto">
-                    <div style="background-size: cover;-moz-background-size: cover;width: 100%;height:100%;background: url('${pageContext.request.contextPath}/static/img/mainbg.jpg') no-repeat center;">
-                        <b style="color: lightblue;font-size: 50px">美丽校园</b></div>
-                    <div style="background-size: cover;-moz-background-size: cover;width: 100%;height:100%;background: url('${pageContext.request.contextPath}/static/img/bg.jpg') no-repeat center;">
-                        <b style="color: lightblue;font-size: 50px">幼儿辅导</b></div>
-                    <div style="background-size: cover;-moz-background-size: cover;width: 100%;height:100%;background: url('${pageContext.request.contextPath}/static/img/bg.jpg') no-repeat center;">
-                        <b style="color: lightblue;font-size: 50px">智力开发</b></div>
+                    <div style="background-size: cover;-moz-background-size: cover;width: 100%;height:100%;background: url('${pageContext.request.contextPath}/static/img/chidren5.bmp') no-repeat center;"></div>
+                    <div style="background-size: cover;-moz-background-size: cover;width: 100%;height:100%;background: url('${pageContext.request.contextPath}/static/img/chidren4.bmp') no-repeat center;"></div>
+                    <div style="background-size: cover;-moz-background-size: cover;width: 100%;height:100%;background: url('${pageContext.request.contextPath}/static/img/chidren3.bmp') no-repeat center;"></div>
 
                 </div>
             </div>
             <div class="layui-row">
                 <div class="layui-col-xs6">
                     <div class="grid-demo grid-demo-bg1">
-                        <h1>园所动态 &emsp;NEWS</h1>
+                        <h1>园所动态  &emsp; NEWS</h1>
                         <hr class="layui-bg-orange">
                         <a><h3>园所新闻 &emsp;NEWS</h3></a>
                         <a><h3>园所新闻 &emsp;NEWS</h3></a>
                         <a><h3>园所新闻 &emsp;NEWS</h3></a>
+                    </div>
+                </div>
+                <div class="layui-col-xs6">
+                    <div class="grid-demo grid-demo-bg1">
+                        <h1>平台咨询  &emsp; INFO</h1>
+                        <hr class="layui-bg-orange">
+                        <a><h3>平台动态 &emsp;NEWS</h3></a>
+                        <a><h3>平台动态 &emsp;NEWS</h3></a>
+                        <a><h3>平台新闻 &emsp;NEWS</h3></a>
                     </div>
                 </div>
                 <div class="layui-col-xs6">

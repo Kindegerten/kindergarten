@@ -33,4 +33,14 @@ public interface SecurityMapper {
     List<PickupDetail> getPickupDetail(PickupDetail pickupDetail);
 
     int countPickupDetail(PickupDetail pickupDetail);
+
+    List<Monitor> getMonitor();
+
+    int countMonitor();
+
+    List<MonitorVideo> getMonitorVideo(@Param("monitorVideo")MonitorVideo monitorVideo,@Param("limit") int limit,@Param("curPage") int curPage);
+
+    int countMonitorVideo(MonitorVideo monitorVideo);
+
+    int insertTeacher(Teachers teachers);
 }

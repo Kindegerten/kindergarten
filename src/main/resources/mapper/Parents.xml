@@ -120,7 +120,7 @@
     </select>
     <!--    查看答案-->
     <select id="SafeEduAns" resultType="java.lang.String">
-        select a.safety_ans_answer from tbl_safety_ans a,tbl_safety_vtq b where a.safety_vtq_id=b.safety_vtq_id and b.safety_video_id=#{videoId}
+        select a.safety_ans_answer from tbl_safety_ans a,tbl_safety_video b where a.safety_video_id=b.safety_video_id and b.safety_video_id=#{videoId}
     </select>
     <!--        安全教育试题-->
     <select id="SearchQuestion" resultType="com.kindergarten.bean.SafetyVtq">

@@ -21,7 +21,7 @@
         <![endif]-->
         <%Parents parents= (Parents) request.getSession().getAttribute("parents"); %>
     </head>
-    <body class="index">
+    <body class="index" onload="findInform()">
         <!-- 顶部开始 -->
         <div class="container">
             <div class="logo">
@@ -250,5 +250,28 @@
             var is_remember = false;
         </script>
     </body>
-
+<script>
+    function findInform() {
+        var kinderId = $("#kinderId").val();
+        console.log(kinderId);
+        $.ajax({
+            url: "/InformControl/findInform",
+            async: true,
+            type: "post",
+            data: "kinderId", kinderId,
+            datatype: "text",
+            success: function (msg) {
+                layui.use([ 'layer'], function () {
+                    var layer = layui.layer;
+                    layer.open({
+                        title: '通知',
+                        type: 1,
+                        area: ['300px', '200px'],
+                        content: msg,
+                    });
+                });
+            }
+        });
+    }
+</script>
 </html>

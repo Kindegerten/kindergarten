@@ -49,23 +49,25 @@ public class RectorServiceImpl implements RectorService {
         return layuiData;
     }
 
+    //删除教职工
     @Override
     public int deleteStaff(String tableName, String tableId, int teacherid) {
         return rectorMapper.deleteStaff(tableName, tableId, teacherid);
     }
 
+    //增加教职工
     @Override
     public int addStaffs(String tableName, String column1, String column2, String column3, String column4, String teacherName, int roleid, String telphone, int kinderid) {
         return rectorMapper.addStaffs(tableName, column1, column2, column3, column4, teacherName, roleid, telphone, kinderid);
     }
 
-    //查询新增教职工
+    //查询新增教职工是否已在数据库添加
     @Override
     public Staffs checkNewStaff(String tableName, String column3, String telphone) {
         return rectorMapper.checkNewStaff(tableName, column3, telphone);
     }
 
-    //教职工列表
+    //幼儿列表
     @Override
     public LayuiData<Students> studentlist(HashMap<String, Object> condition, int curPage, int pageSize) {
         LayuiData<Students> layuiData = null;
@@ -75,6 +77,7 @@ public class RectorServiceImpl implements RectorService {
         return layuiData;
     }
 
+    //增加幼儿
     @Override
     public int addBaby(Students students) {
         return rectorMapper.addBaby(students);
@@ -102,6 +105,7 @@ public class RectorServiceImpl implements RectorService {
         return layuiData;
     }
 
+    //更新家长列表及相应亲子关系表
     @Override
     @Transactional
     public int updateParents(parentsinfo parentsinfo) {
@@ -114,6 +118,7 @@ public class RectorServiceImpl implements RectorService {
         }
     }
 
+    //删除家长和相应亲子关系
     @Override
     @Transactional
     public int deleteParents(String parentsId) {
@@ -126,6 +131,7 @@ public class RectorServiceImpl implements RectorService {
         }
     }
 
+    //增加家长和相应亲子关系
     @Override
     @Transactional
     public int addParents(parentsinfo parentsinfo) {
@@ -138,11 +144,13 @@ public class RectorServiceImpl implements RectorService {
         }
     }
 
+    //检测幼儿是否已在数据库
     @Override
     public List<Students> checkStudent(String studentName) {
         return rectorMapper.checkStudent(studentName);
     }
 
+    //考勤管理列表
     @Override
     public LayuiData<staffAttendance> attendanceList(HashMap<String, Object> condition, int curPage, int pageSize) {
         LayuiData<staffAttendance> layuiData = null;
@@ -152,6 +160,7 @@ public class RectorServiceImpl implements RectorService {
         return layuiData;
     }
 
+    //详细考勤信息
     @Override
     public LayuiData<staffAttendance> findAttendance(HashMap<String, Object> condition, int curPage, int pageSize) {
         LayuiData<staffAttendance> layuiData = null;
@@ -161,6 +170,7 @@ public class RectorServiceImpl implements RectorService {
         return layuiData;
     }
 
+    //班级列表
     @Override
     public LayuiData<Classes> classList(HashMap<String, Object> condition, int curPage, int pageSize) {
         LayuiData<Classes> layuiData = null;
@@ -170,26 +180,31 @@ public class RectorServiceImpl implements RectorService {
         return layuiData;
     }
 
+    //检测教职工是否已添加到数据库
     @Override
     public List<Teachers> checkTeacher(String teacherName) {
         return rectorMapper.checkTeacher(teacherName);
     }
 
+    //增加班级
     @Override
     public int addClasses(Classes classes) {
         return rectorMapper.addClasses(classes);
     }
 
+    //更新班级
     @Override
     public int updateClass(Classes classes) {
         return rectorMapper.updateClass(classes);
     }
 
+    //删除班级
     @Override
     public int deleteClass(String classId) {
         return rectorMapper.deleteClass(classId);
     }
 
+    //配置课程
     @Override
     public LayuiData<Course> findCourse(HashMap<String, Object> condition, int curPage, int pageSize) {
         LayuiData<Course> layuiData = null;
@@ -199,6 +214,7 @@ public class RectorServiceImpl implements RectorService {
         return layuiData;
     }
 
+    //班级成员列表
     @Override
     public LayuiData<ClassMember> classMemberList(HashMap<String, Object> condition, int curPage, int pageSize) {
         LayuiData<ClassMember> layuiData = null;
@@ -208,6 +224,7 @@ public class RectorServiceImpl implements RectorService {
         return layuiData;
     }
 
+    //校园公告列表
     @Override
     public LayuiData<CampusInfo> campusNewsList(HashMap<String, Object> condition, int curPage, int pageSize) {
         LayuiData<CampusInfo> layuiData = null;
@@ -217,22 +234,28 @@ public class RectorServiceImpl implements RectorService {
         return layuiData;
     }
 
+    //增加公告
     @Override
     public int addNews(CampusInfo campusInfo) {
         return rectorMapper.addNews(campusInfo);
     }
 
+    //修改公告
     @Override
     public int updateNews(CampusInfo campusInfo) {
         return rectorMapper.updateNews(campusInfo);
     }
 
+    //删除公告
     @Override
     public int deleteNews(String campusInfoId) {
         return rectorMapper.deleteNews(campusInfoId);
     }
-
-
+    //增加通知
+    @Override
+    public int addInform(Inform inform) {
+        return rectorMapper.addInform(inform);
+    }
 
 
 }

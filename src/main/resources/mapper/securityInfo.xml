@@ -114,8 +114,48 @@
         where tps.students_id=#{studentsId}
     </select>
 
+    <select id="getMonitor" resultType="com.kindergarten.bean.Monitor">
+        select * from tbl_monitor
+    </select>
 
+    <select id="countMonitor" resultType="java.lang.Integer">
+        select count(*) from tbl_monitor
+    </select>
 
+    <select id="getMonitorVideo" parameterType="com.kindergarten.bean.MonitorVideo" resultType="com.kindergarten.bean.MonitorVideo">
+        select * from tbl_monitor_video
+        <where>
+            <if test="monitorVideo.start!='' and monitorVideo.start!=null">
+                and video_date>#{monitorVideo.start}
+            </if>
+            <if test="monitorVideo.end!='' and monitorVideo.end!=null">
+                and #{monitorVideo.end}>video_date
+            </if>
+            <if test="monitorVideo.videoName!='' and monitorVideo.videoName!=null">
+                and video_name like concat('%',#{monitorVideo.videoName},'%')
+            </if>
+        </where>
+        order by video_id DESC limit ${(curPage - 1)*limit},${limit}
+    </select>
+
+    <select id="countMonitorVideo" parameterType="com.kindergarten.bean.MonitorVideo" resultType="java.lang.Integer">
+        select count(*) from tbl_monitor_video
+        <where>
+            <if test="start!='' and start!=null">
+                and video_date>#{start}
+            </if>
+            <if test="end!='' and end!=null">
+                and #{end}>video_date
+            </if>
+            <if test="videoName!='' and videoName!=null">
+                and video_name like concat('%',#{videoName},'%')
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertTeacher" parameterType="com.kindergarten.bean.Teachers" useGeneratedKeys="true" keyProperty="teacherId" keyColumn="teacher_id">
+        insert into tbl_teachers (teacher_name,teacher_tel) values (#{teacherName},#{teacherTel})
+    </insert>
 
 </mapper>
 

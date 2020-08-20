@@ -197,7 +197,9 @@ public class TeacherController {
 //            String savePath = ResourceUtils.getURL("classpath:").getPath()+"static/";
             String savePath =request.getSession().getServletContext().getRealPath("/upload/");
             //保存的文件路径和名称
-//            String filepath="upLoad/"+dateStr+ File.separator + uuid + "." + prefix;
+            //相对路径
+            String filepath=File.separator + "upload" + File.separator + dateStr + File.separator + uuid + "." + prefix;
+
             String projectPath = savePath + dateStr + File.separator + uuid + "." + prefix;
 
             System.out.println("projectPath:"+projectPath);
@@ -211,7 +213,7 @@ public class TeacherController {
             System.out.println("projectPath:"+projectPath);
             LayuiData layuiData=new LayuiData();
             layuiData.setCode(0);
-            layuiData.setMsg("projectPath");
+            layuiData.setMsg(filepath);
             return JSON.toJSONString(layuiData);
         }catch (IOException e) {
             e.printStackTrace();
