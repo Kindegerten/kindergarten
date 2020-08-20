@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.kindergarten.bean.*;
 import com.kindergarten.mapper.TeacherMapper;
 import com.kindergarten.service.TeacherService;
+import com.kindergarten.util.FtpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -198,22 +199,29 @@ public class TeacherController {
             String savePath =request.getSession().getServletContext().getRealPath("/upload/");
             //保存的文件路径和名称
             //相对路径
-            String filepath=File.separator + "upload" + File.separator + dateStr + File.separator + uuid + "." + prefix;
+//            String filepath=File.separator + "upload" + File.separator + dateStr + File.separator + uuid + "." + prefix;
 
-            String projectPath = savePath + dateStr + File.separator + uuid + "." + prefix;
-
-            System.out.println("projectPath:"+projectPath);
-            File files=new File(projectPath);
-            //打印查看上传路径
-            if (!files.getParentFile().exists()){//判断目录是否存在
-                System.out.println("files="+files.getPath());
-                files.getParentFile().mkdirs();
-            }
-            file.transferTo(files);//将接收到的文件保存到指定文件中
-            System.out.println("projectPath:"+projectPath);
+//            String projectPath = "/upload/" + dateStr + File.separator + uuid + "." + prefix;
+//            System.out.println("projectPath:"+projectPath);
+//            File files=new File(projectPath);
+//
+            //FTP传输
+            boolean ftpupload = FtpUtil.uploadFile("120.25.208.32", 21, "jx1912", "jx1912","/home/jx1912/","/upload/work/teacher/"+dateStr,uuid + "." + prefix,file.getInputStream());
+            String SQLprojectPath ="120.25.208.32"+File.separator+"upload"+File.separator+"work"+File.separator+"teacher"+File.separator+dateStr+File.separator + uuid + "." + prefix;
+            System.out.println("===========================projectPath========================================");
+            System.out.println("教师上传作业是否成功："+ftpupload);
+            System.out.println("教师上传文件的SQL插入的地址:" + SQLprojectPath);
+            System.out.println("===========================projectPath========================================");
+//            //打印查看上传路径
+//            if (!files.getParentFile().exists()){//判断目录是否存在
+//                System.out.println("files="+files.getPath());
+//                files.getParentFile().mkdirs();
+//            }
+//            file.transferTo(files);//将接收到的文件保存到指定文件中
+//            System.out.println("projectPath:"+projectPath);
             LayuiData layuiData=new LayuiData();
             layuiData.setCode(0);
-            layuiData.setMsg(filepath);
+            layuiData.setMsg(SQLprojectPath);
             return JSON.toJSONString(layuiData);
         }catch (IOException e) {
             e.printStackTrace();
@@ -247,6 +255,8 @@ public class TeacherController {
         tblPublishTask.setTeacherId(staffRo.getTeacherId());
 
         LayuiData layuiData = teacherService.selectList(tblPublishTask,Integer.parseInt(pageStr), Integer.parseInt(pageSizeStr));
+
+        System.out.println("ssss:"+JSON.toJSONString(layuiData));
         return JSON.toJSONString(layuiData);
     }
 

@@ -89,7 +89,7 @@
             /* 执行ladate实例*/
             laydate.render({
                 elem: '#safetyVideoStar'
-            })
+            });
             laydate.render({
                 elem: '#safetyVideoEnd'
             });

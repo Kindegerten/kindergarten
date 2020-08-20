@@ -233,7 +233,7 @@
         /* 执行ladate实例*/
         laydate.render({
             elem: '#safetyVideoStar'
-        })
+        });
         laydate.render({
             elem: '#safetyVideoEnd'
         });
@@ -258,7 +258,7 @@
                             layer.msg("修改成功"),
                                 location.reload();
                         }
-                    })
+                    });
                     tr.remove();
                     layer.msg('已删除!', {icon: 1, time: 1000});
                 });
@@ -284,7 +284,7 @@
                         // var safetyVideoNameTwo=layero.find('#safetyVideoNameTwo').val();
                         // console.log(safetyVideoNameTwo)
                         //多图片上传
-                        upload.render({
+                       var uploadListIns= upload.render({
                             elem: '#test8'
                             , url: "/platformController/againUpload" //改成您自己的上传接口
                             , auto: false //不自动上传，需要绑定某个按钮点击上传
@@ -309,31 +309,42 @@
                                 obj.preview(function (index, file, result) {
                                     //对上传失败的单个文件重新上传，一般在某个事件中使用
                                     //obj.upload(index, file);
-                                    var  videoName=$("#videoName");
 
-                                    videoName.text(" ");//当另外选择一个文件后，文件名那栏要更新
                                     form.val("update", { //formTest 即 class="layui-form" 所在元素属性 lay-filter="" 对应的值
                                         "videoName": file.name, // "name": "value"
                                         "safetyVideoNameTwo":data.safetyVideoName
 
                                     });
                                 });
+                                uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
                             }
                             // ,exts: 'jpg|png|gif|bmp|jpeg|docx' //普通文件（文件类型）
                             //,multiple: true //是否多个文件上传
                             , bindAction: '#test9'
                             , done: function (res) {
+                             // layero.find('#safetyVideoNameTwo').val("");
+                             // layero.find('#safetyVideoStar').val("");
+                             // layero.find('#safetyVideoEnd').val("");
+                             // layero.find('#videoName').val("");
+                                // var safetyVideoNameTwo=$("#safetyVideoNameTwo");
+                                // safetyVideoNameTwo.val("");
+                                // var safetyVideoStar=$("#safetyVideoStar");
+                                // safetyVideoStar.val("");
+                                // var safetyVideoEnd=$("#safetyVideoEnd");
+                                // safetyVideoEnd.val("");
+                                //
+                                // var  videoName=$("#videoName");
+                                //
+                                // videoName.val(" ");//当另外选择一个文件后，文件名那栏要更新
                                 layer.msg(res.msg);
-                                xadmin.close();
-                                // 可以对父窗口进行刷新
-                                xadmin.father_reload();
+                               layer.closeAll();
                             }
                         })
                     }
                 });
-                $(window).on("resize", function () {
-                    layer.full(index);
-                });
+                // $(window).on("resize", function () {
+                //     layer.full(index);
+                // });
                 return false;
             }
         });

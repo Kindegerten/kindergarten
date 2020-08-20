@@ -8,6 +8,7 @@ import com.kindergarten.mapper.MenuMapper;
 import com.kindergarten.service.AdminService;
 import com.kindergarten.service.MenuService;
 import com.kindergarten.service.ParameterService;
+import com.kindergarten.util.FtpUtil;
 import com.kindergarten.util.MD5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -45,7 +46,7 @@ public class PlatformControler {
     @ResponseBody //直接返回数据而不是跳转拼接的页面
     public String login(HttpServletRequest request, HttpServletResponse response, String adminTel, String adminPwd) throws ServletException, IOException {
         response.setContentType("text/html;charset=utf-8");
-            String md5Pwd= MD5Utils.md5(adminPwd);
+        String md5Pwd = MD5Utils.md5(adminPwd);
         Admin admin1 = adminService.login(adminTel, md5Pwd);//默认密码为1234
         if (admin1 != null) {
             //菜单列表
@@ -55,7 +56,7 @@ public class PlatformControler {
             request.getSession().setAttribute("admin", admin1);
 //            System.out.println("menu"+JSON.toJSONString(menu));
             return "success";
-          //  return JSON.toJSONString(menu);
+            //  return JSON.toJSONString(menu);
         } else {
             return " 账号或密码不正确";
         }
@@ -114,7 +115,7 @@ public class PlatformControler {
             condition.put("rectorName", rectorName);
         }
         layuiData = adminService.selectParent(condition, curPage, pageSize, roleID);
-        System.out.println("layuiData"+JSON.toJSONString(layuiData));
+        System.out.println("layuiData" + JSON.toJSONString(layuiData));
         return JSON.toJSONString(layuiData);
     }
 
@@ -532,14 +533,8 @@ public class PlatformControler {
                               SafetyVideo safetyVideo) {
         LayuiData layuiData = null;
         try {
-//            System.out.println("safetyVideo" + JSON.toJSONString(safetyVideo));
-//            System.out.println("videoName"+videoName);
-//            System.out.println("safetyVideoName"+safetyVideoName);
-//            System.out.println("safetyVideoEnd"+safetyVideoEnd);
-//            System.out.println("safetyVideoStar"+safetyVideoStar);
             //获取文件名
             String originalName = file.getOriginalFilename();
-//            System.out.println("文件名：" + originalName);
             //扩展名
             String prefix = originalName.substring(originalName.lastIndexOf(".") + 1);
             Date date = new Date();
@@ -547,21 +542,20 @@ public class PlatformControler {
             String uuid = UUID.randomUUID() + "";
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String dateStr = simpleDateFormat.format(date);
-            String savePath = request.getSession().getServletContext().getRealPath("/upload");//在文件下载的根目录下加上/upload
-/*            String savePath2 = request.getSession().getServletContext().getRealPath("/");
-            String savePath3 = request.getSession().getServletContext().getRealPath("/download");
-            System.out.println("savePath:"+savePath+" savePath2:"+savePath2);
-            System.out.println("savePath3:"+savePath3);*/
-            //要保存的问题件路径和名称
-            String projectPath = savePath + File.separator + dateStr + File.separator + uuid + "." + prefix;
-            System.out.println("文件完整路径：" + projectPath);
+            String SQLprojectPath = "120.25.208.32" + File.separator + "upload" + File.separator + "safetyVideo" + File.separator + dateStr + File.separator + uuid + "." + prefix;
+
+
+            boolean ftpupload = FtpUtil.uploadFile("120.25.208.32", 21, "jx1912", "jx1912", "/home/jx1912/", "/upload/safetyVideo/" + dateStr, uuid + "." + prefix, file.getInputStream());
+            System.out.println("============================================================");
+            System.out.println("安全教育视频上传:" + ftpupload);
+            System.out.println("存储的到服务器的文件名：" + uuid + "." + prefix);
+            System.out.println("================================================================");
+
             SafetyVideo safetyVideo1 = adminService.selectOneFile(safetyVideo);
             if (safetyVideo1 == null) {
-                String filePath = "\\upload" + File.separator + dateStr + File.separator + uuid + "." + prefix;
-//                System.out.println("存到数据库的文件路径："+filePath);
-                safetyVideo.setVideoAdd(filePath);
+                safetyVideo.setVideoAdd(SQLprojectPath);
                 safetyVideo.setSafetyVideoTime(date);
-                File files = new File(projectPath);
+//                File files = new File(projectPath);
                 String msg = null;
                 msg = adminService.insertVideo(safetyVideo);
                 //将文件插入大到数据库中
@@ -570,15 +564,6 @@ public class PlatformControler {
                 } else {
                     layuiData = new LayuiData(1, "上传失败", 0, null);
                 }
-                //打印查看上传路径
-                if (!files.getParentFile().exists()) {//判断父目录是否存在
-
-                    files.getParentFile().mkdirs(); //创建文件夹的父目录
-                }
-                file.transferTo(files); // 将接收的文件保存到指定文件中
-//                 System.out.println("父目录=" + files.getParentFile());
-
-
             } else {
                 layuiData = new LayuiData(1, "该文件已存在", 0, null);
             }
@@ -643,7 +628,7 @@ public class PlatformControler {
         try {
             //获取文件名
             String originalName = file.getOriginalFilename();
-//            System.out.println("文件名：" + originalName);
+            System.out.println("文件名：" + originalName);
             //扩展名
             String prefix = originalName.substring(originalName.lastIndexOf(".") + 1);
             Date date = new Date();
@@ -651,26 +636,33 @@ public class PlatformControler {
             String uuid = UUID.randomUUID() + "";
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String dateStr = simpleDateFormat.format(date);
-            String savePath = request.getSession().getServletContext().getRealPath("/upload");//在文件下载的根目录下加上/upload
+//            String savePath = request.getSession().getServletContext().getRealPath("/upload");//在文件下载的根目录下加上/upload
+            String SQLprojectPath = "120.25.208.32" + File.separator + "upload" + File.separator + "safetyVideo" + File.separator + dateStr + File.separator + uuid + "." + prefix;
+
+            boolean ftpupload = FtpUtil.uploadFile("120.25.208.32", 21, "jx1912", "jx1912", "/home/jx1912/", "/upload/safetyVideo/" + dateStr, uuid + "." + prefix, file.getInputStream());
             //要保存的问题件路径和名称
-            String projectPath = savePath + File.separator + dateStr + File.separator + uuid + "." + prefix;
-            String filePath = "\\upload" + File.separator + dateStr + File.separator + uuid + "." + prefix;
-            System.out.println("文件完整路径：" + projectPath);
+//            String projectPath = savePath + File.separator + dateStr + File.separator + uuid + "." + prefix;
+//            String filePath = "\\upload" + File.separator + dateStr + File.separator + uuid + "." + prefix;
+//            System.out.println("文件完整路径：" + projectPath);
             SafetyVideo safetyVideo1 = adminService.selectOneFile(safetyVideo);
+
             if (safetyVideo1 == null) {//文件不存在
 
 //                System.out.println("存到数据库的文件路径："+filePath);
-                safetyVideo.setVideoAdd(filePath);
+                safetyVideo.setVideoAdd(SQLprojectPath);
                 safetyVideo.setSafetyVideoTime(date);
+//                System.out.println("safetyVideo"+JSON.toJSONString(safetyVideo));
                 msg = adminService.insertVideo(safetyVideo);
                 //将文件插入大到数据库中
 
             } else {
 //                layuiData = new LayuiData(1, "该文件已存在", 0, null);
-                String deletePath = savePath + safetyVideo1.getVideoAdd();
-                File file1 = new File(deletePath);
+//                String deletePath = savePath + safetyVideo1.getVideoAdd();
+//                File file1 = new File(deletePath);
+                File file1 = new File(safetyVideo1.getVideoAdd());
                 file1.delete();
-                safetyVideo.setVideoAdd(filePath);
+                safetyVideo.setSafetyVideoTime(date);
+                safetyVideo.setVideoAdd(SQLprojectPath);
                 safetyVideo.setSafetyVideoId(safetyVideo1.getSafetyVideoId());
                 msg = adminService.updateSafetyVideo(safetyVideo);
 
@@ -680,13 +672,6 @@ public class PlatformControler {
             } else {
                 layuiData = new LayuiData(1, "上传失败", 0, null);
             }
-            File files = new File(projectPath);
-            //打印查看上传路径
-            if (!files.getParentFile().exists()) {//判断父目录是否存在
-
-                files.getParentFile().mkdirs(); //创建文件夹的父目录
-            }
-            file.transferTo(files); // 将接收的文件保存到指定文件中
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -717,7 +702,7 @@ public class PlatformControler {
     public String updateSafetyVtq(SafetyVtq safetyVtq) throws IOException {
 //        System.out.println("safetyVtq"+JSON.toJSONString(safetyVtq));
         String msg = null;
-        System.out.println("safetyVtq"+JSON.toJSONString(safetyVtq));
+        System.out.println("safetyVtq" + JSON.toJSONString(safetyVtq));
         msg = adminService.updateSafetyVtq(safetyVtq);
         return msg;
     }
@@ -762,22 +747,29 @@ public class PlatformControler {
             String uuid = UUID.randomUUID() + "";
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String dateStr = simpleDateFormat.format(date);
-            String savePath = request.getSession().getServletContext().getRealPath("/upload");//在文件下载的根目录下加上/upload
-            //要保存的问题件路径和名称
-            String projectPath = savePath + File.separator + dateStr + File.separator + uuid + "." + prefix;
-            //保存在数据库的封面图片路径
-            String filePath = "\\upload" + File.separator + dateStr + File.separator + uuid + "." + prefix;
+            String SQLprojectPath = "120.25.208.32" + File.separator + "upload" + File.separator + "Readmag" + File.separator + dateStr + File.separator + uuid + "." + prefix;
 
-            File files = new File(projectPath);
-            //打印查看上传路径
-            if (!files.getParentFile().exists()) {//判断父目录是否存在
-
-                files.getParentFile().mkdirs(); //创建文件夹的父目录
-            }
-            file.transferTo(files); // 将接收的文件保存到指定文件中
+            boolean ftpupload = FtpUtil.uploadFile("120.25.208.32", 21, "jx1912", "jx1912", "/home/jx1912/", "/upload/Readmag/" + dateStr, uuid + "." + prefix, file.getInputStream());
+            System.out.println("============================================================");
+            System.out.println("安全教育视频上传:" + ftpupload);
+            System.out.println("存储的到服务器的文件名：" + uuid + "." + prefix);
+            System.out.println("================================================================");
+//            String savePath = request.getSession().getServletContext().getRealPath("/upload");//在文件下载的根目录下加上/upload
+//            //要保存的问题件路径和名称
+//            String projectPath = savePath + File.separator + dateStr + File.separator + uuid + "." + prefix;
+//            //保存在数据库的封面图片路径
+//            String filePath = "\\upload" + File.separator + dateStr + File.separator + uuid + "." + prefix;
+//
+//            File files = new File(projectPath);
+//            //打印查看上传路径
+//            if (!files.getParentFile().exists()) {//判断父目录是否存在
+//
+//                files.getParentFile().mkdirs(); //创建文件夹的父目录
+//            }
+//            file.transferTo(files); // 将接收的文件保存到指定文件中
             Readmag readmag = new Readmag();
             readmag.setReadmagName(readmagName);
-            readmag.setReadmagPic(filePath);
+            readmag.setReadmagPic(SQLprojectPath);
             msg = adminService.insertReadmsg(readmag);
 //            msg = "success";
             if (msg.equals("success")) {
@@ -807,22 +799,25 @@ public class PlatformControler {
             String uuid = UUID.randomUUID() + "";
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String dateStr = simpleDateFormat.format(date);
-            String savePath = request.getSession().getServletContext().getRealPath("/upload");//在文件下载的根目录下加上/upload
+            String SQLprojectPath = "120.25.208.32" + File.separator + "upload" + File.separator + "ReadmagPhoto" + File.separator + dateStr + File.separator + uuid + "." + prefix;
 
-//            System.out.println("savePath11"+savePath);
-            //要保存的问题件路径和名称
-            String projectPath = savePath + File.separator + dateStr + File.separator + uuid + "." + prefix;
-            //保存在数据库的封面图片路径
-            String filePath = "\\upload" + File.separator + dateStr + File.separator + uuid + "." + prefix;
-
-            File files = new File(projectPath);
-            //打印查看上传路径
-            if (!files.getParentFile().exists()) {//判断父目录是否存在
-
-                files.getParentFile().mkdirs(); //创建文件夹的父目录
-            }
-            file.transferTo(files); // 将接收的文件保存到指定文件中
-            readmagPhoto.setSrc(filePath);
+            boolean ftpupload = FtpUtil.uploadFile("120.25.208.32", 21, "jx1912", "jx1912", "/home/jx1912/", "/upload/ReadmagPhoto/" + dateStr, uuid + "." + prefix, file.getInputStream());
+//            String savePath = request.getSession().getServletContext().getRealPath("/upload");//在文件下载的根目录下加上/upload
+//
+////            System.out.println("savePath11"+savePath);
+//            //要保存的问题件路径和名称
+//            String projectPath = savePath + File.separator + dateStr + File.separator + uuid + "." + prefix;
+//            //保存在数据库的封面图片路径
+//            String filePath = "\\upload" + File.separator + dateStr + File.separator + uuid + "." + prefix;
+//
+//            File files = new File(projectPath);
+//            //打印查看上传路径
+//            if (!files.getParentFile().exists()) {//判断父目录是否存在
+//
+//                files.getParentFile().mkdirs(); //创建文件夹的父目录
+//            }
+//            file.transferTo(files); // 将接收的文件保存到指定文件中
+            readmagPhoto.setSrc(SQLprojectPath);
             msg = adminService.insertReadmsgPhoto(readmagPhoto);
 //            msg = "success";
             if (msg.equals("success")) {
@@ -888,39 +883,41 @@ public class PlatformControler {
         msg = adminService.updateAnswer(safetyVideo);
         return msg;
     }
+
     @RequestMapping(value = "/selectAnswer")
     @ResponseBody //直接返回数据而不是跳转拼接的页面
-    public String selectAnswer( int safetyVideoId) throws IOException {
+    public String selectAnswer(int safetyVideoId) throws IOException {
 //        System.out.println("safetyVtq"+JSON.toJSONString(safetyVtq));
         String msg = null;
 
         msg = adminService.selectAnswer(safetyVideoId);
         return msg;
     }
+
     @RequestMapping(value = "/selectMenuDemoTwo")
     @ResponseBody //直接返回数据而不是跳转拼接的页面
     public String selectMenuDemo(int rid) throws IOException {
 //        System.out.println("safetyVtq"+JSON.toJSONString(safetyVtq));
 
 //        int rid=2;
-        List<MenuDemo>list3=menuService.selectParentMenu(rid);//父菜单
+        List<MenuDemo> list3 = menuService.selectParentMenu(rid);//父菜单
 //        System.out.println("子菜单的父id："+JSON.toJSONString(list3));
-        HashMap<Integer, MenuDemo>middleHahmap=new HashMap<>();
-        List< HashMap<Integer, MenuDemo>>middleList=new ArrayList<>();
-        for (int i=0;i<list3.size();i++){
+        HashMap<Integer, MenuDemo> middleHahmap = new HashMap<>();
+        List<HashMap<Integer, MenuDemo>> middleList = new ArrayList<>();
+        for (int i = 0; i < list3.size(); i++) {
             MenuDemo parentMenu = list3.get(i);
             parentMenu.setRegion_type(1);
-            List<MenuDemo>list=menuService.selectChileMenu(parentMenu.getRegionId());
-            List<Map<Integer, Object>> list1=new ArrayList<>();
-            Map<Integer,Object>hashMap=new HashMap<>();
-            for (MenuDemo  childMenu:   list     ) {
+            List<MenuDemo> list = menuService.selectChileMenu(parentMenu.getRegionId());
+            List<Map<Integer, Object>> list1 = new ArrayList<>();
+            Map<Integer, Object> hashMap = new HashMap<>();
+            for (MenuDemo childMenu : list) {
                 childMenu.setRegion_type(2);
                 hashMap.put(childMenu.getRegionId(), childMenu);
 
             }
             list1.add(hashMap);
             parentMenu.set_child(list1);
-            middleHahmap.put(parentMenu.getRegionId(),parentMenu);
+            middleHahmap.put(parentMenu.getRegionId(), parentMenu);
         }
         middleList.add(middleHahmap);
 //        for (MenuDemo middleMenu:   list3     ) {
@@ -939,103 +936,105 @@ public class PlatformControler {
         rootMenu.setRegion_type(0);
         rootMenu.set_child(middleList);
 
-        HashMap<Integer,MenuDemoTwo>hashMapThree=new HashMap<>();
-        hashMapThree.put(0,rootMenu);
-        HashMap<String, HashMap<Integer,MenuDemoTwo>>hashMapFour=new HashMap<>();
-        hashMapFour.put("list",hashMapThree);
+        HashMap<Integer, MenuDemoTwo> hashMapThree = new HashMap<>();
+        hashMapThree.put(0, rootMenu);
+        HashMap<String, HashMap<Integer, MenuDemoTwo>> hashMapFour = new HashMap<>();
+        hashMapFour.put("list", hashMapThree);
 
-        MenuLaydate menuLaydate=new MenuLaydate();
-        menuLaydate.setCode(1);
-        menuLaydate.setMsg("操作成功");
-//        HashMap<String, HashMap<String, HashMap<Integer,MenuDemoTwo>>>data=new HashMap<>();
-//        data.put("data",hashMapFour);
-        menuLaydate.setData(hashMapFour);
-     //   System.out.println(JSON.toJSONString(list3));
-        Gson gson=new Gson();
-        String menuJson=gson.toJson(menuLaydate);
-//        System.out.println("hhh"+menuJson);
-        menuJson = menuJson.replace("["," ");//QString字符串分割函数
-        menuJson = menuJson.replace("]"," ");//QString字符串分割函数
-//        System.out.println(menuJson);
-        return menuJson;
-       // return JSON.toJSONString(menuLaydate);
-    }
-    @RequestMapping(value = "/selectMenuDemoThree")
-    @ResponseBody //直接返回数据而不是跳转拼接的页面
-    public String selectMenuDemoThree(int rid) throws IOException {
-//        System.out.println("safetyVtq"+JSON.toJSONString(safetyVtq));
-
-//        int rid=2;
-        List<MenuDemo>list3=menuMapper.selectAllMenu();//父菜单
-//        System.out.println("子菜单的父id："+JSON.toJSONString(list3));
-        HashMap<Integer, MenuDemo>middleHahmap=new HashMap<>();
-        List< HashMap<Integer, MenuDemo>>middleList=new ArrayList<>();
-        for (int i=0;i<list3.size();i++){
-            MenuDemo parentMenu = list3.get(i);
-            parentMenu.setRegion_type(1);
-            List<MenuDemo>list=menuService.selectChileMenu(parentMenu.getRegionId());
-            List<Map<Integer, Object>> list1=new ArrayList<>();
-            Map<Integer,Object>hashMap=new HashMap<>();
-            for (MenuDemo  childMenu:   list     ) {
-                childMenu.setRegion_type(2);
-                hashMap.put(childMenu.getRegionId(), childMenu);
-
-            }
-            list1.add(hashMap);
-            parentMenu.set_child(list1);
-            middleHahmap.put(parentMenu.getRegionId(),parentMenu);
-        }
-        middleList.add(middleHahmap);
-//        for (MenuDemo middleMenu:   list3     ) {
-//
-//            middleHahmap.put(middleMenu.getRegionId(), list3);
-//
-//        }
-//        middleList.add(middleHahmap);
-//
-//
-        MenuDemoTwo rootMenu = new MenuDemoTwo();
-
-        rootMenu.setRegionId(0);
-        rootMenu.setRegionName("菜单");
-        rootMenu.setRegionPid(0);
-        rootMenu.setRegion_type(0);
-        rootMenu.set_child(middleList);
-
-        HashMap<Integer,MenuDemoTwo>hashMapThree=new HashMap<>();
-        hashMapThree.put(0,rootMenu);
-        HashMap<String, HashMap<Integer,MenuDemoTwo>>hashMapFour=new HashMap<>();
-        hashMapFour.put("list",hashMapThree);
-
-        MenuLaydate menuLaydate=new MenuLaydate();
+        MenuLaydate menuLaydate = new MenuLaydate();
         menuLaydate.setCode(1);
         menuLaydate.setMsg("操作成功");
 //        HashMap<String, HashMap<String, HashMap<Integer,MenuDemoTwo>>>data=new HashMap<>();
 //        data.put("data",hashMapFour);
         menuLaydate.setData(hashMapFour);
         //   System.out.println(JSON.toJSONString(list3));
-        Gson gson=new Gson();
-        String menuJson=gson.toJson(menuLaydate);
+        Gson gson = new Gson();
+        String menuJson = gson.toJson(menuLaydate);
 //        System.out.println("hhh"+menuJson);
-        menuJson = menuJson.replace("["," ");//QString字符串分割函数
-        menuJson = menuJson.replace("]"," ");//QString字符串分割函数
+        menuJson = menuJson.replace("[", " ");//QString字符串分割函数
+        menuJson = menuJson.replace("]", " ");//QString字符串分割函数
 //        System.out.println(menuJson);
         return menuJson;
         // return JSON.toJSONString(menuLaydate);
     }
+
+    @RequestMapping(value = "/selectMenuDemoThree")
+    @ResponseBody //直接返回数据而不是跳转拼接的页面
+    public String selectMenuDemoThree(int rid) throws IOException {
+//        System.out.println("safetyVtq"+JSON.toJSONString(safetyVtq));
+
+//        int rid=2;
+        List<MenuDemo> list3 = menuMapper.selectAllMenu();//父菜单
+//        System.out.println("子菜单的父id："+JSON.toJSONString(list3));
+        HashMap<Integer, MenuDemo> middleHahmap = new HashMap<>();
+        List<HashMap<Integer, MenuDemo>> middleList = new ArrayList<>();
+        for (int i = 0; i < list3.size(); i++) {
+            MenuDemo parentMenu = list3.get(i);
+            parentMenu.setRegion_type(1);
+            List<MenuDemo> list = menuService.selectChileMenu(parentMenu.getRegionId());
+            List<Map<Integer, Object>> list1 = new ArrayList<>();
+            Map<Integer, Object> hashMap = new HashMap<>();
+            for (MenuDemo childMenu : list) {
+                childMenu.setRegion_type(2);
+                hashMap.put(childMenu.getRegionId(), childMenu);
+
+            }
+            list1.add(hashMap);
+            parentMenu.set_child(list1);
+            middleHahmap.put(parentMenu.getRegionId(), parentMenu);
+        }
+        middleList.add(middleHahmap);
+//        for (MenuDemo middleMenu:   list3     ) {
+//
+//            middleHahmap.put(middleMenu.getRegionId(), list3);
+//
+//        }
+//        middleList.add(middleHahmap);
+//
+//
+        MenuDemoTwo rootMenu = new MenuDemoTwo();
+
+        rootMenu.setRegionId(0);
+        rootMenu.setRegionName("菜单");
+        rootMenu.setRegionPid(0);
+        rootMenu.setRegion_type(0);
+        rootMenu.set_child(middleList);
+
+        HashMap<Integer, MenuDemoTwo> hashMapThree = new HashMap<>();
+        hashMapThree.put(0, rootMenu);
+        HashMap<String, HashMap<Integer, MenuDemoTwo>> hashMapFour = new HashMap<>();
+        hashMapFour.put("list", hashMapThree);
+
+        MenuLaydate menuLaydate = new MenuLaydate();
+        menuLaydate.setCode(1);
+        menuLaydate.setMsg("操作成功");
+//        HashMap<String, HashMap<String, HashMap<Integer,MenuDemoTwo>>>data=new HashMap<>();
+//        data.put("data",hashMapFour);
+        menuLaydate.setData(hashMapFour);
+        //   System.out.println(JSON.toJSONString(list3));
+        Gson gson = new Gson();
+        String menuJson = gson.toJson(menuLaydate);
+//        System.out.println("hhh"+menuJson);
+        menuJson = menuJson.replace("[", " ");//QString字符串分割函数
+        menuJson = menuJson.replace("]", " ");//QString字符串分割函数
+//        System.out.println(menuJson);
+        return menuJson;
+        // return JSON.toJSONString(menuLaydate);
+    }
+
     @RequestMapping(value = "/selectRole")
     @ResponseBody //直接返回数据而不是跳转拼接的页面
     public String selectRole() throws IOException {
 //        System.out.println("safetyVtq"+JSON.toJSONString(safetyVtq));
         String msg = null;
-        List<Role>list=menuMapper.selectRole();
+        List<Role> list = menuMapper.selectRole();
 
         return JSON.toJSONString(list);
     }
 
     @RequestMapping(value = "/updatePermissions")
     @ResponseBody //直接返回数据而不是跳转拼接的页面
-    public String updatePermissions(HttpServletRequest request, @RequestParam(value = "sourceArr2",required = true) List<String>sourceArr2, int rid) throws IOException {
+    public String updatePermissions(HttpServletRequest request, @RequestParam(value = "sourceArr2", required = true) List<String> sourceArr2, int rid) throws IOException {
 //        String sourceArr2 = request.getParameter("sourceArr2");
 //        System.out.println("sourceArr2"+JSON.toJSONString(sourceArr2));
         System.out.println(rid);
@@ -1047,11 +1046,11 @@ public class PlatformControler {
 //            menu.setMenuId(Integer.parseInt(sourceArr2[i]));
 //            list.add(menu);
 //        }
-        System.out.println("sourceArr2"+JSON.toJSONString(sourceArr2));
-        List<String>menuId=menuMapper.selectMid(rid);
-        System.out.println("menuId"+JSON.toJSONString(menuId));
-        String msg=null;
-        msg=menuService.updateMenuByrid(rid,sourceArr2,menuId);
+        System.out.println("sourceArr2" + JSON.toJSONString(sourceArr2));
+        List<String> menuId = menuMapper.selectMid(rid);
+        System.out.println("menuId" + JSON.toJSONString(menuId));
+        String msg = null;
+        msg = menuService.updateMenuByrid(rid, sourceArr2, menuId);
         List<Menu> menu = menuService.findMenuList("13407942208");
 //            System.out.println("admin1:" + JSON.toJSONString(admin1));
         request.getSession().setAttribute("menu", menu);

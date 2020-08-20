@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.kindergarten.bean.*;
 import com.kindergarten.mapper.ParentsMapper;
 import com.kindergarten.service.ParentService;
+import com.kindergarten.util.FtpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -252,36 +253,43 @@ public class parentController {
             String dateStr = simpleDateFormat.format(date);
             String savePath = request.getSession().getServletContext().getRealPath("/upload/");
             //要保存的问题件路径和名称
-            String projectPath = savePath + EnglishClassName + File.separator + uuid + "." + prefix;
-
+//            String projectPath = "/upload/" + dateStr + File.separator + uuid + "." + prefix;
+//            String projectPath1 = savePath + dateStr + File.separator + uuid + "." + prefix;
             //sql插入的时候的路径
-            String SQLprojectPath =File.separator+"upload"+File.separator+ dateStr+File.separator + uuid + "." + prefix;
+            String SQLprojectPath ="120.25.208.32"+File.separator+"upload"+File.separator+"work"+File.separator+"student"+File.separator+dateStr+File.separator + uuid + "." + prefix;
             System.out.println("===========================projectPath========================================");
             System.out.println("projectPath==" + SQLprojectPath);
             System.out.println("===========================projectPath========================================");
-            File files = new File(projectPath);
-            //打印查看上传路径
-            if (!files.getParentFile().exists()) {//判断目录是否存在
-                System.out.println("files11111=" + files.getPath());
-                files.getParentFile().mkdirs();
-            }
-            //判断是否首次上传文件？
+
+
             int flag=parentsMapper.IsNewWork(releaseid,studentid);
             if (flag>0){
                 //有数据，只需要更新文件路径+上传新的文件+上传时间
                 SimpleDateFormat NewTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                file.transferTo(files); // 将接收的文件保存到指定文件中
+//                file.transferTo(files); // 将接收的文件保存到指定文件中
+//                120.25.208.32/usr/java/upload
+                boolean ftpupload = FtpUtil.uploadFile("120.25.208.32", 21, "jx1912", "jx1912","/home/jx1912/","/upload/work/student/"+dateStr,uuid + "." + prefix,file.getInputStream());
+
                 int IsSuccess=parentsMapper.UpdateWork(SQLprojectPath,parents.getParentsId(),parents.getParentsName(),releaseid,studentid);
-                System.out.println("flag>0更新状态:"+IsSuccess);
+                System.out.println("=========================================================================");
+                System.out.println("数据库更新状态:"+IsSuccess);
+                System.out.println("FTP上传状态:"+ftpupload);
+                System.out.println("=========================================================================");
             }else{
                 //上传完成后，插入新数据
-                file.transferTo(files); // 将接收的文件保存到指定文件中
+//                file.transferTo(files); // 将接收的文件保存到指定文件中
+                boolean ftpupload = FtpUtil.uploadFile("120.25.208.32", 21, "jx1912", "jx1912","/home/jx1912/","/upload/"+dateStr,uuid + "." + prefix,file.getInputStream());
                 int newwork=parentsMapper.UploadWork(SQLprojectPath,parents.getParentsId(),parents.getParentsName(),releaseid,studentid,studentName,cid);
-                System.out.println("newwork>0更新状态:"+newwork);
+                System.out.println("=========================================================================");
+                System.out.println("插入新数据,数据库更新状态:"+newwork);
+                System.out.println("FTP上传状态:"+ftpupload);
+                System.out.println("=========================================================================");
+
+
             }
 
 
-            System.out.println(projectPath);
+//            System.out.println(projectPath);
             LayuiData layuiData = new LayuiData();
             layuiData.setCode(0);
             layuiData.setMsg("上传成功");
@@ -292,42 +300,42 @@ public class parentController {
         }
     }
 
-    @RequestMapping(value = "/download")
-    @ResponseBody
-    public String download(HttpServletRequest request, HttpServletResponse response,int id) throws ServletException, IOException {
-              System.out.println(id);
-              String Url=parentsMapper.SearchTeacherWork(id);
-        System.out.println("DOWNLOADURL:"+Url);
-
-
-            File file = new File(Url);
-            String fileName=file.getName();
-            // 浏览器以utf-8进行编码
-            fileName = URLEncoder.encode(fileName, "utf-8");
-
-//            if (!file.exists()){
+//    @RequestMapping(value = "/download")
+//    @ResponseBody
+//    public String download(HttpServletRequest request, HttpServletResponse response,int id) throws ServletException, IOException {
+//              System.out.println(id);
+//              String Url=parentsMapper.SearchTeacherWork(id);
+//        System.out.println("DOWNLOADURL:"+Url);
 //
 //
-//                return "文件不存在";
+//            File file = new File(Url);
+//            String fileName=file.getName();
+//            // 浏览器以utf-8进行编码
+//            fileName = URLEncoder.encode(fileName, "utf-8");
 //
-//            }else {
-//                   进行下载
-                response.setContentType("text/html;charset=utf-8");
-                response.setContentType("application/octet-stream");
-                response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
-
-                FileInputStream inputStream = new FileInputStream(file);
-                InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
-                BufferedReader br = new BufferedReader(reader);
-                byte[] bytes = new byte[1024];
-                int len = 0;
-                while ((len = inputStream.read(bytes)) > 0) {
-                    response.getOutputStream().write(bytes, 0, len);
-                }
-                inputStream.close();
-                return "success";
-
-            }
+////            if (!file.exists()){
+////
+////
+////                return "文件不存在";
+////
+////            }else {
+////                   进行下载
+//                response.setContentType("text/html;charset=utf-8");
+//                response.setContentType("application/octet-stream");
+//                response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+//
+//                FileInputStream inputStream = new FileInputStream(file);
+//                InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+//                BufferedReader br = new BufferedReader(reader);
+//                byte[] bytes = new byte[1024];
+//                int len = 0;
+//                while ((len = inputStream.read(bytes)) > 0) {
+//                    response.getOutputStream().write(bytes, 0, len);
+//                }
+//                inputStream.close();
+//                return "success";
+//
+//            }
 
 //        }
 
@@ -337,33 +345,6 @@ public class parentController {
         System.out.println(id);
         String Url=parentsMapper.SearchTeacherWork(id);
         System.out.println("WorkDOWNLOADURL:"+Url);
-
-
-//        File file = new File(Url);
-//        String fileName=file.getName();
-//        // 浏览器以utf-8进行编码
-//        fileName = URLEncoder.encode(fileName, "utf-8");
-//
-//        if (!file.exists()){
-//
-//
-//            return "文件不存在";
-//
-//        }else {
-////                   进行下载
-//            response.setContentType("text/html;charset=utf-8");
-//            response.setContentType("application/octet-stream");
-//            response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
-//
-//            FileInputStream inputStream = new FileInputStream(file);
-//            InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
-//            BufferedReader br = new BufferedReader(reader);
-//            byte[] bytes = new byte[1024];
-//            int len = 0;
-//            while ((len = inputStream.read(bytes)) > 0) {
-//                response.getOutputStream().write(bytes, 0, len);
-//            }
-//            inputStream.close();
             return JSON.toJSONString(Url);
 
 //        }

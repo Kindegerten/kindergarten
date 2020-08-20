@@ -15,7 +15,6 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/X-admin/css/xadmin.css">
     <%--    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>--%>
     <script src="${pageContext.request.contextPath}/static/jquery-3.5.1.js"></script>
-    <script src="${pageContext.request.contextPath}/healther/js/login.js"></script>
     <script src="${pageContext.request.contextPath}/static/X-admin/lib/layui/layui.js" charset="utf-8"></script>
     <%--    <!--[if lt IE 9]>--%>
     <%--<!--      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>-->--%>

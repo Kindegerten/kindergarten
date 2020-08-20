@@ -258,4 +258,23 @@ public class RectorServiceImpl implements RectorService {
     }
 
 
+
+    @Override
+    public LayuiData<SchoolBill> bills(int kinderId, HashMap<String, Object> condition, int curPage, int pageSize) {
+        LayuiData<SchoolBill> layuiData = null;
+        List<SchoolBill> schoolBills = rectorMapper.SchoolBill(kinderId,condition, curPage, pageSize);
+        int totalRecord = rectorMapper.SchoolBillCount(kinderId,condition);
+        layuiData = new LayuiData<>(0,"",totalRecord,schoolBills);
+        return layuiData;
+
+    }
+
+    @Override
+    public LayuiData<StudentBill> studnetBills(int classId, int schoolbillId) {
+        LayuiData<StudentBill> layuiData = null;
+        List<StudentBill> schoolBills = rectorMapper.SearchClassBill(classId, schoolbillId);
+        layuiData = new LayuiData<>(0,"",0,schoolBills);
+        return layuiData;
+    }
+
 }

@@ -35,6 +35,16 @@
     <%--    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>--%>
     <%--    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>--%>
     <%--    <![endif]-->--%>
+    <style>
+        .layui-table-cell {
+            height: 80px;
+            /*line-height: 60px;*/
+        }
+        th .layui-table-cell {
+            height: 30px;
+            line-height: 30px;
+        }
+    </style>
 </head>
 <body>
 <%--<div class="x-nav">--%>
@@ -132,7 +142,7 @@
                     field: 'src', title: '图片', sort: true,
                     templet: function (d) {
                         if (d.src != null) {
-                            return '<div οnclick="show_img(this)" ><img src="' + d.src + '" alt="" width="75px" height="75px"></a></div>';
+                            return '<div οnclick="show_img(this)" ><img src="http://' + d.src + '" alt="" width="75px" height="75px"></a></div>';
                         } else {
                             return ""
                         }
@@ -247,7 +257,7 @@
                         // console.log("data.pid"+data.pid)
                         // var imageUrl=$("#imageUrl")
                         var eImg=$('#imageUrl');
-                        eImg.attr('src', data.src);
+                        eImg.attr('src', "http://"+data.src);
                         // return '<div οnclick="show_img(this)" ><img src="' + d.src + '" alt="" width="60px" height="60px"></a></div>';
                         form.val("update", { //formTest 即 class="layui-form" 所在元素属性 lay-filter="" 对应的值
                             // "imageUrl": data.src, // "name": "value"

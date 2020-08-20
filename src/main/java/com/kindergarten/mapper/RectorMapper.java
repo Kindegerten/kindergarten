@@ -100,4 +100,21 @@ public interface RectorMapper {
     int deleteNews(String campusInfoId);
    //增加通知
     int addInform(Inform inform);
+
+
+
+
+    //查询该园长的所有班级
+    List<Classes> FindClass(int KinId);
+
+    //新增账单
+    int AddBill(@Param("bill")SchoolBill schoolBill);
+
+    //账单列表
+    public List<SchoolBill> SchoolBill(@Param("kinderId")int kinderId,@Param("condition") HashMap<String, Object> condition, @Param("curPage") int curPage, @Param("pageSize") int pageSize);
+    int SchoolBillCount(@Param("kinderId")int kinderId,@Param("condition") HashMap<String, Object> condition);
+
+    //查询班级谁缴费了，谁没缴费
+    List<StudentBill> SearchClassBill(@Param("classId")int classId,@Param("schoolbillId")int schoolbillId);
+
 }

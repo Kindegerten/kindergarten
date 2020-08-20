@@ -69,13 +69,11 @@
                     // {field: 'campusInfoId', title: 'ID',width: 50, sort: true}
                      {field: 'workreleaseId', title: '作业编号'}
                     , {field: 'workName', title: '作业名称'}
-                    , { title: '作业内容',templet:function (d) {
-                            return "<a href=${pageContext.request.contextPath}'"+d.workUrl+"' class=\"layui-btn layui-btn-normal\" >查看老师作业</a>";
-                        }}
+                    , { title: '作业内容',toolbar: '#barDemo'}
                     , {field: 'workreleaseTime', title: '发布时间', sort: true}
                     , {field: 'campusInfoTime', title: '操作',toolbar: '#barDemo1'}
                     , {field: 'workResult', title: '完成情况', sort: true}
-
+                    // , {field: 'campusInfoTime', title: '操作',toolbar: '#barDemo'}
 
                 ]],
                 request: {
@@ -103,10 +101,11 @@
 
 
                 }
-                // if (layEven=='查看作业'){
-                //     window.location.href="/pt/download?id="+data.workreleaseId;
-                //
-                // }
+                if (layEven=='查看作业'){
+                    console.log(data.workUrl);
+                    window.location.href="http://"+data.workUrl;
+
+                }
 
             })
 
@@ -116,7 +115,7 @@
         <button class="layui-btn layui-btn-xs"   lay-event="提交作业" onclick="xadmin.open('提交作业','UploadFile.jsp',600,400)">提交作业</button>
     </script>
     <script type="text/html" id="barDemo">
-        <a class="layui-btn layui-btn-xs" href=${pageContext.request.contextPath}'"d.workUrl+"' lay-event="查看作业">查看作业</a>
+        <a class="layui-btn layui-btn-normal" lay-event="查看作业">查看作业</a>
 
     </script>
 </html>

@@ -96,7 +96,8 @@
                         data:{"id":data.workreleaseId},
                         dataType: "json",
                         success: function (msg) {
-                          window.location.href=${pageContext.request.contextPath}msg
+                            console.log(msg);
+                          window.location.href="http://"+msg
                         },
                         error: function () {
                             alert("网络繁忙");

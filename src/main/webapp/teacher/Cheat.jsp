@@ -202,7 +202,7 @@
 
             try {
                 //服务器地址+自己手机号+对方手机号
-                ws = new WebSocket("ws://127.0.0.1:8080/websocket/" + owntel+"/"+ttel+"/"+ownname);//连接服务器
+                ws = new WebSocket("ws://120.25.208.32:8080/websocket/" + owntel+"/"+ttel+"/"+ownname);//连接服务器
                 ws.onopen = function (event) {
                     console.log("已经与服务器建立了连接...");
                     // alert("登陆成功，可以开始聊天了")

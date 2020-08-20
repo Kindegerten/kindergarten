@@ -475,4 +475,58 @@
             insert into tbl_inform(kinder_id,kinder_name,inform_content)
             values (#{kinderId},#{kinderName},#{informContent})
         </insert>
+
+
+    <!--    查询该园长下的所有班级-->
+    <select id="FindClass" resultType="com.kindergarten.bean.Classes">
+        select class_id,class_name,kinder_id from tbl_classes where kinder_id=#{kinderId};
+    </select>
+
+    <!--    增加账单-->
+    <insert id="AddBill" parameterType="com.kindergarten.bean.SchoolBill" >
+        insert into tbl_schoolbill ( bill_name, bill_director,bill_money, bill_classId, bill_className, kinder_id) values (#{bill.billName},#{bill.billDirector},#{bill.billMoney},#{bill.billClassId},#{bill.billClassName},#{bill.kinderId})
+    </insert>
+
+    <!--    查询账单列表   BUG。得3个搜索才能，单个不行-->
+    <select id="SchoolBill" resultType="com.kindergarten.bean.SchoolBill" parameterType="java.util.HashMap">
+        select *
+        from (select * from tbl_schoolbill bill
+        <where>
+            <if test="condition.classname!=null and condition.classname!= '' ">
+                bill.bill_className like  concat('%',#{condition.classname},'%')
+            </if>
+            <if test="condition.start!=null  and condition.start!= '' ">
+                date_format(bill.bill_createtime,'%Y-%m-%d') between #{condition.start} and #{condition.end}
+            </if>
+
+        </where>
+        ) a where a.kinder_id=#{kinderId} limit ${(curPage-1)*pageSize},${curPage*pageSize}
+
+
+    </select>
+    <select id="SchoolBillCount" resultType="int" parameterType="java.util.HashMap">
+        select count(*) from (select * from tbl_schoolbill bill
+        <where>
+            <if test="condition.classname != null and condition.classname != '' ">
+                bill.bill_className like  concat('%',#{condition.classname},'%')
+            </if>
+            <if test="condition.start != null  and condition.start != '' ">
+                and date_format(bill.bill_createtime,'%Y-%m-%d') between #{condition.start} and #{condition.end}
+            </if>
+
+        </where>
+
+        ) a where a.kinder_id=#{kinderId}
+
+    </select>
+
+    <!--    点击班级缴费情况后显示的数据-->
+    <select id="SearchClassBill" resultType="com.kindergarten.bean.StudentBill" parameterType="java.lang.Object">
+        select a.student_name,a.student_id,ts.studentbill_type,ts.studentbill_createtime from tbl_students a left join tbl_studentbill ts on a.student_id = ts.student_id and a.class_id=#{classId} and ts.schoolbill_id=#{schoolbillId} order by ts.studentbill_createtime desc
+    </select>
+
+
+
+
+
 </mapper>

@@ -77,7 +77,7 @@
                 {field: 'studentName', width: 120, title: '宝宝名称'},
                 {field: 'parentsName', width: 120, title: '家长名称'},
                 {field: 'workUrl',title: '作业内容', width: 120,align: "left",templet:function (d) {
-                        return "<a href=<%=path%>'"+d.workUrl+"' style='color: #00a2d4;font-weight: bold'>文件下载</a>";
+                        return "<a href='http://"+d.workUrl+"' style='color: #00a2d4;font-weight: bold'>文件下载</a>";
                     }},
                 {field: 'workreleaseTime', width: 120, title: '发布时间', sort: true},
                 {field: 'workFinishtime', width: 200, title: '完成时间', sort: true},

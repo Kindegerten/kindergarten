@@ -97,4 +97,13 @@ public interface RectorService {
     int deleteNews(String campusInfoId);
     //增加通知
     int addInform(Inform inform);
+
+
+    //账单列表
+    LayuiData<SchoolBill> bills(int kinderId,HashMap<String, Object> condition, int curPage, int pageSize);
+
+    //缴费查看
+    LayuiData<StudentBill> studnetBills(int classId,int schoolbillId);
+
+
 }
