@@ -99,7 +99,7 @@ public interface RectorService {
     int addInform(Inform inform);
 
 
-    //账单列表
+    //账单列表s
     LayuiData<SchoolBill> bills(int kinderId,HashMap<String, Object> condition, int curPage, int pageSize);
 
     //缴费查看

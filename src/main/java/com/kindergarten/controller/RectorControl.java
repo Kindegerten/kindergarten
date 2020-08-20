@@ -748,7 +748,7 @@ public class RectorControl extends HttpServlet {
 
     }
     //查看班级中谁缴费了，谁没缴费
-    //插入账单。
+    //插入账单。s
     @RequestMapping(value = "/ClassBill")
     @ResponseBody
     public String ClassBill(HttpServletRequest request,int classId,int schoolbillId) throws ServletException, IOException {

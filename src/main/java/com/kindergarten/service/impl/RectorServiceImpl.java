@@ -270,6 +270,7 @@ public class RectorServiceImpl implements RectorService {
     }
 
     @Override
+    //s
     public LayuiData<StudentBill> studnetBills(int classId, int schoolbillId) {
         LayuiData<StudentBill> layuiData = null;
         List<StudentBill> schoolBills = rectorMapper.SearchClassBill(classId, schoolbillId);

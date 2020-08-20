@@ -520,7 +520,7 @@
 
     </select>
 
-    <!--    点击班级缴费情况后显示的数据-->
+    <!--    点击班级缴费情况后显示的数据s-->
     <select id="SearchClassBill" resultType="com.kindergarten.bean.StudentBill" parameterType="java.lang.Object">
         select a.student_name,a.student_id,ts.studentbill_type,ts.studentbill_createtime from tbl_students a left join tbl_studentbill ts on a.student_id = ts.student_id and a.class_id=#{classId} and ts.schoolbill_id=#{schoolbillId} order by ts.studentbill_createtime desc
     </select>
