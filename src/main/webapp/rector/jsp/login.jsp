@@ -63,7 +63,7 @@
         var vCode = $("#vCode").val();
         console.log(rectorTel, rectorPwd);
         $.ajax({
-                url: "/RectorControl/login",
+                url: "/rectorControl/login",
                 async: true,
                 type: "post",
                 data: {"rectorTel": rectorTel, "rectorPwd": rectorPwd, "vCode": vCode},

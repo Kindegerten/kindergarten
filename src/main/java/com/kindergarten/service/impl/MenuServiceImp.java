@@ -70,8 +70,8 @@ public class MenuServiceImp implements MenuService {
     public String updateMenuByrid(int rid, List sourceArr2, List menuId) {
         List<String>deleteList=compare(sourceArr2, menuId);
         List<String>insertList=compare(menuId,sourceArr2);
-        System.out.println("deleteList"+deleteList);
-        System.out.println("insertList"+insertList);
+//        System.out.println("deleteList"+deleteList);
+//        System.out.println("insertList"+insertList);
         String msg=null;
         if(insertList!=null && insertList.size()>0){
                     ArrayList<Menu>list=new ArrayList<>();

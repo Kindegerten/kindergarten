@@ -78,7 +78,6 @@
     layui.use(['laydate', 'form', 'laypage', 'table', 'laytpl','util'], function () {
 
         // var path = $("#path").val();
-
         var form = layui.form;
         var laypage = layui.laypage;
         var table = layui.table;
